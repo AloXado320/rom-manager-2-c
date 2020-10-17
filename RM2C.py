@@ -431,7 +431,7 @@ def WriteLevel(rom,s,num,areas):
 
 
 if __name__=='__main__':
-	rom=open('SPEED STAR ADVENTURE - RELEASE.z64','rb')
+	rom=open('baserom.z64','rb')
 	rom = rom.read()
 	#choose level
 	s = Script(16)
