@@ -7,6 +7,16 @@ import sys
 import os
 from pathlib import Path
 
+Num2Name = {
+4:"CCM",
+16:"castle_grounds"
+
+
+
+}
+
+
+
 class Script():
 	def __init__(self,level):
 		self.map = open('sm64.us.map','r')
@@ -302,8 +312,7 @@ jumps = {
 0x36:SetMusic,
 0x37:SetMusic2
 }
-scriptHeader='''
-#include <ultra64.h>
+scriptHeader='''#include <ultra64.h>
 #include "sm64.h"
 #include "behavior_data.h"
 #include "model_ids.h"
@@ -364,8 +373,8 @@ def WriteModel(rom,dls,s,name):
 def WriteLevelScript(name,Lnum,s,area,Anum):
 	f = open(name,'w')
 	f.write(scriptHeader)
-	f.write('#include "levels/%d/header.h\n"'%Lnum)
-	f.write('level_%d_entry[] = {\n'%Lnum)
+	f.write('#include "levels/%s/header.h"\n'%Lnum)
+	f.write('level_%s_entry[] = {\n'%Lnum)
 	#entry stuff
 	f.write("INIT_LEVEL(),\nLOAD_MIO0(        /*seg*/ 0x08, _common0_mio0SegmentRomStart, _common0_mio0SegmentRomEnd),\nLOAD_RAW(         /*seg*/ 0x0F, _common0_geoSegmentRomStart,  _common0_geoSegmentRomEnd),\nALLOC_LEVEL_POOL(),\nMARIO(/*model*/ MODEL_MARIO, /*behParam*/ 0x00000001, /*beh*/ bhvMario),\nJUMP_LINK(script_func_global_1),\n")
 	#a bearable amount of cringe
@@ -400,7 +409,8 @@ def WriteArea(f,s,area,Anum):
 
 def WriteLevel(rom,s,num,areas):
 	#create level directory
-	level=Path(sys.path[0])/("%d"%num)
+	name=Num2Name[num]
+	level=Path(sys.path[0])/("%s"%name)
 	level.mkdir(exist_ok=True)
 	Areasdir = level/"areas"
 	Areasdir.mkdir(exist_ok=True)
@@ -421,13 +431,19 @@ def WriteLevel(rom,s,num,areas):
 			s.MakeDec("Gfx DL_%s[]"%hex(d[1]))
 		#write collision file
 		ColParse.ColWrite(adir/"collision.inc.c",s,rom,area.col)
+		s.MakeDec('Collision col_%s[]'%hex(area.col))
 	#now write level script
-	WriteLevelScript(level/"script.c",num,s,area,areas)
+	WriteLevelScript(level/"script.c",name,s,area,areas)
+	s.MakeDec("LevelScript level_%s_entry[]"%name)
 	#finally write header
 	H=level/"header.h"
 	q = open(H,'w')
+	headgaurd="%s_HEADER_H"%(name.upper())
+	q.write('#ifndef %s\n#define %s\#include "types.h\n'%(headgaurd,headgaurd))
 	for h in s.header:
 		q.write('extern '+h+';\n')
+	q.write("#endif")
+	q.close()
 
 
 if __name__=='__main__':
@@ -453,8 +469,6 @@ if __name__=='__main__':
 	#create subfolders for each model
 	for i in range(0):
 		#skip error for now until seg 2 detect
-		if i==219:
-			continue
 		if s.models[i]:
 			md = ass/("%d"%i)
 			md.mkdir(exist_ok=True)

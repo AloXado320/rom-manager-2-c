@@ -119,7 +119,7 @@ def Bin2C(cmd):
 		ags.replace(',','')
 		if cmd[8:16].uint!=1:
 			q[0]='gsSPBranchList'
-	return (q[0]+ags,cmd)
+	return [q[0]+ags,cmd]
 
 def DecodeDL(rom,start,s):
 	dl=[]
@@ -152,7 +152,16 @@ def DecodeDL(rom,start,s):
 			break
 		else:
 			x+=8
-			dl.append(cmd[0])
+			#concat 2 tri ones to a tri2
+			q=1
+			if dl:
+				if dl[-1].startswith('gsSP1Triangles') and cmd[0].startswith('gsSP1Triangles'):
+					old=dl[-1][15:-1]
+					new=cmd[0][15:-1]
+					dl[-1]="gsSP2Triangles("+old+','+new+')'
+					q=0
+			if q:
+				dl.append(cmd[0])
 		#adding stuff to data arrays
 		if (cmd[1][:8].uint==0x4):
 			ptr=cmd[1][32:64]
