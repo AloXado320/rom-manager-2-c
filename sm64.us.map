@@ -1,29 +1,4 @@
-                0x0000000080000000                EXCEPTION_TLB_MISS = 0x80000000
-                0x00000000a4000000                SP_DMEM = 0xa4000000
-                0x00000000a40004c0                SP_DMEM_UNK0 = 0xa40004c0
-                0x00000000a4000774                SP_DMEM_UNK1 = 0xa4000774
-                0x00000000a4001000                SP_IMEM = 0xa4001000
-                0x00000000a4040010                SP_STATUS_REG = 0xa4040010
-                0x00000000a4080000                SP_PC = 0xa4080000
-                0x00000000a4300000                MI_MODE_REG = 0xa4300000
-                0x00000000a4300004                MI_VERSION_REG = 0xa4300004
-                0x00000000a4300008                MI_INTR_REG = 0xa4300008
-                0x00000000a430000c                MI_INTR_MASK_REG = 0xa430000c
-                0x00000000a4400010                VI_CURRENT_REG = 0xa4400010
-                0x00000000a450000c                AI_STATUS_REG = 0xa450000c
-                0x00000000a4600000                PI_DRAM_ADDR_REG = 0xa4600000
-                0x00000000a4600004                PI_CART_ADDR_REG = 0xa4600004
-                0x00000000a460000c                PI_WR_LEN_REG = 0xa460000c
-                0x00000000a4600010                PI_STATUS_REG = 0xa4600010
-                0x00000000a4700000                RI_MODE_REG = 0xa4700000
-                0x00000000a4700010                RI_REFRESH_REG = 0xa4700010
-                0x00000000a4800018                SI_STATUS_REG = 0xa4800018
-                0x00000000b0000008                D_B0000008 = 0xb0000008
-                0x00000000b0000010                D_B0000010 = 0xb0000010
-                0x00000000b0000014                D_B0000014 = 0xb0000014
-                0x00000000c0000000                D_C0000000 = 0xc0000000
-                0x00000000c0000008                D_C0000008 = 0xc0000008
-                0x00000000c000000c                D_C000000C = 0xc000000c
+                0x0000000004000000                RM_Scroll_Texture
                 0x00000000802f69cc                func_sh_802F69CC = 0x802f69cc
                 0x0000000080302ef0                osMotorStop = 0x80302ef0
                 0x0000000080303090                osMotorStart = 0x80303090
@@ -35,32 +10,6 @@
                 0x0000000004000000                _bootSegmentStart = ADDR (.boot)
                 0x00000000007cc6c0                _bootSegmentRomStart = __romPos
 
-.boot           0x0000000004000000     0x1000 load address 0x0000000000000000
- build/us/asm/rom_header.o(.text)
- .text          0x0000000004000000       0x40 build/us/asm/rom_header.o
- build/us/asm/boot.o(.text)
- .text          0x0000000004000040      0xfc0 build/us/asm/boot.o
-                0x0000000004000040                ipl3_entry
-                0x0000000004000b70                ipl3_font
-                0x0000000004001000                _bootSegmentEnd = (ADDR (.boot) + SIZEOF (.boot))
-                0x00000000007cd6c0                _bootSegmentRomEnd = (__romPos + SIZEOF (.boot))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.boot))
-                0x0000000080000400                . = 0x80000400
-                0x0000000080000400                _zbufferSegmentNoloadStart = ADDR (.zbuffer.noload)
-
-.zbuffer.noload
-                0x0000000080000400    0x25800 load address 0x000000007c000400
- build/us/src/buffers/zbuffer.o(.bss*)
- .bss           0x0000000080000400    0x25800 build/us/src/buffers/zbuffer.o
-                0x0000000080000400                gZBuffer
-                0x0000000080246000                _mainSegmentStart = ADDR (.main)
-                0x00000000007cc6c0                _mainSegmentRomStart = __romPos
-
-.main           0x0000000080246000    0xf4580 load address 0x0000000000001000
- build/us/asm/entry.o(.text)
- .text          0x0000000080246000       0x50 build/us/asm/entry.o
-                0x0000000080246000                entry_point
- build/us/src/game/crash_screen.o(.text)
  build/us/src/game/main.o(.text)
  .text          0x0000000080246050      0xe20 build/us/src/game/main.o
                 0x0000000080246050                handle_debug_key_sequences

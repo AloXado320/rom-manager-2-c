@@ -8,14 +8,80 @@ import os
 from pathlib import Path
 
 Num2Name = {
-4:"CCM",
-16:"castle_grounds"
-
-
-
+    4:"ccm",
+    5:'bbh',
+    6:'castle_inside',
+    7:'hmc',
+    8:'ssl',
+    9:'bob',
+    10:'sl',
+    11:'wdw',
+    12:'jrb',
+    13:'thi',
+    14:'ttc',
+    15:'rr',
+    16:"castle_grounds",
+    17:'bitdw',
+    18:'vcutm',
+    19:'bitfs',
+    20:'sa',
+    21:'bits',
+    22:'lll',
+    23:'ddd',
+    24:'wf',
+    25:'ending',
+    26:'castle_courtyard',
+    27:'pss',
+    28:'cotmc',
+    29:'totwc',
+    30:'bowser_1',
+    31:'wmotr',
+    33:'bowser_2',
+    34:'bowser_3',
+    36:'ttm'
 }
 
+scriptHeader='''#include <ultra64.h>
+#include "sm64.h"
+#include "behavior_data.h"
+#include "model_ids.h"
+#include "seq_ids.h"
+#include "dialog_ids.h"
+#include "segment_symbols.h"
+#include "level_commands.h"
+#include "game/level_update.h"
+#include "levels/scripts.h"
+#include "actors/common1.h"
+#include "make_const_nonconst.h"
 
+'''
+
+geocHeader='''#include <ultra64.h>
+#include "sm64.h"
+#include "geo_commands.h"
+#include "game/level_geo.h"
+#include "game/geo_misc.h"
+#include "game/camera.h"
+#include "game/moving_texture.h"
+#include "game/screen_transition.h"
+#include "game/paintings.h"
+#include "make_const_nonconst.h"
+
+'''
+
+ldHeader='''#include <ultra64.h>
+#include "sm64.h"
+#include "surface_terrains.h"
+#include "moving_texture_macros.h"
+#include "level_misc_macros.h"
+#include "macro_preset_names.h"
+#include "special_preset_names.h"
+#include "textures.h"
+#include "dialog_ids.h"
+
+#include "make_const_nonconst.h"
+
+'''
 
 class Script():
 	def __init__(self,level):
@@ -50,6 +116,9 @@ class Script():
 		except:
 			return None
 	def GetLabel(self,addr):
+		#behavior is in bank 0 and won't be in map ever
+		if len(addr)==6:
+			return '0x'+addr
 		for l in self.map:
 			if addr in l:
 				q= l.rfind(" ")
@@ -219,13 +288,14 @@ def PlaceObject(rom,cmd,start,script):
 	rz=U2S(TcH(arg[12:14]))
 	bparam=hex(TcH(arg[14:18]))
 	bhv=s.GetLabel(hex(TcH(arg[18:22]))[2:])
+	#print(bhv)
 	PO=(id,x,y,z,rx,ry,rz,bparam,bhv,mask)
 	A=script.GetArea()
 	A.objects.append(PO)
 	return start
 	
 def PlaceMario(rom,cmd,start,script):
-	#A=script.GetArea()
+	#do nothing
 	return start
 
 def ConnectWarp(rom,cmd,start,script):
@@ -242,7 +312,8 @@ def InstantWarp(rom,cmd,start,script):
 	pass
 	
 def SetMarioDefault(rom,cmd,start,script):
-	#deal with later
+	arg=cmd[2]
+	script.mStart = [arg[0],U2S(TcH(arg[2:4])),U2S(TcH(arg[4:6])),U2S(TcH(arg[6:8]))]
 	return start
 	
 def LoadCol(rom,cmd,start,script):
@@ -278,57 +349,8 @@ def SetTerrain(rom,cmd,start,script):
 		arg=cmd[2]
 		A.terrain=TcH(arg[1:2])
 	return start
-	
-	
-#dictionary of actions to take based on script cmds
-jumps = {
-0:LoadRawJumpPush,
-1:LoadRawJump,
-2:Exit,
-5:JumpRaw,
-6:JumpPush,
-7:Pop,
-11:CondPop,
-12:CondJump,
-0x13:SetLevel,
-0x16:LoadAsm,
-0x17:LoadData,
-0x18:LoadMio0,
-0x1a:LoadMio0Tex,
-0x1f:StartArea,
-0x20:EndArea,
-0x21:LoadPolyF3d,
-0x22:LoadPolyGeo,
-0x24:PlaceObject,
-0x25:PlaceMario,
-0x26:ConnectWarp,
-0x27:PaintingWarp,
-0x28:InstantWarp,
-0x2b:SetMarioDefault,
-0x2e:LoadCol,
-0x2f:LoadRoom,
-0x30:SetDialog,
-0x31:SetTerrain,
-0x36:SetMusic,
-0x37:SetMusic2
-}
-scriptHeader='''#include <ultra64.h>
-#include "sm64.h"
-#include "behavior_data.h"
-#include "model_ids.h"
-#include "seq_ids.h"
-#include "dialog_ids.h"
-#include "segment_symbols.h"
-#include "level_commands.h"
 
-#include "game/level_update.h"
 
-#include "levels/scripts.h"
-
-#include "actors/common1.h"
-
-#include "make_const_nonconst.h"
-'''
 def ULC(rom,start):
 	cmd = struct.unpack(">B",rom[start:start+1])[0]
 	len = struct.unpack(">B",rom[start+1:start+2])[0]
@@ -381,7 +403,9 @@ def WriteLevelScript(name,Lnum,s,area,Anum):
 	for a in Anum:
 		f.write('JUMP_LINK(local_area_%d),\n'%a)
 	#end script
-	f.write("FREE_LEVEL_POOL(),\nMARIO_POS(/*area*/ 1, /*yaw*/ 135, /*pos*/ -6558, 0, 6464),\nCALL(/*arg*/ 0, /*func*/ lvl_init_or_update),\nCALL_LOOP(/*arg*/ 1, /*func*/ lvl_init_or_update),\nCLEAR_LEVEL(),\nSLEEP_BEFORE_EXIT(/*frames*/ 1),\nEXIT(),\n};\n")
+	f.write("FREE_LEVEL_POOL(),\n")
+	f.write("MARIO_POS({},{},{},{}),\n".format(*s.mStart))
+	f.write("CALL(/*arg*/ 0, /*func*/ lvl_init_or_update),\nCALL_LOOP(/*arg*/ 1, /*func*/ lvl_init_or_update),\nCLEAR_LEVEL(),\nSLEEP_BEFORE_EXIT(/*frames*/ 1),\nEXIT(),\n};\n")
 	for a in Anum:
 		WriteArea(f,s,area,a)
 	
@@ -400,12 +424,12 @@ def WriteArea(f,s,area,Anum):
 	#write objects
 	for o in area.objects:
 		f.write("OBJECT_WITH_ACTS({},{},{},{},{},{},{},{},{},{}),\n".format(*o))
-	f.write("};\n")
+	f.write("RETURN()\n};\n")
 	f.write('LevelScript local_warps_%d[] = {\n'%Anum)
 	#write warps
 	for w in area.warps:
 		f.write("WARP_NODE({},{},{},{},{}),\n".format(*w))
-	f.write("};\n")
+	f.write("RETURN()\n};\n")
 
 def WriteLevel(rom,s,num,areas):
 	#create level directory
@@ -444,7 +468,57 @@ def WriteLevel(rom,s,num,areas):
 		q.write('extern '+h+';\n')
 	q.write("#endif")
 	q.close()
+	
+	#write geo.c
+	G = level/"geo.c"
+	g = open(G,'w')
+	g.write(geocHeader)
+	g.write('#include "levels/%s/header.h"\n'%name)
+	for i,a in enumerate(areas):
+		g.write('#include "levels/%s/areas/%d/geo.inc.c"\n'%(name,i))
+	g.close
+	
+	#write leveldata.c
+	LD = level/"leveldata.c"
+	ld = open(LD,'w')
+	ld.write(ldHeader)
+	for i,a in enumerate(areas):
+		ld.write('#include "levels/%s/areas/%d/model.inc.c"\n'%(name,i))
+		ld.write('#include "levels/%s/areas/%d/collision.inc.c"\n'%(name,i))
+	ld.close
 
+#dictionary of actions to take based on script cmds
+jumps = {
+    0:LoadRawJumpPush,
+    1:LoadRawJump,
+    2:Exit,
+    5:JumpRaw,
+    6:JumpPush,
+    7:Pop,
+    11:CondPop,
+    12:CondJump,
+    0x13:SetLevel,
+    0x16:LoadAsm,
+    0x17:LoadData,
+    0x18:LoadMio0,
+    0x1a:LoadMio0Tex,
+    0x1f:StartArea,
+    0x20:EndArea,
+    0x21:LoadPolyF3d,
+    0x22:LoadPolyGeo,
+    0x24:PlaceObject,
+    0x25:PlaceMario,
+    0x26:ConnectWarp,
+    0x27:PaintingWarp,
+    0x28:InstantWarp,
+    0x2b:SetMarioDefault,
+    0x2e:LoadCol,
+    0x2f:LoadRoom,
+    0x30:SetDialog,
+    0x31:SetTerrain,
+    0x36:SetMusic,
+    0x37:SetMusic2
+}
 
 if __name__=='__main__':
 	rom=open('baserom.z64','rb')
@@ -478,6 +552,5 @@ if __name__=='__main__':
 			else:
 				dls=[[s.B2P(s.models[i][0]),s.models[i][0]]]
 			WriteModel(rom,dls,s,md)
-	
 	#now do level
 	WriteLevel(rom,s,16,[1])
