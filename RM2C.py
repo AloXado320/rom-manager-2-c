@@ -313,7 +313,7 @@ def InstantWarp(rom,cmd,start,script):
 	
 def SetMarioDefault(rom,cmd,start,script):
 	arg=cmd[2]
-	script.mStart = [arg[0],U2S(TcH(arg[2:4])),U2S(TcH(arg[4:6])),U2S(TcH(arg[6:8]))]
+	script.mStart = [arg[0],U2S(TcH(arg[2:4])),U2S(TcH(arg[4:6])),U2S(TcH(arg[6:8])),U2S(TcH(arg[8:10]))]
 	return start
 	
 def LoadCol(rom,cmd,start,script):
@@ -373,7 +373,7 @@ def WriteGeo(rom,s,num,name):
 	GW.GeoWrite(geo,name/'geo.inc.c')
 	return dls
 
-def WriteModel(rom,dls,s,name):
+def WriteModel(rom,dls,s,name,Hname,rootdir,root):
 	x=0
 	ModelData=[]
 	while(x<len(dls)):
@@ -389,14 +389,22 @@ def WriteModel(rom,dls,s,name):
 			if jump not in dls:
 				dls.append(jump)
 		x+=1
-	F3D.ModelWrite(rom,ModelData,name/'model.inc.c')
+	refs = F3D.ModelWrite(rom,ModelData,name,rootdir,root)
+	modelH = name/'model.inc.h'
+	mh = open(modelH,'w')
+	headgaurd="%s_HEADER_H"%(Hname)
+	mh.write('#ifndef %s\n#define %s\n#include "types.h"\n'%(headgaurd,headgaurd))
+	for r in refs:
+		mh.write('extern '+r+';\n')
+	mh.write("#endif")
+	mh.close()
 	return dls
 
 def WriteLevelScript(name,Lnum,s,area,Anum):
 	f = open(name,'w')
 	f.write(scriptHeader)
 	f.write('#include "levels/%s/header.h"\n'%Lnum)
-	f.write('level_%s_entry[] = {\n'%Lnum)
+	f.write('LevelScript level_%s_entry[] = {\n'%Lnum)
 	#entry stuff
 	f.write("INIT_LEVEL(),\nLOAD_MIO0(        /*seg*/ 0x08, _common0_mio0SegmentRomStart, _common0_mio0SegmentRomEnd),\nLOAD_RAW(         /*seg*/ 0x0F, _common0_geoSegmentRomStart,  _common0_geoSegmentRomEnd),\nALLOC_LEVEL_POOL(),\nMARIO(/*model*/ MODEL_MARIO, /*behParam*/ 0x00000001, /*beh*/ bhvMario),\nJUMP_LINK(script_func_global_1),\n")
 	#a bearable amount of cringe
@@ -404,14 +412,16 @@ def WriteLevelScript(name,Lnum,s,area,Anum):
 		f.write('JUMP_LINK(local_area_%d),\n'%a)
 	#end script
 	f.write("FREE_LEVEL_POOL(),\n")
-	f.write("MARIO_POS({},{},{},{}),\n".format(*s.mStart))
+	f.write("MARIO_POS({},{},{},{},{}),\n".format(*s.mStart))
 	f.write("CALL(/*arg*/ 0, /*func*/ lvl_init_or_update),\nCALL_LOOP(/*arg*/ 1, /*func*/ lvl_init_or_update),\nCLEAR_LEVEL(),\nSLEEP_BEFORE_EXIT(/*frames*/ 1),\nEXIT(),\n};\n")
 	for a in Anum:
 		WriteArea(f,s,area,a)
 	
 def WriteArea(f,s,area,Anum):
 	#begin area
-	f.write("LevelScript local_area_%d[] = {\n"%Anum)
+	ascript = "LevelScript local_area_%d[]"%Anum
+	f.write(ascript+' = {\n')
+	s.MakeDec(ascript)
 	Gptr='Geo_'+hex(area.geo)
 	f.write("AREA(%d,%s),\n"%(Anum,Gptr))
 	f.write("TERRAIN(%s),\n"%("col_"+hex(area.col)))
@@ -420,18 +430,22 @@ def WriteArea(f,s,area,Anum):
 	f.write("JUMP_LINK(local_objects_%d),\nJUMP_LINK(local_warps_%d),\n"%(Anum,Anum))
 	f.write("END_AREA()\n};\n")
 	
-	f.write('LevelScript local_objects_%d[] = {\n'%Anum)
+	asobj = 'LevelScript local_objects_%d[]'%Anum
+	f.write(asobj+' = {\n')
+	s.MakeDec(asobj)
 	#write objects
 	for o in area.objects:
 		f.write("OBJECT_WITH_ACTS({},{},{},{},{},{},{},{},{},{}),\n".format(*o))
 	f.write("RETURN()\n};\n")
-	f.write('LevelScript local_warps_%d[] = {\n'%Anum)
+	aswarps = 'LevelScript local_warps_%d[]'%Anum
+	f.write(aswarps+' = {\n')
+	s.MakeDec(aswarps)
 	#write warps
 	for w in area.warps:
 		f.write("WARP_NODE({},{},{},{},{}),\n".format(*w))
 	f.write("RETURN()\n};\n")
 
-def WriteLevel(rom,s,num,areas):
+def WriteLevel(rom,s,num,areas,rootdir):
 	#create level directory
 	name=Num2Name[num]
 	level=Path(sys.path[0])/("%s"%name)
@@ -450,7 +464,7 @@ def WriteLevel(rom,s,num,areas):
 		GW.GeoWrite(geo,adir/"geo.inc.c")
 		for g in geo:
 			s.MakeDec("GeoLayout Geo_%s[]"%hex(g[1]))
-		dls = WriteModel(rom,dls,s,adir)
+		dls = WriteModel(rom,dls,s,adir,"%s_%d"%(name.upper(),a),rootdir,"levels")
 		for d in dls:
 			s.MakeDec("Gfx DL_%s[]"%hex(d[1]))
 		#write collision file
@@ -463,7 +477,7 @@ def WriteLevel(rom,s,num,areas):
 	H=level/"header.h"
 	q = open(H,'w')
 	headgaurd="%s_HEADER_H"%(name.upper())
-	q.write('#ifndef %s\n#define %s\#include "types.h\n'%(headgaurd,headgaurd))
+	q.write('#ifndef %s\n#define %s\n#include "types.h"\n'%(headgaurd,headgaurd))
 	for h in s.header:
 		q.write('extern '+h+';\n')
 	q.write("#endif")
@@ -475,7 +489,7 @@ def WriteLevel(rom,s,num,areas):
 	g.write(geocHeader)
 	g.write('#include "levels/%s/header.h"\n'%name)
 	for i,a in enumerate(areas):
-		g.write('#include "levels/%s/areas/%d/geo.inc.c"\n'%(name,i))
+		g.write('#include "levels/%s/areas/%d/geo.inc.c"\n'%(name,(i+1)))
 	g.close
 	
 	#write leveldata.c
@@ -483,8 +497,8 @@ def WriteLevel(rom,s,num,areas):
 	ld = open(LD,'w')
 	ld.write(ldHeader)
 	for i,a in enumerate(areas):
-		ld.write('#include "levels/%s/areas/%d/model.inc.c"\n'%(name,i))
-		ld.write('#include "levels/%s/areas/%d/collision.inc.c"\n'%(name,i))
+		ld.write('#include "levels/%s/areas/%d/model.inc.c"\n'%(name,(i+1)))
+		ld.write('#include "levels/%s/areas/%d/collision.inc.c"\n'%(name,(i+1)))
 	ld.close
 
 #dictionary of actions to take based on script cmds
@@ -524,7 +538,7 @@ if __name__=='__main__':
 	rom=open('baserom.z64','rb')
 	rom = rom.read()
 	#choose level
-	s = Script(16)
+	s = Script(9)
 	entry = 0x108A10
 	#get all level data from script
 	while(True):
@@ -537,6 +551,7 @@ if __name__=='__main__':
 			break
 	#now area class should have data
 	#along with pointers to all models
+	rootdir = Path(sys.path[0])
 	ass=Path("assets")
 	ass=Path(sys.path[0])/ass
 	ass.mkdir(exist_ok=True)
@@ -551,6 +566,6 @@ if __name__=='__main__':
 				dls=WriteGeo(rom,s,i,md)
 			else:
 				dls=[[s.B2P(s.models[i][0]),s.models[i][0]]]
-			WriteModel(rom,dls,s,md)
+			WriteModel(rom,dls,s,md,"MODEL_%d"%i,rootdir,"actor")
 	#now do level
-	WriteLevel(rom,s,16,[1])
+	WriteLevel(rom,s,9,[1],rootdir)

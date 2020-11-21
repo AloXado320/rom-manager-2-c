@@ -29,17 +29,23 @@ def TcH(bytes):
 	if len(bytes)==1:
 		return struct.unpack(">B",a)[0]
 
-def ModelWrite(rom,ModelData,name):
+def ModelWrite(rom,ModelData,nameG,rootdir,root):
 	#start,dl,verts,textureptrs,ambient lights, diffuse lights
 	dl=[]
 	vbs=[]
 	txt=[]
 	ambs=[]
 	diffs=[]
+	refs = []
+	name = nameG/'model.inc.c'
 	f = open(name,'w')
+	wtf = root,nameG.relative_to(rootdir)/'model.inc.h'
+	f.write('#include "%s"\n'%('model.inc.h'))
 	for md in ModelData:
 		#display lists
-		f.write('Gfx DL_'+hex(md[0][1])+'[] = {')
+		DLn = 'Gfx DL_'+hex(md[0][1])+'[]'
+		f.write(DLn+' = {')
+		refs.append(DLn)
 		f.write('\n')
 		for c in md[1]:
 			f.write(c+',\n')
@@ -49,7 +55,9 @@ def ModelWrite(rom,ModelData,name):
 			if vb in vbs:
 				continue
 			vbs.append(vb)
-			f.write('Vtx VB_%s[] = {\n'%hex(vb[0]))
+			VBn = 'Vtx VB_%s[]'%hex(vb[0])
+			refs.append(VBn)
+			f.write(VBn+' = {\n')
 			for i in range(vb[2]):
 				V=rom[vb[1]+i*16:vb[1]+i*16+16]
 				V=BitArray(V)
@@ -66,7 +74,9 @@ def ModelWrite(rom,ModelData,name):
 			if t in txt:
 				continue
 			txt.append(t)
-			f.write('u16 texture_%s[] = {\n'%hex(t[1]))
+			texn = 'u16 texture_%s[]'%hex(t[1])
+			refs.append(texn)
+			f.write(texn+' = {\n')
 			for i in range(t[2]):
 				h=rom[t[0]+i*2:t[0]+i*2+2]
 				f.write("0x{:02X},".format(int(h.hex(),16)))
@@ -78,23 +88,28 @@ def ModelWrite(rom,ModelData,name):
 			if a in diffs:
 				continue
 			diffs.append(a)
-			f.write('Light_t Light_%s = {\n'%hex(a[1]))
+			lig = 'Light_t Light_%s'%hex(a[1])
+			refs.append(lig)
+			f.write(lig+' = {\n')
 			Amb=rom[a[0]:a[0]+16]
 			col1=Amb[0:3]
 			col2=Amb[4:7]
 			dir1=Amb[8:11]
-			f.write("{{ %d, %d, %d}, 0, { %d, %d, %d}, 0, { %d, %d, %d}, 0}\n};\n\n"%(*col1,*col2,*dir1))
+			f.write("{ %d, %d, %d}, 0, { %d, %d, %d}, 0, { %d, %d, %d}, 0\n};\n\n"%(*col1,*col2,*dir1))
 		for a in md[4]:
 			if a in ambs:
 				continue
 			ambs.append(a)
-			f.write('Ambient_t Light_%s = {\n'%hex(a[1]))
+			lig = 'Ambient_t Light_%s'%hex(a[1])
+			refs.append(lig)
+			f.write(lig+' = {\n')
 			Amb=rom[a[0]:a[0]+8]
 			col1=Amb[0:3]
 			col2=Amb[4:7]
-			f.write("{{%d, %d, %d}, 0, {%d, %d, %d}, 0}\n};\n\n"%(*col1,*col2))
+			f.write("{%d, %d, %d}, 0, {%d, %d, %d}, 0\n};\n\n"%(*col1,*col2))
 	f.close()
-		
+	return refs
+
 #f3d binary start
 #takes bin, and returns tuple with C macro
 
@@ -155,9 +170,9 @@ def DecodeDL(rom,start,s):
 			#concat 2 tri ones to a tri2
 			q=1
 			if dl:
-				if dl[-1].startswith('gsSP1Triangles') and cmd[0].startswith('gsSP1Triangles'):
-					old=dl[-1][15:-1]
-					new=cmd[0][15:-1]
+				if dl[-1].startswith('gsSP1Triangle') and cmd[0].startswith('gsSP1Triangle'):
+					old=dl[-1][14:-1]
+					new=cmd[0][14:-1]
 					dl[-1]="gsSP2Triangles("+old+','+new+')'
 					q=0
 			if q:
@@ -241,7 +256,7 @@ def G_MOVEMEM_Decode(bin):
 	fuckgbi=1
 	if index==0x88:
 		fuckgbi=2
-	return ('Light_%s'%hex(seg),fuckgbi)
+	return ('&Light_%s.col'%hex(seg),fuckgbi)
 
 def G_LOAD_UCODE_Decode(bin):
 	#idk yet
@@ -341,49 +356,49 @@ def G_SETPRIMCOLOR_Decode(bin):
 def G_SETCOMBINE_Decode(bin):
 	a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p=bin.unpack('uint:4,uint:5,2*uint:3,uint:4,uint:5,2*uint:4,8*uint:3')
 	Basic={
-	1:'Texel 0',
-	2:'Texel 1',
-	3:'Primitive',
-	4:'Shade',
-	5:'Environment'
+	1:'TEXEL0',
+	2:'TEXEL1',
+	3:'PRIMITIVE',
+	4:'SHADE',
+	5:'ENVIRONMENT'
 	}
 	One={
 	6:1
 	}
 	Combined={
-	0:'Combined'
+	0:'COMBINED'
 	}
 	CombinedA={
-	0:'Combined'
+	0:'COMBINED'
 	}
 	C={
-	6:'Key: Scale',
+	6:'SCALE',
 	7:'Combined Alpha',
-	8:'Texel0 Alpha',
-	9:'Texel1 Alpha',
-	10:'Primitive Alpha',
-	11:'Shade Alpha',
-	12:'Environment Alpha',
-	13:'LOD fraction',
-	14:'Primitive LOD fraction',
-	15:'Convert K5'
+	8:'TEXEL0 ALPHA',
+	9:'TEXEL1 ALPHA',
+	10:'PRIMITIVE ALPHA',
+	11:'SHADE ALPHA',
+	12:'ENVIRONMENT ALPHA',
+	13:'LOD FRACTION',
+	14:'PRIM LOD FRACTION',
+	15:'K5'
 	}
 	Noise={
 	7:'Noise'
 	}
 	Key={
-	6:'Key: Center',
-	7:'Key: 4'
+	6:'CENTER',
+	7:'K4'
 	}
 	BasicA={
-	1:'Texel 0',
-	2:'Texel 1',
-	3:'Primitive',
-	4:'Shade',
-	5:'Environment'
+	1:'TEXEL0',
+	2:'TEXEL1',
+	3:'PRIMITIVE',
+	4:'SHADE',
+	5:'ENVIRONMENT'
 	}
 	LoD={
-	0:'LoD Fraction'
+	0:'LOD FRACTION'
 	}
 	#a color = basic+one+combined+7as noise
 	#b color = basic+combined+6 as key center+7 as key4
@@ -427,7 +442,7 @@ def G_SETCOMBINE_Decode(bin):
 
 def G_SETTIMG_Decode(bin):
 	fmt,bit,pad,seg=bin.unpack('uint:3,uint:2,uint:19,uint:32')
-	return (fmt,bit,1,'Texture_%s'%hex(seg))
+	return (fmt,bit,1,'texture_%s'%hex(seg))
 
 def G_SETZIMG_Decode(bin):
 	pad,addr=bin.unpack('int:24,uint:32')
@@ -440,7 +455,7 @@ def G_SETCIMG_Decode(bin):
 DecodeFmt={
 0x0:('gsDPNoOp',G_SNOOP_Decode),
 0x04:('gsSPVertex',G_VTX_Decode),
-0xbf:('gsSP1Triangles',G_TRI1_Decode),
+0xbf:('gsSP1Triangle',G_TRI1_Decode),
 0xbb:('gsSPTexture',G_TEXTURE_Decode),
 0xbd:('gsSPPopMatrix',G_POPMTX_Decode),
 0xb6:('gsSPGeometryMode',G_CLEARGEOMETRYMODE_Decode),

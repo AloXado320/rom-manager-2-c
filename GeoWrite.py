@@ -17,7 +17,7 @@ Cmds={
 7:(lambda x:['GEO_UPDATE_NODE_FLAGS(%d,%d)'%(x[1],(B2I(x[2:4]))),4]),
 8:(lambda x:['GEO_NODE_SCREEN_AREA(%d,%d,%d,%d,%d)'%(x[3],(B2I(x[4:6])),(B2I(x[6:8])),(B2I(x[8:10])),(B2I(x[10:12]))),12]),
 9:(lambda x:['GEO_NODE_ORTHO(%d)'%((B2I(x[2:4]))),4]),
-10:(lambda x:['GEO_CAMERA_FRUSTRUM{}({},{},{}{}{})'
+10:(lambda x:['GEO_CAMERA_FRUSTUM{}({},{},{}{}{})'
 .format("_WITH_FUNC" if x[1] else "",
 (B2I(x[2:4])),(B2I(x[4:6])),(B2I(x[6:8])),
 "," if x[1] else "",
