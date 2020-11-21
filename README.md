@@ -6,4 +6,4 @@ Usage:
 place baserom in root with name "baserom.z64", run RM2C.py.
 
 Expected results:
-Should extract level 16 (castle grounds) and all models (no collision yet)
+Should extract level 9 (Bob-omb Battlefield)
