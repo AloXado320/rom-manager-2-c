@@ -428,8 +428,7 @@ def WriteArea(f,s,area,Anum):
 	f.write("SET_BACKGROUND_MUSIC(0,%d),\n"%area.music)
 	f.write("TERRAIN_TYPE(%d),\n"%area.terrain)
 	f.write("JUMP_LINK(local_objects_%d),\nJUMP_LINK(local_warps_%d),\n"%(Anum,Anum))
-	f.write("END_AREA()\n};\n")
-	
+	f.write("END_AREA(),\nRETURN()\n};\n")
 	asobj = 'LevelScript local_objects_%d[]'%Anum
 	f.write(asobj+' = {\n')
 	s.MakeDec(asobj)

@@ -51,6 +51,7 @@ def ColWrite(name,s,rom,start):
 		#water
 		if special[0]==0x44:
 			b+=4
+			f.write("COL_WATER_BOX_INIT({}),\n".format(special[1]))
 			for i in range(special[1]):
 				water=Halfs(b,6,rom)
 				f.write("COL_WATER_BOX({}, {}, {}, {}, {}, {}),\n".format(*water))
