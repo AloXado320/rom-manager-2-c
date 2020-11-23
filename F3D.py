@@ -164,6 +164,7 @@ def DecodeDL(rom,start,s):
 				break
 		#end dl
 		elif (cmd[1][:8].uint==0xb8):
+			dl.append(cmd[0])
 			break
 		else:
 			x+=8
