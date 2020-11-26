@@ -127,11 +127,18 @@ def Bin2C(cmd):
 	c = F3D_decode(cmd[0:8].uint)
 	V= c.func(cmd[8:])
 	q = c.decode(c.fmt,V)
+	if len(q[1])<4 and (cmd[:8].uint==0xb9 or cmd[:8].uint==0xbA):
+		q[0]=q[1][0]
+		if q[1][0]=='gsDPSetRenderMode':
+			q[1]=q[1][1:]
+		else:
+			q[1]=(q[1][-1],)
 	ags = repr(q[1])
 	ags=ags.replace("'","")
 	#hardcoded cringe thanks gbi
+	if len(q[1])==1:
+		ags=ags.replace(',','')
 	if cmd[:8].uint==6:
-		ags.replace(',','')
 		if cmd[8:16].uint!=1:
 			q[0]='gsSPBranchList'
 	return [q[0]+ags,cmd]
@@ -276,10 +283,96 @@ def G_RDPHALF_1_Decode(bin):
 
 def G_SETOTHERMODE_L_Decode(bin):
 	pad,shift,bits,value=bin.unpack('3*uint:8,uint:32')
+	enums={
+		0:'gsDPSetAlphaCompare',
+		2:'gsDPSetDepthSource',
+		3:'gsDPSetRenderMode'
+	}
+	try:
+		enum=enums[shift]
+		if shift==3:
+			return (enum,0,value)
+		else:
+			return (enum,value)
+	except:
+		pass
 	return (0xb9,shift,bits,value)
 
 def G_SETOTHERMODE_H_Decode(bin):
 	pad,shift,bits,value=bin.unpack('3*uint:8,uint:32')
+	enums={
+		4:'gsDPSetAlphaDither',
+		6:'gsDPSetColorDither',
+		8:'gsDPSetCombineKey',
+		9:'gsDPSetTextureConvert',
+		12:'gsDPSetTextureFilter',
+		14:'gsDPSetTextureLUT',
+		16:'gsDPSetTextureLOD',
+		17:'gsDPSetTextureDetail',
+		19:'gsDPSetTexturePersp',
+		20:'gsDPSetCycleType',
+		22:'gsDPSetColorDither',
+		23:'gsDPPipelineMode'
+	}
+	values4={
+		48:'G_AD_DISABLE',
+		32:'G_AD_NOISE',
+		16:'G_AD_NOTPATTERN',
+		0:'G_AD_PATTERN'
+	}
+	values6={
+		64:'G_CD_BAYER',
+		0:'G_CD_DISABLE',
+		128:'G_CD_NOISE'
+	}
+	values8={
+		256:'G_CK_KEY',
+		0:'G_CK_NONE'
+	}
+	values20={
+		0:'G_CYC_1CYCLE',
+		1048576:'G_CYC_2CYCLE',
+		2097152:'G_CYC_COPY',
+		3145728:'G_CYC_FILL'
+	}
+	values23={
+		8388608:'G_PM_1PRIMITIVE',
+		0:'G_PM_NPRIMITIVE'
+	}
+	values9={
+		0:'G_TC_CONV',
+		3072:'G_TC_FILT',
+		2560:'G_TC_FILTCONV'
+	}
+	values17={
+		0:'G_TD_CLAMP',
+		262144:'G_TD_DETAIL',
+		131072:'G_TD_SHARPEN'
+	}
+	values12={
+		12288:'G_TF_AVERAGE',
+		8192:'G_TF_BILERP',
+		0:'G_TF_POINT'
+	}
+	values16={
+		65536:'G_TL_LOD',
+		0:'G_TL_TILE'
+	}
+	values19={
+		0:'G_TP_NONE',
+		524288:'G_TP_PERSP'
+	}
+	values14={
+		49152:'G_TT_IA16',
+		0:'G_TT_NONE',
+		32768:'G_TT_RGBA16'
+	}
+	try:
+		enum=enums[shift]
+		value = locals()['values'+str(shift)].get(value)
+		return (enum,value)
+	except:
+		pass
 	return (0xba,shift,bits,value)
 
 def G_TEXRECT_Decode(bin):
