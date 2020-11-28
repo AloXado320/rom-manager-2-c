@@ -167,6 +167,7 @@ def DecodeDL(rom,start,s):
 			ptr=cmd[1][32:64].uint
 			x+=8
 			jumps.append([s.B2P(ptr),ptr])
+			dl.append(cmd[0])
 			if cmd[1][8:16].uint==1:
 				break
 		#end dl

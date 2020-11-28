@@ -125,6 +125,8 @@ class Script():
 				return l[q:-1]
 		return addr
 	def RME(self,num,rom):
+		if eval(sys.argv[2]):
+			return
 		start=self.B2P(0x19005f00)
 		start=TcH(rom[start+num*16:start+num*16+4])
 		end=TcH(rom[start+4+num*16:start+num*16+8])
@@ -287,7 +289,7 @@ def PlaceObject(rom,cmd,start,script):
 	ry=U2S(TcH(arg[10:12]))
 	rz=U2S(TcH(arg[12:14]))
 	bparam=hex(TcH(arg[14:18]))
-	bhv=s.GetLabel(hex(TcH(arg[18:22]))[2:])
+	bhv=script.GetLabel(hex(TcH(arg[18:22]))[2:])
 	#print(bhv)
 	PO=(id,x,y,z,rx,ry,rz,bparam,bhv,mask)
 	A=script.GetArea()
@@ -444,6 +446,30 @@ def WriteArea(f,s,area,Anum):
 		f.write("WARP_NODE({},{},{},{},{}),\n".format(*w))
 	f.write("RETURN()\n};\n")
 
+def GrabOGDatH(q,rootdir,name):
+	dir = rootdir/'originals'/name
+	head = open(dir/'header.h','r')
+	head = head.readlines()
+	for l in head:
+		if not l.startswith('extern const'):
+			continue
+		if 'Gfx' in l or 'GeoLayout' in l or 'LevelScript' in l or 'collision_level' in l:
+			continue
+		q.write(l)
+	return q
+
+def GrabOGDatld(L,rootdir,name):
+	dir = rootdir/'originals'/name
+	ld = open(dir/'leveldata.c','r')
+	ld = ld.readlines()
+	for l in ld:
+		if not l.startswith('#include "levels/%s/'%name):
+			continue
+		if ('/areas/' in l and '/model.inc.c' in l) or ('/areas/' in l and '/collision.inc.c' in l):
+			continue
+		L.write(l)
+	return L
+
 def WriteLevel(rom,s,num,areas,rootdir):
 	#create level directory
 	name=Num2Name[num]
@@ -479,9 +505,10 @@ def WriteLevel(rom,s,num,areas,rootdir):
 	q.write('#ifndef %s\n#define %s\n#include "types.h"\n'%(headgaurd,headgaurd))
 	for h in s.header:
 		q.write('extern '+h+';\n')
+	#now include externs from stuff in original level
+	q = GrabOGDatH(q,rootdir,name)
 	q.write("#endif")
 	q.close()
-	
 	#write geo.c
 	G = level/"geo.c"
 	g = open(G,'w')
@@ -498,6 +525,7 @@ def WriteLevel(rom,s,num,areas,rootdir):
 	for i,a in enumerate(areas):
 		ld.write('#include "levels/%s/areas/%d/model.inc.c"\n'%(name,(i+1)))
 		ld.write('#include "levels/%s/areas/%d/collision.inc.c"\n'%(name,(i+1)))
+	ld = GrabOGDatld(ld,rootdir,name)
 	ld.close
 
 #dictionary of actions to take based on script cmds
@@ -532,12 +560,9 @@ jumps = {
     0x36:SetMusic,
     0x37:SetMusic2
 }
-
-if __name__=='__main__':
-	rom=open('baserom.z64','rb')
-	rom = rom.read()
+def ExportLevel(rom,level,assets):
 	#choose level
-	s = Script(9)
+	s = Script(level)
 	entry = 0x108A10
 	#get all level data from script
 	while(True):
@@ -555,7 +580,7 @@ if __name__=='__main__':
 	ass=Path(sys.path[0])/ass
 	ass.mkdir(exist_ok=True)
 	#create subfolders for each model
-	for i in range(0):
+	for i in assets:
 		#skip error for now until seg 2 detect
 		if s.models[i]:
 			md = ass/("%d"%i)
@@ -567,4 +592,36 @@ if __name__=='__main__':
 				dls=[[s.B2P(s.models[i][0]),s.models[i][0]]]
 			WriteModel(rom,dls,s,md,"MODEL_%d"%i,rootdir,"actor")
 	#now do level
-	WriteLevel(rom,s,9,[1],rootdir)
+	WriteLevel(rom,s,level,[1],rootdir)
+
+if __name__=='__main__':
+	HelpMsg="""
+	#arguments for RM2C are as follows:
+	#RM2C.py, romname, editor (bool), levels (list, or 'all'), assets (list, or 'all')
+	All arguments must be listed for proper use. Use space to separate args.
+	Because assets are level specific, please define a single level when
+	exporting specific assets. Assets sharing a model ID will overwrite
+	previous assets if multiple levels are selected.
+	
+	Example input1 (all models in BoB): python RM2C.py ASA.z64 True [9] range(0,255)
+	Example input2 (Export all Levels): python RM2C.py baserom.z64 True 'all' []
+	"""
+	if len(sys.argv)!=5:
+		print(HelpMsg)
+		raise 'bad arguments'
+	rom=open(sys.argv[1],'rb')
+	rom = rom.read()
+	args = (eval(sys.argv[3]),eval(sys.argv[4]))
+	if args[0]=='all':
+		for k in Num2Name.keys():
+			if args[1]=='all':
+				ExportLevel(rom,k,range(1,255,1))
+			else:
+				ExportLevel(rom,k,args[1])
+	else:
+		for k in args[0]:
+			if args[1]=='all':
+				ExportLevel(rom,k,range(1,255,1))
+			else:
+				ExportLevel(rom,k,args[1])
+	print('Export Completed')
