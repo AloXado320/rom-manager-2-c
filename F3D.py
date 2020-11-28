@@ -231,13 +231,40 @@ def G_POPMTX_Decode(bin):
 	pad,num=bin.unpack('int:24,uint:32')
 	return (int(num/64),)
 
+GeoMacros={
+	8192:'G_CULL_BACK',
+	12288:'G_CULL_BOTH',
+	4096:'G_CULL_FRONT',
+	65536:'G_FOG',
+	131072:'G_LIGHTING',
+	4:'G_SHADE',
+	512:'G_SHADING_SMOOTH',
+	262144:'G_TEXTURE_GEN',
+	524288:'G_TEXTURE_GEN_LINEAR',
+	1:'G_ZBUFFER'
+}
+
+def CheckGeoMacro(set):
+	str=''
+	for k,v in GeoMacros.items():
+		if set&k==k:
+			set=set^k
+			str+=(v+"|")
+	return str[:-1]
+
 def G_CLEARGEOMETRYMODE_Decode(bin):
 	pad,set=bin.unpack('uint:24,uint:32')
-	return (0,set)
+	if set==0:
+		return (0,0)
+	set=CheckGeoMacro(set)
+	return (set,0)
 
 def G_SETGEOMETRYMODE_Decode(bin):
 	pad,set=bin.unpack('uint:24,uint:32')
-	return (set,0)
+	if set==0:
+		return (0,0)
+	set=CheckGeoMacro(set)
+	return (0,set)
 
 def G_MTX_Decode(bin):
 	pad,param,seg=bin.unpack('int:16,uint:8,uint:32')
@@ -369,7 +396,7 @@ def G_SETOTHERMODE_H_Decode(bin):
 	}
 	try:
 		enum=enums[shift]
-		value = locals()['values'+str(shift)].get(value)
+		value = locals()['values'+str(shift)].get(value,value)
 		return (enum,value)
 	except:
 		pass
