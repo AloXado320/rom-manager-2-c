@@ -19,7 +19,7 @@ LOAD_RAW(         /*seg*/ 0x0F, _common0_geoSegmentRomStart,  _common0_geoSegmen
 ALLOC_LEVEL_POOL(),
 MARIO(/*model*/ MODEL_MARIO, /*behParam*/ 0x00000001, /*beh*/ bhvMario),
 JUMP_LINK(script_func_global_1),
-JUMP_LINK(local_area_1),
+JUMP_LINK(local_area_castle_inside_1_),
 FREE_LEVEL_POOL(),
 MARIO_POS(1,135,-6558,0,6464),
 CALL(/*arg*/ 0, /*func*/ lvl_init_or_update),
@@ -28,17 +28,17 @@ CLEAR_LEVEL(),
 SLEEP_BEFORE_EXIT(/*frames*/ 1),
 EXIT(),
 };
-LevelScript local_area_1[] = {
+LevelScript local_area_castle_inside_1_[] = {
 AREA(1,Geo_castle_inside_1_0x19001700),
 TERRAIN(col_castle_inside_1_0xe02c820),
 SET_BACKGROUND_MUSIC(0,0),
 TERRAIN_TYPE(0),
-JUMP_LINK(local_objects_1),
-JUMP_LINK(local_warps_1),
+JUMP_LINK(local_objects_castle_inside_1_),
+JUMP_LINK(local_warps_castle_inside_1_),
 END_AREA(),
 RETURN()
 };
-LevelScript local_objects_1[] = {
+LevelScript local_objects_castle_inside_1_[] = {
 OBJECT_WITH_ACTS(0,147,-1008,-3977,0,0,0,0x0, bhvSpinAirborneWarp,31),
 OBJECT_WITH_ACTS(0,31,-1223,2016,0,-154,0,0xa0000, bhvInstantActiveWarp,31),
 OBJECT_WITH_ACTS(22,1827,-1264,-4786,0,-153,0,0x50000, bhvWarpPipe,31),
@@ -161,7 +161,7 @@ OBJECT_WITH_ACTS(0,0,0,0,0,0,0,0x0, bhvStarDoor,0),
 OBJECT_WITH_ACTS(0,0,0,0,0,0,0,0x0, bhvStarDoor,0),
 RETURN()
 };
-LevelScript local_warps_1[] = {
+LevelScript local_warps_castle_inside_1_[] = {
 WARP_NODE(60,0,0,0,0),
 WARP_NODE(61,0,0,0,0),
 WARP_NODE(62,0,0,0,0),

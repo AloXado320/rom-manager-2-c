@@ -415,7 +415,8 @@ def WriteLevelScript(name,Lnum,s,area,Anum):
 	f.write("INIT_LEVEL(),\nLOAD_MIO0(        /*seg*/ 0x08, _common0_mio0SegmentRomStart, _common0_mio0SegmentRomEnd),\nLOAD_RAW(         /*seg*/ 0x0F, _common0_geoSegmentRomStart,  _common0_geoSegmentRomEnd),\nALLOC_LEVEL_POOL(),\nMARIO(/*model*/ MODEL_MARIO, /*behParam*/ 0x00000001, /*beh*/ bhvMario),\nJUMP_LINK(script_func_global_1),\n")
 	#a bearable amount of cringe
 	for a in Anum:
-		f.write('JUMP_LINK(local_area_%d),\n'%a)
+		id = Lnum+"_"+str(a)+"_"
+		f.write('JUMP_LINK(local_area_%s),\n'%id)
 	#end script
 	f.write("FREE_LEVEL_POOL(),\n")
 	f.write("MARIO_POS({},{},{},{},{}),\n".format(*s.mStart))
@@ -426,7 +427,7 @@ def WriteLevelScript(name,Lnum,s,area,Anum):
 	
 def WriteArea(f,s,area,Anum,id):
 	#begin area
-	ascript = "LevelScript local_area_%d[]"%Anum
+	ascript = "LevelScript local_area_%s[]"%id
 	f.write(ascript+' = {\n')
 	s.MakeDec(ascript)
 	Gptr='Geo_'+id+hex(area.geo)
@@ -434,16 +435,16 @@ def WriteArea(f,s,area,Anum,id):
 	f.write("TERRAIN(%s),\n"%("col_"+id+hex(area.col)))
 	f.write("SET_BACKGROUND_MUSIC(0,%d),\n"%area.music)
 	f.write("TERRAIN_TYPE(%d),\n"%(area.terrain))
-	f.write("JUMP_LINK(local_objects_%d),\nJUMP_LINK(local_warps_%d),\n"%(Anum,Anum))
+	f.write("JUMP_LINK(local_objects_%s),\nJUMP_LINK(local_warps_%s),\n"%(id,id))
 	f.write("END_AREA(),\nRETURN()\n};\n")
-	asobj = 'LevelScript local_objects_%d[]'%Anum
+	asobj = 'LevelScript local_objects_%s[]'%id
 	f.write(asobj+' = {\n')
 	s.MakeDec(asobj)
 	#write objects
 	for o in area.objects:
 		f.write("OBJECT_WITH_ACTS({},{},{},{},{},{},{},{},{},{}),\n".format(*o))
 	f.write("RETURN()\n};\n")
-	aswarps = 'LevelScript local_warps_%d[]'%Anum
+	aswarps = 'LevelScript local_warps_%s[]'%id
 	f.write(aswarps+' = {\n')
 	s.MakeDec(aswarps)
 	#write warps
@@ -458,7 +459,7 @@ def GrabOGDatH(q,rootdir,name):
 	for l in head:
 		if not l.startswith('extern'):
 			continue
-		if 'Gfx %s'%name in l or 'GeoLayout %s'%name in l or 'LevelScript' in l or 'collision_level' in l or 'Movtex' in l:
+		if 'Gfx %s_seg7'%name in l or 'GeoLayout %s'%name in l or 'LevelScript' in l or 'Collision %s_seg7_area'%name in l or 'Collision %s_seg7_collision_level'%name in l:
 			continue
 		q.write(l)
 	return q
@@ -470,7 +471,7 @@ def GrabOGDatld(L,rootdir,name):
 	for l in ld:
 		if not l.startswith('#include "levels/%s/'%name):
 			continue
-		if ('/areas/' in l and '/model.inc.c' in l) or ('/areas/' in l and '/collision.inc.c' in l) or '/movtext.inc.c' in l:
+		if ('/areas/' in l and '/model.inc.c' in l) or('/areas/' in l and '/collision.inc.c' in l):
 			continue
 		L.write(l)
 	return L
@@ -508,7 +509,7 @@ def WriteLevel(rom,s,num,areas,rootdir):
 	H=level/"header.h"
 	q = open(H,'w')
 	headgaurd="%s_HEADER_H"%(name.upper())
-	q.write('#ifndef %s\n#define %s\n#include "types.h"\n'%(headgaurd,headgaurd))
+	q.write('#ifndef %s\n#define %s\n#include "types.h"\n#include "game/moving_texture.h"\n'%(headgaurd,headgaurd))
 	for h in s.header:
 		q.write('extern '+h+';\n')
 	#now include externs from stuff in original level
