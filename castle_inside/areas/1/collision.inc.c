@@ -1,4 +1,4 @@
-Collision col_0xe02c820[] = {
+Collision col_castle_inside_1_0xe02c820[] = {
 COL_INIT(),
 COL_VERTEX_INIT(3412),
 COL_VERTEX( 4153, -1411, -541),

@@ -1,9 +1,9 @@
 #ifndef CASTLE_INSIDE_HEADER_H
 #define CASTLE_INSIDE_HEADER_H
 #include "types.h"
-extern GeoLayout Geo_0x19001700[];
-extern Gfx DL_0xe025b20[];
-extern Collision col_0xe02c820[];
+extern GeoLayout Geo_castle_inside_1_0x19001700[];
+extern Gfx DL_castle_inside_1_0xe025b20[];
+extern Collision col_castle_inside_1_0xe02c820[];
 extern LevelScript local_area_1[];
 extern LevelScript local_objects_1[];
 extern LevelScript local_warps_1[];

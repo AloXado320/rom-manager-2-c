@@ -19,9 +19,9 @@ def HalfsU(start,len,rom):
 def Bytes(start,len,rom):
 	return struct.unpack(">%dB"%len,rom[start:start+len])
 
-def ColWrite(name,s,rom,start):
+def ColWrite(name,s,rom,start,id):
 	f = open(name,'w')
-	f.write("Collision col_%s[] = {\nCOL_INIT(),\n"%hex(start))
+	f.write("Collision col_%s[] = {\nCOL_INIT(),\n"%(id+hex(start)))
 	b=s.B2P(start)
 	vnum=HalfsU(b+2,1,rom)[0]
 	f.write("COL_VERTEX_INIT({}),\n".format(vnum))

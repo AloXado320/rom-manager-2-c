@@ -1,5 +1,5 @@
 #include "model.inc.h"
-Gfx DL_0xe025b20[] = {
+Gfx DL_castle_inside_1_0xe025b20[] = {
 gsDPPipeSync(),
 gsSPGeometryMode(0, 0),
 gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, SHADE, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),

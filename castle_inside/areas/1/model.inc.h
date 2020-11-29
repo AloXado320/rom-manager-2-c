@@ -1,7 +1,7 @@
 #ifndef CASTLE_INSIDE_1_HEADER_H
 #define CASTLE_INSIDE_1_HEADER_H
 #include "types.h"
-extern Gfx DL_0xe025b20[];
+extern Gfx DL_castle_inside_1_0xe025b20[];
 extern Vtx VB_0xe00b810[];
 extern Vtx VB_0xe00b900[];
 extern Vtx VB_0xe00b9f0[];

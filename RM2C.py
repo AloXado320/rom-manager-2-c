@@ -376,10 +376,10 @@ def PLC(rom,start):
 def WriteGeo(rom,s,num,name):
 	(geo,dls)=GW.GeoParse(rom,s.B2P(s.models[num][0]),s,s.models[num][0])
 	#write geo layout file
-	GW.GeoWrite(geo,name/'geo.inc.c')
+	GW.GeoWrite(geo,name/'geo.inc.c',"actor_"+str(num)+"_")
 	return dls
 
-def WriteModel(rom,dls,s,name,Hname,rootdir,root):
+def WriteModel(rom,dls,s,name,Hname,id):
 	x=0
 	ModelData=[]
 	while(x<len(dls)):
@@ -395,7 +395,7 @@ def WriteModel(rom,dls,s,name,Hname,rootdir,root):
 			if jump not in dls:
 				dls.append(jump)
 		x+=1
-	refs = F3D.ModelWrite(rom,ModelData,name,rootdir,root)
+	refs = F3D.ModelWrite(rom,ModelData,name,id)
 	modelH = name/'model.inc.h'
 	mh = open(modelH,'w')
 	headgaurd="%s_HEADER_H"%(Hname)
@@ -490,15 +490,16 @@ def WriteLevel(rom,s,num,areas,rootdir):
 		#get real bank 0x0e location
 		s.RME(a,rom)
 		(geo,dls)=GW.GeoParse(rom,s.B2P(area.geo),s,area.geo)
-		GW.GeoWrite(geo,adir/"geo.inc.c")
+		id = name+"_"+str(a)+"_"
+		GW.GeoWrite(geo,adir/"geo.inc.c",id)
 		for g in geo:
-			s.MakeDec("GeoLayout Geo_%s[]"%hex(g[1]))
-		dls = WriteModel(rom,dls,s,adir,"%s_%d"%(name.upper(),a),rootdir,"levels")
+			s.MakeDec("GeoLayout Geo_%s[]"%(id+hex(g[1])))
+		dls = WriteModel(rom,dls,s,adir,"%s_%d"%(name.upper(),a),id)
 		for d in dls:
-			s.MakeDec("Gfx DL_%s[]"%hex(d[1]))
+			s.MakeDec("Gfx DL_%s[]"%(id+hex(d[1])))
 		#write collision file
-		ColParse.ColWrite(adir/"collision.inc.c",s,rom,area.col)
-		s.MakeDec('Collision col_%s[]'%hex(area.col))
+		ColParse.ColWrite(adir/"collision.inc.c",s,rom,area.col,id)
+		s.MakeDec('Collision col_%s[]'%(id+hex(area.col)))
 	#now write level script
 	WriteLevelScript(level/"script.c",name,s,area,areas)
 	s.MakeDec("LevelScript level_%s_entry[]"%name)
@@ -599,7 +600,7 @@ def ExportLevel(rom,level,assets):
 				dls=WriteGeo(rom,s,i,md)
 			else:
 				dls=[[s.B2P(s.models[i][0]),s.models[i][0]]]
-			WriteModel(rom,dls,s,md,"MODEL_%d"%i,rootdir,"actor")
+			WriteModel(rom,dls,s,md,"MODEL_%d"%i,"actor_"+str(i)+"_")
 	#now do level
 	WriteLevel(rom,s,level,[1],rootdir)
 

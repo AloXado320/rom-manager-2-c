@@ -29,7 +29,7 @@ def TcH(bytes):
 	if len(bytes)==1:
 		return struct.unpack(">B",a)[0]
 
-def ModelWrite(rom,ModelData,nameG,rootdir,root):
+def ModelWrite(rom,ModelData,nameG,id):
 	#start,dl,verts,textureptrs,ambient lights, diffuse lights
 	dl=[]
 	vbs=[]
@@ -39,11 +39,10 @@ def ModelWrite(rom,ModelData,nameG,rootdir,root):
 	refs = []
 	name = nameG/'model.inc.c'
 	f = open(name,'w')
-	wtf = root,nameG.relative_to(rootdir)/'model.inc.h'
 	f.write('#include "%s"\n'%('model.inc.h'))
 	for md in ModelData:
 		#display lists
-		DLn = 'Gfx DL_'+hex(md[0][1])+'[]'
+		DLn = 'Gfx DL_'+id+hex(md[0][1])+'[]'
 		f.write(DLn+' = {')
 		refs.append(DLn)
 		f.write('\n')

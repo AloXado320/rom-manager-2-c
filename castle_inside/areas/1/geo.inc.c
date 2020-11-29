@@ -1,4 +1,4 @@
-GeoLayout Geo_0x19001700[]= {
+GeoLayout Geo_castle_inside_1_0x19001700[]= {
 GEO_NODE_SCREEN_AREA(10,160,120,160,120),
 GEO_OPEN_NODE(),
 GEO_ZBUFFER(0),
