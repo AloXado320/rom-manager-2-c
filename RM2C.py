@@ -471,8 +471,17 @@ def GrabOGDatld(L,rootdir,name):
 	for l in ld:
 		if not l.startswith('#include "levels/%s/'%name):
 			continue
-		if ('/areas/' in l and '/model.inc.c' in l) or('/areas/' in l and '/collision.inc.c' in l):
-			continue
+		#mem bloat but makes up for mov tex being dumb
+		# if ('/areas/' in l and '/model.inc.c' in l):
+			# continue
+		#for the specific case of levels without subfolders
+		q = l.split('/')
+		if len(q)>4:
+			if ('areas' in q[2] and 'model.inc.c' in q[4]):
+				continue
+		#I want to include static objects in collision
+		# if ('/areas/' in l and '/collision.inc.c' in l):
+			# continue
 		L.write(l)
 	return L
 
@@ -531,7 +540,7 @@ def WriteLevel(rom,s,num,areas,rootdir):
 	ld.write(ldHeader)
 	for i,a in enumerate(areas):
 		ld.write('#include "levels/%s/areas/%d/model.inc.c"\n'%(name,(i+1)))
-		ld.write('#include "levels/%s/areas/%d/collision.inc.c"\n'%(name,(i+1)))
+		# ld.write('#include "levels/%s/areas/%d/collision.inc.c"\n'%(name,(i+1)))
 	ld = GrabOGDatld(ld,rootdir,name)
 	ld.close
 

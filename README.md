@@ -7,7 +7,7 @@ place rom in root, run RM2C.py with the following arguments:
 
 RM2C.py, romname, editor (bool), levels (list, or 'all'), assets (list, or 'all')
 
-Example input1 (all models in BoB): python RM2C.py ASA.z64 True [9] range(0,255)
+Example input1 (all models in BoB plus BoB level model): python RM2C.py ASA.z64 True [9] range(0,255)
 
 Example input2 (Export all Levels): python RM2C.py baserom.z64 True 'all' []
 
@@ -26,6 +26,7 @@ Speed Star Adventure Course 1 ported from Rom Manager to SM64 decomp:
 
 Curret issues:
 
+Memory bloat because original data is still included due to not hardcoding which data can be excluded safely vs what cannot
 End cake picture does not work sometimes
 original levels do not work
 water boxes do not export
