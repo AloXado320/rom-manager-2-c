@@ -22,3 +22,11 @@ Ultra Mario Course 1 ported from sm64 editor to SM64EX pc port:
 Speed Star Adventure Course 1 ported from Rom Manager to SM64 decomp:
 
 ![SSAEmu.png](https://gitlab.com/scuttlebugraiser/rom-manger-2-c/-/raw/master/SSAEmu.png)
+
+
+Curret issues:
+
+End cake picture does not work sometimes
+original levels do not work
+water boxes do not export
+custom objects do not export with labels (plan to have custom map support)

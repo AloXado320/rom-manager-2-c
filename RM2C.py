@@ -7,6 +7,8 @@ import sys
 import os
 from pathlib import Path
 
+#skip ending for now because script inf loops or something idk
+#needs investigation
 Num2Name = {
     4:"ccm",
     5:'bbh',
@@ -29,7 +31,7 @@ Num2Name = {
     22:'lll',
     23:'ddd',
     24:'wf',
-    25:'ending',
+    # 25:'ending',
     26:'castle_courtyard',
     27:'pss',
     28:'cotmc',
@@ -104,6 +106,8 @@ class Script():
 		Bank=B>>24
 		offset=B&0xFFFFFF
 		seg = self.banks[Bank]
+		if not seg:
+			print(hex(B),hex(Bank),self.banks[Bank-2:Bank+3])
 		return seg[0]+offset
 	def L4B(self,T):
 		x=0
@@ -308,10 +312,10 @@ def ConnectWarp(rom,cmd,start,script):
 	return start
 	
 def PaintingWarp(rom,cmd,start,script):
-	pass
+	return start
 	
 def InstantWarp(rom,cmd,start,script):
-	pass
+	return start
 	
 def SetMarioDefault(rom,cmd,start,script):
 	arg=cmd[2]
@@ -326,11 +330,11 @@ def LoadCol(rom,cmd,start,script):
 	return start
 	
 def LoadRoom(rom,cmd,start,script):
-	pass
-	
+	return start
+
 def SetDialog(rom,cmd,start,script):
-	pass
-	
+	return start
+
 def SetMusic(rom,cmd,start,script):
 	A=script.GetArea()
 	if A:
@@ -451,9 +455,9 @@ def GrabOGDatH(q,rootdir,name):
 	head = open(dir/'header.h','r')
 	head = head.readlines()
 	for l in head:
-		if not l.startswith('extern const'):
+		if not l.startswith('extern'):
 			continue
-		if 'Gfx' in l or 'GeoLayout' in l or 'LevelScript' in l or 'collision_level' in l:
+		if 'Gfx %s'%name in l or 'GeoLayout %s'%name in l or 'LevelScript' in l or 'collision_level' in l or 'Movtex' in l:
 			continue
 		q.write(l)
 	return q
@@ -465,7 +469,7 @@ def GrabOGDatld(L,rootdir,name):
 	for l in ld:
 		if not l.startswith('#include "levels/%s/'%name):
 			continue
-		if ('/areas/' in l and '/model.inc.c' in l) or ('/areas/' in l and '/collision.inc.c' in l):
+		if ('/areas/' in l and '/model.inc.c' in l) or ('/areas/' in l and '/collision.inc.c' in l) or '/movtext.inc.c' in l:
 			continue
 		L.write(l)
 	return L
@@ -573,6 +577,11 @@ def ExportLevel(rom,level,assets):
 		#check for end, then loop
 		if not entry:
 			break
+	#this tool isn't for exporting vanilla levels
+	#so I skip ones that don't have bank 0x19 loaded
+	#aka custom levels.
+	if not s.banks[0x19]:
+		return
 	#now area class should have data
 	#along with pointers to all models
 	rootdir = Path(sys.path[0])
@@ -618,6 +627,7 @@ if __name__=='__main__':
 				ExportLevel(rom,k,range(1,255,1))
 			else:
 				ExportLevel(rom,k,args[1])
+			print(Num2Name[k] + ' done')
 	else:
 		for k in args[0]:
 			if args[1]=='all':

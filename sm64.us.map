@@ -5575,12 +5575,7 @@
                 0x0000000016001060                _common1_geoSegmentEnd = (ADDR (.common1_geo) + SIZEOF (.common1_geo))
                 0x00000000007cd720                _common1_geoSegmentRomEnd = (__romPos + SIZEOF (.common1_geo))
                 [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.common1_geo))
-                0x0000000013000000                _behaviorSegmentStart = ADDR (.behavior)
                 0x00000000007cc6c0                _behaviorSegmentRomStart = __romPos
-
-.behavior       0x0000000013000000     0x56c0 load address 0x0000000000219e00
- build/us/data/behavior_data.o(.data)
- .data          0x0000000013000000     0x56c0 build/us/data/behavior_data.o
                 0x0000000013000000                bhvStarDoor
                 0x0000000013000054                bhvMrI
                 0x000000001300008c                bhvMrIBody
