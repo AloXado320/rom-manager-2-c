@@ -8,13 +8,13 @@ gsSPTexture(65535, 65535, 0, 0, 1),
 gsDPTileSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 12, 124),
-gsDPSetTextureImage(0, 2, 1, texture_0x9005800),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0x9005800),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsSPLight(&Light_0xe000000.col, 1),
-gsSPLight(&Light_0xe000008.col, 2),
-gsSPVertex(VB_0xe00b810, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
+gsSPLight(&Light_castle_inside_1_0xe000000.col, 1),
+gsSPLight(&Light_castle_inside_1_0xe000008.col, 2),
+gsSPVertex(VB_castle_inside_1_0xe00b810, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -24,8 +24,8 @@ gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00b900, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
+gsSPVertex(VB_castle_inside_1_0xe00b900, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -33,7 +33,7 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe000010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe000010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -42,9 +42,9 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00b9f0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00b9f0, 15, 0),
 gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -53,18 +53,18 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe00bae0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00bae0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00bbd0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00bbd0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00bcc0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00bcc0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -72,10 +72,10 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe00bdb0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00bdb0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -83,13 +83,13 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00bea0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00bea0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00bf90, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00bf90, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -98,17 +98,17 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00c080, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00c080, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00c170, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00c170, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00c260, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00c260, 15, 0),
 gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -117,9 +117,9 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe00c350, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00c350, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -128,8 +128,8 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00c440, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
+gsSPVertex(VB_castle_inside_1_0xe00c440, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -138,7 +138,7 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -146,10 +146,10 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00c530, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00c530, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -157,8 +157,8 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe00c620, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
+gsSPVertex(VB_castle_inside_1_0xe00c620, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -167,7 +167,7 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -175,12 +175,12 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00c710, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00c710, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00c800, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
+gsSPVertex(VB_castle_inside_1_0xe00c800, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -189,7 +189,7 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -197,9 +197,9 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00c8f0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00c8f0, 15, 0),
 gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -208,8 +208,8 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe00c9e0, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
+gsSPVertex(VB_castle_inside_1_0xe00c9e0, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -219,14 +219,14 @@ gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00cad0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00cad0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00cbc0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00cbc0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -234,9 +234,9 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00ccb0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00ccb0, 15, 0),
 gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -244,7 +244,7 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -252,8 +252,8 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe00cda0, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
+gsSPVertex(VB_castle_inside_1_0xe00cda0, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -263,126 +263,126 @@ gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00ce90, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00ce90, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00cf80, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00cf80, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00d070, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00d070, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00d160, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00d160, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00d250, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00d250, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00d340, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00d340, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00d430, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00d430, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00d520, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00d520, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00d610, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00d610, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00d700, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00d700, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00d7f0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00d7f0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00d8e0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00d8e0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00d9d0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00d9d0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00dac0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00dac0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00dbb0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00dbb0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00dca0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00dca0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00dd90, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00dd90, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00de80, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00de80, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00df70, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00df70, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00e060, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00e060, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00e150, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00e150, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00e240, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00e240, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00e330, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00e330, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00e420, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00e420, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00e510, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00e510, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00e600, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00e600, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00e6f0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00e6f0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00e7e0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00e7e0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00e8d0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00e8d0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00e9c0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00e9c0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe007810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe007810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -390,66 +390,66 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe00eab0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00eab0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00eba0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00eba0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00ec90, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00ec90, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00ed80, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00ed80, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00ee70, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00ee70, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00ef60, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00ef60, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00f050, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00f050, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00f140, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00f140, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00f230, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00f230, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00f320, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00f320, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00f410, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00f410, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00f500, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00f500, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00f5f0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00f5f0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00f6e0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00f6e0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00f7d0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00f7d0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -457,42 +457,42 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00f8c0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00f8c0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00f9b0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00f9b0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00faa0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00faa0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00fb90, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00fb90, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00fc80, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00fc80, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00fd70, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00fd70, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00fe60, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00fe60, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe00ff50, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe00ff50, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe010040, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe010040, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe005010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe005010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -500,8 +500,8 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe010130, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe005810),
+gsSPVertex(VB_castle_inside_1_0xe010130, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe005810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -511,12 +511,12 @@ gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe010220, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe010220, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe010310, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
+gsSPVertex(VB_castle_inside_1_0xe010310, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -526,14 +526,14 @@ gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe010400, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe010400, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0104f0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0104f0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe006810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe006810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -541,117 +541,117 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe0105e0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0105e0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0106d0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0106d0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0107c0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0107c0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0108b0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0108b0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0109a0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0109a0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe010a90, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe010a90, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe010b80, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe010b80, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe010c70, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe010c70, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe010d60, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe010d60, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe010e50, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe010e50, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe010f40, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe010f40, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe011030, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe011030, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe011120, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe011120, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe011210, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe011210, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe011300, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe011300, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0113f0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0113f0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0114e0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0114e0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0115d0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0115d0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0116c0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0116c0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0117b0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0117b0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0118a0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0118a0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe011990, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe011990, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe011a80, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe011a80, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe011b70, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe011b70, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe011c60, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe011c60, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe011d50, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe011d50, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe011e40, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe011e40, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe011f30, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe011f30, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe004810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe004810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -660,261 +660,69 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe012020, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe012020, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe012110, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe012110, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe012200, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe012200, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0122f0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0122f0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0123e0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0123e0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0124d0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0124d0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0125c0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0125c0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0126b0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0126b0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0127a0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0127a0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe012890, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe012890, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe012980, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe012980, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe012a70, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe012a70, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe012b60, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe012b60, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe012c50, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe012c50, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe012d40, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe012d40, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe012e30, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe012e30, 15, 0),
 gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe006810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe012f20, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe013010, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe007010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe013100, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0131f0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0132e0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0133d0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0134c0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe004810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0135b0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe006810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe0136a0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe007010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe013790, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe013880, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe013970, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe002810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe013a60, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe013b50, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe004810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe013c40, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe013d30, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe006810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe013e20, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe013f10, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe014000, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe004810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe0140f0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe006810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0141e0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0142d0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe004810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0143c0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0144b0, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe006810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0145a0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe014690, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe014780, 15, 0),
-gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe002010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe006810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -923,34 +731,14 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe014870, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe012f20, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe014960, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe014a50, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe014b40, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe014c30, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe014d20, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe014e10, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe013010, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe001810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe007010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -958,60 +746,26 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe014f00, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe013100, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe014ff0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0131f0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0150e0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0132e0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0151d0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0133d0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0152c0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0134c0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0153b0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0154a0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe015590, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe015680, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe005010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe015770, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0x9002000),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe005010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe004810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -1019,120 +773,10 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe015860, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe001810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe005010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe001010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe015950, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe015a40, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe015b30, 15, 0),
-gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe001010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe015c20, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe015d10, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe015e00, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe015ef0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe015fe0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0160d0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0161c0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0162b0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0163a0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe016490, 15, 0),
-gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe006810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe016580, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe016670, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe016760, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe016850, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0135b0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe004810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe006810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -1140,139 +784,29 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe016940, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0136a0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe016a30, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe016b20, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe016c10, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe000810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe007010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
 gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe016d00, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe013790, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe016df0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe013880, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe016ee0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe016fd0, 15, 0),
-gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe004810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe0170c0, 15, 0),
-gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe006810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe0171b0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0172a0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe017390, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe005010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe017480, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe017570, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe017660, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe017750, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe017840, 15, 0),
-gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe001810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe017930, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe017a20, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe017b10, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe005010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe001810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe017c00, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe013970, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe005010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe002810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -1280,29 +814,107 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe017cf0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe013a60, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe017de0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe013b50, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe004810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe013c40, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe017ed0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe013d30, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe006810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe017fc0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe013e20, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0180b0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe013f10, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0181a0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe014000, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe004810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0140f0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe006810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0141e0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0142d0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe004810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0143c0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0144b0, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe006810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0145a0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe014690, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe014780, 15, 0),
 gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe001810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe002010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -1311,29 +923,34 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe018290, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe014870, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe018380, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe014960, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe018470, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe014a50, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0x9002000),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe018560, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe014b40, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe014c30, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe014d20, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe014e10, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe001810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe001810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -1341,13 +958,110 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe018650, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe014f00, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe018740, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe014ff0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0150e0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0151d0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0152c0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0153b0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0154a0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe015590, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe015680, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe005010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe015770, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0x9002000),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe005010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe015860, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe001810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe005010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe001010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe015950, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe015a40, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe015b30, 15, 0),
 gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0x9002000),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe001010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -1356,263 +1070,45 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe018830, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe001810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSPVertex(VB_castle_inside_1_0xe015c20, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe018920, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0x9002000),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe018a10, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe015d10, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe018b00, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe015e00, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe018bf0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe015ef0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe018ce0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe015fe0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe018dd0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe009810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe018ec0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0160d0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe018fb0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0161c0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0190a0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0162b0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019190, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0163a0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019280, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019370, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019460, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019550, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019640, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019730, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019820, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019910, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe007810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019a00, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019af0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019be0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019cd0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019dc0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019eb0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe019fa0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe00b010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe01a090, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01a180, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01a270, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01a360, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01a450, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01a540, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01a630, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01a720, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01a810, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01a900, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0x9002000),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe01a9f0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01aae0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0x9002000),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe01abd0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01acc0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe016490, 15, 0),
 gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0x9002000),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe006810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -1621,145 +1117,22 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe01adb0, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe01aea0, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSPVertex(VB_castle_inside_1_0xe016580, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01af90, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe016670, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01b080, 15, 0),
-gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe01b170, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSPVertex(VB_castle_inside_1_0xe016760, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01b260, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01b350, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01b440, 15, 0),
-gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe01b530, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01b620, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01b710, 15, 0),
-gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe01b800, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe00a810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01b8f0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01b9e0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01bad0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01bbc0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01bcb0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01bda0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe007010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01be90, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe016850, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe004010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe004810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -1767,52 +1140,44 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe01bf80, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe016940, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01c070, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe016a30, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01c160, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe016b20, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01c250, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe016c10, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01c340, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01c430, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01c520, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe005810),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe000810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
 gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe016d00, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01c610, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe016df0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01c700, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe016ee0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01c7f0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe016fd0, 15, 0),
 gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe007010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe004810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -1821,515 +1186,9 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe01c8e0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe002810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe01c9d0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01cac0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01cbb0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01cca0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01cd90, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01ce80, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01cf70, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01d060, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01d150, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01d240, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe006010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01d330, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01d420, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe000010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01d510, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01d600, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01d6f0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01d7e0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe006010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01d8d0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01d9c0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe000010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe01dab0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01dba0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01dc90, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01dd80, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01de70, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01df60, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01e050, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01e140, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01e230, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe006010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01e320, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01e410, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01e500, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01e5f0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01e6e0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01e7d0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01e8c0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01e9b0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01eaa0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01eb90, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01ec80, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01ed70, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01ee60, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01ef50, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01f040, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01f130, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe006810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01f220, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01f310, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01f400, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01f4f0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01f5e0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01f6d0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01f7c0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01f8b0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01f9a0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01fa90, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01fb80, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01fc70, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01fd60, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01fe50, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe01ff40, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe020030, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe020120, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe020210, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe020300, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe003810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0203f0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe004810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe0204e0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0205d0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0206c0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0207b0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0208a0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe020990, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe020a80, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe020b70, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe020c60, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe020d50, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe020e40, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe020f30, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe00a010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe021020, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe021110, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe021200, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0212f0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0213e0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0214d0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0215c0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0216b0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0217a0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe021890, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe021980, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe021a70, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe021b60, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe021c50, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe021d40, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe021e30, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe021f20, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe022010, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe022100, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0221f0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0222e0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0223d0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0224c0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0225b0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0226a0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe022790, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe022880, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe022970, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe022a60, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe022b50, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe022c40, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe022d30, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe022e20, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe022f10, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0170c0, 15, 0),
 gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe009010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe006810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -2338,164 +1197,44 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe023000, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0171b0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0230f0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0172a0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0231e0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0232d0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0233c0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0234b0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0235a0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe023690, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe023780, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe023870, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe007810),
+gsSPVertex(VB_castle_inside_1_0xe017390, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe005010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
 gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe023960, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe023a50, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe017480, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe023b40, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe017570, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe023c30, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe017660, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe023d20, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe00a010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe023e10, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe017750, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe023f00, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe023ff0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0240e0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0241d0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0242c0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0243b0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0244a0, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe024590, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe024680, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe008810),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe024770, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe024860, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe024950, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe024a40, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP1Triangle(6, 7, 8, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe00a010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe024b30, 15, 0),
-gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
-gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe009010),
-gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
-gsDPLoadSync(),
-gsDPLoadBlock(7, 0, 0, 1023, 256),
-gsDPPipeSync(),
-gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
-gsDPSetTileSize(0, 0, 0, 124, 124),
-gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe024c20, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe017840, 15, 0),
 gsSP1Triangle(0, 1, 2, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe008010),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe001810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -2504,12 +1243,121 @@ gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
 gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
-gsSPVertex(VB_0xe024d10, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe017930, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe024e00, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe009010),
+gsSPVertex(VB_castle_inside_1_0xe017a20, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe017b10, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe005010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe001810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe017c00, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe005010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe017cf0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe017de0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe017ed0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe017fc0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0180b0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0181a0, 15, 0),
+gsSP1Triangle(0, 1, 2, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe001810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe018290, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe018380, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe018470, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0x9002000),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe018560, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe001810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe018650, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe018740, 15, 0),
+gsSP1Triangle(0, 1, 2, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0x9002000),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe018830, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe001810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -2519,34 +1367,146 @@ gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe024ef0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe018920, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0x9002000),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe018a10, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe024fe0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe018b00, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0250d0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe018bf0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0251c0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe018ce0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0252b0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe018dd0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe009810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe018ec0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe0253a0, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe018fb0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe025490, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe0190a0, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe00a010),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019190, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019280, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019370, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019460, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019550, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019640, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019730, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019820, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019910, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe007810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019a00, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019af0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019be0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019cd0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019dc0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019eb0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe019fa0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe00b010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01a090, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01a180, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01a270, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -2554,12 +1514,133 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe025580, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe01a360, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe025670, 15, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe009010),
+gsSPVertex(VB_castle_inside_1_0xe01a450, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01a540, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01a630, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01a720, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01a810, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01a900, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0x9002000),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01a9f0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01aae0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0x9002000),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01abd0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01acc0, 15, 0),
+gsSP1Triangle(0, 1, 2, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0x9002000),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01adb0, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP1Triangle(0, 1, 2, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01aea0, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -2569,18 +1650,74 @@ gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe025760, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe01af90, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe025850, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe01b080, 15, 0),
+gsSP1Triangle(0, 1, 2, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01b170, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe025940, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe01b260, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
-gsDPSetTextureImage(0, 2, 1, texture_0xe00a010),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01b350, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01b440, 15, 0),
+gsSP1Triangle(0, 1, 2, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01b530, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01b620, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01b710, 15, 0),
+gsSP1Triangle(0, 1, 2, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01b800, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe00a810),
 gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
 gsDPLoadSync(),
 gsDPLoadBlock(7, 0, 0, 1023, 256),
@@ -2588,7 +1725,870 @@ gsDPPipeSync(),
 gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
 gsDPSetTileSize(0, 0, 0, 124, 124),
 gsSP1Triangle(12, 13, 14, 0),
-gsSPVertex(VB_0xe025a30, 15, 0),
+gsSPVertex(VB_castle_inside_1_0xe01b8f0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01b9e0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01bad0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01bbc0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01bcb0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01bda0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe007010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01be90, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe004010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01bf80, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01c070, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01c160, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01c250, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01c340, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01c430, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01c520, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe005810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01c610, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01c700, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01c7f0, 15, 0),
+gsSP1Triangle(0, 1, 2, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe007010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01c8e0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe002810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01c9d0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01cac0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01cbb0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01cca0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01cd90, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01ce80, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01cf70, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01d060, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01d150, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01d240, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe006010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01d330, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01d420, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe000010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01d510, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01d600, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01d6f0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01d7e0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe006010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01d8d0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01d9c0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe000010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01dab0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01dba0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01dc90, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01dd80, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01de70, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01df60, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01e050, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01e140, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01e230, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe006010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01e320, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01e410, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01e500, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01e5f0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01e6e0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01e7d0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01e8c0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01e9b0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01eaa0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01eb90, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01ec80, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01ed70, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01ee60, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01ef50, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01f040, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01f130, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe006810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01f220, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01f310, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01f400, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01f4f0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01f5e0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01f6d0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01f7c0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01f8b0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01f9a0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01fa90, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01fb80, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01fc70, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01fd60, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01fe50, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe01ff40, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe020030, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe020120, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe020210, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe020300, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe003810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0203f0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe004810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0204e0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0205d0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0206c0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0207b0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0208a0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe020990, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe020a80, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe020b70, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe020c60, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe020d50, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe020e40, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe020f30, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe00a010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe021020, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe021110, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe021200, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0212f0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0213e0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0214d0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0215c0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0216b0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0217a0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe021890, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe021980, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe021a70, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe021b60, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe021c50, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe021d40, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe021e30, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe021f20, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe022010, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe022100, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0221f0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0222e0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0223d0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0224c0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0225b0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0226a0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe022790, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe022880, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe022970, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe022a60, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe022b50, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe022c40, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe022d30, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe022e20, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe022f10, 15, 0),
+gsSP1Triangle(0, 1, 2, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe009010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe023000, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0230f0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0231e0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0232d0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0233c0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0234b0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0235a0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe023690, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe023780, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe023870, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe007810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe023960, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe023a50, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe023b40, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe023c30, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe023d20, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe00a010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe023e10, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe023f00, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe023ff0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0240e0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0241d0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0242c0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0243b0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0244a0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe024590, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe024680, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe008810),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe024770, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe024860, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe024950, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe024a40, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP1Triangle(6, 7, 8, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe00a010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe024b30, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe009010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe024c20, 15, 0),
+gsSP1Triangle(0, 1, 2, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe008010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(3, 4, 5, 0,6, 7, 8, 0),
+gsSP2Triangles(9, 10, 11, 0,12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe024d10, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe024e00, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe009010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe024ef0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe024fe0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0250d0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0251c0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0252b0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe0253a0, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe025490, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe00a010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe025580, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe025670, 15, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe009010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe025760, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe025850, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe025940, 15, 0),
+gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
+gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
+gsDPSetTextureImage(0, 2, 1, texture_castle_inside_1_0xe00a010),
+gsDPSetTile(0, 2, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0),
+gsDPLoadSync(),
+gsDPLoadBlock(7, 0, 0, 1023, 256),
+gsDPPipeSync(),
+gsDPSetTile(0, 2, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0),
+gsDPSetTileSize(0, 0, 0, 124, 124),
+gsSP1Triangle(12, 13, 14, 0),
+gsSPVertex(VB_castle_inside_1_0xe025a30, 15, 0),
 gsSP2Triangles(0, 1, 2, 0,3, 4, 5, 0),
 gsSP2Triangles(6, 7, 8, 0,9, 10, 11, 0),
 gsSP1Triangle(12, 13, 14, 0),
@@ -2596,7 +2596,7 @@ gsSPTexture(65535, 65535, 0, 0, 0),
 gsSPEndDisplayList(),
 };
 
-Vtx VB_0xe00b810[] = {
+Vtx VB_castle_inside_1_0xe00b810[] = {
 {{{ 3914, -361, -302 }, 0, { 14291, -3150 }, { 123, 28, 0, 255}}},
 {{{ 4153, -1411, 4582 }, 0, { 0, 0 }, { 123, 28, 0, 255}}},
 {{{ 4153, -1411, -541 }, 0, { 14991, 0 }, { 123, 28, 0, 255}}},
@@ -2614,7 +2614,7 @@ Vtx VB_0xe00b810[] = {
 {{{ -4246, -1411, 4582 }, 0, { 14991, 0 }, { 133, 28, 0, 255}}},
 };
 
-Vtx VB_0xe00b900[] = {
+Vtx VB_castle_inside_1_0xe00b900[] = {
 {{{ 3914, -361, 4582 }, 0, { 0, -14291 }, { 0, 127, 0, 255}}},
 {{{ 2753, -361, 1110 }, 0, { 3396, -4133 }, { 0, 127, 0, 255}}},
 {{{ 2753, -361, 4582 }, 0, { 3396, -14291 }, { 0, 127, 0, 255}}},
@@ -2632,7 +2632,7 @@ Vtx VB_0xe00b900[] = {
 {{{ -46, -1481, 4582 }, 0, { 20480, 0 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe00b9f0[] = {
+Vtx VB_castle_inside_1_0xe00b9f0[] = {
 {{{ -4246, -1481, 4582 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
 {{{ -46, -1411, 4582 }, 0, { 20480, -341 }, { 0, 0, 127, 255}}},
 {{{ -4246, -1411, 4582 }, 0, { 0, -341 }, { 0, 0, 127, 255}}},
@@ -2650,7 +2650,7 @@ Vtx VB_0xe00b9f0[] = {
 {{{ -2846, -361, 1110 }, 0, { 0, 0 }, { 132, 25, 0, 255}}},
 };
 
-Vtx VB_0xe00bae0[] = {
+Vtx VB_castle_inside_1_0xe00bae0[] = {
 {{{ -2629, 688, 1327 }, 0, { 636, -3137 }, { 132, 25, 0, 255}}},
 {{{ -2846, -361, 4582 }, 0, { 10158, 0 }, { 132, 25, 0, 255}}},
 {{{ -2629, 688, 4582 }, 0, { 10158, -3137 }, { 132, 25, 0, 255}}},
@@ -2668,7 +2668,7 @@ Vtx VB_0xe00bae0[] = {
 {{{ -79, 688, 4582 }, 0, { 8095, -3072 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe00bbd0[] = {
+Vtx VB_castle_inside_1_0xe00bbd0[] = {
 {{{ -2629, 688, 4582 }, 0, { 636, -3072 }, { 0, 0, 127, 255}}},
 {{{ -79, 688, 4582 }, 0, { 8095, -3072 }, { 0, 0, 127, 255}}},
 {{{ -2459, 688, 4582 }, 0, { 1131, -3072 }, { 0, 0, 127, 255}}},
@@ -2686,7 +2686,7 @@ Vtx VB_0xe00bbd0[] = {
 {{{ 370, 660, 4582 }, 0, { 1318, -2990 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe00bcc0[] = {
+Vtx VB_castle_inside_1_0xe00bcc0[] = {
 {{{ 370, 660, 4582 }, 0, { 1318, -2990 }, { 0, 0, 127, 255}}},
 {{{ 2535, 688, 4582 }, 0, { 7652, -3072 }, { 0, 0, 127, 255}}},
 {{{ -79, 660, 4582 }, 0, { 0, -2990 }, { 0, 0, 127, 255}}},
@@ -2704,7 +2704,7 @@ Vtx VB_0xe00bcc0[] = {
 {{{ -2846, -361, 1110 }, 0, { 0, -4133 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00bdb0[] = {
+Vtx VB_castle_inside_1_0xe00bdb0[] = {
 {{{ -2459, 688, 4582 }, 0, { 1638, -9521 }, { 0, 127, 0, 255}}},
 {{{ -2629, 688, 1327 }, 0, { 2133, 0 }, { 0, 127, 0, 255}}},
 {{{ -2629, 688, 4582 }, 0, { 2133, -9521 }, { 0, 127, 0, 255}}},
@@ -2722,7 +2722,7 @@ Vtx VB_0xe00bdb0[] = {
 {{{ 1740, 2172, 2314 }, 0, { 6635, -4341 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00bea0[] = {
+Vtx VB_castle_inside_1_0xe00bea0[] = {
 {{{ 1740, 688, 2314 }, 0, { 6635, 0 }, { 127, 0, 0, 255}}},
 {{{ 1740, 2172, 4582 }, 0, { 0, -4341 }, { 127, 0, 0, 255}}},
 {{{ 1740, 1738, 3944 }, 0, { 1866, -3072 }, { 127, 0, 0, 255}}},
@@ -2740,7 +2740,7 @@ Vtx VB_0xe00bea0[] = {
 {{{ 1740, 1738, 3944 }, 0, { 1866, -3072 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00bf90[] = {
+Vtx VB_castle_inside_1_0xe00bf90[] = {
 {{{ 1740, 1038, 3731 }, 0, { 2488, -1024 }, { 127, 0, 0, 255}}},
 {{{ 1740, 1038, 3448 }, 0, { 3317, -1024 }, { 127, 0, 0, 255}}},
 {{{ 1740, 1388, 3731 }, 0, { 2488, -2048 }, { 127, 0, 0, 255}}},
@@ -2758,7 +2758,7 @@ Vtx VB_0xe00bf90[] = {
 {{{ 2535, 688, 1327 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00c080[] = {
+Vtx VB_castle_inside_1_0xe00c080[] = {
 {{{ 2535, 688, 1327 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 2300, 688, 3448 }, 0, { 689, -6203 }, { 0, 127, 0, 255}}},
 {{{ 2535, 688, 4582 }, 0, { 0, -9521 }, { 0, 127, 0, 255}}},
@@ -2776,7 +2776,7 @@ Vtx VB_0xe00c080[] = {
 {{{ 270, 688, 2314 }, 0, { 6628, -2886 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00c170[] = {
+Vtx VB_castle_inside_1_0xe00c170[] = {
 {{{ 270, 688, 2314 }, 0, { 6628, -2886 }, { 0, 127, 0, 255}}},
 {{{ -429, 688, 2314 }, 0, { 8676, -2886 }, { 0, 127, 0, 255}}},
 {{{ 270, 688, 2468 }, 0, { 6628, -3336 }, { 0, 127, 0, 255}}},
@@ -2794,7 +2794,7 @@ Vtx VB_0xe00c170[] = {
 {{{ -2629, 688, 1327 }, 0, { 15111, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00c260[] = {
+Vtx VB_castle_inside_1_0xe00c260[] = {
 {{{ -676, 688, 1327 }, 0, { 9398, 0 }, { 0, 127, 0, 255}}},
 {{{ -1899, 688, 2314 }, 0, { 12977, -2886 }, { 0, 127, 0, 255}}},
 {{{ -676, 688, 1880 }, 0, { 9398, -1617 }, { 0, 127, 0, 255}}},
@@ -2812,7 +2812,7 @@ Vtx VB_0xe00c260[] = {
 {{{ -530, -361, 4582 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00c350[] = {
+Vtx VB_castle_inside_1_0xe00c350[] = {
 {{{ 370, -361, 4582 }, 0, { 2846, 0 }, { 129, 0, 0, 255}}},
 {{{ 370, 660, 3609 }, 0, { 0, -2990 }, { 129, 0, 0, 255}}},
 {{{ 370, -361, 3609 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
@@ -2830,7 +2830,7 @@ Vtx VB_0xe00c350[] = {
 {{{ 370, -361, 4582 }, 0, { 0, -2846 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00c440[] = {
+Vtx VB_castle_inside_1_0xe00c440[] = {
 {{{ -2459, 688, 4582 }, 0, { 3317, 0 }, { 129, 0, 0, 255}}},
 {{{ -2459, 1038, 3448 }, 0, { 0, -1024 }, { 129, 0, 0, 255}}},
 {{{ -2459, 688, 3448 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
@@ -2848,7 +2848,7 @@ Vtx VB_0xe00c440[] = {
 {{{ -2459, 1038, 4582 }, 0, { 1638, -3317 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00c530[] = {
+Vtx VB_castle_inside_1_0xe00c530[] = {
 {{{ -2459, 1038, 3448 }, 0, { 1638, 0 }, { 0, 127, 0, 255}}},
 {{{ -2319, 1038, 4582 }, 0, { 1228, -3317 }, { 0, 127, 0, 255}}},
 {{{ -2319, 1038, 3731 }, 0, { 1228, -829 }, { 0, 127, 0, 255}}},
@@ -2866,7 +2866,7 @@ Vtx VB_0xe00c530[] = {
 {{{ 2300, 688, 4582 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00c620[] = {
+Vtx VB_castle_inside_1_0xe00c620[] = {
 {{{ 2300, 1038, 4582 }, 0, { 0, -3317 }, { 0, 127, 0, 255}}},
 {{{ 2160, 1038, 3731 }, 0, { 409, -829 }, { 0, 127, 0, 255}}},
 {{{ 2160, 1038, 4582 }, 0, { 409, -3317 }, { 0, 127, 0, 255}}},
@@ -2884,7 +2884,7 @@ Vtx VB_0xe00c620[] = {
 {{{ 1740, 688, 3448 }, 0, { 1638, 0 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe00c710[] = {
+Vtx VB_castle_inside_1_0xe00c710[] = {
 {{{ 2300, 688, 3448 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ 1740, 1038, 3448 }, 0, { 1638, -1024 }, { 0, 0, 129, 255}}},
 {{{ 2300, 1038, 3448 }, 0, { 0, -1024 }, { 0, 0, 129, 255}}},
@@ -2902,7 +2902,7 @@ Vtx VB_0xe00c710[] = {
 {{{ -1899, 1388, 3731 }, 0, { 0, -1024 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe00c800[] = {
+Vtx VB_castle_inside_1_0xe00c800[] = {
 {{{ -2179, 1388, 4582 }, 0, { 819, -2488 }, { 0, 127, 0, 255}}},
 {{{ -2319, 1388, 3731 }, 0, { 1228, 0 }, { 0, 127, 0, 255}}},
 {{{ -2319, 1388, 4582 }, 0, { 1228, -2488 }, { 0, 127, 0, 255}}},
@@ -2920,7 +2920,7 @@ Vtx VB_0xe00c800[] = {
 {{{ 2160, 1388, 3731 }, 0, { 2488, -1024 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00c8f0[] = {
+Vtx VB_castle_inside_1_0xe00c8f0[] = {
 {{{ 2160, 1038, 3731 }, 0, { 2488, 0 }, { 127, 0, 0, 255}}},
 {{{ 2160, 1388, 4582 }, 0, { 0, -1024 }, { 127, 0, 0, 255}}},
 {{{ 2160, 1038, 4582 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
@@ -2938,7 +2938,7 @@ Vtx VB_0xe00c8f0[] = {
 {{{ 2160, 1388, 4582 }, 0, { 0, -2488 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00c9e0[] = {
+Vtx VB_castle_inside_1_0xe00c9e0[] = {
 {{{ 1740, 1388, 3731 }, 0, { 1228, -1024 }, { 0, 0, 129, 255}}},
 {{{ 2160, 1038, 3731 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ 1740, 1038, 3731 }, 0, { 1228, 0 }, { 0, 0, 129, 255}}},
@@ -2956,7 +2956,7 @@ Vtx VB_0xe00c9e0[] = {
 {{{ -1899, 1738, 3944 }, 0, { 4769, -3072 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00cad0[] = {
+Vtx VB_castle_inside_1_0xe00cad0[] = {
 {{{ -1899, 2172, 2314 }, 0, { 0, -4341 }, { 129, 0, 0, 255}}},
 {{{ -1899, 1738, 3944 }, 0, { 4769, -3072 }, { 129, 0, 0, 255}}},
 {{{ -1899, 2172, 4582 }, 0, { 6635, -4341 }, { 129, 0, 0, 255}}},
@@ -2974,7 +2974,7 @@ Vtx VB_0xe00cad0[] = {
 {{{ -1899, 1738, 4582 }, 0, { 6635, -3072 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00cbc0[] = {
+Vtx VB_castle_inside_1_0xe00cbc0[] = {
 {{{ -2179, 1388, 4582 }, 0, { 1866, 0 }, { 129, 0, 0, 255}}},
 {{{ -2179, 1738, 3944 }, 0, { 0, -1024 }, { 129, 0, 0, 255}}},
 {{{ -2179, 1388, 3944 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
@@ -2992,7 +2992,7 @@ Vtx VB_0xe00cbc0[] = {
 {{{ -2179, 1738, 4582 }, 0, { 819, -1866 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00ccb0[] = {
+Vtx VB_castle_inside_1_0xe00ccb0[] = {
 {{{ -2179, 1738, 3944 }, 0, { 819, 0 }, { 0, 127, 0, 255}}},
 {{{ -1899, 1738, 4582 }, 0, { 0, -1866 }, { 0, 127, 0, 255}}},
 {{{ -1899, 1738, 3944 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
@@ -3010,7 +3010,7 @@ Vtx VB_0xe00ccb0[] = {
 {{{ 2020, 1738, 3944 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00cda0[] = {
+Vtx VB_castle_inside_1_0xe00cda0[] = {
 {{{ 1740, 1738, 3944 }, 0, { 819, -1024 }, { 0, 0, 129, 255}}},
 {{{ 2020, 1388, 3944 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ 1740, 1388, 3944 }, 0, { 819, 0 }, { 0, 0, 129, 255}}},
@@ -3028,7 +3028,7 @@ Vtx VB_0xe00cda0[] = {
 {{{ -313, 1398, 2314 }, 0, { 6007, -2076 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe00ce90[] = {
+Vtx VB_castle_inside_1_0xe00ce90[] = {
 {{{ -313, 1398, 2314 }, 0, { 6007, -2076 }, { 0, 0, 129, 255}}},
 {{{ -1899, 2172, 2314 }, 0, { 10649, -4341 }, { 0, 0, 129, 255}}},
 {{{ -79, 1493, 2314 }, 0, { 5324, -2355 }, { 0, 0, 129, 255}}},
@@ -3046,7 +3046,7 @@ Vtx VB_0xe00ce90[] = {
 {{{ -79, 1493, 2314 }, 0, { 5324, -2355 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe00cf80[] = {
+Vtx VB_castle_inside_1_0xe00cf80[] = {
 {{{ 1740, 2172, 2314 }, 0, { 0, -4341 }, { 0, 0, 129, 255}}},
 {{{ -79, 1493, 2314 }, 0, { 5324, -2355 }, { 0, 0, 129, 255}}},
 {{{ -1899, 2172, 2314 }, 0, { 10649, -4341 }, { 0, 0, 129, 255}}},
@@ -3064,7 +3064,7 @@ Vtx VB_0xe00cf80[] = {
 {{{ 153, 1398, 2468 }, 0, { 450, -652 }, { 148, 190, 0, 255}}},
 };
 
-Vtx VB_0xe00d070[] = {
+Vtx VB_castle_inside_1_0xe00d070[] = {
 {{{ 153, 1398, 2314 }, 0, { 0, 0 }, { 209, 139, 0, 255}}},
 {{{ -79, 1493, 2468 }, 0, { 450, -737 }, { 209, 139, 0, 255}}},
 {{{ -79, 1493, 2314 }, 0, { 0, -737 }, { 209, 139, 0, 255}}},
@@ -3082,7 +3082,7 @@ Vtx VB_0xe00d070[] = {
 {{{ -313, 1398, 2314 }, 0, { 450, -652 }, { 108, 190, 0, 255}}},
 };
 
-Vtx VB_0xe00d160[] = {
+Vtx VB_castle_inside_1_0xe00d160[] = {
 {{{ -429, 1208, 2314 }, 0, { 450, 0 }, { 108, 190, 0, 255}}},
 {{{ -313, 1398, 2468 }, 0, { 0, -652 }, { 108, 190, 0, 255}}},
 {{{ -429, 1208, 2468 }, 0, { 0, 0 }, { 108, 190, 0, 255}}},
@@ -3100,7 +3100,7 @@ Vtx VB_0xe00d160[] = {
 {{{ -530, 660, 3609 }, 0, { 2636, 0 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe00d250[] = {
+Vtx VB_castle_inside_1_0xe00d250[] = {
 {{{ 370, 660, 4582 }, 0, { 0, -2846 }, { 0, 129, 0, 255}}},
 {{{ -79, 660, 4582 }, 0, { 1318, -2846 }, { 0, 129, 0, 255}}},
 {{{ 370, 660, 3609 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
@@ -3118,7 +3118,7 @@ Vtx VB_0xe00d250[] = {
 {{{ -1899, 1738, 4582 }, 0, { 1638, -3072 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe00d340[] = {
+Vtx VB_castle_inside_1_0xe00d340[] = {
 {{{ -1899, 1738, 4582 }, 0, { 1638, -3072 }, { 0, 0, 127, 255}}},
 {{{ -79, 2172, 4582 }, 0, { 6963, -4341 }, { 0, 0, 127, 255}}},
 {{{ -1899, 2172, 4582 }, 0, { 1638, -4341 }, { 0, 0, 127, 255}}},
@@ -3136,7 +3136,7 @@ Vtx VB_0xe00d340[] = {
 {{{ 2300, 688, 4582 }, 0, { 6963, 0 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe00d430[] = {
+Vtx VB_castle_inside_1_0xe00d430[] = {
 {{{ -79, 688, 4582 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
 {{{ 2300, 1038, 4582 }, 0, { 6963, -1024 }, { 0, 0, 127, 255}}},
 {{{ 2160, 1038, 4582 }, 0, { 6553, -1024 }, { 0, 0, 127, 255}}},
@@ -3154,7 +3154,7 @@ Vtx VB_0xe00d430[] = {
 {{{ 1740, 1738, 4582 }, 0, { 5324, -3072 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe00d520[] = {
+Vtx VB_castle_inside_1_0xe00d520[] = {
 {{{ 1740, 1738, 4582 }, 0, { 5324, -3072 }, { 0, 0, 127, 255}}},
 {{{ 2020, 1388, 4582 }, 0, { 6144, -2048 }, { 0, 0, 127, 255}}},
 {{{ 2020, 1738, 4582 }, 0, { 6144, -3072 }, { 0, 0, 127, 255}}},
@@ -3172,7 +3172,7 @@ Vtx VB_0xe00d520[] = {
 {{{ -1116, 1738, 3474 }, 0, { 7761, -2944 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe00d610[] = {
+Vtx VB_castle_inside_1_0xe00d610[] = {
 {{{ -876, 1738, 2468 }, 0, { 7059, 0 }, { 0, 129, 0, 255}}},
 {{{ 1536, 1738, 3999 }, 0, { 0, -4480 }, { 0, 129, 0, 255}}},
 {{{ -876, 1738, 3249 }, 0, { 7059, -2286 }, { 0, 129, 0, 255}}},
@@ -3190,7 +3190,7 @@ Vtx VB_0xe00d610[] = {
 {{{ 851, 1738, 2468 }, 0, { 2003, 0 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe00d700[] = {
+Vtx VB_castle_inside_1_0xe00d700[] = {
 {{{ -876, 688, 2468 }, 0, { 5056, 0 }, { 0, 0, 127, 255}}},
 {{{ -429, 688, 2468 }, 0, { 3747, 0 }, { 0, 0, 127, 255}}},
 {{{ -876, 1738, 2468 }, 0, { 5056, -3072 }, { 0, 0, 127, 255}}},
@@ -3208,7 +3208,7 @@ Vtx VB_0xe00d700[] = {
 {{{ 270, 1208, 2468 }, 0, { 1699, -1520 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe00d7f0[] = {
+Vtx VB_castle_inside_1_0xe00d7f0[] = {
 {{{ 851, 1738, 2468 }, 0, { 0, -3072 }, { 0, 0, 127, 255}}},
 {{{ 270, 1208, 2468 }, 0, { 1699, -1520 }, { 0, 0, 127, 255}}},
 {{{ 851, 688, 2468 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
@@ -3226,7 +3226,7 @@ Vtx VB_0xe00d7f0[] = {
 {{{ 1067, 1738, 3474 }, 0, { 0, -3072 }, { 164, 0, 86, 255}}},
 };
 
-Vtx VB_0xe00d8e0[] = {
+Vtx VB_castle_inside_1_0xe00d8e0[] = {
 {{{ 1067, 688, 3474 }, 0, { 0, 0 }, { 164, 0, 86, 255}}},
 {{{ 1067, 1738, 3474 }, 0, { 0, -3072 }, { 164, 0, 86, 255}}},
 {{{ 851, 688, 3245 }, 0, { 921, 0 }, { 164, 0, 86, 255}}},
@@ -3244,7 +3244,7 @@ Vtx VB_0xe00d8e0[] = {
 {{{ 1536, 688, 3474 }, 0, { 1536, 0 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00d9d0[] = {
+Vtx VB_castle_inside_1_0xe00d9d0[] = {
 {{{ -1634, 688, 3474 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
 {{{ -1634, 1738, 3474 }, 0, { 0, -3072 }, { 127, 0, 0, 255}}},
 {{{ -1634, 688, 3999 }, 0, { 1536, 0 }, { 127, 0, 0, 255}}},
@@ -3262,7 +3262,7 @@ Vtx VB_0xe00d9d0[] = {
 {{{ -1116, 688, 3474 }, 0, { 962, 0 }, { 86, 0, 92, 255}}},
 };
 
-Vtx VB_0xe00dac0[] = {
+Vtx VB_castle_inside_1_0xe00dac0[] = {
 {{{ -1116, 1738, 3474 }, 0, { 962, -3072 }, { 86, 0, 92, 255}}},
 {{{ -1116, 688, 3474 }, 0, { 962, 0 }, { 86, 0, 92, 255}}},
 {{{ -876, 1738, 3249 }, 0, { 0, -3072 }, { 86, 0, 92, 255}}},
@@ -3280,7 +3280,7 @@ Vtx VB_0xe00dac0[] = {
 {{{ 990, 688, 2701 }, 0, { 680, 0 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00dbb0[] = {
+Vtx VB_castle_inside_1_0xe00dbb0[] = {
 {{{ 990, 940, 2701 }, 0, { 680, -737 }, { 127, 0, 0, 255}}},
 {{{ 990, 688, 2701 }, 0, { 680, 0 }, { 127, 0, 0, 255}}},
 {{{ 990, 1738, 2469 }, 0, { 0, -3072 }, { 127, 0, 0, 255}}},
@@ -3298,7 +3298,7 @@ Vtx VB_0xe00dbb0[] = {
 {{{ 990, 1738, 2469 }, 0, { 1617, -3072 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe00dca0[] = {
+Vtx VB_castle_inside_1_0xe00dca0[] = {
 {{{ 1543, 1738, 2469 }, 0, { 0, -3072 }, { 0, 0, 127, 255}}},
 {{{ 990, 1738, 2469 }, 0, { 1617, -3072 }, { 0, 0, 127, 255}}},
 {{{ 1543, 688, 2469 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
@@ -3316,7 +3316,7 @@ Vtx VB_0xe00dca0[] = {
 {{{ 990, 688, 3253 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe00dd90[] = {
+Vtx VB_castle_inside_1_0xe00dd90[] = {
 {{{ -1630, 1738, 3254 }, 0, { 1720, -2252 }, { 0, 129, 0, 255}}},
 {{{ -1630, 1738, 2484 }, 0, { 1720, 0 }, { 0, 129, 0, 255}}},
 {{{ -1042, 1738, 3254 }, 0, { 0, -2252 }, { 0, 129, 0, 255}}},
@@ -3334,7 +3334,7 @@ Vtx VB_0xe00dd90[] = {
 {{{ -1630, 688, 3254 }, 0, { 2252, 0 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00de80[] = {
+Vtx VB_castle_inside_1_0xe00de80[] = {
 {{{ -1630, 1738, 3254 }, 0, { 2252, -3072 }, { 127, 0, 0, 255}}},
 {{{ -1630, 688, 3254 }, 0, { 2252, 0 }, { 127, 0, 0, 255}}},
 {{{ -1630, 1738, 2484 }, 0, { 0, -3072 }, { 127, 0, 0, 255}}},
@@ -3352,7 +3352,7 @@ Vtx VB_0xe00de80[] = {
 {{{ -1042, 688, 2484 }, 0, { 2252, 0 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00df70[] = {
+Vtx VB_castle_inside_1_0xe00df70[] = {
 {{{ -1042, 940, 2976 }, 0, { 814, -737 }, { 129, 0, 0, 255}}},
 {{{ -1042, 1738, 3254 }, 0, { 0, -3072 }, { 129, 0, 0, 255}}},
 {{{ -1042, 940, 2724 }, 0, { 1551, -737 }, { 129, 0, 0, 255}}},
@@ -3370,7 +3370,7 @@ Vtx VB_0xe00df70[] = {
 {{{ 1538, 1738, 4504 }, 0, { 0, -1249 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe00e060[] = {
+Vtx VB_castle_inside_1_0xe00e060[] = {
 {{{ 1538, 1738, 4077 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
 {{{ 1538, 1738, 4504 }, 0, { 0, -1249 }, { 0, 129, 0, 255}}},
 {{{ 775, 1738, 4077 }, 0, { 2232, 0 }, { 0, 129, 0, 255}}},
@@ -3388,7 +3388,7 @@ Vtx VB_0xe00e060[] = {
 {{{ 775, 1738, 4077 }, 0, { 0, -3072 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00e150[] = {
+Vtx VB_castle_inside_1_0xe00e150[] = {
 {{{ 775, 688, 4077 }, 0, { 2232, 0 }, { 0, 0, 127, 255}}},
 {{{ 1053, 688, 4077 }, 0, { 1418, 0 }, { 0, 0, 127, 255}}},
 {{{ 775, 1738, 4077 }, 0, { 2232, -3072 }, { 0, 0, 127, 255}}},
@@ -3406,7 +3406,7 @@ Vtx VB_0xe00e150[] = {
 {{{ 1538, 1738, 4077 }, 0, { 0, -3072 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe00e240[] = {
+Vtx VB_castle_inside_1_0xe00e240[] = {
 {{{ 775, 1738, 4077 }, 0, { 2232, -3072 }, { 0, 0, 127, 255}}},
 {{{ 1305, 940, 4077 }, 0, { 681, -737 }, { 0, 0, 127, 255}}},
 {{{ 1538, 1738, 4077 }, 0, { 0, -3072 }, { 0, 0, 127, 255}}},
@@ -3424,7 +3424,7 @@ Vtx VB_0xe00e240[] = {
 {{{ -586, 1738, 4082 }, 0, { 2933, 0 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe00e330[] = {
+Vtx VB_castle_inside_1_0xe00e330[] = {
 {{{ -586, 688, 4082 }, 0, { 2933, 0 }, { 0, 0, 127, 255}}},
 {{{ -200, 688, 4082 }, 0, { 1805, 0 }, { 0, 0, 127, 255}}},
 {{{ -586, 1738, 4082 }, 0, { 2933, -3072 }, { 0, 0, 127, 255}}},
@@ -3442,7 +3442,7 @@ Vtx VB_0xe00e330[] = {
 {{{ 416, 1738, 4082 }, 0, { 0, -3072 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe00e420[] = {
+Vtx VB_castle_inside_1_0xe00e420[] = {
 {{{ -586, 1738, 4082 }, 0, { 2933, -3072 }, { 0, 0, 127, 255}}},
 {{{ 51, 940, 4082 }, 0, { 1068, -737 }, { 0, 0, 127, 255}}},
 {{{ 416, 1738, 4082 }, 0, { 0, -3072 }, { 0, 0, 127, 255}}},
@@ -3460,7 +3460,7 @@ Vtx VB_0xe00e420[] = {
 {{{ -586, 1738, 4495 }, 0, { 0, -3072 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe00e510[] = {
+Vtx VB_castle_inside_1_0xe00e510[] = {
 {{{ -586, 688, 4082 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
 {{{ -586, 1738, 4082 }, 0, { 0, -3072 }, { 127, 0, 0, 255}}},
 {{{ -586, 688, 4495 }, 0, { 1208, 0 }, { 127, 0, 0, 255}}},
@@ -3478,7 +3478,7 @@ Vtx VB_0xe00e510[] = {
 {{{ -1637, 688, 4514 }, 0, { 1249, 0 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00e600[] = {
+Vtx VB_castle_inside_1_0xe00e600[] = {
 {{{ -1637, 1738, 4514 }, 0, { 1249, -3072 }, { 127, 0, 0, 255}}},
 {{{ -1637, 688, 4514 }, 0, { 1249, 0 }, { 127, 0, 0, 255}}},
 {{{ -1637, 1738, 4087 }, 0, { 0, -3072 }, { 127, 0, 0, 255}}},
@@ -3496,7 +3496,7 @@ Vtx VB_0xe00e600[] = {
 {{{ -1139, 940, 4087 }, 0, { 776, -737 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe00e6f0[] = {
+Vtx VB_castle_inside_1_0xe00e6f0[] = {
 {{{ -874, 1738, 4087 }, 0, { 0, -3072 }, { 0, 0, 127, 255}}},
 {{{ -1139, 940, 4087 }, 0, { 776, -737 }, { 0, 0, 127, 255}}},
 {{{ -874, 688, 4087 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
@@ -3514,7 +3514,7 @@ Vtx VB_0xe00e6f0[] = {
 {{{ -874, 1738, 4514 }, 0, { 2232, -3072 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe00e7e0[] = {
+Vtx VB_castle_inside_1_0xe00e7e0[] = {
 {{{ -1637, 1738, 4514 }, 0, { 0, -3072 }, { 0, 0, 129, 255}}},
 {{{ -874, 1738, 4514 }, 0, { 2232, -3072 }, { 0, 0, 129, 255}}},
 {{{ -1637, 688, 4514 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
@@ -3532,7 +3532,7 @@ Vtx VB_0xe00e7e0[] = {
 {{{ 851, 940, 2953 }, 0, { 853, -737 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00e8d0[] = {
+Vtx VB_castle_inside_1_0xe00e8d0[] = {
 {{{ 851, 688, 3245 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
 {{{ 851, 1738, 3245 }, 0, { 0, -3072 }, { 129, 0, 0, 255}}},
 {{{ 851, 688, 2953 }, 0, { 853, 0 }, { 129, 0, 0, 255}}},
@@ -3550,7 +3550,7 @@ Vtx VB_0xe00e8d0[] = {
 {{{ 990, 940, 2953 }, 0, { 0, -737 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe00e9c0[] = {
+Vtx VB_castle_inside_1_0xe00e9c0[] = {
 {{{ 990, 940, 2701 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
 {{{ 990, 940, 2953 }, 0, { 0, -737 }, { 0, 129, 0, 255}}},
 {{{ 851, 940, 2701 }, 0, { 406, 0 }, { 0, 129, 0, 255}}},
@@ -3568,7 +3568,7 @@ Vtx VB_0xe00e9c0[] = {
 {{{ -1577, 688, 3159 }, 0, { 15219, -3369 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00eab0[] = {
+Vtx VB_castle_inside_1_0xe00eab0[] = {
 {{{ -1577, 688, 3159 }, 0, { 15219, -3369 }, { 0, 127, 0, 255}}},
 {{{ -1630, 688, 3254 }, 0, { 15477, -3835 }, { 0, 127, 0, 255}}},
 {{{ -1566, 688, 3178 }, 0, { 15163, -3460 }, { 0, 127, 0, 255}}},
@@ -3586,7 +3586,7 @@ Vtx VB_0xe00eab0[] = {
 {{{ -1042, 688, 3254 }, 0, { 12609, -3835 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00eba0[] = {
+Vtx VB_castle_inside_1_0xe00eba0[] = {
 {{{ -1630, 688, 2484 }, 0, { 15477, -80 }, { 0, 127, 0, 255}}},
 {{{ -1584, 688, 3138 }, 0, { 15249, -3266 }, { 0, 127, 0, 255}}},
 {{{ -1584, 688, 3116 }, 0, { 15251, -3159 }, { 0, 127, 0, 255}}},
@@ -3604,7 +3604,7 @@ Vtx VB_0xe00eba0[] = {
 {{{ -1433, 688, 3175 }, 0, { 14513, -3445 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00ec90[] = {
+Vtx VB_castle_inside_1_0xe00ec90[] = {
 {{{ -1433, 688, 3175 }, 0, { 14513, -3445 }, { 0, 127, 0, 255}}},
 {{{ -1042, 688, 3254 }, 0, { 12609, -3835 }, { 0, 127, 0, 255}}},
 {{{ -1422, 688, 3155 }, 0, { 14462, -3352 }, { 0, 127, 0, 255}}},
@@ -3622,7 +3622,7 @@ Vtx VB_0xe00ec90[] = {
 {{{ -1391, 688, 3999 }, 0, { 14311, -7467 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00ed80[] = {
+Vtx VB_castle_inside_1_0xe00ed80[] = {
 {{{ -1391, 688, 3999 }, 0, { 14311, -7467 }, { 0, 127, 0, 255}}},
 {{{ -874, 688, 4514 }, 0, { 11788, -9975 }, { 0, 127, 0, 255}}},
 {{{ -1139, 688, 4087 }, 0, { 13083, -7893 }, { 0, 127, 0, 255}}},
@@ -3640,7 +3640,7 @@ Vtx VB_0xe00ed80[] = {
 {{{ -200, 688, 3999 }, 0, { 8503, -7467 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00ee70[] = {
+Vtx VB_castle_inside_1_0xe00ee70[] = {
 {{{ -200, 688, 3999 }, 0, { 8503, -7467 }, { 0, 127, 0, 255}}},
 {{{ 416, 688, 4495 }, 0, { 5493, -9882 }, { 0, 127, 0, 255}}},
 {{{ 51, 688, 4082 }, 0, { 7274, -7868 }, { 0, 127, 0, 255}}},
@@ -3658,7 +3658,7 @@ Vtx VB_0xe00ee70[] = {
 {{{ -1139, 688, 3999 }, 0, { 13083, -7467 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00ef60[] = {
+Vtx VB_castle_inside_1_0xe00ef60[] = {
 {{{ -1139, 688, 3999 }, 0, { 13083, -7467 }, { 0, 127, 0, 255}}},
 {{{ -1391, 688, 3999 }, 0, { 14311, -7467 }, { 0, 127, 0, 255}}},
 {{{ -1139, 688, 4087 }, 0, { 13083, -7893 }, { 0, 127, 0, 255}}},
@@ -3676,7 +3676,7 @@ Vtx VB_0xe00ef60[] = {
 {{{ -876, 688, 2724 }, 0, { 11800, -1249 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00f050[] = {
+Vtx VB_castle_inside_1_0xe00f050[] = {
 {{{ -876, 688, 2724 }, 0, { 11800, -1249 }, { 0, 127, 0, 255}}},
 {{{ -200, 688, 3999 }, 0, { 8503, -7467 }, { 0, 127, 0, 255}}},
 {{{ -876, 688, 2468 }, 0, { 11800, 0 }, { 0, 127, 0, 255}}},
@@ -3694,7 +3694,7 @@ Vtx VB_0xe00f050[] = {
 {{{ 51, 688, 4082 }, 0, { 7274, -7868 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00f140[] = {
+Vtx VB_castle_inside_1_0xe00f140[] = {
 {{{ 270, 688, 2468 }, 0, { 6206, 0 }, { 0, 127, 0, 255}}},
 {{{ 51, 688, 3999 }, 0, { 7274, -7467 }, { 0, 127, 0, 255}}},
 {{{ 1053, 688, 3999 }, 0, { 2389, -7467 }, { 0, 127, 0, 255}}},
@@ -3712,7 +3712,7 @@ Vtx VB_0xe00f140[] = {
 {{{ 1053, 688, 4077 }, 0, { 2389, -7847 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00f230[] = {
+Vtx VB_castle_inside_1_0xe00f230[] = {
 {{{ 1053, 688, 4077 }, 0, { 2389, -7847 }, { 0, 127, 0, 255}}},
 {{{ 1538, 688, 4504 }, 0, { 24, -9929 }, { 0, 127, 0, 255}}},
 {{{ 1053, 688, 3999 }, 0, { 2389, -7467 }, { 0, 127, 0, 255}}},
@@ -3730,7 +3730,7 @@ Vtx VB_0xe00f230[] = {
 {{{ 1536, 688, 3474 }, 0, { 34, -4907 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00f320[] = {
+Vtx VB_castle_inside_1_0xe00f320[] = {
 {{{ 1305, 688, 3999 }, 0, { 1160, -7467 }, { 0, 127, 0, 255}}},
 {{{ 1067, 688, 3474 }, 0, { 2321, -4907 }, { 0, 127, 0, 255}}},
 {{{ 1305, 688, 4077 }, 0, { 1160, -7847 }, { 0, 127, 0, 255}}},
@@ -3748,7 +3748,7 @@ Vtx VB_0xe00f320[] = {
 {{{ 990, 688, 2469 }, 0, { 2696, -2 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00f410[] = {
+Vtx VB_castle_inside_1_0xe00f410[] = {
 {{{ 990, 688, 2469 }, 0, { 2696, -2 }, { 0, 127, 0, 255}}},
 {{{ 1543, 688, 3253 }, 0, { 0, -3825 }, { 0, 127, 0, 255}}},
 {{{ 1543, 688, 2469 }, 0, { 0, -2 }, { 0, 127, 0, 255}}},
@@ -3766,7 +3766,7 @@ Vtx VB_0xe00f410[] = {
 {{{ 851, 688, 2953 }, 0, { 3373, -2366 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00f500[] = {
+Vtx VB_castle_inside_1_0xe00f500[] = {
 {{{ 851, 688, 2468 }, 0, { 3373, 0 }, { 0, 127, 0, 255}}},
 {{{ 851, 688, 2953 }, 0, { 3373, -2366 }, { 0, 127, 0, 255}}},
 {{{ 851, 688, 2701 }, 0, { 3373, -1137 }, { 0, 127, 0, 255}}},
@@ -3784,7 +3784,7 @@ Vtx VB_0xe00f500[] = {
 {{{ -1579, 688, 3095 }, 0, { 15226, -3056 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00f5f0[] = {
+Vtx VB_castle_inside_1_0xe00f5f0[] = {
 {{{ -1579, 688, 3095 }, 0, { 15226, -3056 }, { 0, 127, 0, 255}}},
 {{{ -1630, 688, 2484 }, 0, { 15477, -80 }, { 0, 127, 0, 255}}},
 {{{ -1584, 688, 3116 }, 0, { 15251, -3159 }, { 0, 127, 0, 255}}},
@@ -3802,7 +3802,7 @@ Vtx VB_0xe00f5f0[] = {
 {{{ -1492, 688, 3042 }, 0, { 14800, -2796 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00f6e0[] = {
+Vtx VB_castle_inside_1_0xe00f6e0[] = {
 {{{ -1042, 688, 2484 }, 0, { 12609, -80 }, { 0, 127, 0, 255}}},
 {{{ -1492, 688, 3042 }, 0, { 14800, -2796 }, { 0, 127, 0, 255}}},
 {{{ -1470, 688, 3047 }, 0, { 14696, -2822 }, { 0, 127, 0, 255}}},
@@ -3820,7 +3820,7 @@ Vtx VB_0xe00f6e0[] = {
 {{{ -1418, 688, 3112 }, 0, { 14439, -3141 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe00f7d0[] = {
+Vtx VB_castle_inside_1_0xe00f7d0[] = {
 {{{ -1042, 688, 2484 }, 0, { 12609, -80 }, { 0, 127, 0, 255}}},
 {{{ -1418, 688, 3112 }, 0, { 14439, -3141 }, { 0, 127, 0, 255}}},
 {{{ -1417, 688, 3134 }, 0, { 14437, -3248 }, { 0, 127, 0, 255}}},
@@ -3838,7 +3838,7 @@ Vtx VB_0xe00f7d0[] = {
 {{{ -876, 688, 3249 }, 0, { 2286, 0 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00f8c0[] = {
+Vtx VB_castle_inside_1_0xe00f8c0[] = {
 {{{ -876, 688, 2468 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
 {{{ -876, 1738, 2468 }, 0, { 0, -3072 }, { 127, 0, 0, 255}}},
 {{{ -876, 688, 2724 }, 0, { 749, 0 }, { 127, 0, 0, 255}}},
@@ -3856,7 +3856,7 @@ Vtx VB_0xe00f8c0[] = {
 {{{ -876, 1738, 3249 }, 0, { 2286, -3072 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe00f9b0[] = {
+Vtx VB_castle_inside_1_0xe00f9b0[] = {
 {{{ -1042, 688, 2724 }, 0, { 485, 0 }, { 0, 0, 127, 255}}},
 {{{ -876, 688, 2724 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
 {{{ -1042, 940, 2724 }, 0, { 485, -737 }, { 0, 0, 127, 255}}},
@@ -3874,7 +3874,7 @@ Vtx VB_0xe00f9b0[] = {
 {{{ -876, 940, 2976 }, 0, { 485, -737 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe00faa0[] = {
+Vtx VB_castle_inside_1_0xe00faa0[] = {
 {{{ -1042, 940, 2976 }, 0, { 0, -737 }, { 0, 0, 129, 255}}},
 {{{ -876, 940, 2976 }, 0, { 485, -737 }, { 0, 0, 129, 255}}},
 {{{ -1042, 688, 2976 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
@@ -3892,7 +3892,7 @@ Vtx VB_0xe00faa0[] = {
 {{{ -200, 940, 3999 }, 0, { 737, 0 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe00fb90[] = {
+Vtx VB_castle_inside_1_0xe00fb90[] = {
 {{{ 51, 940, 3999 }, 0, { 240, -737 }, { 129, 0, 0, 255}}},
 {{{ 51, 688, 3999 }, 0, { 240, 0 }, { 129, 0, 0, 255}}},
 {{{ 51, 940, 4082 }, 0, { 0, -737 }, { 129, 0, 0, 255}}},
@@ -3910,7 +3910,7 @@ Vtx VB_0xe00fb90[] = {
 {{{ -1139, 940, 3999 }, 0, { 1448, -737 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe00fc80[] = {
+Vtx VB_castle_inside_1_0xe00fc80[] = {
 {{{ 1536, 688, 3999 }, 0, { 9277, 0 }, { 0, 0, 129, 255}}},
 {{{ 1305, 688, 3999 }, 0, { 8601, 0 }, { 0, 0, 129, 255}}},
 {{{ 1536, 1738, 3999 }, 0, { 9277, -3072 }, { 0, 0, 129, 255}}},
@@ -3928,7 +3928,7 @@ Vtx VB_0xe00fc80[] = {
 {{{ 51, 940, 3999 }, 0, { 4933, -737 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe00fd70[] = {
+Vtx VB_castle_inside_1_0xe00fd70[] = {
 {{{ -1391, 688, 3999 }, 0, { 711, 0 }, { 0, 0, 129, 255}}},
 {{{ -1634, 688, 3999 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ -1391, 940, 3999 }, 0, { 711, -737 }, { 0, 0, 129, 255}}},
@@ -3946,7 +3946,7 @@ Vtx VB_0xe00fd70[] = {
 {{{ 1053, 940, 3999 }, 0, { 7864, -737 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe00fe60[] = {
+Vtx VB_castle_inside_1_0xe00fe60[] = {
 {{{ 51, 940, 3999 }, 0, { 4933, -737 }, { 0, 0, 129, 255}}},
 {{{ 1053, 940, 3999 }, 0, { 7864, -737 }, { 0, 0, 129, 255}}},
 {{{ 51, 688, 3999 }, 0, { 4933, 0 }, { 0, 0, 129, 255}}},
@@ -3964,7 +3964,7 @@ Vtx VB_0xe00fe60[] = {
 {{{ 1053, 940, 3999 }, 0, { 737, 0 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe00ff50[] = {
+Vtx VB_castle_inside_1_0xe00ff50[] = {
 {{{ 1305, 940, 3999 }, 0, { 227, -737 }, { 129, 0, 0, 255}}},
 {{{ 1305, 688, 3999 }, 0, { 227, 0 }, { 129, 0, 0, 255}}},
 {{{ 1305, 940, 4077 }, 0, { 0, -737 }, { 129, 0, 0, 255}}},
@@ -3982,7 +3982,7 @@ Vtx VB_0xe00ff50[] = {
 {{{ -1139, 940, 4087 }, 0, { 0, -255 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe010040[] = {
+Vtx VB_castle_inside_1_0xe010040[] = {
 {{{ -1139, 940, 3999 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
 {{{ -1139, 940, 4087 }, 0, { 0, -255 }, { 0, 129, 0, 255}}},
 {{{ -1391, 940, 3999 }, 0, { 737, 0 }, { 0, 129, 0, 255}}},
@@ -4000,7 +4000,7 @@ Vtx VB_0xe010040[] = {
 {{{ 864, -1411, 1523 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe010130[] = {
+Vtx VB_castle_inside_1_0xe010130[] = {
 {{{ 864, -571, 1523 }, 0, { 8202, 0 }, { 0, 129, 0, 255}}},
 {{{ -817, -571, 3448 }, 0, { 0, -9386 }, { 0, 129, 0, 255}}},
 {{{ -817, -571, 1523 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
@@ -4018,7 +4018,7 @@ Vtx VB_0xe010130[] = {
 {{{ -817, -571, 1523 }, 0, { 9386, -4096 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe010220[] = {
+Vtx VB_castle_inside_1_0xe010220[] = {
 {{{ -817, -1411, 1523 }, 0, { 9386, 0 }, { 127, 0, 0, 255}}},
 {{{ -817, -571, 3448 }, 0, { 0, -4096 }, { 127, 0, 0, 255}}},
 {{{ -817, -1411, 3448 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
@@ -4036,7 +4036,7 @@ Vtx VB_0xe010220[] = {
 {{{ 864, -571, 3448 }, 0, { 9386, -4096 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe010310[] = {
+Vtx VB_castle_inside_1_0xe010310[] = {
 {{{ 4626, 1752, 6747 }, 0, { 5066, -1980 }, { 0, 127, 0, 255}}},
 {{{ 5227, 1752, 6404 }, 0, { 3309, -975 }, { 0, 127, 0, 255}}},
 {{{ 4586, 1752, 6519 }, 0, { 5184, -1312 }, { 0, 127, 0, 255}}},
@@ -4054,7 +4054,7 @@ Vtx VB_0xe010310[] = {
 {{{ 5590, 1752, 6206 }, 0, { 2247, -398 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe010400[] = {
+Vtx VB_castle_inside_1_0xe010400[] = {
 {{{ 5590, 1752, 6206 }, 0, { 2247, -398 }, { 0, 127, 0, 255}}},
 {{{ 5368, 1752, 7474 }, 0, { 2897, -4108 }, { 0, 127, 0, 255}}},
 {{{ 5739, 1752, 7474 }, 0, { 1811, -4108 }, { 0, 127, 0, 255}}},
@@ -4072,7 +4072,7 @@ Vtx VB_0xe010400[] = {
 {{{ 5954, 1752, 6442 }, 0, { 1183, -1087 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0104f0[] = {
+Vtx VB_castle_inside_1_0xe0104f0[] = {
 {{{ 5954, 1752, 6442 }, 0, { 1183, -1087 }, { 0, 127, 0, 255}}},
 {{{ 6116, 1752, 7368 }, 0, { 707, -3797 }, { 0, 127, 0, 255}}},
 {{{ 6224, 1752, 6604 }, 0, { 393, -1562 }, { 0, 127, 0, 255}}},
@@ -4090,7 +4090,7 @@ Vtx VB_0xe0104f0[] = {
 {{{ 1842, 170, 7375 }, 0, { 0, -4027 }, { 227, 0, 133, 255}}},
 };
 
-Vtx VB_0xe0105e0[] = {
+Vtx VB_castle_inside_1_0xe0105e0[] = {
 {{{ 1842, 170, 7375 }, 0, { 955, -4027 }, { 182, 0, 154, 255}}},
 {{{ 2158, -1481, 7144 }, 0, { 0, 0 }, { 182, 0, 154, 255}}},
 {{{ 1842, -1481, 7375 }, 0, { 955, 0 }, { 182, 0, 154, 255}}},
@@ -4108,7 +4108,7 @@ Vtx VB_0xe0105e0[] = {
 {{{ 3105, -1481, 6920 }, 0, { 1211, 0 }, { 172, 0, 162, 255}}},
 };
 
-Vtx VB_0xe0106d0[] = {
+Vtx VB_castle_inside_1_0xe0106d0[] = {
 {{{ 3475, -1481, 6587 }, 0, { 0, 0 }, { 172, 0, 162, 255}}},
 {{{ 3105, 170, 6920 }, 0, { 1211, -4027 }, { 172, 0, 162, 255}}},
 {{{ 3475, 170, 6587 }, 0, { 0, -4027 }, { 172, 0, 162, 255}}},
@@ -4126,7 +4126,7 @@ Vtx VB_0xe0106d0[] = {
 {{{ 4309, 170, 6403 }, 0, { 0, -4027 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe0107c0[] = {
+Vtx VB_castle_inside_1_0xe0107c0[] = {
 {{{ 4309, 170, 6403 }, 0, { 733, -4027 }, { 48, 0, 139, 255}}},
 {{{ 4586, -1481, 6519 }, 0, { 0, 0 }, { 48, 0, 139, 255}}},
 {{{ 4309, -1481, 6403 }, 0, { 733, 0 }, { 48, 0, 139, 255}}},
@@ -4144,7 +4144,7 @@ Vtx VB_0xe0107c0[] = {
 {{{ 5227, -1481, 6404 }, 0, { 1006, 0 }, { 196, 0, 145, 255}}},
 };
 
-Vtx VB_0xe0108b0[] = {
+Vtx VB_castle_inside_1_0xe0108b0[] = {
 {{{ 5590, -1481, 6206 }, 0, { 0, 0 }, { 196, 0, 145, 255}}},
 {{{ 5227, 170, 6404 }, 0, { 1006, -4027 }, { 196, 0, 145, 255}}},
 {{{ 5590, 170, 6206 }, 0, { 0, -4027 }, { 196, 0, 145, 255}}},
@@ -4162,7 +4162,7 @@ Vtx VB_0xe0108b0[] = {
 {{{ 5662, 170, 6070 }, 0, { 665, -4027 }, { 140, 0, 50, 255}}},
 };
 
-Vtx VB_0xe0109a0[] = {
+Vtx VB_castle_inside_1_0xe0109a0[] = {
 {{{ 5552, -1481, 5820 }, 0, { 699, 0 }, { 129, 0, 0, 255}}},
 {{{ 5552, 170, 5533 }, 0, { 0, -4027 }, { 129, 0, 0, 255}}},
 {{{ 5552, -1481, 5533 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
@@ -4180,7 +4180,7 @@ Vtx VB_0xe0109a0[] = {
 {{{ 5792, -1481, 5097 }, 0, { 1467, 0 }, { 176, 0, 158, 255}}},
 };
 
-Vtx VB_0xe010a90[] = {
+Vtx VB_castle_inside_1_0xe010a90[] = {
 {{{ 6258, -1481, 4717 }, 0, { 0, 0 }, { 176, 0, 158, 255}}},
 {{{ 5792, 170, 5097 }, 0, { 1467, -4027 }, { 176, 0, 158, 255}}},
 {{{ 6258, 170, 4717 }, 0, { 0, -4027 }, { 176, 0, 158, 255}}},
@@ -4198,7 +4198,7 @@ Vtx VB_0xe010a90[] = {
 {{{ 6643, 170, 4124 }, 0, { 3788, -4027 }, { 132, 0, 231, 255}}},
 };
 
-Vtx VB_0xe010b80[] = {
+Vtx VB_castle_inside_1_0xe010b80[] = {
 {{{ 6643, 170, 4124 }, 0, { 3788, 0 }, { 132, 0, 231, 255}}},
 {{{ 6953, 2092, 2601 }, 0, { 0, -4684 }, { 132, 0, 231, 255}}},
 {{{ 6953, 170, 2601 }, 0, { 0, 0 }, { 132, 0, 231, 255}}},
@@ -4216,7 +4216,7 @@ Vtx VB_0xe010b80[] = {
 {{{ 5792, 170, 5097 }, 0, { 1467, 0 }, { 176, 0, 158, 255}}},
 };
 
-Vtx VB_0xe010c70[] = {
+Vtx VB_castle_inside_1_0xe010c70[] = {
 {{{ 6258, 170, 4717 }, 0, { 0, 0 }, { 176, 0, 158, 255}}},
 {{{ 5792, 2092, 5097 }, 0, { 1467, -4684 }, { 176, 0, 158, 255}}},
 {{{ 6258, 2092, 4717 }, 0, { 0, -4684 }, { 176, 0, 158, 255}}},
@@ -4234,7 +4234,7 @@ Vtx VB_0xe010c70[] = {
 {{{ 5552, 2092, 5820 }, 0, { 699, -4684 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe010d60[] = {
+Vtx VB_castle_inside_1_0xe010d60[] = {
 {{{ 5590, 170, 6206 }, 0, { 375, 0 }, { 144, 0, 197, 255}}},
 {{{ 5662, 1752, 6070 }, 0, { 0, -3857 }, { 144, 0, 197, 255}}},
 {{{ 5662, 170, 6070 }, 0, { 0, 0 }, { 144, 0, 197, 255}}},
@@ -4252,7 +4252,7 @@ Vtx VB_0xe010d60[] = {
 {{{ 4586, 170, 6519 }, 0, { 1587, 0 }, { 234, 0, 131, 255}}},
 };
 
-Vtx VB_0xe010e50[] = {
+Vtx VB_castle_inside_1_0xe010e50[] = {
 {{{ 5227, 170, 6404 }, 0, { 0, 0 }, { 234, 0, 131, 255}}},
 {{{ 4586, 1752, 6519 }, 0, { 1587, -3857 }, { 234, 0, 131, 255}}},
 {{{ 5227, 1752, 6404 }, 0, { 0, -3857 }, { 234, 0, 131, 255}}},
@@ -4270,7 +4270,7 @@ Vtx VB_0xe010e50[] = {
 {{{ 3936, 2092, 6403 }, 0, { 908, 0 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe010f40[] = {
+Vtx VB_castle_inside_1_0xe010f40[] = {
 {{{ 4309, 2092, 6403 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ 3936, 3640, 6403 }, 0, { 908, -3775 }, { 0, 0, 129, 255}}},
 {{{ 4309, 3783, 6403 }, 0, { 0, -4123 }, { 0, 0, 129, 255}}},
@@ -4288,7 +4288,7 @@ Vtx VB_0xe010f40[] = {
 {{{ 3475, 3783, 6587 }, 0, { 0, -4123 }, { 172, 0, 162, 255}}},
 };
 
-Vtx VB_0xe011030[] = {
+Vtx VB_castle_inside_1_0xe011030[] = {
 {{{ 2158, 3053, 7144 }, 0, { 2372, -2342 }, { 227, 0, 133, 255}}},
 {{{ 3105, 2092, 6920 }, 0, { 0, 0 }, { 227, 0, 133, 255}}},
 {{{ 2158, 2092, 7144 }, 0, { 2372, 0 }, { 227, 0, 133, 255}}},
@@ -4306,7 +4306,7 @@ Vtx VB_0xe011030[] = {
 {{{ 909, 2092, 7599 }, 0, { 2339, 0 }, { 227, 0, 133, 255}}},
 };
 
-Vtx VB_0xe011120[] = {
+Vtx VB_castle_inside_1_0xe011120[] = {
 {{{ 4586, 3040, 6519 }, 0, { 4320, -1703 }, { 0, 129, 0, 255}}},
 {{{ 4938, 3040, 6378 }, 0, { 3461, -1362 }, { 0, 129, 0, 255}}},
 {{{ 4626, 3040, 6747 }, 0, { 4222, -2260 }, { 0, 129, 0, 255}}},
@@ -4324,7 +4324,7 @@ Vtx VB_0xe011120[] = {
 {{{ 5336, 3040, 6130 }, 0, { 2492, -755 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe011210[] = {
+Vtx VB_castle_inside_1_0xe011210[] = {
 {{{ 5552, 3040, 5820 }, 0, { 1964, 0 }, { 0, 129, 0, 255}}},
 {{{ 5368, 3040, 7474 }, 0, { 2414, -4033 }, { 0, 129, 0, 255}}},
 {{{ 5336, 3040, 6130 }, 0, { 2492, -755 }, { 0, 129, 0, 255}}},
@@ -4342,7 +4342,7 @@ Vtx VB_0xe011210[] = {
 {{{ 5857, 3040, 6179 }, 0, { 1221, -875 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe011300[] = {
+Vtx VB_castle_inside_1_0xe011300[] = {
 {{{ 5954, 3040, 6442 }, 0, { 986, -1516 }, { 0, 129, 0, 255}}},
 {{{ 6116, 3040, 7368 }, 0, { 589, -3774 }, { 0, 129, 0, 255}}},
 {{{ 5857, 3040, 6179 }, 0, { 1221, -875 }, { 0, 129, 0, 255}}},
@@ -4360,7 +4360,7 @@ Vtx VB_0xe011300[] = {
 {{{ 6358, 3040, 7135 }, 0, { 0, -3140 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe0113f0[] = {
+Vtx VB_castle_inside_1_0xe0113f0[] = {
 {{{ 6358, 1752, 7135 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
 {{{ 6358, 3040, 7135 }, 0, { 0, -3140 }, { 129, 0, 0, 255}}},
 {{{ 6358, 1752, 6850 }, 0, { 695, 0 }, { 129, 0, 0, 255}}},
@@ -4378,7 +4378,7 @@ Vtx VB_0xe0113f0[] = {
 {{{ 5739, 1752, 7474 }, 0, { 0, 0 }, { 222, 0, 134, 255}}},
 };
 
-Vtx VB_0xe0114e0[] = {
+Vtx VB_castle_inside_1_0xe0114e0[] = {
 {{{ 5662, 1752, 6070 }, 0, { 546, 0 }, { 195, 0, 110, 255}}},
 {{{ 5857, 1752, 6179 }, 0, { 0, 0 }, { 195, 0, 110, 255}}},
 {{{ 5662, 2092, 6070 }, 0, { 546, -827 }, { 195, 0, 110, 255}}},
@@ -4396,7 +4396,7 @@ Vtx VB_0xe0114e0[] = {
 {{{ 5857, 1752, 6179 }, 0, { 682, 0 }, { 137, 0, 43, 255}}},
 };
 
-Vtx VB_0xe0115d0[] = {
+Vtx VB_castle_inside_1_0xe0115d0[] = {
 {{{ 5552, 3040, 5820 }, 0, { 665, -2312 }, { 140, 0, 50, 255}}},
 {{{ 5552, 2092, 5820 }, 0, { 665, 0 }, { 140, 0, 50, 255}}},
 {{{ 5662, 3040, 6070 }, 0, { 0, -2312 }, { 140, 0, 50, 255}}},
@@ -4414,7 +4414,7 @@ Vtx VB_0xe0115d0[] = {
 {{{ 4586, 3040, 6519 }, 0, { 0, -3140 }, { 125, 0, 235, 255}}},
 };
 
-Vtx VB_0xe0116c0[] = {
+Vtx VB_castle_inside_1_0xe0116c0[] = {
 {{{ 6224, 3040, 6604 }, 0, { 768, -3140 }, { 191, 0, 108, 255}}},
 {{{ 5954, 1752, 6442 }, 0, { 0, 0 }, { 191, 0, 108, 255}}},
 {{{ 6224, 1752, 6604 }, 0, { 768, 0 }, { 191, 0, 108, 255}}},
@@ -4432,7 +4432,7 @@ Vtx VB_0xe0116c0[] = {
 {{{ 5368, 1752, 7474 }, 0, { 904, 0 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe0117b0[] = {
+Vtx VB_castle_inside_1_0xe0117b0[] = {
 {{{ 5739, 1752, 7474 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ 5368, 3040, 7474 }, 0, { 904, -3140 }, { 0, 0, 129, 255}}},
 {{{ 5739, 3040, 7474 }, 0, { 0, -3140 }, { 0, 0, 129, 255}}},
@@ -4450,7 +4450,7 @@ Vtx VB_0xe0117b0[] = {
 {{{ 4990, 1752, 7262 }, 0, { 0, 0 }, { 103, 0, 183, 255}}},
 };
 
-Vtx VB_0xe0118a0[] = {
+Vtx VB_castle_inside_1_0xe0118a0[] = {
 {{{ 4748, 3040, 6919 }, 0, { 0, -3140 }, { 103, 0, 183, 255}}},
 {{{ 4626, 1752, 6747 }, 0, { 512, 0 }, { 103, 0, 183, 255}}},
 {{{ 4626, 3040, 6747 }, 0, { 512, -3140 }, { 103, 0, 183, 255}}},
@@ -4468,7 +4468,7 @@ Vtx VB_0xe0118a0[] = {
 {{{ 6258, 3207, 4717 }, 0, { 1723, -2718 }, { 150, 0, 187, 255}}},
 };
 
-Vtx VB_0xe011990[] = {
+Vtx VB_castle_inside_1_0xe011990[] = {
 {{{ 5792, 3141, 5097 }, 0, { 1467, -2557 }, { 176, 0, 158, 255}}},
 {{{ 6258, 2092, 4717 }, 0, { 0, 0 }, { 176, 0, 158, 255}}},
 {{{ 5792, 2092, 5097 }, 0, { 1467, 0 }, { 176, 0, 158, 255}}},
@@ -4486,7 +4486,7 @@ Vtx VB_0xe011990[] = {
 {{{ 5552, 2092, 5533 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe011a80[] = {
+Vtx VB_castle_inside_1_0xe011a80[] = {
 {{{ 5552, 3369, 5533 }, 0, { 0, -3115 }, { 129, 0, 0, 255}}},
 {{{ 5552, 2092, 5820 }, 0, { 699, 0 }, { 129, 0, 0, 255}}},
 {{{ 5552, 3640, 5820 }, 0, { 699, -3775 }, { 129, 0, 0, 255}}},
@@ -4504,7 +4504,7 @@ Vtx VB_0xe011a80[] = {
 {{{ 5662, 170, 6070 }, 0, { 0, 0 }, { 140, 0, 50, 255}}},
 };
 
-Vtx VB_0xe011b70[] = {
+Vtx VB_castle_inside_1_0xe011b70[] = {
 {{{ 909, 2092, 7599 }, 0, { 2339, -4684 }, { 227, 0, 133, 255}}},
 {{{ 1842, 170, 7375 }, 0, { 0, 0 }, { 227, 0, 133, 255}}},
 {{{ 909, 170, 7599 }, 0, { 2339, 0 }, { 227, 0, 133, 255}}},
@@ -4522,7 +4522,7 @@ Vtx VB_0xe011b70[] = {
 {{{ 2158, 170, 7144 }, 0, { 2372, 0 }, { 227, 0, 133, 255}}},
 };
 
-Vtx VB_0xe011c60[] = {
+Vtx VB_castle_inside_1_0xe011c60[] = {
 {{{ 3105, 170, 6920 }, 0, { 0, 0 }, { 227, 0, 133, 255}}},
 {{{ 2158, 2092, 7144 }, 0, { 2372, -4684 }, { 227, 0, 133, 255}}},
 {{{ 3105, 2092, 6920 }, 0, { 0, -4684 }, { 227, 0, 133, 255}}},
@@ -4540,7 +4540,7 @@ Vtx VB_0xe011c60[] = {
 {{{ 3936, 2092, 6403 }, 0, { 0, -4684 }, { 209, 0, 139, 255}}},
 };
 
-Vtx VB_0xe011d50[] = {
+Vtx VB_castle_inside_1_0xe011d50[] = {
 {{{ 3936, 2092, 6403 }, 0, { 908, -4684 }, { 0, 0, 129, 255}}},
 {{{ 4309, 170, 6403 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ 3936, 170, 6403 }, 0, { 908, 0 }, { 0, 0, 129, 255}}},
@@ -4558,7 +4558,7 @@ Vtx VB_0xe011d50[] = {
 {{{ 4586, 2092, 6519 }, 0, { 0, -4684 }, { 48, 0, 139, 255}}},
 };
 
-Vtx VB_0xe011e40[] = {
+Vtx VB_castle_inside_1_0xe011e40[] = {
 {{{ 5552, 3640, 5820 }, 0, { 921, -1462 }, { 152, 0, 184, 255}}},
 {{{ 5552, 3040, 5820 }, 0, { 921, 0 }, { 152, 0, 184, 255}}},
 {{{ 5336, 3945, 6130 }, 0, { 0, -2206 }, { 152, 0, 184, 255}}},
@@ -4576,7 +4576,7 @@ Vtx VB_0xe011e40[] = {
 {{{ 4938, 4013, 6378 }, 0, { 923, -2372 }, { 210, 0, 138, 255}}},
 };
 
-Vtx VB_0xe011f30[] = {
+Vtx VB_castle_inside_1_0xe011f30[] = {
 {{{ 4586, 3936, 6519 }, 0, { 0, -2183 }, { 210, 0, 138, 255}}},
 {{{ 4938, 4013, 6378 }, 0, { 923, -2372 }, { 210, 0, 138, 255}}},
 {{{ 4586, 3040, 6519 }, 0, { 0, 0 }, { 210, 0, 138, 255}}},
@@ -4594,7 +4594,7 @@ Vtx VB_0xe011f30[] = {
 {{{ -4446, -1411, -3627 }, 0, { 13409, -7720 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe012020[] = {
+Vtx VB_castle_inside_1_0xe012020[] = {
 {{{ -4688, -1411, -4943 }, 0, { 14117, -3869 }, { 0, 127, 0, 255}}},
 {{{ -4446, -1411, -3627 }, 0, { 13409, -7720 }, { 0, 127, 0, 255}}},
 {{{ -4688, -1411, -5687 }, 0, { 14117, -1693 }, { 0, 127, 0, 255}}},
@@ -4612,7 +4612,7 @@ Vtx VB_0xe012020[] = {
 {{{ -3951, -1411, -1348 }, 0, { 11961, -14387 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe012110[] = {
+Vtx VB_castle_inside_1_0xe012110[] = {
 {{{ -3951, -1411, -1348 }, 0, { 11961, -14387 }, { 0, 127, 0, 255}}},
 {{{ -4206, -1411, -3248 }, 0, { 12708, -8827 }, { 0, 127, 0, 255}}},
 {{{ -3951, -1411, -942 }, 0, { 11961, -15574 }, { 0, 127, 0, 255}}},
@@ -4630,7 +4630,7 @@ Vtx VB_0xe012110[] = {
 {{{ -3201, -1411, -3295 }, 0, { 9766, -8689 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe012200[] = {
+Vtx VB_castle_inside_1_0xe012200[] = {
 {{{ -3637, -1411, -4679 }, 0, { 11042, -4643 }, { 0, 127, 0, 255}}},
 {{{ -3201, -1411, -3295 }, 0, { 9766, -8689 }, { 0, 127, 0, 255}}},
 {{{ -3421, -1411, -4412 }, 0, { 10409, -5421 }, { 0, 127, 0, 255}}},
@@ -4648,7 +4648,7 @@ Vtx VB_0xe012200[] = {
 {{{ -2515, -1411, -4810 }, 0, { 7759, -4258 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0122f0[] = {
+Vtx VB_castle_inside_1_0xe0122f0[] = {
 {{{ -2515, -1411, -4810 }, 0, { 7759, -4258 }, { 0, 127, 0, 255}}},
 {{{ -2633, -1411, -3568 }, 0, { 8104, -7893 }, { 0, 127, 0, 255}}},
 {{{ -1975, -1411, -3568 }, 0, { 6179, -7893 }, { 0, 127, 0, 255}}},
@@ -4666,7 +4666,7 @@ Vtx VB_0xe0122f0[] = {
 {{{ -2004, -1411, -4124 }, 0, { 6266, -6266 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0123e0[] = {
+Vtx VB_castle_inside_1_0xe0123e0[] = {
 {{{ -2004, -1411, -4124 }, 0, { 6266, -6266 }, { 0, 127, 0, 255}}},
 {{{ -1975, -1411, -3568 }, 0, { 6179, -7893 }, { 0, 127, 0, 255}}},
 {{{ -1829, -1411, -4124 }, 0, { 5754, -6266 }, { 0, 127, 0, 255}}},
@@ -4684,7 +4684,7 @@ Vtx VB_0xe0123e0[] = {
 {{{ -1664, -1411, -5014 }, 0, { 5269, -3660 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0124d0[] = {
+Vtx VB_castle_inside_1_0xe0124d0[] = {
 {{{ -1664, -1411, -5014 }, 0, { 5269, -3660 }, { 0, 127, 0, 255}}},
 {{{ -1513, -1411, -3366 }, 0, { 4828, -8484 }, { 0, 127, 0, 255}}},
 {{{ -1519, -1411, -4238 }, 0, { 4845, -5933 }, { 0, 127, 0, 255}}},
@@ -4702,7 +4702,7 @@ Vtx VB_0xe0124d0[] = {
 {{{ -1144, -1411, -4242 }, 0, { 3747, -5920 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0125c0[] = {
+Vtx VB_castle_inside_1_0xe0125c0[] = {
 {{{ -676, -1411, -541 }, 0, { 2379, -16748 }, { 0, 127, 0, 255}}},
 {{{ -796, -1411, -2012 }, 0, { 2731, -12445 }, { 0, 127, 0, 255}}},
 {{{ -932, -1411, -541 }, 0, { 3127, -16748 }, { 0, 127, 0, 255}}},
@@ -4720,7 +4720,7 @@ Vtx VB_0xe0125c0[] = {
 {{{ -172, -1411, -795 }, 0, { 903, -16006 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0126b0[] = {
+Vtx VB_castle_inside_1_0xe0126b0[] = {
 {{{ -1114, -1411, -823 }, 0, { 3659, -15921 }, { 0, 127, 0, 255}}},
 {{{ -1315, -1411, -1806 }, 0, { 4247, -13047 }, { 0, 127, 0, 255}}},
 {{{ -1315, -1411, -1346 }, 0, { 4247, -14392 }, { 0, 127, 0, 255}}},
@@ -4738,7 +4738,7 @@ Vtx VB_0xe0126b0[] = {
 {{{ -983, -1411, -5329 }, 0, { 3277, -2740 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0127a0[] = {
+Vtx VB_castle_inside_1_0xe0127a0[] = {
 {{{ -983, -1411, -5329 }, 0, { 3277, -2740 }, { 0, 127, 0, 255}}},
 {{{ -932, -1411, -541 }, 0, { 3127, -16748 }, { 0, 127, 0, 255}}},
 {{{ -796, -1411, -2012 }, 0, { 2731, -12445 }, { 0, 127, 0, 255}}},
@@ -4756,7 +4756,7 @@ Vtx VB_0xe0127a0[] = {
 {{{ -590, -1411, -2927 }, 0, { 2127, -9768 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe012890[] = {
+Vtx VB_castle_inside_1_0xe012890[] = {
 {{{ -230, -1411, -4745 }, 0, { 1073, -4449 }, { 0, 127, 0, 255}}},
 {{{ -590, -1411, -2927 }, 0, { 2127, -9768 }, { 0, 127, 0, 255}}},
 {{{ -230, -1411, -3935 }, 0, { 1073, -6817 }, { 0, 127, 0, 255}}},
@@ -4774,7 +4774,7 @@ Vtx VB_0xe012890[] = {
 {{{ -1196, -1411, -4341 }, 0, { 3901, -5630 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe012980[] = {
+Vtx VB_castle_inside_1_0xe012980[] = {
 {{{ -1272, -1411, -5014 }, 0, { 4122, -3660 }, { 0, 127, 0, 255}}},
 {{{ -1196, -1411, -4341 }, 0, { 3901, -5630 }, { 0, 127, 0, 255}}},
 {{{ -983, -1411, -5329 }, 0, { 3277, -2740 }, { 0, 127, 0, 255}}},
@@ -4792,7 +4792,7 @@ Vtx VB_0xe012980[] = {
 {{{ -2160, -1411, -4295 }, 0, { 6721, -5766 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe012a70[] = {
+Vtx VB_castle_inside_1_0xe012a70[] = {
 {{{ -1938, -1411, -5368 }, 0, { 6071, -2624 }, { 0, 127, 0, 255}}},
 {{{ -2160, -1411, -4414 }, 0, { 6721, -5416 }, { 0, 127, 0, 255}}},
 {{{ -1960, -1411, -4543 }, 0, { 6135, -5040 }, { 0, 127, 0, 255}}},
@@ -4810,7 +4810,7 @@ Vtx VB_0xe012a70[] = {
 {{{ -2629, -1411, -5181 }, 0, { 8094, -3174 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe012b60[] = {
+Vtx VB_castle_inside_1_0xe012b60[] = {
 {{{ -3690, -1411, -6266 }, 0, { 11196, 0 }, { 0, 127, 0, 255}}},
 {{{ -3637, -1411, -5120 }, 0, { 11042, -3352 }, { 0, 127, 0, 255}}},
 {{{ -3160, -1411, -6151 }, 0, { 9647, -336 }, { 0, 127, 0, 255}}},
@@ -4828,7 +4828,7 @@ Vtx VB_0xe012b60[] = {
 {{{ -2509, -1411, -5874 }, 0, { 7743, -1144 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe012c50[] = {
+Vtx VB_castle_inside_1_0xe012c50[] = {
 {{{ -2509, -1411, -5874 }, 0, { 7743, -1144 }, { 0, 127, 0, 255}}},
 {{{ -2956, -1411, -5645 }, 0, { 9050, -1816 }, { 0, 127, 0, 255}}},
 {{{ -2746, -1411, -5591 }, 0, { 8434, -1972 }, { 0, 127, 0, 255}}},
@@ -4846,7 +4846,7 @@ Vtx VB_0xe012c50[] = {
 {{{ -4462, -1411, -1777 }, 0, { 13456, -13131 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe012d40[] = {
+Vtx VB_castle_inside_1_0xe012d40[] = {
 {{{ -4462, -1411, -1777 }, 0, { 13456, -13131 }, { 0, 127, 0, 255}}},
 {{{ -4610, -1411, -81 }, 0, { 13888, -18094 }, { 0, 127, 0, 255}}},
 {{{ -4246, -1411, 114 }, 0, { 12824, -18666 }, { 0, 127, 0, 255}}},
@@ -4864,7 +4864,7 @@ Vtx VB_0xe012d40[] = {
 {{{ -3747, -1411, -541 }, 0, { 11363, -16748 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe012e30[] = {
+Vtx VB_castle_inside_1_0xe012e30[] = {
 {{{ -4206, -1411, -2730 }, 0, { 12708, -10342 }, { 0, 127, 0, 255}}},
 {{{ -3951, -1411, -942 }, 0, { 11961, -15574 }, { 0, 127, 0, 255}}},
 {{{ -4206, -1411, -3248 }, 0, { 12708, -8827 }, { 0, 127, 0, 255}}},
@@ -4882,7 +4882,7 @@ Vtx VB_0xe012e30[] = {
 {{{ -1664, -1054, -5014 }, 0, { 0, -870 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe012f20[] = {
+Vtx VB_castle_inside_1_0xe012f20[] = {
 {{{ -1664, -1411, -5014 }, 0, { 1092, 0 }, { 156, 0, 77, 255}}},
 {{{ -1938, -1054, -5368 }, 0, { 0, -870 }, { 156, 0, 77, 255}}},
 {{{ -1938, -1411, -5368 }, 0, { 0, 0 }, { 156, 0, 77, 255}}},
@@ -4900,7 +4900,7 @@ Vtx VB_0xe012f20[] = {
 {{{ -2509, -1411, -5874 }, 0, { 1723, 0 }, { 207, 0, 116, 255}}},
 };
 
-Vtx VB_0xe013010[] = {
+Vtx VB_castle_inside_1_0xe013010[] = {
 {{{ -3160, -1411, -6151 }, 0, { 0, 0 }, { 207, 0, 116, 255}}},
 {{{ -2509, -1054, -5874 }, 0, { 1723, -870 }, { 207, 0, 116, 255}}},
 {{{ -3160, -1054, -6151 }, 0, { 0, -870 }, { 207, 0, 116, 255}}},
@@ -4918,7 +4918,7 @@ Vtx VB_0xe013010[] = {
 {{{ 250, -652, -5329 }, 0, { 4391, -2219 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe013100[] = {
+Vtx VB_castle_inside_1_0xe013100[] = {
 {{{ 250, -652, -5329 }, 0, { 4391, -2219 }, { 0, 0, 127, 255}}},
 {{{ 559, -958, -5329 }, 0, { 5294, -1323 }, { 0, 0, 127, 255}}},
 {{{ 691, -735, -5329 }, 0, { 5678, -1976 }, { 0, 0, 127, 255}}},
@@ -4936,7 +4936,7 @@ Vtx VB_0xe013100[] = {
 {{{ -983, -1411, -5329 }, 0, { 779, 0 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe0131f0[] = {
+Vtx VB_castle_inside_1_0xe0131f0[] = {
 {{{ -983, -1411, -5329 }, 0, { 779, 0 }, { 0, 0, 127, 255}}},
 {{{ 559, -1175, -5329 }, 0, { 5294, -688 }, { 0, 0, 127, 255}}},
 {{{ -983, -1054, -5329 }, 0, { 779, -1044 }, { 0, 0, 127, 255}}},
@@ -4954,7 +4954,7 @@ Vtx VB_0xe0131f0[] = {
 {{{ -1249, -1054, -5329 }, 0, { 0, -1044 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe0132e0[] = {
+Vtx VB_castle_inside_1_0xe0132e0[] = {
 {{{ -1249, -1054, -5329 }, 0, { 0, -1044 }, { 0, 0, 127, 255}}},
 {{{ -267, -652, -5329 }, 0, { 2875, -2219 }, { 0, 0, 127, 255}}},
 {{{ -1249, -930, -5329 }, 0, { 0, -1407 }, { 0, 0, 127, 255}}},
@@ -4972,7 +4972,7 @@ Vtx VB_0xe0132e0[] = {
 {{{ 918, -611, -5329 }, 0, { 6344, -2338 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe0133d0[] = {
+Vtx VB_castle_inside_1_0xe0133d0[] = {
 {{{ -793, -358, -5329 }, 0, { 1336, -3080 }, { 0, 0, 127, 255}}},
 {{{ 918, -611, -5329 }, 0, { 6344, -2338 }, { 0, 0, 127, 255}}},
 {{{ 1032, -418, -5329 }, 0, { 6677, -2903 }, { 0, 0, 127, 255}}},
@@ -4990,7 +4990,7 @@ Vtx VB_0xe0133d0[] = {
 {{{ -650, 261, -5329 }, 0, { 1753, -4893 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe0134c0[] = {
+Vtx VB_castle_inside_1_0xe0134c0[] = {
 {{{ -650, 261, -5329 }, 0, { 1753, -4893 }, { 0, 0, 127, 255}}},
 {{{ 1179, 1458, -5329 }, 0, { 7106, -8396 }, { 0, 0, 127, 255}}},
 {{{ -953, 610, -5329 }, 0, { 866, -5913 }, { 0, 0, 127, 255}}},
@@ -5008,7 +5008,7 @@ Vtx VB_0xe0134c0[] = {
 {{{ 1179, -1054, -5577 }, 0, { 3964, -2408 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0135b0[] = {
+Vtx VB_castle_inside_1_0xe0135b0[] = {
 {{{ 1179, -1054, -6400 }, 0, { 3964, 0 }, { 0, 127, 0, 255}}},
 {{{ 1728, -1054, -5743 }, 0, { 2357, -1921 }, { 0, 127, 0, 255}}},
 {{{ 1985, -1054, -6400 }, 0, { 1603, 0 }, { 0, 127, 0, 255}}},
@@ -5026,7 +5026,7 @@ Vtx VB_0xe0135b0[] = {
 {{{ 2314, -1411, -6086 }, 0, { 0, 0 }, { 104, 0, 72, 255}}},
 };
 
-Vtx VB_0xe0136a0[] = {
+Vtx VB_castle_inside_1_0xe0136a0[] = {
 {{{ 2314, -1054, -6086 }, 0, { 1655, -870 }, { 64, 0, 109, 255}}},
 {{{ 1728, -1411, -5743 }, 0, { 0, 0 }, { 64, 0, 109, 255}}},
 {{{ 2314, -1411, -6086 }, 0, { 1655, 0 }, { 64, 0, 109, 255}}},
@@ -5044,7 +5044,7 @@ Vtx VB_0xe0136a0[] = {
 {{{ -1249, 1115, -6400 }, 0, { 0, -6348 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe013790[] = {
+Vtx VB_castle_inside_1_0xe013790[] = {
 {{{ -1249, 100, -6042 }, 0, { 1045, -3377 }, { 129, 0, 0, 255}}},
 {{{ -1249, -1054, -6400 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
 {{{ -1249, -708, -5590 }, 0, { 2369, -1012 }, { 129, 0, 0, 255}}},
@@ -5062,7 +5062,7 @@ Vtx VB_0xe013790[] = {
 {{{ -1249, -861, -5468 }, 0, { 2726, -564 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe013880[] = {
+Vtx VB_castle_inside_1_0xe013880[] = {
 {{{ -1249, -861, -5468 }, 0, { 2726, -564 }, { 129, 0, 0, 255}}},
 {{{ -1249, -1054, -5329 }, 0, { 3133, 0 }, { 129, 0, 0, 255}}},
 {{{ -1249, -930, -5329 }, 0, { 3133, -363 }, { 129, 0, 0, 255}}},
@@ -5080,7 +5080,7 @@ Vtx VB_0xe013880[] = {
 {{{ -1249, 100, -6042 }, 0, { 1045, -3377 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe013970[] = {
+Vtx VB_castle_inside_1_0xe013970[] = {
 {{{ -1249, 1458, -5329 }, 0, { 3133, -7352 }, { 129, 0, 0, 255}}},
 {{{ -1249, 247, -6042 }, 0, { 1045, -3807 }, { 129, 0, 0, 255}}},
 {{{ -1249, 432, -5721 }, 0, { 1985, -4350 }, { 129, 0, 0, 255}}},
@@ -5098,7 +5098,7 @@ Vtx VB_0xe013970[] = {
 {{{ -267, -652, -5714 }, 0, { 0, -1228 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe013a60[] = {
+Vtx VB_castle_inside_1_0xe013a60[] = {
 {{{ 250, -1072, -5329 }, 0, { 1126, 0 }, { 129, 0, 0, 255}}},
 {{{ 250, -652, -5714 }, 0, { 0, -1228 }, { 129, 0, 0, 255}}},
 {{{ 250, -1072, -5714 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
@@ -5116,7 +5116,7 @@ Vtx VB_0xe013a60[] = {
 {{{ -267, -652, -5714 }, 0, { 1126, -1228 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe013b50[] = {
+Vtx VB_castle_inside_1_0xe013b50[] = {
 {{{ -267, -1072, -5714 }, 0, { 1126, 0 }, { 127, 0, 0, 255}}},
 {{{ -267, -652, -5329 }, 0, { 0, -1228 }, { 127, 0, 0, 255}}},
 {{{ -267, -1072, -5329 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
@@ -5134,7 +5134,7 @@ Vtx VB_0xe013b50[] = {
 {{{ 1682, -1264, -4295 }, 0, { 1750, -2369 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe013c40[] = {
+Vtx VB_castle_inside_1_0xe013c40[] = {
 {{{ 1581, -1264, -5004 }, 0, { 2046, -295 }, { 0, 127, 0, 255}}},
 {{{ 1682, -1264, -4295 }, 0, { 1750, -2369 }, { 0, 127, 0, 255}}},
 {{{ 1917, -1264, -5105 }, 0, { 1062, 0 }, { 0, 127, 0, 255}}},
@@ -5152,7 +5152,7 @@ Vtx VB_0xe013c40[] = {
 {{{ 2280, -1264, -4821 }, 0, { 0, -830 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe013d30[] = {
+Vtx VB_castle_inside_1_0xe013d30[] = {
 {{{ 1581, -1264, -5004 }, 0, { 856, -358 }, { 220, 0, 135, 255}}},
 {{{ 1917, -1411, -5105 }, 0, { 0, 0 }, { 220, 0, 135, 255}}},
 {{{ 1581, -1411, -5004 }, 0, { 856, 0 }, { 220, 0, 135, 255}}},
@@ -5170,7 +5170,7 @@ Vtx VB_0xe013d30[] = {
 {{{ 2123, -1264, -5035 }, 0, { 648, -358 }, { 102, 0, 181, 255}}},
 };
 
-Vtx VB_0xe013e20[] = {
+Vtx VB_castle_inside_1_0xe013e20[] = {
 {{{ 2123, -1411, -5035 }, 0, { 648, 0 }, { 102, 0, 181, 255}}},
 {{{ 2280, -1264, -4821 }, 0, { 0, -358 }, { 102, 0, 181, 255}}},
 {{{ 2280, -1411, -4821 }, 0, { 0, 0 }, { 102, 0, 181, 255}}},
@@ -5188,7 +5188,7 @@ Vtx VB_0xe013e20[] = {
 {{{ 2027, -1264, -4385 }, 0, { 0, -358 }, { 81, 0, 97, 255}}},
 };
 
-Vtx VB_0xe013f10[] = {
+Vtx VB_castle_inside_1_0xe013f10[] = {
 {{{ 2027, -1264, -4385 }, 0, { 870, -358 }, { 32, 0, 122, 255}}},
 {{{ 1682, -1411, -4295 }, 0, { 0, 0 }, { 32, 0, 122, 255}}},
 {{{ 2027, -1411, -4385 }, 0, { 870, 0 }, { 32, 0, 122, 255}}},
@@ -5206,7 +5206,7 @@ Vtx VB_0xe013f10[] = {
 {{{ 1378, -1411, -4772 }, 0, { 0, 0 }, { 133, 0, 30, 255}}},
 };
 
-Vtx VB_0xe014000[] = {
+Vtx VB_castle_inside_1_0xe014000[] = {
 {{{ 1378, -1264, -4772 }, 0, { 0, -358 }, { 133, 0, 30, 255}}},
 {{{ 1455, -1411, -4460 }, 0, { 785, 0 }, { 133, 0, 30, 255}}},
 {{{ 1455, -1264, -4460 }, 0, { 785, -358 }, { 133, 0, 30, 255}}},
@@ -5224,7 +5224,7 @@ Vtx VB_0xe014000[] = {
 {{{ -1215, -1159, -4106 }, 0, { 209, -807 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0140f0[] = {
+Vtx VB_castle_inside_1_0xe0140f0[] = {
 {{{ -1376, -1159, -4382 }, 0, { 679, 0 }, { 0, 127, 0, 255}}},
 {{{ -1215, -1159, -4106 }, 0, { 209, -807 }, { 0, 127, 0, 255}}},
 {{{ -1196, -1159, -4341 }, 0, { 154, -119 }, { 0, 127, 0, 255}}},
@@ -5242,7 +5242,7 @@ Vtx VB_0xe0140f0[] = {
 {{{ -1196, -1159, -4341 }, 0, { 273, -614 }, { 112, 0, 197, 255}}},
 };
 
-Vtx VB_0xe0141e0[] = {
+Vtx VB_castle_inside_1_0xe0141e0[] = {
 {{{ -1196, -1411, -4341 }, 0, { 273, 0 }, { 112, 0, 197, 255}}},
 {{{ -1144, -1159, -4242 }, 0, { 0, -614 }, { 112, 0, 197, 255}}},
 {{{ -1144, -1411, -4242 }, 0, { 0, 0 }, { 112, 0, 197, 255}}},
@@ -5260,7 +5260,7 @@ Vtx VB_0xe0141e0[] = {
 {{{ -1439, -1159, -4106 }, 0, { 0, -614 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe0142d0[] = {
+Vtx VB_castle_inside_1_0xe0142d0[] = {
 {{{ -1439, -1411, -4106 }, 0, { 375, 0 }, { 148, 0, 65, 255}}},
 {{{ -1519, -1159, -4238 }, 0, { 0, -614 }, { 148, 0, 65, 255}}},
 {{{ -1519, -1411, -4238 }, 0, { 0, 0 }, { 148, 0, 65, 255}}},
@@ -5278,7 +5278,7 @@ Vtx VB_0xe0142d0[] = {
 {{{ -2160, -900, -4295 }, 0, { 1356, -726 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0143c0[] = {
+Vtx VB_castle_inside_1_0xe0143c0[] = {
 {{{ -2160, -900, -4414 }, 0, { 1356, -376 }, { 0, 127, 0, 255}}},
 {{{ -2004, -900, -4124 }, 0, { 901, -1225 }, { 0, 127, 0, 255}}},
 {{{ -1960, -900, -4543 }, 0, { 770, 0 }, { 0, 127, 0, 255}}},
@@ -5296,7 +5296,7 @@ Vtx VB_0xe0143c0[] = {
 {{{ -1696, -900, -4414 }, 0, { 0, -376 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0144b0[] = {
+Vtx VB_castle_inside_1_0xe0144b0[] = {
 {{{ -1960, -900, -4543 }, 0, { 453, -1245 }, { 28, 0, 133, 255}}},
 {{{ -1778, -1411, -4500 }, 0, { 0, 0 }, { 28, 0, 133, 255}}},
 {{{ -1960, -1411, -4543 }, 0, { 453, 0 }, { 28, 0, 133, 255}}},
@@ -5314,7 +5314,7 @@ Vtx VB_0xe0144b0[] = {
 {{{ -1696, -900, -4414 }, 0, { 290, -1245 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe0145a0[] = {
+Vtx VB_castle_inside_1_0xe0145a0[] = {
 {{{ -1696, -1411, -4414 }, 0, { 290, 0 }, { 127, 0, 0, 255}}},
 {{{ -1696, -900, -4295 }, 0, { 0, -1245 }, { 127, 0, 0, 255}}},
 {{{ -1696, -1411, -4295 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
@@ -5332,7 +5332,7 @@ Vtx VB_0xe0145a0[] = {
 {{{ -2004, -900, -4124 }, 0, { 0, -1245 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe014690[] = {
+Vtx VB_castle_inside_1_0xe014690[] = {
 {{{ -2004, -1411, -4124 }, 0, { 563, 0 }, { 163, 0, 85, 255}}},
 {{{ -2160, -900, -4295 }, 0, { 0, -1245 }, { 163, 0, 85, 255}}},
 {{{ -2160, -1411, -4295 }, 0, { 0, 0 }, { 163, 0, 85, 255}}},
@@ -5350,7 +5350,7 @@ Vtx VB_0xe014690[] = {
 {{{ -2160, -1411, -4414 }, 0, { 580, 0 }, { 188, 0, 150, 255}}},
 };
 
-Vtx VB_0xe014780[] = {
+Vtx VB_castle_inside_1_0xe014780[] = {
 {{{ -1960, -1411, -4543 }, 0, { 0, 0 }, { 188, 0, 150, 255}}},
 {{{ -2160, -900, -4414 }, 0, { 580, -1245 }, { 188, 0, 150, 255}}},
 {{{ -1960, -900, -4543 }, 0, { 0, -1245 }, { 188, 0, 150, 255}}},
@@ -5368,7 +5368,7 @@ Vtx VB_0xe014780[] = {
 {{{ 763, -1411, -1806 }, 0, { 6506, -5205 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe014870[] = {
+Vtx VB_castle_inside_1_0xe014870[] = {
 {{{ 763, -1411, -1806 }, 0, { 6506, -5205 }, { 0, 127, 0, 255}}},
 {{{ 421, -1411, -1214 }, 0, { 7508, -6938 }, { 0, 127, 0, 255}}},
 {{{ 875, -1411, -951 }, 0, { 6179, -7709 }, { 0, 127, 0, 255}}},
@@ -5386,7 +5386,7 @@ Vtx VB_0xe014870[] = {
 {{{ 2562, -1411, -541 }, 0, { 1244, -8907 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe014960[] = {
+Vtx VB_castle_inside_1_0xe014960[] = {
 {{{ 1218, -1411, -1328 }, 0, { 5175, -6605 }, { 0, 127, 0, 255}}},
 {{{ 2562, -1411, -541 }, 0, { 1244, -8907 }, { 0, 127, 0, 255}}},
 {{{ 1484, -1411, -1188 }, 0, { 4398, -7013 }, { 0, 127, 0, 255}}},
@@ -5404,7 +5404,7 @@ Vtx VB_0xe014960[] = {
 {{{ 2001, -1411, -2259 }, 0, { 2885, -3881 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe014a50[] = {
+Vtx VB_castle_inside_1_0xe014a50[] = {
 {{{ 2001, -1411, -2259 }, 0, { 2885, -3881 }, { 0, 127, 0, 255}}},
 {{{ 2456, -1411, -785 }, 0, { 1553, -8192 }, { 0, 127, 0, 255}}},
 {{{ 2284, -1411, -2388 }, 0, { 2058, -3503 }, { 0, 127, 0, 255}}},
@@ -5422,7 +5422,7 @@ Vtx VB_0xe014a50[] = {
 {{{ 1268, -1411, -1880 }, 0, { 5029, -4989 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe014b40[] = {
+Vtx VB_castle_inside_1_0xe014b40[] = {
 {{{ 966, -1411, -3291 }, 0, { 5914, -860 }, { 0, 127, 0, 255}}},
 {{{ 1268, -1411, -1880 }, 0, { 5029, -4989 }, { 0, 127, 0, 255}}},
 {{{ 1647, -1411, -3585 }, 0, { 3922, 0 }, { 0, 127, 0, 255}}},
@@ -5440,7 +5440,7 @@ Vtx VB_0xe014b40[] = {
 {{{ 2102, -1411, -3585 }, 0, { 2590, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe014c30[] = {
+Vtx VB_castle_inside_1_0xe014c30[] = {
 {{{ 2102, -1411, -3585 }, 0, { 2590, 0 }, { 0, 127, 0, 255}}},
 {{{ 1689, -1411, -2941 }, 0, { 3798, -1885 }, { 0, 127, 0, 255}}},
 {{{ 1971, -1411, -3070 }, 0, { 2972, -1507 }, { 0, 127, 0, 255}}},
@@ -5458,7 +5458,7 @@ Vtx VB_0xe014c30[] = {
 {{{ 2456, -1411, -1009 }, 0, { 1553, -7537 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe014d20[] = {
+Vtx VB_castle_inside_1_0xe014d20[] = {
 {{{ 2456, -1411, -1009 }, 0, { 1553, -7537 }, { 0, 127, 0, 255}}},
 {{{ 2392, -1411, -2679 }, 0, { 1741, -2650 }, { 0, 127, 0, 255}}},
 {{{ 2456, -1411, -785 }, 0, { 1553, -8192 }, { 0, 127, 0, 255}}},
@@ -5476,7 +5476,7 @@ Vtx VB_0xe014d20[] = {
 {{{ 1555, -1411, -1969 }, 0, { 4191, -4728 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe014e10[] = {
+Vtx VB_castle_inside_1_0xe014e10[] = {
 {{{ 1580, -1411, -2650 }, 0, { 4115, -2737 }, { 0, 127, 0, 255}}},
 {{{ 1820, -1411, -1830 }, 0, { 3413, -5136 }, { 0, 127, 0, 255}}},
 {{{ 1710, -1411, -2367 }, 0, { 3737, -3564 }, { 0, 127, 0, 255}}},
@@ -5494,7 +5494,7 @@ Vtx VB_0xe014e10[] = {
 {{{ 1820, -1220, -1830 }, 0, { 0, -930 }, { 59, 0, 144, 255}}},
 };
 
-Vtx VB_0xe014f00[] = {
+Vtx VB_castle_inside_1_0xe014f00[] = {
 {{{ 1910, -1117, -1543 }, 0, { 0, -1433 }, { 121, 0, 219, 255}}},
 {{{ 1820, -1173, -1830 }, 0, { 1462, -1160 }, { 121, 0, 219, 255}}},
 {{{ 1820, -1117, -1830 }, 0, { 1462, -1433 }, { 121, 0, 219, 255}}},
@@ -5512,7 +5512,7 @@ Vtx VB_0xe014f00[] = {
 {{{ 1910, -1117, -1543 }, 0, { 1462, -1433 }, { 112, 0, 59, 255}}},
 };
 
-Vtx VB_0xe014ff0[] = {
+Vtx VB_castle_inside_1_0xe014ff0[] = {
 {{{ 1910, -1411, -1543 }, 0, { 1462, 0 }, { 112, 0, 59, 255}}},
 {{{ 1770, -1117, -1278 }, 0, { 0, -1433 }, { 112, 0, 59, 255}}},
 {{{ 1770, -1411, -1278 }, 0, { 0, 0 }, { 112, 0, 59, 255}}},
@@ -5530,7 +5530,7 @@ Vtx VB_0xe014ff0[] = {
 {{{ 1218, -1117, -1328 }, 0, { 0, -1433 }, { 197, 0, 112, 255}}},
 };
 
-Vtx VB_0xe0150e0[] = {
+Vtx VB_castle_inside_1_0xe0150e0[] = {
 {{{ 1218, -1411, -1328 }, 0, { 1462, 0 }, { 135, 0, 37, 255}}},
 {{{ 1129, -1173, -1614 }, 0, { 0, -1160 }, { 135, 0, 37, 255}}},
 {{{ 1129, -1411, -1614 }, 0, { 0, 0 }, { 135, 0, 37, 255}}},
@@ -5548,7 +5548,7 @@ Vtx VB_0xe0150e0[] = {
 {{{ 1555, -1220, -1969 }, 0, { 0, -930 }, { 219, 0, 135, 255}}},
 };
 
-Vtx VB_0xe0151d0[] = {
+Vtx VB_castle_inside_1_0xe0151d0[] = {
 {{{ 1555, -1220, -1969 }, 0, { 0, -930 }, { 219, 0, 135, 255}}},
 {{{ 1268, -1173, -1880 }, 0, { 1462, -1160 }, { 219, 0, 135, 255}}},
 {{{ 1555, -1173, -1969 }, 0, { 0, -1160 }, { 219, 0, 135, 255}}},
@@ -5566,7 +5566,7 @@ Vtx VB_0xe0151d0[] = {
 {{{ 1710, -886, -2367 }, 0, { 1515, -2560 }, { 141, 0, 52, 255}}},
 };
 
-Vtx VB_0xe0152c0[] = {
+Vtx VB_castle_inside_1_0xe0152c0[] = {
 {{{ 1710, -886, -2367 }, 0, { 1515, -2560 }, { 141, 0, 52, 255}}},
 {{{ 1710, -1411, -2367 }, 0, { 1515, 0 }, { 141, 0, 52, 255}}},
 {{{ 1710, -985, -2367 }, 0, { 1515, -2077 }, { 141, 0, 52, 255}}},
@@ -5584,7 +5584,7 @@ Vtx VB_0xe0152c0[] = {
 {{{ 1689, -1411, -2941 }, 0, { 1515, 0 }, { 204, 0, 141, 255}}},
 };
 
-Vtx VB_0xe0153b0[] = {
+Vtx VB_castle_inside_1_0xe0153b0[] = {
 {{{ 1971, -1411, -3070 }, 0, { 0, 0 }, { 204, 0, 141, 255}}},
 {{{ 1689, -886, -2941 }, 0, { 1515, -2560 }, { 204, 0, 141, 255}}},
 {{{ 1971, -886, -3070 }, 0, { 0, -2560 }, { 204, 0, 141, 255}}},
@@ -5602,7 +5602,7 @@ Vtx VB_0xe0153b0[] = {
 {{{ 2392, -1411, -2679 }, 0, { 0, 0 }, { 115, 0, 204, 255}}},
 };
 
-Vtx VB_0xe0154a0[] = {
+Vtx VB_castle_inside_1_0xe0154a0[] = {
 {{{ 2284, -886, -2388 }, 0, { 0, -2560 }, { 119, 0, 44, 255}}},
 {{{ 2392, -1411, -2679 }, 0, { 1515, 0 }, { 119, 0, 44, 255}}},
 {{{ 2392, -886, -2679 }, 0, { 1515, -2560 }, { 119, 0, 44, 255}}},
@@ -5620,7 +5620,7 @@ Vtx VB_0xe0154a0[] = {
 {{{ 2001, -942, -2259 }, 0, { 0, -2286 }, { 52, 0, 115, 255}}},
 };
 
-Vtx VB_0xe015590[] = {
+Vtx VB_castle_inside_1_0xe015590[] = {
 {{{ 2001, -942, -2259 }, 0, { 0, -2286 }, { 52, 0, 115, 255}}},
 {{{ 2284, -886, -2388 }, 0, { 1515, -2560 }, { 52, 0, 115, 255}}},
 {{{ 2001, -886, -2259 }, 0, { 0, -2560 }, { 52, 0, 115, 255}}},
@@ -5638,7 +5638,7 @@ Vtx VB_0xe015590[] = {
 {{{ 1820, -1220, -1830 }, 0, { 0, 0 }, { 117, 0, 49, 255}}},
 };
 
-Vtx VB_0xe015680[] = {
+Vtx VB_castle_inside_1_0xe015680[] = {
 {{{ 1555, -1220, -1969 }, 0, { 2082, 0 }, { 138, 0, 210, 255}}},
 {{{ 1710, -942, -2367 }, 0, { 0, -1356 }, { 138, 0, 210, 255}}},
 {{{ 1710, -985, -2367 }, 0, { 0, -1147 }, { 138, 0, 210, 255}}},
@@ -5656,7 +5656,7 @@ Vtx VB_0xe015680[] = {
 {{{ 1555, -1173, -1969 }, 0, { 232, 0 }, { 228, 111, 53, 255}}},
 };
 
-Vtx VB_0xe015770[] = {
+Vtx VB_castle_inside_1_0xe015770[] = {
 {{{ 1710, -942, -2367 }, 0, { 0, 0 }, { 132, 0, 25, 255}}},
 {{{ 1710, -985, -2367 }, 0, { 0, 0 }, { 132, 0, 25, 255}}},
 {{{ 1820, -1173, -1830 }, 0, { 0, 0 }, { 132, 0, 25, 255}}},
@@ -5674,7 +5674,7 @@ Vtx VB_0xe015770[] = {
 {{{ 1820, -1173, -1830 }, 0, { 1420, 0 }, { 237, 113, 52, 255}}},
 };
 
-Vtx VB_0xe015860[] = {
+Vtx VB_castle_inside_1_0xe015860[] = {
 {{{ 1268, -1173, -1880 }, 0, { 0, -1160 }, { 59, 0, 144, 255}}},
 {{{ 1268, -1411, -1880 }, 0, { 0, 0 }, { 59, 0, 144, 255}}},
 {{{ 903, -1411, -2072 }, 0, { 2013, 0 }, { 59, 0, 144, 255}}},
@@ -5692,7 +5692,7 @@ Vtx VB_0xe015860[] = {
 {{{ -3583, -1194, -1665 }, 0, { 3281, -1067 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe015950[] = {
+Vtx VB_castle_inside_1_0xe015950[] = {
 {{{ -3149, -1194, -2030 }, 0, { 2012, 0 }, { 0, 127, 0, 255}}},
 {{{ -3471, -1194, -1326 }, 0, { 2954, -2059 }, { 0, 127, 0, 255}}},
 {{{ -3003, -1194, -1121 }, 0, { 1586, -2660 }, { 0, 127, 0, 255}}},
@@ -5710,7 +5710,7 @@ Vtx VB_0xe015950[] = {
 {{{ -2461, -1194, -1818 }, 0, { 0, -621 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe015a40[] = {
+Vtx VB_castle_inside_1_0xe015a40[] = {
 {{{ 583, -1124, -476 }, 0, { 10444, -861 }, { 0, 28, 133, 255}}},
 {{{ 1091, -1411, -541 }, 0, { 8958, 0 }, { 0, 28, 133, 255}}},
 {{{ 583, -1411, -541 }, 0, { 10444, 0 }, { 0, 28, 133, 255}}},
@@ -5728,7 +5728,7 @@ Vtx VB_0xe015a40[] = {
 {{{ 3914, -361, -302 }, 0, { 699, -3150 }, { 0, 28, 133, 255}}},
 };
 
-Vtx VB_0xe015b30[] = {
+Vtx VB_castle_inside_1_0xe015b30[] = {
 {{{ 3914, -361, -302 }, 0, { 699, -3150 }, { 0, 28, 133, 255}}},
 {{{ 583, -1124, -476 }, 0, { 10444, -861 }, { 0, 28, 133, 255}}},
 {{{ 583, -361, -302 }, 0, { 10444, -3150 }, { 0, 28, 133, 255}}},
@@ -5746,7 +5746,7 @@ Vtx VB_0xe015b30[] = {
 {{{ -3747, -1411, -541 }, 0, { 1316, 0 }, { 209, 115, 24, 255}}},
 };
 
-Vtx VB_0xe015c20[] = {
+Vtx VB_castle_inside_1_0xe015c20[] = {
 {{{ -3416, -1222, -784 }, 0, { 1582, -1520 }, { 212, 118, 10, 255}}},
 {{{ -3471, -1194, -1326 }, 0, { 0, -1745 }, { 212, 118, 10, 255}}},
 {{{ -3951, -1411, -942 }, 0, { 769, 0 }, { 212, 118, 10, 255}}},
@@ -5764,7 +5764,7 @@ Vtx VB_0xe015c20[] = {
 {{{ -3282, -1222, -498 }, 0, { 1528, -2187 }, { 10, 126, 248, 255}}},
 };
 
-Vtx VB_0xe015d10[] = {
+Vtx VB_castle_inside_1_0xe015d10[] = {
 {{{ -2726, -1299, -953 }, 0, { 1982, 0 }, { 33, 120, 20, 255}}},
 {{{ -3003, -1194, -1121 }, 0, { 1980, -997 }, { 33, 120, 20, 255}}},
 {{{ -3282, -1222, -498 }, 0, { 0, -731 }, { 33, 120, 20, 255}}},
@@ -5782,7 +5782,7 @@ Vtx VB_0xe015d10[] = {
 {{{ -2374, -1301, -516 }, 0, { 449, 0 }, { 248, 126, 10, 255}}},
 };
 
-Vtx VB_0xe015e00[] = {
+Vtx VB_castle_inside_1_0xe015e00[] = {
 {{{ -932, -1411, -541 }, 0, { 0, 0 }, { 27, 122, 239, 255}}},
 {{{ -1114, -1411, -823 }, 0, { 983, 0 }, { 27, 122, 239, 255}}},
 {{{ -1613, -1254, -505 }, 0, { 991, -1791 }, { 27, 122, 239, 255}}},
@@ -5800,7 +5800,7 @@ Vtx VB_0xe015e00[] = {
 {{{ -2597, -1194, -1325 }, 0, { 0, -2281 }, { 7, 126, 2, 255}}},
 };
 
-Vtx VB_0xe015ef0[] = {
+Vtx VB_castle_inside_1_0xe015ef0[] = {
 {{{ -1605, -1243, -859 }, 0, { 0, 0 }, { 6, 126, 0, 255}}},
 {{{ -1675, -1243, -1562 }, 0, { 2067, 0 }, { 6, 126, 0, 255}}},
 {{{ -2045, -1222, -1208 }, 0, { 1143, -1181 }, { 6, 126, 0, 255}}},
@@ -5818,7 +5818,7 @@ Vtx VB_0xe015ef0[] = {
 {{{ -2503, -1194, -1574 }, 0, { 2283, -2453 }, { 7, 125, 236, 255}}},
 };
 
-Vtx VB_0xe015fe0[] = {
+Vtx VB_castle_inside_1_0xe015fe0[] = {
 {{{ -1722, -1341, -2166 }, 0, { 2090, 0 }, { 26, 124, 4, 255}}},
 {{{ -2461, -1194, -1818 }, 0, { 723, -2006 }, { 26, 124, 4, 255}}},
 {{{ -2503, -1194, -1574 }, 0, { 0, -2006 }, { 26, 124, 4, 255}}},
@@ -5836,7 +5836,7 @@ Vtx VB_0xe015fe0[] = {
 {{{ -1315, -1411, -1806 }, 0, { 0, 0 }, { 15, 125, 6, 255}}},
 };
 
-Vtx VB_0xe0160d0[] = {
+Vtx VB_castle_inside_1_0xe0160d0[] = {
 {{{ -1090, -1411, -2342 }, 0, { 1709, 0 }, { 19, 123, 21, 255}}},
 {{{ -1461, -1285, -2733 }, 0, { 1685, -1619 }, { 19, 123, 21, 255}}},
 {{{ -1722, -1341, -2166 }, 0, { 0, -899 }, { 19, 123, 21, 255}}},
@@ -5854,7 +5854,7 @@ Vtx VB_0xe0160d0[] = {
 {{{ -3747, -1411, -1951 }, 0, { 1904, 0 }, { 215, 119, 0, 255}}},
 };
 
-Vtx VB_0xe0161c0[] = {
+Vtx VB_castle_inside_1_0xe0161c0[] = {
 {{{ -3201, -1411, -3295 }, 0, { 0, 0 }, { 217, 116, 225, 255}}},
 {{{ -3747, -1411, -2602 }, 0, { 2580, 0 }, { 217, 116, 225, 255}}},
 {{{ -3267, -1243, -2580 }, 0, { 1763, -1243 }, { 217, 116, 225, 255}}},
@@ -5872,7 +5872,7 @@ Vtx VB_0xe0161c0[] = {
 {{{ -2597, -1194, -2030 }, 0, { 0, -1183 }, { 15, 126, 254, 255}}},
 };
 
-Vtx VB_0xe0162b0[] = {
+Vtx VB_castle_inside_1_0xe0162b0[] = {
 {{{ -2536, -1306, -3177 }, 0, { 0, -1051 }, { 244, 121, 222, 255}}},
 {{{ -3201, -1411, -3295 }, 0, { 1701, 0 }, { 244, 121, 222, 255}}},
 {{{ -2773, -1187, -2672 }, 0, { 1165, -2244 }, { 244, 121, 222, 255}}},
@@ -5890,7 +5890,7 @@ Vtx VB_0xe0162b0[] = {
 {{{ -2062, -1243, -3039 }, 0, { 1088, -1596 }, { 15, 120, 221, 255}}},
 };
 
-Vtx VB_0xe0163a0[] = {
+Vtx VB_castle_inside_1_0xe0163a0[] = {
 {{{ -1090, -1411, -2909 }, 0, { 0, 0 }, { 28, 120, 230, 255}}},
 {{{ -1513, -1411, -3366 }, 0, { 1822, 0 }, { 28, 120, 230, 255}}},
 {{{ -1461, -1285, -2733 }, 0, { 360, -1204 }, { 28, 120, 230, 255}}},
@@ -5908,7 +5908,7 @@ Vtx VB_0xe0163a0[] = {
 {{{ -2220, -1243, -2202 }, 0, { 0, 0 }, { 11, 126, 2, 255}}},
 };
 
-Vtx VB_0xe016490[] = {
+Vtx VB_castle_inside_1_0xe016490[] = {
 {{{ -2062, -1243, -3039 }, 0, { 0, -710 }, { 250, 122, 224, 255}}},
 {{{ -2536, -1306, -3177 }, 0, { 1271, 0 }, { 250, 122, 224, 255}}},
 {{{ -2773, -1187, -2672 }, 0, { 2258, -1342 }, { 250, 122, 224, 255}}},
@@ -5926,7 +5926,7 @@ Vtx VB_0xe016490[] = {
 {{{ -3690, -1411, -6266 }, 0, { 0, 0 }, { 49, 0, 117, 255}}},
 };
 
-Vtx VB_0xe016580[] = {
+Vtx VB_castle_inside_1_0xe016580[] = {
 {{{ -3690, 1507, -6266 }, 0, { 0, -7116 }, { 49, 0, 117, 255}}},
 {{{ -4439, 1507, -5952 }, 0, { 1979, -7116 }, { 49, 0, 117, 255}}},
 {{{ -3690, -1054, -6266 }, 0, { 0, -870 }, { 49, 0, 117, 255}}},
@@ -5944,7 +5944,7 @@ Vtx VB_0xe016580[] = {
 {{{ -4688, 1507, -5687 }, 0, { 0, -7116 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe016670[] = {
+Vtx VB_castle_inside_1_0xe016670[] = {
 {{{ -4688, -1411, -4943 }, 0, { 0, 0 }, { 112, 0, 58, 255}}},
 {{{ -4688, 1507, -4943 }, 0, { 0, -7116 }, { 112, 0, 58, 255}}},
 {{{ -5090, -1411, -4174 }, 0, { 2116, 0 }, { 112, 0, 58, 255}}},
@@ -5962,7 +5962,7 @@ Vtx VB_0xe016670[] = {
 {{{ -5750, 1507, -3588 }, 0, { 676, -7287 }, { 84, 0, 94, 255}}},
 };
 
-Vtx VB_0xe016760[] = {
+Vtx VB_castle_inside_1_0xe016760[] = {
 {{{ -5542, -1411, -3772 }, 0, { 0, -170 }, { 84, 0, 94, 255}}},
 {{{ -5750, 1507, -3588 }, 0, { 676, -7287 }, { 84, 0, 94, 255}}},
 {{{ -5542, -1481, -3772 }, 0, { 0, 0 }, { 84, 0, 94, 255}}},
@@ -5980,7 +5980,7 @@ Vtx VB_0xe016760[] = {
 {{{ -6767, -1481, -2457 }, 0, { 2286, 0 }, { 108, 0, 66, 255}}},
 };
 
-Vtx VB_0xe016850[] = {
+Vtx VB_castle_inside_1_0xe016850[] = {
 {{{ -6767, 1507, -2457 }, 0, { 2286, -7287 }, { 108, 0, 66, 255}}},
 {{{ -6767, -1481, -2457 }, 0, { 2286, 0 }, { 108, 0, 66, 255}}},
 {{{ -6278, 1507, -3258 }, 0, { 0, -7287 }, { 108, 0, 66, 255}}},
@@ -5998,7 +5998,7 @@ Vtx VB_0xe016850[] = {
 {{{ -6555, 1507, -3855 }, 0, { 548, -6268 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe016940[] = {
+Vtx VB_castle_inside_1_0xe016940[] = {
 {{{ -5548, 1507, -5998 }, 0, { 3496, 0 }, { 0, 127, 0, 255}}},
 {{{ -6435, 1507, -5653 }, 0, { 900, -1008 }, { 0, 127, 0, 255}}},
 {{{ -6278, 1507, -3258 }, 0, { 1358, -8015 }, { 0, 127, 0, 255}}},
@@ -6016,7 +6016,7 @@ Vtx VB_0xe016940[] = {
 {{{ -5542, 1507, -3772 }, 0, { 3511, -6511 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe016a30[] = {
+Vtx VB_castle_inside_1_0xe016a30[] = {
 {{{ -4688, 1507, -4943 }, 0, { 6011, -3086 }, { 0, 127, 0, 255}}},
 {{{ -4988, 1507, -5998 }, 0, { 5134, 0 }, { 0, 127, 0, 255}}},
 {{{ -5090, 1507, -4174 }, 0, { 4833, -5336 }, { 0, 127, 0, 255}}},
@@ -6034,7 +6034,7 @@ Vtx VB_0xe016a30[] = {
 {{{ -2509, -1054, -5874 }, 0, { 4465, -1537 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe016b20[] = {
+Vtx VB_castle_inside_1_0xe016b20[] = {
 {{{ -3004, -1054, -6400 }, 0, { 5912, 0 }, { 0, 127, 0, 255}}},
 {{{ -2509, -1054, -5874 }, 0, { 4465, -1537 }, { 0, 127, 0, 255}}},
 {{{ -2242, -1054, -6400 }, 0, { 3683, 0 }, { 0, 127, 0, 255}}},
@@ -6052,7 +6052,7 @@ Vtx VB_0xe016b20[] = {
 {{{ -1249, -1054, -6400 }, 0, { 779, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe016c10[] = {
+Vtx VB_castle_inside_1_0xe016c10[] = {
 {{{ -1249, -1054, -6400 }, 0, { 779, 0 }, { 0, 127, 0, 255}}},
 {{{ -1664, -1054, -5014 }, 0, { 1991, -4053 }, { 0, 127, 0, 255}}},
 {{{ -1272, -1054, -5014 }, 0, { 844, -4053 }, { 0, 127, 0, 255}}},
@@ -6070,7 +6070,7 @@ Vtx VB_0xe016c10[] = {
 {{{ -6278, 1507, -3258 }, 0, { 1925, 0 }, { 81, 90, 219, 255}}},
 };
 
-Vtx VB_0xe016d00[] = {
+Vtx VB_castle_inside_1_0xe016d00[] = {
 {{{ -6555, 1507, -3855 }, 0, { 209, 0 }, { 117, 45, 17, 255}}},
 {{{ -7046, 2816, -4002 }, 0, { 0, -4107 }, { 117, 45, 17, 255}}},
 {{{ -7046, 2368, -2847 }, 0, { 3342, -2701 }, { 117, 45, 17, 255}}},
@@ -6088,7 +6088,7 @@ Vtx VB_0xe016d00[] = {
 {{{ -7046, 2368, -4916 }, 0, { 2562, -2762 }, { 111, 52, 31, 255}}},
 };
 
-Vtx VB_0xe016df0[] = {
+Vtx VB_castle_inside_1_0xe016df0[] = {
 {{{ -7046, 3152, -6400 }, 0, { 0, -5292 }, { 112, 52, 23, 255}}},
 {{{ -7046, 2816, -5658 }, 0, { 2124, -4211 }, { 112, 52, 23, 255}}},
 {{{ -6435, 1507, -5653 }, 0, { 1766, 0 }, { 112, 52, 23, 255}}},
@@ -6106,7 +6106,7 @@ Vtx VB_0xe016df0[] = {
 {{{ -5065, 2529, -6400 }, 0, { 226, -3213 }, { 0, 46, 118, 255}}},
 };
 
-Vtx VB_0xe016ee0[] = {
+Vtx VB_castle_inside_1_0xe016ee0[] = {
 {{{ -5065, 2529, -6400 }, 0, { 2247, -3197 }, { 240, 44, 117, 255}}},
 {{{ -4988, 1507, -5998 }, 0, { 1858, 0 }, { 240, 44, 117, 255}}},
 {{{ -4289, 2816, -6400 }, 0, { 0, -4095 }, { 240, 44, 117, 255}}},
@@ -6124,7 +6124,7 @@ Vtx VB_0xe016ee0[] = {
 {{{ -3646, 2529, -6400 }, 0, { 1845, -3011 }, { 24, 15, 123, 255}}},
 };
 
-Vtx VB_0xe016fd0[] = {
+Vtx VB_castle_inside_1_0xe016fd0[] = {
 {{{ -4439, 1507, -5952 }, 0, { 2644, 0 }, { 48, 13, 116, 255}}},
 {{{ -3690, 1507, -6266 }, 0, { 268, 0 }, { 48, 13, 116, 255}}},
 {{{ -3646, 2529, -6400 }, 0, { 0, -3006 }, { 48, 13, 116, 255}}},
@@ -6142,7 +6142,7 @@ Vtx VB_0xe016fd0[] = {
 {{{ 5787, 219, -5248 }, 0, { 0, -700 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0170c0[] = {
+Vtx VB_castle_inside_1_0xe0170c0[] = {
 {{{ 5787, 219, -5248 }, 0, { 0, -700 }, { 0, 127, 0, 255}}},
 {{{ 5599, 219, -4800 }, 0, { 549, -2011 }, { 0, 127, 0, 255}}},
 {{{ 5787, 219, -4968 }, 0, { 0, -1519 }, { 0, 127, 0, 255}}},
@@ -6160,7 +6160,7 @@ Vtx VB_0xe0170c0[] = {
 {{{ 5181, 219, -5342 }, 0, { 477, -4147 }, { 162, 0, 171, 255}}},
 };
 
-Vtx VB_0xe0171b0[] = {
+Vtx VB_castle_inside_1_0xe0171b0[] = {
 {{{ 5312, 219, -5487 }, 0, { 512, -4147 }, { 0, 0, 129, 255}}},
 {{{ 5522, -1481, -5487 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ 5312, -1481, -5487 }, 0, { 512, 0 }, { 0, 0, 129, 255}}},
@@ -6178,7 +6178,7 @@ Vtx VB_0xe0171b0[] = {
 {{{ 5787, 219, -5248 }, 0, { 682, -4147 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe0172a0[] = {
+Vtx VB_castle_inside_1_0xe0172a0[] = {
 {{{ 5787, -1481, -5248 }, 0, { 682, 0 }, { 127, 0, 0, 255}}},
 {{{ 5787, 219, -4968 }, 0, { 0, -4147 }, { 127, 0, 0, 255}}},
 {{{ 5787, -1481, -4968 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
@@ -6196,7 +6196,7 @@ Vtx VB_0xe0172a0[] = {
 {{{ 5250, 219, -4992 }, 0, { 0, -4147 }, { 195, 0, 111, 255}}},
 };
 
-Vtx VB_0xe017390[] = {
+Vtx VB_castle_inside_1_0xe017390[] = {
 {{{ 1753, -1173, -1299 }, 0, { 632, -3270 }, { 0, 127, 0, 255}}},
 {{{ 1496, -1173, -1541 }, 0, { 1887, -2087 }, { 0, 127, 0, 255}}},
 {{{ 1486, -1173, -1215 }, 0, { 1932, -3675 }, { 0, 127, 0, 255}}},
@@ -6214,7 +6214,7 @@ Vtx VB_0xe017390[] = {
 {{{ 1129, -1173, -1614 }, 0, { 3675, -1730 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe017480[] = {
+Vtx VB_castle_inside_1_0xe017480[] = {
 {{{ 1268, -1173, -1880 }, 0, { 2995, -435 }, { 0, 127, 0, 255}}},
 {{{ 1156, -1173, -1612 }, 0, { 3543, -1742 }, { 0, 127, 0, 255}}},
 {{{ 1239, -1173, -1345 }, 0, { 3138, -3042 }, { 0, 127, 0, 255}}},
@@ -6232,7 +6232,7 @@ Vtx VB_0xe017480[] = {
 {{{ 1552, -1173, -1942 }, 0, { 1610, -132 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe017570[] = {
+Vtx VB_castle_inside_1_0xe017570[] = {
 {{{ 1496, -1173, -1604 }, 0, { 1887, -1780 }, { 0, 127, 0, 255}}},
 {{{ 1486, -1173, -1215 }, 0, { 1932, -3675 }, { 0, 127, 0, 255}}},
 {{{ 1496, -1173, -1541 }, 0, { 1887, -2087 }, { 0, 127, 0, 255}}},
@@ -6250,7 +6250,7 @@ Vtx VB_0xe017570[] = {
 {{{ 1820, -1173, -1830 }, 0, { 303, -679 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe017660[] = {
+Vtx VB_castle_inside_1_0xe017660[] = {
 {{{ 1800, -1173, -1812 }, 0, { 405, -764 }, { 0, 127, 0, 255}}},
 {{{ 1559, -1173, -1604 }, 0, { 1580, -1780 }, { 0, 127, 0, 255}}},
 {{{ 1753, -1173, -1299 }, 0, { 632, -3270 }, { 0, 127, 0, 255}}},
@@ -6268,7 +6268,7 @@ Vtx VB_0xe017660[] = {
 {{{ 1486, -1117, -1215 }, 0, { 2064, -2995 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe017750[] = {
+Vtx VB_castle_inside_1_0xe017750[] = {
 {{{ 1486, -1117, -1215 }, 0, { 2064, -2995 }, { 0, 127, 0, 255}}},
 {{{ 1484, -1117, -1188 }, 0, { 2076, -3127 }, { 0, 127, 0, 255}}},
 {{{ 1770, -1117, -1278 }, 0, { 679, -2692 }, { 0, 127, 0, 255}}},
@@ -6286,7 +6286,7 @@ Vtx VB_0xe017750[] = {
 {{{ 1800, -1117, -1812 }, 0, { 537, -84 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe017840[] = {
+Vtx VB_castle_inside_1_0xe017840[] = {
 {{{ 1820, -1117, -1830 }, 0, { 435, 0 }, { 0, 127, 0, 255}}},
 {{{ 1883, -1117, -1546 }, 0, { 132, -1384 }, { 0, 127, 0, 255}}},
 {{{ 1910, -1117, -1543 }, 0, { 0, -1396 }, { 0, 127, 0, 255}}},
@@ -6304,7 +6304,7 @@ Vtx VB_0xe017840[] = {
 {{{ 1239, -1173, -1345 }, 0, { 0, 0 }, { 121, 0, 219, 255}}},
 };
 
-Vtx VB_0xe017930[] = {
+Vtx VB_castle_inside_1_0xe017930[] = {
 {{{ 1239, -1117, -1345 }, 0, { 1361, -273 }, { 59, 0, 144, 255}}},
 {{{ 1486, -1173, -1215 }, 0, { 0, 0 }, { 59, 0, 144, 255}}},
 {{{ 1239, -1173, -1345 }, 0, { 1361, 0 }, { 59, 0, 144, 255}}},
@@ -6322,7 +6322,7 @@ Vtx VB_0xe017930[] = {
 {{{ 1883, -1173, -1546 }, 0, { 0, 0 }, { 144, 0, 197, 255}}},
 };
 
-Vtx VB_0xe017a20[] = {
+Vtx VB_castle_inside_1_0xe017a20[] = {
 {{{ 1883, -1117, -1546 }, 0, { 0, -273 }, { 144, 0, 197, 255}}},
 {{{ 1753, -1173, -1299 }, 0, { 1361, 0 }, { 144, 0, 197, 255}}},
 {{{ 1753, -1117, -1299 }, 0, { 1361, -273 }, { 144, 0, 197, 255}}},
@@ -6340,7 +6340,7 @@ Vtx VB_0xe017a20[] = {
 {{{ 1820, -1117, -1830 }, 0, { 0, -273 }, { 175, 0, 159, 255}}},
 };
 
-Vtx VB_0xe017b10[] = {
+Vtx VB_castle_inside_1_0xe017b10[] = {
 {{{ 1286, -1117, -1859 }, 0, { 1311, -537 }, { 0, 127, 0, 255}}},
 {{{ 1555, -1117, -1969 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 1268, -1117, -1880 }, 0, { 1396, -435 }, { 0, 127, 0, 255}}},
@@ -6358,7 +6358,7 @@ Vtx VB_0xe017b10[] = {
 {{{ 1268, -1173, -1880 }, 0, { 0, 0 }, { 159, 0, 81, 255}}},
 };
 
-Vtx VB_0xe017c00[] = {
+Vtx VB_castle_inside_1_0xe017c00[] = {
 {{{ 1268, -1117, -1880 }, 0, { 0, -273 }, { 159, 0, 81, 255}}},
 {{{ 1286, -1173, -1859 }, 0, { 132, 0 }, { 159, 0, 81, 255}}},
 {{{ 1286, -1117, -1859 }, 0, { 132, -273 }, { 159, 0, 81, 255}}},
@@ -6376,7 +6376,7 @@ Vtx VB_0xe017c00[] = {
 {{{ 2256, -942, -2413 }, 0, { 480, -3021 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe017cf0[] = {
+Vtx VB_castle_inside_1_0xe017cf0[] = {
 {{{ 2029, -942, -2640 }, 0, { 1589, -1915 }, { 0, 127, 0, 255}}},
 {{{ 2256, -942, -2413 }, 0, { 480, -3021 }, { 0, 127, 0, 255}}},
 {{{ 2029, -942, -2703 }, 0, { 1589, -1608 }, { 0, 127, 0, 255}}},
@@ -6394,7 +6394,7 @@ Vtx VB_0xe017cf0[] = {
 {{{ 1973, -942, -3033 }, 0, { 1862, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe017de0[] = {
+Vtx VB_castle_inside_1_0xe017de0[] = {
 {{{ 1973, -942, -3033 }, 0, { 1862, 0 }, { 0, 127, 0, 255}}},
 {{{ 1735, -942, -2394 }, 0, { 3021, -3114 }, { 0, 127, 0, 255}}},
 {{{ 1966, -942, -2703 }, 0, { 1896, -1608 }, { 0, 127, 0, 255}}},
@@ -6412,7 +6412,7 @@ Vtx VB_0xe017de0[] = {
 {{{ 1710, -942, -2367 }, 0, { 3145, -3247 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe017ed0[] = {
+Vtx VB_castle_inside_1_0xe017ed0[] = {
 {{{ 1735, -942, -2394 }, 0, { 3021, -3114 }, { 0, 127, 0, 255}}},
 {{{ 2001, -942, -2259 }, 0, { 1725, -3775 }, { 0, 127, 0, 255}}},
 {{{ 1966, -942, -2640 }, 0, { 1896, -1915 }, { 0, 127, 0, 255}}},
@@ -6430,7 +6430,7 @@ Vtx VB_0xe017ed0[] = {
 {{{ 2000, -886, -2296 }, 0, { 1912, -3775 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe017fc0[] = {
+Vtx VB_castle_inside_1_0xe017fc0[] = {
 {{{ 2256, -886, -2413 }, 0, { 661, -3202 }, { 0, 127, 0, 255}}},
 {{{ 2001, -886, -2259 }, 0, { 1906, -3956 }, { 0, 127, 0, 255}}},
 {{{ 2284, -886, -2388 }, 0, { 528, -3326 }, { 0, 127, 0, 255}}},
@@ -6448,7 +6448,7 @@ Vtx VB_0xe017fc0[] = {
 {{{ 1716, -886, -2916 }, 0, { 3295, -753 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0180b0[] = {
+Vtx VB_castle_inside_1_0xe0180b0[] = {
 {{{ 1689, -886, -2941 }, 0, { 3428, -630 }, { 0, 127, 0, 255}}},
 {{{ 1716, -886, -2916 }, 0, { 3295, -753 }, { 0, 127, 0, 255}}},
 {{{ 1971, -886, -3070 }, 0, { 2050, 0 }, { 0, 127, 0, 255}}},
@@ -6466,7 +6466,7 @@ Vtx VB_0xe0180b0[] = {
 {{{ 2355, -886, -2678 }, 0, { 181, -1912 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0181a0[] = {
+Vtx VB_castle_inside_1_0xe0181a0[] = {
 {{{ 2263, -886, -2962 }, 0, { 630, -528 }, { 0, 127, 0, 255}}},
 {{{ 2355, -886, -2678 }, 0, { 181, -1912 }, { 0, 127, 0, 255}}},
 {{{ 2392, -886, -2679 }, 0, { 0, -1906 }, { 0, 127, 0, 255}}},
@@ -6484,7 +6484,7 @@ Vtx VB_0xe0181a0[] = {
 {{{ 1710, -942, -2367 }, 0, { 0, 0 }, { 93, 0, 86, 255}}},
 };
 
-Vtx VB_0xe018290[] = {
+Vtx VB_castle_inside_1_0xe018290[] = {
 {{{ 2001, -942, -2259 }, 0, { 181, 0 }, { 130, 0, 4, 255}}},
 {{{ 2000, -886, -2296 }, 0, { 0, -273 }, { 130, 0, 4, 255}}},
 {{{ 2000, -942, -2296 }, 0, { 0, 0 }, { 130, 0, 4, 255}}},
@@ -6502,7 +6502,7 @@ Vtx VB_0xe018290[] = {
 {{{ 2355, -942, -2678 }, 0, { 0, 0 }, { 137, 0, 212, 255}}},
 };
 
-Vtx VB_0xe018380[] = {
+Vtx VB_castle_inside_1_0xe018380[] = {
 {{{ 2355, -886, -2678 }, 0, { 0, -273 }, { 137, 0, 212, 255}}},
 {{{ 2256, -942, -2413 }, 0, { 1376, 0 }, { 137, 0, 212, 255}}},
 {{{ 2256, -886, -2413 }, 0, { 1376, -273 }, { 137, 0, 212, 255}}},
@@ -6520,7 +6520,7 @@ Vtx VB_0xe018380[] = {
 {{{ 1973, -886, -3033 }, 0, { 0, -273 }, { 212, 0, 119, 255}}},
 };
 
-Vtx VB_0xe018470[] = {
+Vtx VB_castle_inside_1_0xe018470[] = {
 {{{ 1973, -886, -3033 }, 0, { 1376, -273 }, { 52, 0, 115, 255}}},
 {{{ 1716, -942, -2916 }, 0, { 0, 0 }, { 52, 0, 115, 255}}},
 {{{ 1973, -942, -3033 }, 0, { 1376, 0 }, { 52, 0, 115, 255}}},
@@ -6538,7 +6538,7 @@ Vtx VB_0xe018470[] = {
 {{{ 1559, -683, -1604 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe018560[] = {
+Vtx VB_castle_inside_1_0xe018560[] = {
 {{{ 1559, -683, -1541 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 1559, -683, -1604 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 1496, -683, -1541 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
@@ -6556,7 +6556,7 @@ Vtx VB_0xe018560[] = {
 {{{ 1496, -683, -1541 }, 0, { 0, -2389 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe018650[] = {
+Vtx VB_castle_inside_1_0xe018650[] = {
 {{{ 1496, -1173, -1541 }, 0, { 307, 0 }, { 129, 0, 0, 255}}},
 {{{ 1496, -683, -1604 }, 0, { 0, -2389 }, { 129, 0, 0, 255}}},
 {{{ 1496, -1173, -1604 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
@@ -6574,7 +6574,7 @@ Vtx VB_0xe018650[] = {
 {{{ 1559, -683, -1604 }, 0, { 307, -2389 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe018740[] = {
+Vtx VB_castle_inside_1_0xe018740[] = {
 {{{ 1559, -1173, -1604 }, 0, { 307, 0 }, { 127, 0, 0, 255}}},
 {{{ 1559, -683, -1541 }, 0, { 0, -2389 }, { 127, 0, 0, 255}}},
 {{{ 1559, -1173, -1541 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
@@ -6592,7 +6592,7 @@ Vtx VB_0xe018740[] = {
 {{{ 2029, -452, -2640 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe018830[] = {
+Vtx VB_castle_inside_1_0xe018830[] = {
 {{{ 1966, -452, -2703 }, 0, { 307, -2389 }, { 0, 0, 129, 255}}},
 {{{ 2029, -942, -2703 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ 1966, -942, -2703 }, 0, { 307, 0 }, { 0, 0, 129, 255}}},
@@ -6610,7 +6610,7 @@ Vtx VB_0xe018830[] = {
 {{{ 2029, -942, -2640 }, 0, { 307, 0 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe018920[] = {
+Vtx VB_castle_inside_1_0xe018920[] = {
 {{{ 1966, -942, -2640 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
 {{{ 2029, -452, -2640 }, 0, { 307, -2389 }, { 0, 0, 127, 255}}},
 {{{ 1966, -452, -2640 }, 0, { 0, -2389 }, { 0, 0, 127, 255}}},
@@ -6628,7 +6628,7 @@ Vtx VB_0xe018920[] = {
 {{{ 1966, -452, -2640 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe018a10[] = {
+Vtx VB_castle_inside_1_0xe018a10[] = {
 {{{ 2287, -452, -2408 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
 {{{ 2015, -452, -2281 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
 {{{ 2029, -452, -2640 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
@@ -6646,7 +6646,7 @@ Vtx VB_0xe018a10[] = {
 {{{ 1733, -452, -2383 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe018b00[] = {
+Vtx VB_castle_inside_1_0xe018b00[] = {
 {{{ 1980, -452, -3064 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
 {{{ 1733, -452, -2383 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
 {{{ 1708, -452, -2937 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
@@ -6664,7 +6664,7 @@ Vtx VB_0xe018b00[] = {
 {{{ 1980, -452, -3064 }, 0, { 0, 0 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe018bf0[] = {
+Vtx VB_castle_inside_1_0xe018bf0[] = {
 {{{ 2015, -452, -2281 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 1966, -452, -2640 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 1733, -452, -2383 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
@@ -6682,7 +6682,7 @@ Vtx VB_0xe018bf0[] = {
 {{{ 2263, -452, -2962 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe018ce0[] = {
+Vtx VB_castle_inside_1_0xe018ce0[] = {
 {{{ 2263, -452, -2962 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 2287, -452, -2408 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 2390, -452, -2690 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
@@ -6700,7 +6700,7 @@ Vtx VB_0xe018ce0[] = {
 {{{ 1966, -452, -2640 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe018dd0[] = {
+Vtx VB_castle_inside_1_0xe018dd0[] = {
 {{{ 1980, -452, -3064 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 1966, -452, -2703 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 2029, -452, -2703 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
@@ -6718,7 +6718,7 @@ Vtx VB_0xe018dd0[] = {
 {{{ 1559, -683, -1541 }, 0, { 1792, -2092 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe018ec0[] = {
+Vtx VB_castle_inside_1_0xe018ec0[] = {
 {{{ 1563, -683, -1970 }, 0, { 1769, 0 }, { 0, 129, 0, 255}}},
 {{{ 1782, -683, -1258 }, 0, { 705, -3471 }, { 0, 129, 0, 255}}},
 {{{ 1559, -683, -1604 }, 0, { 1792, -1785 }, { 0, 129, 0, 255}}},
@@ -6736,7 +6736,7 @@ Vtx VB_0xe018ec0[] = {
 {{{ 1268, -683, -1880 }, 0, { 3207, -440 }, { 0, 129, 0, 255}}},
 };
 
-Vtx VB_0xe018fb0[] = {
+Vtx VB_castle_inside_1_0xe018fb0[] = {
 {{{ 1496, -683, -1604 }, 0, { 2099, -1785 }, { 0, 129, 0, 255}}},
 {{{ 1487, -683, -1168 }, 0, { 2143, -3912 }, { 0, 129, 0, 255}}},
 {{{ 1268, -683, -1880 }, 0, { 3207, -440 }, { 0, 129, 0, 255}}},
@@ -6754,7 +6754,7 @@ Vtx VB_0xe018fb0[] = {
 {{{ 1606, -417, -2655 }, 0, { 0, -170 }, { 137, 0, 213, 255}}},
 };
 
-Vtx VB_0xe0190a0[] = {
+Vtx VB_castle_inside_1_0xe0190a0[] = {
 {{{ 1606, -452, -2655 }, 0, { 0, 0 }, { 137, 0, 213, 255}}},
 {{{ 1606, -417, -2655 }, 0, { 0, -170 }, { 137, 0, 213, 255}}},
 {{{ 1708, -452, -2937 }, 0, { 1464, 0 }, { 137, 0, 213, 255}}},
@@ -6772,7 +6772,7 @@ Vtx VB_0xe0190a0[] = {
 {{{ 2015, -452, -2281 }, 0, { 0, 0 }, { 213, 0, 119, 255}}},
 };
 
-Vtx VB_0xe019190[] = {
+Vtx VB_castle_inside_1_0xe019190[] = {
 {{{ 2015, -452, -2281 }, 0, { 1464, 0 }, { 53, 0, 115, 255}}},
 {{{ 2287, -452, -2408 }, 0, { 0, 0 }, { 53, 0, 115, 255}}},
 {{{ 2015, -417, -2281 }, 0, { 1464, -170 }, { 53, 0, 115, 255}}},
@@ -6790,7 +6790,7 @@ Vtx VB_0xe019190[] = {
 {{{ 2390, -452, -2690 }, 0, { 1464, 0 }, { 115, 0, 203, 255}}},
 };
 
-Vtx VB_0xe019280[] = {
+Vtx VB_castle_inside_1_0xe019280[] = {
 {{{ 2390, -417, -2690 }, 0, { 1464, -170 }, { 115, 0, 203, 255}}},
 {{{ 2390, -452, -2690 }, 0, { 1464, 0 }, { 115, 0, 203, 255}}},
 {{{ 2263, -417, -2962 }, 0, { 0, -170 }, { 115, 0, 203, 255}}},
@@ -6808,7 +6808,7 @@ Vtx VB_0xe019280[] = {
 {{{ 1708, -452, -2937 }, 0, { 0, 0 }, { 203, 0, 141, 255}}},
 };
 
-Vtx VB_0xe019370[] = {
+Vtx VB_castle_inside_1_0xe019370[] = {
 {{{ 1836, -683, -1826 }, 0, { 1504, 0 }, { 59, 0, 144, 255}}},
 {{{ 1563, -683, -1970 }, 0, { 0, 0 }, { 59, 0, 144, 255}}},
 {{{ 1836, -648, -1826 }, 0, { 1504, -170 }, { 59, 0, 144, 255}}},
@@ -6826,7 +6826,7 @@ Vtx VB_0xe019370[] = {
 {{{ 1124, -648, -1607 }, 0, { 0, -170 }, { 144, 0, 197, 255}}},
 };
 
-Vtx VB_0xe019460[] = {
+Vtx VB_castle_inside_1_0xe019460[] = {
 {{{ 1124, -683, -1607 }, 0, { 0, 0 }, { 144, 0, 197, 255}}},
 {{{ 1124, -648, -1607 }, 0, { 0, -170 }, { 144, 0, 197, 255}}},
 {{{ 1268, -683, -1880 }, 0, { 1504, 0 }, { 144, 0, 197, 255}}},
@@ -6844,7 +6844,7 @@ Vtx VB_0xe019460[] = {
 {{{ 1487, -683, -1168 }, 0, { 0, 0 }, { 197, 0, 112, 255}}},
 };
 
-Vtx VB_0xe019550[] = {
+Vtx VB_castle_inside_1_0xe019550[] = {
 {{{ 1487, -683, -1168 }, 0, { 1504, 0 }, { 37, 0, 121, 255}}},
 {{{ 1782, -683, -1258 }, 0, { 0, 0 }, { 37, 0, 121, 255}}},
 {{{ 1487, -648, -1168 }, 0, { 1504, -170 }, { 37, 0, 121, 255}}},
@@ -6862,7 +6862,7 @@ Vtx VB_0xe019550[] = {
 {{{ 1926, -683, -1531 }, 0, { 1504, 0 }, { 121, 0, 219, 255}}},
 };
 
-Vtx VB_0xe019640[] = {
+Vtx VB_castle_inside_1_0xe019640[] = {
 {{{ 1926, -648, -1531 }, 0, { 1504, -170 }, { 121, 0, 219, 255}}},
 {{{ 1926, -683, -1531 }, 0, { 1504, 0 }, { 121, 0, 219, 255}}},
 {{{ 1836, -648, -1826 }, 0, { 0, -170 }, { 121, 0, 219, 255}}},
@@ -6880,7 +6880,7 @@ Vtx VB_0xe019640[] = {
 {{{ 1926, -648, -1531 }, 0, { 0, 0 }, { 83, 84, 44, 255}}},
 };
 
-Vtx VB_0xe019730[] = {
+Vtx VB_castle_inside_1_0xe019730[] = {
 {{{ 1487, -648, -1168 }, 0, { 1504, 0 }, { 27, 84, 90, 255}}},
 {{{ 1782, -648, -1258 }, 0, { 0, 0 }, { 27, 84, 90, 255}}},
 {{{ 1525, -228, -1569 }, 0, { 752, -2736 }, { 27, 84, 90, 255}}},
@@ -6898,7 +6898,7 @@ Vtx VB_0xe019730[] = {
 {{{ 1998, 2, -2672 }, 0, { 732, -2705 }, { 87, 82, 216, 255}}},
 };
 
-Vtx VB_0xe019820[] = {
+Vtx VB_castle_inside_1_0xe019820[] = {
 {{{ 2263, -417, -2962 }, 0, { 1464, 0 }, { 32, 82, 166, 255}}},
 {{{ 1980, -417, -3064 }, 0, { 0, 0 }, { 32, 82, 166, 255}}},
 {{{ 1998, 2, -2672 }, 0, { 732, -2705 }, { 32, 82, 166, 255}}},
@@ -6916,7 +6916,7 @@ Vtx VB_0xe019820[] = {
 {{{ 1606, -417, -2655 }, 0, { 0, 0 }, { 166, 82, 224, 255}}},
 };
 
-Vtx VB_0xe019910[] = {
+Vtx VB_castle_inside_1_0xe019910[] = {
 {{{ 1998, 2, -2672 }, 0, { 732, -2705 }, { 169, 82, 40, 255}}},
 {{{ 1606, -417, -2655 }, 0, { 1464, 0 }, { 169, 82, 40, 255}}},
 {{{ 1733, -417, -2383 }, 0, { 0, 0 }, { 169, 82, 40, 255}}},
@@ -6934,7 +6934,7 @@ Vtx VB_0xe019910[] = {
 {{{ -480, -1411, -795 }, 0, { 4841, -21283 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe019a00[] = {
+Vtx VB_castle_inside_1_0xe019a00[] = {
 {{{ -600, -1411, -1090 }, 0, { 5428, -19843 }, { 0, 127, 0, 255}}},
 {{{ -480, -1411, -795 }, 0, { 4841, -21283 }, { 0, 127, 0, 255}}},
 {{{ -441, -1411, -871 }, 0, { 4652, -20912 }, { 0, 127, 0, 255}}},
@@ -6952,7 +6952,7 @@ Vtx VB_0xe019a00[] = {
 {{{ 5, -1411, -1011 }, 0, { 2472, -20229 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe019af0[] = {
+Vtx VB_castle_inside_1_0xe019af0[] = {
 {{{ -70, -1411, -1038 }, 0, { 2842, -20096 }, { 0, 127, 0, 255}}},
 {{{ 5, -1411, -1011 }, 0, { 2472, -20229 }, { 0, 127, 0, 255}}},
 {{{ -70, -1411, -1231 }, 0, { 2842, -19157 }, { 0, 127, 0, 255}}},
@@ -6970,7 +6970,7 @@ Vtx VB_0xe019af0[] = {
 {{{ 5, -1411, -1011 }, 0, { 2472, -20229 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe019be0[] = {
+Vtx VB_castle_inside_1_0xe019be0[] = {
 {{{ -196, -1411, -2263 }, 0, { 3459, -14124 }, { 0, 127, 0, 255}}},
 {{{ -120, -1411, -2252 }, 0, { 3088, -14175 }, { 0, 127, 0, 255}}},
 {{{ 60, -1411, -3187 }, 0, { 2203, -9618 }, { 0, 127, 0, 255}}},
@@ -6988,7 +6988,7 @@ Vtx VB_0xe019be0[] = {
 {{{ 375, -1411, -3782 }, 0, { 671, -6716 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe019cd0[] = {
+Vtx VB_castle_inside_1_0xe019cd0[] = {
 {{{ 302, -1411, -3805 }, 0, { 1027, -6606 }, { 0, 127, 0, 255}}},
 {{{ 375, -1411, -3782 }, 0, { 671, -6716 }, { 0, 127, 0, 255}}},
 {{{ 436, -1411, -4384 }, 0, { 370, -3780 }, { 0, 127, 0, 255}}},
@@ -7006,7 +7006,7 @@ Vtx VB_0xe019cd0[] = {
 {{{ -517, -1411, -2906 }, 0, { 5023, -10989 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe019dc0[] = {
+Vtx VB_castle_inside_1_0xe019dc0[] = {
 {{{ -590, -1411, -2927 }, 0, { 5379, -10885 }, { 0, 127, 0, 255}}},
 {{{ -517, -1411, -2906 }, 0, { 5023, -10989 }, { 0, 127, 0, 255}}},
 {{{ -230, -1411, -3935 }, 0, { 3623, -5967 }, { 0, 127, 0, 255}}},
@@ -7024,7 +7024,7 @@ Vtx VB_0xe019dc0[] = {
 {{{ -103, -1411, -5033 }, 0, { 3003, -616 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe019eb0[] = {
+Vtx VB_castle_inside_1_0xe019eb0[] = {
 {{{ -103, -1411, -5033 }, 0, { 3003, -616 }, { 0, 127, 0, 255}}},
 {{{ -154, -1411, -4729 }, 0, { 3252, -2099 }, { 0, 127, 0, 255}}},
 {{{ -44, -1411, -4978 }, 0, { 2716, -884 }, { 0, 127, 0, 255}}},
@@ -7042,7 +7042,7 @@ Vtx VB_0xe019eb0[] = {
 {{{ 318, -1411, -4999 }, 0, { 945, -783 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe019fa0[] = {
+Vtx VB_castle_inside_1_0xe019fa0[] = {
 {{{ 374, -1411, -5057 }, 0, { 672, -496 }, { 0, 127, 0, 255}}},
 {{{ 318, -1411, -4999 }, 0, { 945, -783 }, { 0, 127, 0, 255}}},
 {{{ 436, -1411, -4757 }, 0, { 370, -1963 }, { 0, 127, 0, 255}}},
@@ -7060,7 +7060,7 @@ Vtx VB_0xe019fa0[] = {
 {{{ -70, -1411, -1231 }, 0, { 2472, -18746 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01a090[] = {
+Vtx VB_castle_inside_1_0xe01a090[] = {
 {{{ -600, -1411, -1090 }, 0, { 5057, -19433 }, { 0, 127, 0, 255}}},
 {{{ -517, -1411, -2906 }, 0, { 4652, -10578 }, { 0, 127, 0, 255}}},
 {{{ -719, -1411, -2008 }, 0, { 5638, -14954 }, { 0, 127, 0, 255}}},
@@ -7078,7 +7078,7 @@ Vtx VB_0xe01a090[] = {
 {{{ -207, -1411, -871 }, 0, { 3143, -20501 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01a180[] = {
+Vtx VB_castle_inside_1_0xe01a180[] = {
 {{{ -196, -1411, -2263 }, 0, { 3088, -13714 }, { 0, 127, 0, 255}}},
 {{{ -207, -1411, -871 }, 0, { 3143, -20501 }, { 0, 127, 0, 255}}},
 {{{ -196, -1411, -1653 }, 0, { 3088, -16686 }, { 0, 127, 0, 255}}},
@@ -7096,7 +7096,7 @@ Vtx VB_0xe01a180[] = {
 {{{ 140, -1411, -5075 }, 0, { 1446, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01a270[] = {
+Vtx VB_castle_inside_1_0xe01a270[] = {
 {{{ 140, -1411, -5075 }, 0, { 1446, 0 }, { 0, 127, 0, 255}}},
 {{{ 60, -1411, -3187 }, 0, { 1832, -9208 }, { 0, 127, 0, 255}}},
 {{{ 302, -1411, -3805 }, 0, { 656, -6195 }, { 0, 127, 0, 255}}},
@@ -7114,7 +7114,7 @@ Vtx VB_0xe01a270[] = {
 {{{ 583, -361, 1110 }, 0, { 9744, -4133 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01a360[] = {
+Vtx VB_castle_inside_1_0xe01a360[] = {
 {{{ 583, -361, 900 }, 0, { 9744, -3520 }, { 0, 127, 0, 255}}},
 {{{ 2753, -361, 1110 }, 0, { 3396, -4133 }, { 0, 127, 0, 255}}},
 {{{ 583, -361, 257 }, 0, { 9744, -1638 }, { 0, 127, 0, 255}}},
@@ -7132,7 +7132,7 @@ Vtx VB_0xe01a360[] = {
 {{{ 583, -361, 257 }, 0, { 9744, -1638 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01a450[] = {
+Vtx VB_castle_inside_1_0xe01a450[] = {
 {{{ -2846, -361, 1110 }, 0, { 19780, -4133 }, { 0, 127, 0, 255}}},
 {{{ -676, -361, -302 }, 0, { 13431, 0 }, { 0, 127, 0, 255}}},
 {{{ -4007, -361, -302 }, 0, { 23176, 0 }, { 0, 127, 0, 255}}},
@@ -7150,7 +7150,7 @@ Vtx VB_0xe01a450[] = {
 {{{ -2374, -1301, -516 }, 0, { 4966, -327 }, { 0, 28, 133, 255}}},
 };
 
-Vtx VB_0xe01a540[] = {
+Vtx VB_castle_inside_1_0xe01a540[] = {
 {{{ -4007, -361, -302 }, 0, { 9744, -3150 }, { 0, 28, 133, 255}}},
 {{{ -3747, -1411, -541 }, 0, { 8983, 0 }, { 0, 28, 133, 255}}},
 {{{ -4246, -1411, -541 }, 0, { 10444, 0 }, { 0, 28, 133, 255}}},
@@ -7168,7 +7168,7 @@ Vtx VB_0xe01a540[] = {
 {{{ -676, -1411, -541 }, 0, { 0, 0 }, { 0, 28, 133, 255}}},
 };
 
-Vtx VB_0xe01a630[] = {
+Vtx VB_castle_inside_1_0xe01a630[] = {
 {{{ -676, -1124, -476 }, 0, { 0, -861 }, { 0, 28, 133, 255}}},
 {{{ -932, -1411, -541 }, 0, { 747, 0 }, { 0, 28, 133, 255}}},
 {{{ -1613, -1254, -505 }, 0, { 2740, -471 }, { 0, 28, 133, 255}}},
@@ -7186,7 +7186,7 @@ Vtx VB_0xe01a630[] = {
 {{{ 583, -361, -302 }, 0, { 508, -2232 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01a720[] = {
+Vtx VB_castle_inside_1_0xe01a720[] = {
 {{{ 583, -795, -317 }, 0, { 464, -962 }, { 129, 0, 0, 255}}},
 {{{ 583, -1124, -476 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
 {{{ 583, -1124, -317 }, 0, { 464, 0 }, { 129, 0, 0, 255}}},
@@ -7204,7 +7204,7 @@ Vtx VB_0xe01a720[] = {
 {{{ 583, -550, 257 }, 0, { 2146, -1679 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01a810[] = {
+Vtx VB_castle_inside_1_0xe01a810[] = {
 {{{ -676, -361, 257 }, 0, { 3686, -552 }, { 0, 0, 129, 255}}},
 {{{ 583, -550, 257 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ -676, -550, 257 }, 0, { 3686, 0 }, { 0, 0, 129, 255}}},
@@ -7222,7 +7222,7 @@ Vtx VB_0xe01a810[] = {
 {{{ -676, -1124, -476 }, 0, { 2146, 0 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01a900[] = {
+Vtx VB_castle_inside_1_0xe01a900[] = {
 {{{ -676, -795, -317 }, 0, { 1682, -962 }, { 127, 0, 0, 255}}},
 {{{ -676, -361, -302 }, 0, { 1638, -2232 }, { 127, 0, 0, 255}}},
 {{{ -676, -795, -64 }, 0, { 942, -962 }, { 127, 0, 0, 255}}},
@@ -7240,7 +7240,7 @@ Vtx VB_0xe01a900[] = {
 {{{ 583, -1124, -476 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01a9f0[] = {
+Vtx VB_castle_inside_1_0xe01a9f0[] = {
 {{{ 583, -1411, -317 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
 {{{ 583, -1124, -476 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
 {{{ 583, -1411, -541 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
@@ -7258,7 +7258,7 @@ Vtx VB_0xe01a9f0[] = {
 {{{ -676, -795, -64 }, 0, { 3686, 0 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe01aae0[] = {
+Vtx VB_castle_inside_1_0xe01aae0[] = {
 {{{ 583, -795, -64 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ -676, -550, -64 }, 0, { 3686, -716 }, { 0, 0, 129, 255}}},
 {{{ 583, -550, -64 }, 0, { 0, -716 }, { 0, 0, 129, 255}}},
@@ -7276,7 +7276,7 @@ Vtx VB_0xe01aae0[] = {
 {{{ 583, -1411, -317 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe01abd0[] = {
+Vtx VB_castle_inside_1_0xe01abd0[] = {
 {{{ -676, -1124, -317 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ 583, -1411, -317 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ -676, -1411, -317 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
@@ -7294,7 +7294,7 @@ Vtx VB_0xe01abd0[] = {
 {{{ 583, -1411, -541 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe01acc0[] = {
+Vtx VB_castle_inside_1_0xe01acc0[] = {
 {{{ 583, -1124, -541 }, 0, { 0, -839 }, { 0, 0, 129, 255}}},
 {{{ -172, -1411, -541 }, 0, { 2210, 0 }, { 0, 0, 129, 255}}},
 {{{ -676, -1124, -541 }, 0, { 3686, -839 }, { 0, 0, 129, 255}}},
@@ -7312,7 +7312,7 @@ Vtx VB_0xe01acc0[] = {
 {{{ -676, -1124, -317 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01adb0[] = {
+Vtx VB_castle_inside_1_0xe01adb0[] = {
 {{{ 583, -1124, -476 }, 0, { 0, -839 }, { 127, 0, 0, 255}}},
 {{{ 583, -1411, -541 }, 0, { 191, 0 }, { 127, 0, 0, 255}}},
 {{{ 583, -1124, -541 }, 0, { 191, -839 }, { 127, 0, 0, 255}}},
@@ -7330,7 +7330,7 @@ Vtx VB_0xe01adb0[] = {
 {{{ 583, -1124, -476 }, 0, { 0, -191 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01aea0[] = {
+Vtx VB_castle_inside_1_0xe01aea0[] = {
 {{{ 583, -116, 1161 }, 0, { 6348, -732 }, { 0, 25, 132, 255}}},
 {{{ 2753, -361, 1110 }, 0, { 0, 0 }, { 0, 25, 132, 255}}},
 {{{ 583, -361, 1110 }, 0, { 6348, 0 }, { 0, 25, 132, 255}}},
@@ -7348,7 +7348,7 @@ Vtx VB_0xe01aea0[] = {
 {{{ -676, 457, 1880 }, 0, { 0, -1679 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01af90[] = {
+Vtx VB_castle_inside_1_0xe01af90[] = {
 {{{ -676, 688, 1327 }, 0, { 1617, -2355 }, { 127, 0, 0, 255}}},
 {{{ -676, 163, 1242 }, 0, { 1867, -819 }, { 127, 0, 0, 255}}},
 {{{ -676, -116, 1161 }, 0, { 2105, 0 }, { 127, 0, 0, 255}}},
@@ -7366,7 +7366,7 @@ Vtx VB_0xe01af90[] = {
 {{{ -676, 457, 1880 }, 0, { 3686, 0 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe01b080[] = {
+Vtx VB_castle_inside_1_0xe01b080[] = {
 {{{ 583, 457, 1880 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ -676, 688, 1880 }, 0, { 3686, -675 }, { 0, 0, 129, 255}}},
 {{{ 583, 688, 1880 }, 0, { 0, -675 }, { 0, 0, 129, 255}}},
@@ -7384,7 +7384,7 @@ Vtx VB_0xe01b080[] = {
 {{{ 583, 163, 1242 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01b170[] = {
+Vtx VB_castle_inside_1_0xe01b170[] = {
 {{{ -676, 163, 1242 }, 0, { 3686, -819 }, { 0, 0, 129, 255}}},
 {{{ 583, -116, 1242 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ -676, -116, 1242 }, 0, { 3686, 0 }, { 0, 0, 129, 255}}},
@@ -7402,7 +7402,7 @@ Vtx VB_0xe01b170[] = {
 {{{ 583, 688, 1327 }, 0, { 487, -2355 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01b260[] = {
+Vtx VB_castle_inside_1_0xe01b260[] = {
 {{{ 583, 163, 1242 }, 0, { 238, -819 }, { 129, 0, 0, 255}}},
 {{{ 583, -116, 1161 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
 {{{ 583, -116, 1242 }, 0, { 238, 0 }, { 129, 0, 0, 255}}},
@@ -7420,7 +7420,7 @@ Vtx VB_0xe01b260[] = {
 {{{ 583, 457, 1880 }, 0, { 2105, -1679 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01b350[] = {
+Vtx VB_castle_inside_1_0xe01b350[] = {
 {{{ 583, -361, 900 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
 {{{ 583, -116, 900 }, 0, { 0, -716 }, { 127, 0, 0, 255}}},
 {{{ 583, -361, 1110 }, 0, { 612, 0 }, { 127, 0, 0, 255}}},
@@ -7438,7 +7438,7 @@ Vtx VB_0xe01b350[] = {
 {{{ 583, -116, 900 }, 0, { 3686, -716 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe01b440[] = {
+Vtx VB_castle_inside_1_0xe01b440[] = {
 {{{ -676, -116, 900 }, 0, { 0, -716 }, { 0, 0, 129, 255}}},
 {{{ 583, -116, 900 }, 0, { 3686, -716 }, { 0, 0, 129, 255}}},
 {{{ -676, -361, 900 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
@@ -7456,7 +7456,7 @@ Vtx VB_0xe01b440[] = {
 {{{ 583, -116, 1242 }, 0, { 3686, -999 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01b530[] = {
+Vtx VB_castle_inside_1_0xe01b530[] = {
 {{{ 1614, 2088, 4456 }, 0, { 0, -5898 }, { 0, 127, 0, 255}}},
 {{{ -1773, 2088, 2440 }, 0, { 9912, 0 }, { 0, 127, 0, 255}}},
 {{{ -1773, 2088, 4456 }, 0, { 9912, -5898 }, { 0, 127, 0, 255}}},
@@ -7474,7 +7474,7 @@ Vtx VB_0xe01b530[] = {
 {{{ 1614, 2172, 4456 }, 0, { 368, -6267 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01b620[] = {
+Vtx VB_castle_inside_1_0xe01b620[] = {
 {{{ 1614, 2172, 4456 }, 0, { 368, -6267 }, { 0, 127, 0, 255}}},
 {{{ -79, 2172, 4582 }, 0, { 5324, -6635 }, { 0, 127, 0, 255}}},
 {{{ 1740, 2172, 4582 }, 0, { 0, -6635 }, { 0, 127, 0, 255}}},
@@ -7492,7 +7492,7 @@ Vtx VB_0xe01b620[] = {
 {{{ 1614, 2172, 2440 }, 0, { 368, -368 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01b710[] = {
+Vtx VB_castle_inside_1_0xe01b710[] = {
 {{{ 1740, 2172, 2314 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 1614, 2172, 2440 }, 0, { 368, -368 }, { 0, 127, 0, 255}}},
 {{{ 1740, 2172, 4582 }, 0, { 0, -6635 }, { 0, 127, 0, 255}}},
@@ -7510,7 +7510,7 @@ Vtx VB_0xe01b710[] = {
 {{{ -1773, 2088, 4456 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01b800[] = {
+Vtx VB_castle_inside_1_0xe01b800[] = {
 {{{ -1773, 2172, 4456 }, 0, { 9912, -245 }, { 0, 0, 129, 255}}},
 {{{ 1614, 2088, 4456 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ -1773, 2088, 4456 }, 0, { 9912, 0 }, { 0, 0, 129, 255}}},
@@ -7528,7 +7528,7 @@ Vtx VB_0xe01b800[] = {
 {{{ -1146, 1360, -6400 }, 0, { 10834, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01b8f0[] = {
+Vtx VB_castle_inside_1_0xe01b8f0[] = {
 {{{ -901, 1360, -5816 }, 0, { 9640, -2846 }, { 0, 127, 0, 255}}},
 {{{ -1146, 1360, -5432 }, 0, { 10834, -4717 }, { 0, 127, 0, 255}}},
 {{{ -771, 1360, -5667 }, 0, { 9004, -3574 }, { 0, 127, 0, 255}}},
@@ -7546,7 +7546,7 @@ Vtx VB_0xe01b8f0[] = {
 {{{ 403, 1360, -5633 }, 0, { 3278, -3738 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01b9e0[] = {
+Vtx VB_castle_inside_1_0xe01b9e0[] = {
 {{{ -424, 1360, -5784 }, 0, { 7311, -3004 }, { 0, 127, 0, 255}}},
 {{{ 403, 1360, -5633 }, 0, { 3278, -3738 }, { 0, 127, 0, 255}}},
 {{{ -410, 1360, -5982 }, 0, { 7246, -2039 }, { 0, 127, 0, 255}}},
@@ -7564,7 +7564,7 @@ Vtx VB_0xe01b9e0[] = {
 {{{ 763, 1360, -5798 }, 0, { 1523, -2934 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01bad0[] = {
+Vtx VB_castle_inside_1_0xe01bad0[] = {
 {{{ -1146, 1360, -6400 }, 0, { 10834, 0 }, { 0, 127, 0, 255}}},
 {{{ -738, 1360, -6144 }, 0, { 8846, -1246 }, { 0, 127, 0, 255}}},
 {{{ 1075, 1360, -6400 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
@@ -7582,7 +7582,7 @@ Vtx VB_0xe01bad0[] = {
 {{{ -410, 1360, -5982 }, 0, { 7246, -2039 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01bbc0[] = {
+Vtx VB_castle_inside_1_0xe01bbc0[] = {
 {{{ 1075, 1360, -6400 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ -410, 1360, -5982 }, 0, { 7246, -2039 }, { 0, 127, 0, 255}}},
 {{{ 383, 1360, -6150 }, 0, { 3372, -1217 }, { 0, 127, 0, 255}}},
@@ -7600,7 +7600,7 @@ Vtx VB_0xe01bbc0[] = {
 {{{ 763, 1360, -5798 }, 0, { 1523, -2934 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01bcb0[] = {
+Vtx VB_castle_inside_1_0xe01bcb0[] = {
 {{{ 1075, 1360, -6400 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 763, 1360, -5798 }, 0, { 1523, -2934 }, { 0, 127, 0, 255}}},
 {{{ 1075, 1360, -5432 }, 0, { 0, -4717 }, { 0, 127, 0, 255}}},
@@ -7618,7 +7618,7 @@ Vtx VB_0xe01bcb0[] = {
 {{{ 1075, 1458, -6400 }, 0, { 505, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01bda0[] = {
+Vtx VB_castle_inside_1_0xe01bda0[] = {
 {{{ 1075, 1458, -6400 }, 0, { 505, 0 }, { 0, 127, 0, 255}}},
 {{{ 1179, 1458, -5329 }, 0, { 0, -5222 }, { 0, 127, 0, 255}}},
 {{{ 1179, 1458, -6400 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
@@ -7636,7 +7636,7 @@ Vtx VB_0xe01bda0[] = {
 {{{ -1146, 1458, -6400 }, 0, { 2830, -286 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01be90[] = {
+Vtx VB_castle_inside_1_0xe01be90[] = {
 {{{ -1146, 1360, -6400 }, 0, { 2830, 0 }, { 127, 0, 0, 255}}},
 {{{ -1146, 1458, -5432 }, 0, { 0, -286 }, { 127, 0, 0, 255}}},
 {{{ -1146, 1360, -5432 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
@@ -7654,7 +7654,7 @@ Vtx VB_0xe01be90[] = {
 {{{ 246, 1430, -5779 }, 0, { 1044, -341 }, { 130, 0, 4, 255}}},
 };
 
-Vtx VB_0xe01bf80[] = {
+Vtx VB_castle_inside_1_0xe01bf80[] = {
 {{{ 238, 1360, -5993 }, 0, { 1044, 0 }, { 163, 0, 170, 255}}},
 {{{ 383, 1430, -6150 }, 0, { 0, -341 }, { 163, 0, 170, 255}}},
 {{{ 383, 1360, -6150 }, 0, { 0, 0 }, { 163, 0, 170, 255}}},
@@ -7672,7 +7672,7 @@ Vtx VB_0xe01bf80[] = {
 {{{ 598, 1360, -6158 }, 0, { 1044, 0 }, { 86, 0, 163, 255}}},
 };
 
-Vtx VB_0xe01c070[] = {
+Vtx VB_castle_inside_1_0xe01c070[] = {
 {{{ 755, 1360, -6012 }, 0, { 0, 0 }, { 86, 0, 163, 255}}},
 {{{ 598, 1430, -6158 }, 0, { 1044, -341 }, { 86, 0, 163, 255}}},
 {{{ 755, 1430, -6012 }, 0, { 0, -341 }, { 86, 0, 163, 255}}},
@@ -7690,7 +7690,7 @@ Vtx VB_0xe01c070[] = {
 {{{ 617, 1360, -5641 }, 0, { 0, 0 }, { 93, 0, 86, 255}}},
 };
 
-Vtx VB_0xe01c160[] = {
+Vtx VB_castle_inside_1_0xe01c160[] = {
 {{{ 617, 1430, -5641 }, 0, { 1044, -341 }, { 4, 0, 126, 255}}},
 {{{ 403, 1360, -5633 }, 0, { 0, 0 }, { 4, 0, 126, 255}}},
 {{{ 617, 1360, -5641 }, 0, { 1044, 0 }, { 4, 0, 126, 255}}},
@@ -7708,7 +7708,7 @@ Vtx VB_0xe01c160[] = {
 {{{ -888, 1360, -6014 }, 0, { 966, 0 }, { 173, 0, 161, 255}}},
 };
 
-Vtx VB_0xe01c250[] = {
+Vtx VB_castle_inside_1_0xe01c250[] = {
 {{{ -738, 1360, -6144 }, 0, { 0, 0 }, { 173, 0, 161, 255}}},
 {{{ -888, 1430, -6014 }, 0, { 966, -341 }, { 173, 0, 161, 255}}},
 {{{ -738, 1430, -6144 }, 0, { 0, -341 }, { 173, 0, 161, 255}}},
@@ -7726,7 +7726,7 @@ Vtx VB_0xe01c250[] = {
 {{{ -771, 1430, -5667 }, 0, { 966, -341 }, { 161, 0, 83, 255}}},
 };
 
-Vtx VB_0xe01c340[] = {
+Vtx VB_castle_inside_1_0xe01c340[] = {
 {{{ -738, 1430, -6144 }, 0, { 966, -341 }, { 8, 0, 130, 255}}},
 {{{ -540, 1360, -6131 }, 0, { 0, 0 }, { 8, 0, 130, 255}}},
 {{{ -738, 1360, -6144 }, 0, { 966, 0 }, { 8, 0, 130, 255}}},
@@ -7744,7 +7744,7 @@ Vtx VB_0xe01c340[] = {
 {{{ -888, 1360, -6014 }, 0, { 0, 0 }, { 130, 0, 248, 255}}},
 };
 
-Vtx VB_0xe01c430[] = {
+Vtx VB_castle_inside_1_0xe01c430[] = {
 {{{ -888, 1430, -6014 }, 0, { 0, -341 }, { 130, 0, 248, 255}}},
 {{{ -901, 1360, -5816 }, 0, { 966, 0 }, { 130, 0, 248, 255}}},
 {{{ -901, 1430, -5816 }, 0, { 966, -341 }, { 130, 0, 248, 255}}},
@@ -7762,7 +7762,7 @@ Vtx VB_0xe01c430[] = {
 {{{ -573, 1430, -5653 }, 0, { 0, -341 }, { 83, 0, 95, 255}}},
 };
 
-Vtx VB_0xe01c520[] = {
+Vtx VB_castle_inside_1_0xe01c520[] = {
 {{{ -656, 2445, -5899 }, 0, { 483, -5084 }, { 8, 29, 133, 255}}},
 {{{ -540, 1430, -6131 }, 0, { 0, 0 }, { 8, 29, 133, 255}}},
 {{{ -738, 1430, -6144 }, 0, { 966, 0 }, { 8, 29, 133, 255}}},
@@ -7780,7 +7780,7 @@ Vtx VB_0xe01c520[] = {
 {{{ -901, 1430, -5816 }, 0, { 0, 0 }, { 163, 29, 81, 255}}},
 };
 
-Vtx VB_0xe01c610[] = {
+Vtx VB_castle_inside_1_0xe01c610[] = {
 {{{ -424, 1430, -5784 }, 0, { 0, 0 }, { 123, 29, 8, 255}}},
 {{{ -410, 1430, -5982 }, 0, { 966, 0 }, { 123, 29, 8, 255}}},
 {{{ -656, 2445, -5899 }, 0, { 483, -5084 }, { 123, 29, 8, 255}}},
@@ -7798,7 +7798,7 @@ Vtx VB_0xe01c610[] = {
 {{{ 383, 1430, -6150 }, 0, { 1044, 0 }, { 252, 31, 134, 255}}},
 };
 
-Vtx VB_0xe01c700[] = {
+Vtx VB_castle_inside_1_0xe01c700[] = {
 {{{ 500, 2445, -5896 }, 0, { 522, -5107 }, { 166, 31, 173, 255}}},
 {{{ 383, 1430, -6150 }, 0, { 0, 0 }, { 166, 31, 173, 255}}},
 {{{ 238, 1430, -5993 }, 0, { 1044, 0 }, { 166, 31, 173, 255}}},
@@ -7816,7 +7816,7 @@ Vtx VB_0xe01c700[] = {
 {{{ 500, 2445, -5896 }, 0, { 522, -5107 }, { 90, 31, 83, 255}}},
 };
 
-Vtx VB_0xe01c7f0[] = {
+Vtx VB_castle_inside_1_0xe01c7f0[] = {
 {{{ 500, 2445, -5896 }, 0, { 522, -5107 }, { 4, 31, 122, 255}}},
 {{{ 403, 1430, -5633 }, 0, { 0, 0 }, { 4, 31, 122, 255}}},
 {{{ 617, 1430, -5641 }, 0, { 1044, 0 }, { 4, 31, 122, 255}}},
@@ -7834,7 +7834,7 @@ Vtx VB_0xe01c7f0[] = {
 {{{ 1179, -443, -5493 }, 0, { 480, -1786 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01c8e0[] = {
+Vtx VB_castle_inside_1_0xe01c8e0[] = {
 {{{ 1179, -443, -5493 }, 0, { 480, -1786 }, { 127, 0, 0, 255}}},
 {{{ 1179, 1458, -5329 }, 0, { 0, -7352 }, { 127, 0, 0, 255}}},
 {{{ 1179, -336, -5329 }, 0, { 0, -2098 }, { 127, 0, 0, 255}}},
@@ -7852,7 +7852,7 @@ Vtx VB_0xe01c8e0[] = {
 {{{ 559, -1175, -5329 }, 0, { 0, -755 }, { 93, 52, 67, 255}}},
 };
 
-Vtx VB_0xe01c9d0[] = {
+Vtx VB_castle_inside_1_0xe01c9d0[] = {
 {{{ 1179, -1054, -5577 }, 0, { 1042, -1085 }, { 217, 34, 115, 255}}},
 {{{ 831, -1175, -5661 }, 0, { 0, -715 }, { 217, 34, 115, 255}}},
 {{{ 870, -1411, -5577 }, 0, { 189, 0 }, { 217, 34, 115, 255}}},
@@ -7870,7 +7870,7 @@ Vtx VB_0xe01c9d0[] = {
 {{{ 691, -1014, -5577 }, 0, { 0, -471 }, { 65, 0, 108, 255}}},
 };
 
-Vtx VB_0xe01cac0[] = {
+Vtx VB_castle_inside_1_0xe01cac0[] = {
 {{{ 831, -1014, -5661 }, 0, { 0, -471 }, { 227, 0, 123, 255}}},
 {{{ 831, -1175, -5661 }, 0, { 0, 0 }, { 227, 0, 123, 255}}},
 {{{ 1179, -1054, -5577 }, 0, { 1047, -355 }, { 227, 0, 123, 255}}},
@@ -7888,7 +7888,7 @@ Vtx VB_0xe01cac0[] = {
 {{{ 831, -1014, -5661 }, 0, { 477, 0 }, { 64, 17, 107, 255}}},
 };
 
-Vtx VB_0xe01cbb0[] = {
+Vtx VB_castle_inside_1_0xe01cbb0[] = {
 {{{ 559, -958, -5329 }, 0, { 0, -182 }, { 95, 201, 62, 255}}},
 {{{ 691, -1014, -5577 }, 0, { 816, 0 }, { 95, 201, 62, 255}}},
 {{{ 691, -735, -5329 }, 0, { 212, -909 }, { 95, 201, 62, 255}}},
@@ -7906,7 +7906,7 @@ Vtx VB_0xe01cbb0[] = {
 {{{ 775, -811, -5661 }, 0, { 942, 0 }, { 57, 150, 39, 255}}},
 };
 
-Vtx VB_0xe01cca0[] = {
+Vtx VB_castle_inside_1_0xe01cca0[] = {
 {{{ 1179, -443, -5493 }, 0, { 1046, -1304 }, { 22, 185, 102, 255}}},
 {{{ 775, -811, -5661 }, 0, { 0, 0 }, { 22, 185, 102, 255}}},
 {{{ 1179, -690, -5666 }, 0, { 1156, -430 }, { 22, 185, 102, 255}}},
@@ -7924,7 +7924,7 @@ Vtx VB_0xe01cca0[] = {
 {{{ -1249, -930, -5329 }, 0, { 331, 0 }, { 189, 96, 47, 255}}},
 };
 
-Vtx VB_0xe01cd90[] = {
+Vtx VB_castle_inside_1_0xe01cd90[] = {
 {{{ -1100, -826, -5329 }, 0, { 860, -116 }, { 173, 59, 74, 255}}},
 {{{ -1249, -708, -5590 }, 0, { 0, -508 }, { 173, 59, 74, 255}}},
 {{{ -1249, -861, -5468 }, 0, { 265, 0 }, { 173, 59, 74, 255}}},
@@ -7942,7 +7942,7 @@ Vtx VB_0xe01cd90[] = {
 {{{ -939, -826, -5329 }, 0, { 406, 0 }, { 163, 85, 0, 255}}},
 };
 
-Vtx VB_0xe01ce80[] = {
+Vtx VB_castle_inside_1_0xe01ce80[] = {
 {{{ -1249, -405, -5415 }, 0, { 0, -1335 }, { 208, 208, 106, 255}}},
 {{{ -939, -826, -5468 }, 0, { 765, 0 }, { 208, 208, 106, 255}}},
 {{{ -793, -666, -5329 }, 0, { 1322, -508 }, { 208, 208, 106, 255}}},
@@ -7960,7 +7960,7 @@ Vtx VB_0xe01ce80[] = {
 {{{ -793, -358, -5329 }, 0, { 1469, 0 }, { 215, 31, 115, 255}}},
 };
 
-Vtx VB_0xe01cf70[] = {
+Vtx VB_castle_inside_1_0xe01cf70[] = {
 {{{ -1123, -52, -5695 }, 0, { 566, -667 }, { 206, 108, 43, 255}}},
 {{{ -1249, -52, -5842 }, 0, { 0, -667 }, { 206, 108, 43, 255}}},
 {{{ -1249, -172, -5543 }, 0, { 664, 0 }, { 206, 108, 43, 255}}},
@@ -7978,7 +7978,7 @@ Vtx VB_0xe01cf70[] = {
 {{{ -976, -52, -5478 }, 0, { 193, 0 }, { 222, 106, 60, 255}}},
 };
 
-Vtx VB_0xe01d060[] = {
+Vtx VB_castle_inside_1_0xe01d060[] = {
 {{{ -920, 100, -5714 }, 0, { 287, -687 }, { 188, 96, 46, 255}}},
 {{{ -1123, -52, -5695 }, 0, { 0, 0 }, { 188, 96, 46, 255}}},
 {{{ -976, -52, -5478 }, 0, { 766, 0 }, { 188, 96, 46, 255}}},
@@ -7996,7 +7996,7 @@ Vtx VB_0xe01d060[] = {
 {{{ -1249, 247, -6042 }, 0, { 0, -564 }, { 172, 174, 47, 255}}},
 };
 
-Vtx VB_0xe01d150[] = {
+Vtx VB_castle_inside_1_0xe01d150[] = {
 {{{ -1249, 667, -5522 }, 0, { 384, -1968 }, { 186, 188, 80, 255}}},
 {{{ -1249, 432, -5721 }, 0, { 0, -1153 }, { 186, 188, 80, 255}}},
 {{{ -920, 100, -5714 }, 0, { 737, 0 }, { 186, 188, 80, 255}}},
@@ -8014,7 +8014,7 @@ Vtx VB_0xe01d150[] = {
 {{{ -953, 610, -5329 }, 0, { 815, -1775 }, { 220, 188, 100, 255}}},
 };
 
-Vtx VB_0xe01d240[] = {
+Vtx VB_castle_inside_1_0xe01d240[] = {
 {{{ -2515, -1481, -4810 }, 0, { 0, -1526 }, { 0, 127, 0, 255}}},
 {{{ -2629, -1481, -5181 }, 0, { 209, -848 }, { 0, 127, 0, 255}}},
 {{{ -2707, -1481, -4587 }, 0, { 350, -1933 }, { 0, 127, 0, 255}}},
@@ -8032,7 +8032,7 @@ Vtx VB_0xe01d240[] = {
 {{{ -3050, -1481, -4412 }, 0, { 978, -2253 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01d330[] = {
+Vtx VB_castle_inside_1_0xe01d330[] = {
 {{{ -3332, -1481, -5529 }, 0, { 1494, -210 }, { 0, 127, 0, 255}}},
 {{{ -3050, -1481, -4412 }, 0, { 978, -2253 }, { 0, 127, 0, 255}}},
 {{{ -2956, -1481, -5645 }, 0, { 806, 0 }, { 0, 127, 0, 255}}},
@@ -8050,7 +8050,7 @@ Vtx VB_0xe01d330[] = {
 {{{ -2629, -1481, -5181 }, 0, { 209, -848 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01d420[] = {
+Vtx VB_castle_inside_1_0xe01d420[] = {
 {{{ -2956, -1411, -5645 }, 0, { 1917, -341 }, { 37, 0, 121, 255}}},
 {{{ -3332, -1481, -5529 }, 0, { 0, 0 }, { 37, 0, 121, 255}}},
 {{{ -2956, -1481, -5645 }, 0, { 1917, 0 }, { 37, 0, 121, 255}}},
@@ -8068,7 +8068,7 @@ Vtx VB_0xe01d420[] = {
 {{{ -2746, -1481, -5591 }, 0, { 0, 0 }, { 146, 0, 62, 255}}},
 };
 
-Vtx VB_0xe01d510[] = {
+Vtx VB_castle_inside_1_0xe01d510[] = {
 {{{ -2746, -1411, -5591 }, 0, { 0, -341 }, { 146, 0, 62, 255}}},
 {{{ -2629, -1481, -5384 }, 0, { 1160, 0 }, { 146, 0, 62, 255}}},
 {{{ -2629, -1411, -5384 }, 0, { 1160, -341 }, { 146, 0, 62, 255}}},
@@ -8086,7 +8086,7 @@ Vtx VB_0xe01d510[] = {
 {{{ -2515, -1411, -4964 }, 0, { 1194, -341 }, { 144, 0, 59, 255}}},
 };
 
-Vtx VB_0xe01d600[] = {
+Vtx VB_castle_inside_1_0xe01d600[] = {
 {{{ -2515, -1481, -4810 }, 0, { 750, 0 }, { 129, 0, 0, 255}}},
 {{{ -2515, -1411, -4964 }, 0, { 0, -341 }, { 129, 0, 0, 255}}},
 {{{ -2515, -1481, -4964 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
@@ -8104,7 +8104,7 @@ Vtx VB_0xe01d600[] = {
 {{{ -3050, -1481, -4412 }, 0, { 1877, 0 }, { 199, 0, 143, 255}}},
 };
 
-Vtx VB_0xe01d6f0[] = {
+Vtx VB_castle_inside_1_0xe01d6f0[] = {
 {{{ -2707, -1481, -4587 }, 0, { 0, 0 }, { 199, 0, 143, 255}}},
 {{{ -3050, -1411, -4412 }, 0, { 1877, -341 }, { 199, 0, 143, 255}}},
 {{{ -2707, -1411, -4587 }, 0, { 0, -341 }, { 199, 0, 143, 255}}},
@@ -8122,7 +8122,7 @@ Vtx VB_0xe01d6f0[] = {
 {{{ -3421, -1481, -4412 }, 0, { 0, 0 }, { 98, 0, 176, 255}}},
 };
 
-Vtx VB_0xe01d7e0[] = {
+Vtx VB_castle_inside_1_0xe01d7e0[] = {
 {{{ -3637, -1411, -4679 }, 0, { 0, -341 }, { 127, 0, 0, 255}}},
 {{{ -3637, -1481, -5120 }, 0, { 2150, 0 }, { 127, 0, 0, 255}}},
 {{{ -3637, -1411, -5120 }, 0, { 2150, -341 }, { 127, 0, 0, 255}}},
@@ -8140,7 +8140,7 @@ Vtx VB_0xe01d7e0[] = {
 {{{ 4153, -1481, 4582 }, 0, { 5120, -9369 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01d8d0[] = {
+Vtx VB_castle_inside_1_0xe01d8d0[] = {
 {{{ 4153, -1481, -541 }, 0, { 5120, 0 }, { 0, 127, 0, 255}}},
 {{{ 5792, -1481, 5097 }, 0, { 2123, -10311 }, { 0, 127, 0, 255}}},
 {{{ 6953, -1481, -541 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
@@ -8158,7 +8158,7 @@ Vtx VB_0xe01d8d0[] = {
 {{{ 6953, -1481, 1916 }, 0, { 0, -4494 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01d9c0[] = {
+Vtx VB_castle_inside_1_0xe01d9c0[] = {
 {{{ 6953, -1481, -541 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 6953, -1481, 1916 }, 0, { 0, -4494 }, { 0, 127, 0, 255}}},
 {{{ 6953, -1481, 1231 }, 0, { 0, -3241 }, { 0, 127, 0, 255}}},
@@ -8176,7 +8176,7 @@ Vtx VB_0xe01d9c0[] = {
 {{{ 4153, -1411, -541 }, 0, { 0, -341 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe01dab0[] = {
+Vtx VB_castle_inside_1_0xe01dab0[] = {
 {{{ 3527, -1411, -541 }, 0, { 0, -341 }, { 125, 0, 20, 255}}},
 {{{ 3661, -1481, -1356 }, 0, { 4027, 0 }, { 125, 0, 20, 255}}},
 {{{ 3661, -1411, -1356 }, 0, { 4027, -341 }, { 125, 0, 20, 255}}},
@@ -8194,7 +8194,7 @@ Vtx VB_0xe01dab0[] = {
 {{{ 4009, -1411, -2569 }, 0, { 2874, -341 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01dba0[] = {
+Vtx VB_castle_inside_1_0xe01dba0[] = {
 {{{ 4009, -1481, -2569 }, 0, { 2874, 0 }, { 127, 0, 0, 255}}},
 {{{ 4009, -1411, -1979 }, 0, { 0, -341 }, { 127, 0, 0, 255}}},
 {{{ 4009, -1481, -1979 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
@@ -8212,7 +8212,7 @@ Vtx VB_0xe01dba0[] = {
 {{{ 3695, -1411, -3147 }, 0, { 0, -341 }, { 80, 0, 158, 255}}},
 };
 
-Vtx VB_0xe01dc90[] = {
+Vtx VB_castle_inside_1_0xe01dc90[] = {
 {{{ 3125, -1411, -3611 }, 0, { 0, -341 }, { 108, 0, 190, 255}}},
 {{{ 2699, -1481, -4302 }, 0, { 3959, 0 }, { 108, 0, 190, 255}}},
 {{{ 2699, -1411, -4302 }, 0, { 3959, -341 }, { 108, 0, 190, 255}}},
@@ -8230,7 +8230,7 @@ Vtx VB_0xe01dc90[] = {
 {{{ 3000, -1411, -5715 }, 0, { 3276, -341 }, { 113, 0, 56, 255}}},
 };
 
-Vtx VB_0xe01dd80[] = {
+Vtx VB_castle_inside_1_0xe01dd80[] = {
 {{{ 3000, -1481, -5715 }, 0, { 3276, 0 }, { 113, 0, 56, 255}}},
 {{{ 2699, -1411, -5114 }, 0, { 0, -341 }, { 113, 0, 56, 255}}},
 {{{ 2699, -1481, -5114 }, 0, { 0, 0 }, { 113, 0, 56, 255}}},
@@ -8248,7 +8248,7 @@ Vtx VB_0xe01dd80[] = {
 {{{ 3654, -1481, -6017 }, 0, { 0, 0 }, { 108, 0, 66, 255}}},
 };
 
-Vtx VB_0xe01de70[] = {
+Vtx VB_castle_inside_1_0xe01de70[] = {
 {{{ -4833, -1411, -3772 }, 0, { 3460, -341 }, { 0, 0, 127, 255}}},
 {{{ -5542, -1481, -3772 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
 {{{ -4833, -1481, -3772 }, 0, { 3460, 0 }, { 0, 0, 127, 255}}},
@@ -8266,7 +8266,7 @@ Vtx VB_0xe01de70[] = {
 {{{ -4446, -1481, -3627 }, 0, { 0, 0 }, { 149, 0, 67, 255}}},
 };
 
-Vtx VB_0xe01df60[] = {
+Vtx VB_castle_inside_1_0xe01df60[] = {
 {{{ -4446, -1411, -3627 }, 0, { 0, -341 }, { 149, 0, 67, 255}}},
 {{{ -4206, -1481, -3248 }, 0, { 2184, 0 }, { 149, 0, 67, 255}}},
 {{{ -4206, -1411, -3248 }, 0, { 2184, -341 }, { 149, 0, 67, 255}}},
@@ -8284,7 +8284,7 @@ Vtx VB_0xe01df60[] = {
 {{{ -4462, -1411, -1777 }, 0, { 4812, -341 }, { 134, 0, 224, 255}}},
 };
 
-Vtx VB_0xe01e050[] = {
+Vtx VB_castle_inside_1_0xe01e050[] = {
 {{{ -4837, -1481, -1002 }, 0, { 4198, 0 }, { 142, 0, 201, 255}}},
 {{{ -4462, -1411, -1777 }, 0, { 0, -341 }, { 142, 0, 201, 255}}},
 {{{ -4462, -1481, -1777 }, 0, { 0, 0 }, { 142, 0, 201, 255}}},
@@ -8302,7 +8302,7 @@ Vtx VB_0xe01e050[] = {
 {{{ -4837, -1481, -491 }, 0, { 0, 0 }, { 145, 0, 61, 255}}},
 };
 
-Vtx VB_0xe01e140[] = {
+Vtx VB_castle_inside_1_0xe01e140[] = {
 {{{ -4837, -1411, -491 }, 0, { 0, -341 }, { 145, 0, 61, 255}}},
 {{{ -4610, -1481, -81 }, 0, { 2286, 0 }, { 145, 0, 61, 255}}},
 {{{ -4610, -1411, -81 }, 0, { 2286, -341 }, { 145, 0, 61, 255}}},
@@ -8320,7 +8320,7 @@ Vtx VB_0xe01e140[] = {
 {{{ -4246, -1411, 4582 }, 0, { 21788, -341 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01e230[] = {
+Vtx VB_castle_inside_1_0xe01e230[] = {
 {{{ 4153, -1411, 4582 }, 0, { 0, -341 }, { 127, 0, 0, 255}}},
 {{{ 4153, -1481, -541 }, 0, { 24985, 0 }, { 127, 0, 0, 255}}},
 {{{ 4153, -1411, -541 }, 0, { 24985, -341 }, { 127, 0, 0, 255}}},
@@ -8338,7 +8338,7 @@ Vtx VB_0xe01e230[] = {
 {{{ 3654, -1481, -6017 }, 0, { 6031, -699 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01e320[] = {
+Vtx VB_castle_inside_1_0xe01e320[] = {
 {{{ 3654, -1481, -6017 }, 0, { 6031, -699 }, { 0, 127, 0, 255}}},
 {{{ 3125, -1481, -3611 }, 0, { 6999, -5100 }, { 0, 127, 0, 255}}},
 {{{ 3695, -1481, -3147 }, 0, { 5956, -5947 }, { 0, 127, 0, 255}}},
@@ -8356,7 +8356,7 @@ Vtx VB_0xe01e320[] = {
 {{{ 4153, -1481, -541 }, 0, { 5120, -10713 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01e410[] = {
+Vtx VB_castle_inside_1_0xe01e410[] = {
 {{{ 4522, -1481, -6400 }, 0, { 4444, 0 }, { 0, 127, 0, 255}}},
 {{{ 4153, -1481, -541 }, 0, { 5120, -10713 }, { 0, 127, 0, 255}}},
 {{{ 6953, -1481, -541 }, 0, { 0, -10713 }, { 0, 127, 0, 255}}},
@@ -8374,7 +8374,7 @@ Vtx VB_0xe01e410[] = {
 {{{ 5787, -1481, -4968 }, 0, { 2131, -2618 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01e500[] = {
+Vtx VB_castle_inside_1_0xe01e500[] = {
 {{{ 5787, -1481, -4968 }, 0, { 2131, -2618 }, { 0, 127, 0, 255}}},
 {{{ 6953, -1481, -541 }, 0, { 0, -10713 }, { 0, 127, 0, 255}}},
 {{{ 5787, -1481, -5248 }, 0, { 2131, -2106 }, { 0, 127, 0, 255}}},
@@ -8392,7 +8392,7 @@ Vtx VB_0xe01e500[] = {
 {{{ 6953, -1481, -1762 }, 0, { 0, -8480 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01e5f0[] = {
+Vtx VB_castle_inside_1_0xe01e5f0[] = {
 {{{ 6953, -1481, -6400 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ 6953, -1481, -1762 }, 0, { 0, -8480 }, { 0, 127, 0, 255}}},
 {{{ 6953, -1481, -2747 }, 0, { 0, -6679 }, { 0, 127, 0, 255}}},
@@ -8410,7 +8410,7 @@ Vtx VB_0xe01e5f0[] = {
 {{{ 4522, -1481, -6400 }, 0, { 4444, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01e6e0[] = {
+Vtx VB_castle_inside_1_0xe01e6e0[] = {
 {{{ 5520, -1481, -6400 }, 0, { 2620, 0 }, { 0, 127, 0, 255}}},
 {{{ 5181, -1481, -5342 }, 0, { 3240, -1934 }, { 0, 127, 0, 255}}},
 {{{ 5312, -1481, -5487 }, 0, { 2999, -1668 }, { 0, 127, 0, 255}}},
@@ -8428,7 +8428,7 @@ Vtx VB_0xe01e6e0[] = {
 {{{ 3527, -1481, -541 }, 0, { 6264, -10713 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01e7d0[] = {
+Vtx VB_castle_inside_1_0xe01e7d0[] = {
 {{{ 3661, -1481, -1356 }, 0, { 6019, -9222 }, { 0, 127, 0, 255}}},
 {{{ 4153, -1481, -541 }, 0, { 5120, -10713 }, { 0, 127, 0, 255}}},
 {{{ 4009, -1481, -1979 }, 0, { 5383, -8083 }, { 0, 127, 0, 255}}},
@@ -8446,7 +8446,7 @@ Vtx VB_0xe01e7d0[] = {
 {{{ -7046, -1481, -1022 }, 0, { 5192, -5029 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01e8c0[] = {
+Vtx VB_castle_inside_1_0xe01e8c0[] = {
 {{{ -7046, -1481, -1022 }, 0, { 5192, -5029 }, { 0, 127, 0, 255}}},
 {{{ -4837, -1481, -491 }, 0, { 1153, -5999 }, { 0, 127, 0, 255}}},
 {{{ -7046, -1481, -1628 }, 0, { 5192, -3920 }, { 0, 127, 0, 255}}},
@@ -8464,7 +8464,7 @@ Vtx VB_0xe01e8c0[] = {
 {{{ -5542, -1481, -3772 }, 0, { 2442, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01e9b0[] = {
+Vtx VB_castle_inside_1_0xe01e9b0[] = {
 {{{ -5542, -1481, -3772 }, 0, { 2442, 0 }, { 0, 127, 0, 255}}},
 {{{ -4837, -1481, -491 }, 0, { 1153, -5999 }, { 0, 127, 0, 255}}},
 {{{ -4837, -1481, -1002 }, 0, { 1153, -5065 }, { 0, 127, 0, 255}}},
@@ -8482,7 +8482,7 @@ Vtx VB_0xe01e9b0[] = {
 {{{ -4206, -1481, -2730 }, 0, { 0, -1905 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01eaa0[] = {
+Vtx VB_castle_inside_1_0xe01eaa0[] = {
 {{{ -4446, -1481, -3627 }, 0, { 438, -265 }, { 0, 127, 0, 255}}},
 {{{ -4206, -1481, -2730 }, 0, { 0, -1905 }, { 0, 127, 0, 255}}},
 {{{ -4206, -1481, -3248 }, 0, { 0, -958 }, { 0, 127, 0, 255}}},
@@ -8500,7 +8500,7 @@ Vtx VB_0xe01eaa0[] = {
 {{{ 4153, -1481, 4582 }, 0, { 2996, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01eb90[] = {
+Vtx VB_castle_inside_1_0xe01eb90[] = {
 {{{ 4153, -1481, 4582 }, 0, { 2996, 0 }, { 0, 127, 0, 255}}},
 {{{ 909, -1481, 7599 }, 0, { 8929, -5517 }, { 0, 127, 0, 255}}},
 {{{ 1842, -1481, 7375 }, 0, { 7223, -5108 }, { 0, 127, 0, 255}}},
@@ -8518,7 +8518,7 @@ Vtx VB_0xe01eb90[] = {
 {{{ 3936, -1481, 6403 }, 0, { 3393, -3329 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01ec80[] = {
+Vtx VB_castle_inside_1_0xe01ec80[] = {
 {{{ 4153, -1481, 4582 }, 0, { 2996, 0 }, { 0, 127, 0, 255}}},
 {{{ 3936, -1481, 6403 }, 0, { 3393, -3329 }, { 0, 127, 0, 255}}},
 {{{ 4309, -1481, 6403 }, 0, { 2712, -3329 }, { 0, 127, 0, 255}}},
@@ -8536,7 +8536,7 @@ Vtx VB_0xe01ec80[] = {
 {{{ 5227, -1481, 6404 }, 0, { 1032, -3331 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01ed70[] = {
+Vtx VB_castle_inside_1_0xe01ed70[] = {
 {{{ 5552, -1481, 5533 }, 0, { 437, -1738 }, { 0, 127, 0, 255}}},
 {{{ 5227, -1481, 6404 }, 0, { 1032, -3331 }, { 0, 127, 0, 255}}},
 {{{ 5552, -1481, 5820 }, 0, { 437, -2263 }, { 0, 127, 0, 255}}},
@@ -8554,7 +8554,7 @@ Vtx VB_0xe01ed70[] = {
 {{{ -4252, -1481, 7599 }, 0, { 7690, -5517 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01ee60[] = {
+Vtx VB_castle_inside_1_0xe01ee60[] = {
 {{{ -4246, -1481, 4582 }, 0, { 7680, 0 }, { 0, 127, 0, 255}}},
 {{{ -4252, -1481, 7599 }, 0, { 7690, -5517 }, { 0, 127, 0, 255}}},
 {{{ -3409, -1481, 7599 }, 0, { 6148, -5517 }, { 0, 127, 0, 255}}},
@@ -8572,7 +8572,7 @@ Vtx VB_0xe01ee60[] = {
 {{{ -881, -1481, 7599 }, 0, { 1527, -5517 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01ef50[] = {
+Vtx VB_castle_inside_1_0xe01ef50[] = {
 {{{ -46, -1481, 4582 }, 0, { 0, 0 }, { 0, 127, 0, 255}}},
 {{{ -881, -1481, 7599 }, 0, { 1527, -5517 }, { 0, 127, 0, 255}}},
 {{{ -46, -1481, 7599 }, 0, { 0, -5517 }, { 0, 127, 0, 255}}},
@@ -8590,7 +8590,7 @@ Vtx VB_0xe01ef50[] = {
 {{{ -7046, -1481, 4411 }, 0, { 5120, -8965 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01f040[] = {
+Vtx VB_castle_inside_1_0xe01f040[] = {
 {{{ -7046, -1481, 4411 }, 0, { 5120, -8965 }, { 0, 127, 0, 255}}},
 {{{ -4246, -1481, 4582 }, 0, { 0, -9278 }, { 0, 127, 0, 255}}},
 {{{ -7046, -1481, 3508 }, 0, { 5120, -7314 }, { 0, 127, 0, 255}}},
@@ -8608,7 +8608,7 @@ Vtx VB_0xe01f040[] = {
 {{{ -4837, -1481, -491 }, 0, { 1081, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe01f130[] = {
+Vtx VB_castle_inside_1_0xe01f130[] = {
 {{{ -4837, -1481, -491 }, 0, { 1081, 0 }, { 0, 127, 0, 255}}},
 {{{ -4246, -1481, 4582 }, 0, { 0, -9278 }, { 0, 127, 0, 255}}},
 {{{ -4610, -1481, -81 }, 0, { 665, -749 }, { 0, 127, 0, 255}}},
@@ -8626,7 +8626,7 @@ Vtx VB_0xe01f130[] = {
 {{{ -2242, 1115, -6400 }, 0, { 1210, -5290 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe01f220[] = {
+Vtx VB_castle_inside_1_0xe01f220[] = {
 {{{ -1746, 975, -6400 }, 0, { 0, -4949 }, { 0, 0, 127, 255}}},
 {{{ -2242, 1115, -6400 }, 0, { 1210, -5290 }, { 0, 0, 127, 255}}},
 {{{ -1746, -1054, -6400 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
@@ -8644,7 +8644,7 @@ Vtx VB_0xe01f220[] = {
 {{{ 1179, 975, -6400 }, 0, { 0, -4949 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe01f310[] = {
+Vtx VB_castle_inside_1_0xe01f310[] = {
 {{{ 2753, 639, -6400 }, 0, { 1871, -5000 }, { 0, 0, 127, 255}}},
 {{{ 2534, -1411, -6400 }, 0, { 1336, 0 }, { 0, 0, 127, 255}}},
 {{{ 2753, -1411, -6400 }, 0, { 1871, 0 }, { 0, 0, 127, 255}}},
@@ -8662,7 +8662,7 @@ Vtx VB_0xe01f310[] = {
 {{{ 3643, -1411, -6400 }, 0, { 2169, 0 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe01f400[] = {
+Vtx VB_castle_inside_1_0xe01f400[] = {
 {{{ 2753, -1411, -6400 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
 {{{ 3643, 975, -6400 }, 0, { 2169, -5819 }, { 0, 0, 127, 255}}},
 {{{ 2753, 639, -6400 }, 0, { 0, -5000 }, { 0, 0, 127, 255}}},
@@ -8680,7 +8680,7 @@ Vtx VB_0xe01f400[] = {
 {{{ 3643, 975, -6400 }, 0, { 0, -5990 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe01f4f0[] = {
+Vtx VB_castle_inside_1_0xe01f4f0[] = {
 {{{ 5520, 1115, -6400 }, 0, { 2431, -6331 }, { 0, 0, 127, 255}}},
 {{{ 4522, -1481, -6400 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
 {{{ 5520, -1481, -6400 }, 0, { 2431, 0 }, { 0, 0, 127, 255}}},
@@ -8698,7 +8698,7 @@ Vtx VB_0xe01f4f0[] = {
 {{{ 6953, -1481, -6400 }, 0, { 1747, 0 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe01f5e0[] = {
+Vtx VB_castle_inside_1_0xe01f5e0[] = {
 {{{ 6236, -1481, -6400 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
 {{{ 6953, 611, -6400 }, 0, { 1747, -5102 }, { 0, 0, 127, 255}}},
 {{{ 6236, 856, -6400 }, 0, { 0, -5700 }, { 0, 0, 127, 255}}},
@@ -8716,7 +8716,7 @@ Vtx VB_0xe01f5e0[] = {
 {{{ 6953, 856, -4626 }, 0, { 2081, -5700 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01f6d0[] = {
+Vtx VB_castle_inside_1_0xe01f6d0[] = {
 {{{ 6953, -1481, -3795 }, 0, { 2025, 0 }, { 129, 0, 0, 255}}},
 {{{ 6953, 856, -4626 }, 0, { 0, -5700 }, { 129, 0, 0, 255}}},
 {{{ 6953, -1481, -4626 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
@@ -8734,7 +8734,7 @@ Vtx VB_0xe01f6d0[] = {
 {{{ 6953, -1481, -2747 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01f7c0[] = {
+Vtx VB_castle_inside_1_0xe01f7c0[] = {
 {{{ 6953, 730, -2747 }, 0, { 0, -5393 }, { 129, 0, 0, 255}}},
 {{{ 6953, -1481, -1762 }, 0, { 2401, 0 }, { 129, 0, 0, 255}}},
 {{{ 6953, 618, -1762 }, 0, { 2401, -5120 }, { 129, 0, 0, 255}}},
@@ -8752,7 +8752,7 @@ Vtx VB_0xe01f7c0[] = {
 {{{ 6953, 1234, -107 }, 0, { 1954, -6621 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01f8b0[] = {
+Vtx VB_castle_inside_1_0xe01f8b0[] = {
 {{{ 6953, 1234, -107 }, 0, { 1954, -6621 }, { 129, 0, 0, 255}}},
 {{{ 6953, -1481, -541 }, 0, { 896, 0 }, { 129, 0, 0, 255}}},
 {{{ 6953, -1481, -107 }, 0, { 1954, 0 }, { 129, 0, 0, 255}}},
@@ -8770,7 +8770,7 @@ Vtx VB_0xe01f8b0[] = {
 {{{ 6953, 1353, 1231 }, 0, { 1584, -6912 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01f9a0[] = {
+Vtx VB_castle_inside_1_0xe01f9a0[] = {
 {{{ 6953, -1481, 1916 }, 0, { 1670, 0 }, { 129, 0, 0, 255}}},
 {{{ 6953, 1353, 1231 }, 0, { 0, -6912 }, { 129, 0, 0, 255}}},
 {{{ 6953, -1481, 1231 }, 0, { 0, 0 }, { 129, 0, 0, 255}}},
@@ -8788,7 +8788,7 @@ Vtx VB_0xe01f9a0[] = {
 {{{ 6953, 170, 2601 }, 0, { 1670, -4027 }, { 129, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01fa90[] = {
+Vtx VB_castle_inside_1_0xe01fa90[] = {
 {{{ -46, 1724, 7599 }, 0, { 2330, -7816 }, { 0, 0, 129, 255}}},
 {{{ 909, -1481, 7599 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ -46, -1481, 7599 }, 0, { 2330, 0 }, { 0, 0, 129, 255}}},
@@ -8806,7 +8806,7 @@ Vtx VB_0xe01fa90[] = {
 {{{ -46, 1724, 7599 }, 0, { 0, -7816 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe01fb80[] = {
+Vtx VB_castle_inside_1_0xe01fb80[] = {
 {{{ -1705, 1570, 7599 }, 0, { 2007, -7441 }, { 0, 0, 129, 255}}},
 {{{ -881, -1481, 7599 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ -1705, -1481, 7599 }, 0, { 2007, 0 }, { 0, 0, 129, 255}}},
@@ -8824,7 +8824,7 @@ Vtx VB_0xe01fb80[] = {
 {{{ -3409, -1481, 7599 }, 0, { 1843, 0 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe01fc70[] = {
+Vtx VB_castle_inside_1_0xe01fc70[] = {
 {{{ -2653, -1481, 7599 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ -3409, 989, 7599 }, 0, { 1843, -6024 }, { 0, 0, 129, 255}}},
 {{{ -2653, 1423, 7599 }, 0, { 0, -7082 }, { 0, 0, 129, 255}}},
@@ -8842,7 +8842,7 @@ Vtx VB_0xe01fc70[] = {
 {{{ -4252, 1199, 7599 }, 0, { 0, -6536 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe01fd60[] = {
+Vtx VB_castle_inside_1_0xe01fd60[] = {
 {{{ -5737, 1094, 7599 }, 0, { 1738, -6280 }, { 0, 0, 129, 255}}},
 {{{ -5024, -1481, 7599 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ -5737, -1481, 7599 }, 0, { 1738, 0 }, { 0, 0, 129, 255}}},
@@ -8860,7 +8860,7 @@ Vtx VB_0xe01fd60[] = {
 {{{ -7046, -1481, 7599 }, 0, { 1595, 0 }, { 0, 0, 129, 255}}},
 };
 
-Vtx VB_0xe01fe50[] = {
+Vtx VB_castle_inside_1_0xe01fe50[] = {
 {{{ -6392, -1481, 7599 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ -7046, 989, 7599 }, 0, { 1595, -6024 }, { 0, 0, 129, 255}}},
 {{{ -6392, 1199, 7599 }, 0, { 0, -6536 }, { 0, 0, 129, 255}}},
@@ -8878,7 +8878,7 @@ Vtx VB_0xe01fe50[] = {
 {{{ -7046, -1481, 6736 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe01ff40[] = {
+Vtx VB_castle_inside_1_0xe01ff40[] = {
 {{{ -7046, 989, 6012 }, 0, { 0, -6024 }, { 127, 0, 0, 255}}},
 {{{ -7046, -1481, 5224 }, 0, { 1920, 0 }, { 127, 0, 0, 255}}},
 {{{ -7046, 674, 5224 }, 0, { 1920, -5256 }, { 127, 0, 0, 255}}},
@@ -8896,7 +8896,7 @@ Vtx VB_0xe01ff40[] = {
 {{{ -7046, 254, 3508 }, 0, { 2201, -4232 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe020030[] = {
+Vtx VB_castle_inside_1_0xe020030[] = {
 {{{ -7046, -1481, 3508 }, 0, { 2201, 0 }, { 127, 0, 0, 255}}},
 {{{ -7046, 989, 4411 }, 0, { 0, -6024 }, { 127, 0, 0, 255}}},
 {{{ -7046, -1481, 4411 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
@@ -8914,7 +8914,7 @@ Vtx VB_0xe020030[] = {
 {{{ -7046, -1481, 2703 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe020120[] = {
+Vtx VB_castle_inside_1_0xe020120[] = {
 {{{ -7046, 254, 1913 }, 0, { 0, -4232 }, { 127, 0, 0, 255}}},
 {{{ -7046, -1481, 1122 }, 0, { 1927, 0 }, { 127, 0, 0, 255}}},
 {{{ -7046, 898, 1122 }, 0, { 1927, -5802 }, { 127, 0, 0, 255}}},
@@ -8932,7 +8932,7 @@ Vtx VB_0xe020120[] = {
 {{{ -7046, 989, -415 }, 0, { 1831, -6024 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe020210[] = {
+Vtx VB_castle_inside_1_0xe020210[] = {
 {{{ -7046, -1481, -415 }, 0, { 1831, 0 }, { 127, 0, 0, 255}}},
 {{{ -7046, 1206, 335 }, 0, { 0, -6553 }, { 127, 0, 0, 255}}},
 {{{ -7046, -1481, 335 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
@@ -8950,7 +8950,7 @@ Vtx VB_0xe020210[] = {
 {{{ -7046, -1481, -1022 }, 0, { 0, 0 }, { 127, 0, 0, 255}}},
 };
 
-Vtx VB_0xe020300[] = {
+Vtx VB_castle_inside_1_0xe020300[] = {
 {{{ -46, -361, 4582 }, 0, { 12288, -3072 }, { 0, 0, 127, 255}}},
 {{{ -4246, -1411, 4582 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
 {{{ -46, -1411, 4582 }, 0, { 12288, 0 }, { 0, 0, 127, 255}}},
@@ -8968,7 +8968,7 @@ Vtx VB_0xe020300[] = {
 {{{ 4153, -1411, 4582 }, 0, { 12288, 0 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe0203f0[] = {
+Vtx VB_castle_inside_1_0xe0203f0[] = {
 {{{ -46, -1411, 4582 }, 0, { 0, 0 }, { 0, 0, 127, 255}}},
 {{{ 3914, -361, 4582 }, 0, { 11588, -3072 }, { 0, 0, 127, 255}}},
 {{{ -46, -361, 4582 }, 0, { 0, -3072 }, { 0, 0, 127, 255}}},
@@ -8986,7 +8986,7 @@ Vtx VB_0xe0203f0[] = {
 {{{ 2723, -1411, -1420 }, 0, { 3761, -14569 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0204e0[] = {
+Vtx VB_castle_inside_1_0xe0204e0[] = {
 {{{ 2723, -1411, -1420 }, 0, { 3761, -14569 }, { 0, 127, 0, 255}}},
 {{{ 2562, -1411, -541 }, 0, { 4233, -17141 }, { 0, 127, 0, 255}}},
 {{{ 3527, -1411, -541 }, 0, { 1410, -17141 }, { 0, 127, 0, 255}}},
@@ -9004,7 +9004,7 @@ Vtx VB_0xe0204e0[] = {
 {{{ 3695, -1411, -3147 }, 0, { 917, -9516 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0205d0[] = {
+Vtx VB_castle_inside_1_0xe0205d0[] = {
 {{{ 3695, -1411, -3147 }, 0, { 917, -9516 }, { 0, 127, 0, 255}}},
 {{{ 3527, -1411, -541 }, 0, { 1410, -17141 }, { 0, 127, 0, 255}}},
 {{{ 3661, -1411, -1356 }, 0, { 1018, -14756 }, { 0, 127, 0, 255}}},
@@ -9022,7 +9022,7 @@ Vtx VB_0xe0205d0[] = {
 {{{ 3125, -1411, -3611 }, 0, { 2587, -8160 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0206c0[] = {
+Vtx VB_castle_inside_1_0xe0206c0[] = {
 {{{ 374, -1411, -5057 }, 0, { 10633, -3927 }, { 0, 127, 0, 255}}},
 {{{ 136, -1411, -5329 }, 0, { 11330, -3133 }, { 0, 127, 0, 255}}},
 {{{ 136, -1411, -5159 }, 0, { 11330, -3629 }, { 0, 127, 0, 255}}},
@@ -9040,7 +9040,7 @@ Vtx VB_0xe0206c0[] = {
 {{{ 966, -1411, -3291 }, 0, { 8904, -9095 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0207b0[] = {
+Vtx VB_castle_inside_1_0xe0207b0[] = {
 {{{ 691, -1411, -5329 }, 0, { 9708, -3133 }, { 0, 127, 0, 255}}},
 {{{ 966, -1411, -3291 }, 0, { 8904, -9095 }, { 0, 127, 0, 255}}},
 {{{ 870, -1411, -5577 }, 0, { 9183, -2408 }, { 0, 127, 0, 255}}},
@@ -9058,7 +9058,7 @@ Vtx VB_0xe0207b0[] = {
 {{{ 1455, -1411, -4460 }, 0, { 7471, -5676 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0208a0[] = {
+Vtx VB_castle_inside_1_0xe0208a0[] = {
 {{{ 1455, -1411, -4460 }, 0, { 7471, -5676 }, { 0, 127, 0, 255}}},
 {{{ 1647, -1411, -3585 }, 0, { 6911, -8234 }, { 0, 127, 0, 255}}},
 {{{ 1682, -1411, -4295 }, 0, { 6808, -6158 }, { 0, 127, 0, 255}}},
@@ -9076,7 +9076,7 @@ Vtx VB_0xe0208a0[] = {
 {{{ 2612, -1411, -3252 }, 0, { 4088, -9208 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe020990[] = {
+Vtx VB_castle_inside_1_0xe020990[] = {
 {{{ 2280, -1411, -4595 }, 0, { 5057, -5279 }, { 0, 127, 0, 255}}},
 {{{ 2612, -1411, -3252 }, 0, { 4088, -9208 }, { 0, 127, 0, 255}}},
 {{{ 2280, -1411, -4821 }, 0, { 5057, -4620 }, { 0, 127, 0, 255}}},
@@ -9094,7 +9094,7 @@ Vtx VB_0xe020990[] = {
 {{{ 2699, -1411, -5114 }, 0, { 3833, -3762 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe020a80[] = {
+Vtx VB_castle_inside_1_0xe020a80[] = {
 {{{ 2699, -1411, -5114 }, 0, { 3833, -3762 }, { 0, 127, 0, 255}}},
 {{{ 2612, -1411, -3252 }, 0, { 4088, -9208 }, { 0, 127, 0, 255}}},
 {{{ 2699, -1411, -4302 }, 0, { 3833, -6137 }, { 0, 127, 0, 255}}},
@@ -9112,7 +9112,7 @@ Vtx VB_0xe020a80[] = {
 {{{ 3888, -1411, -6400 }, 0, { 352, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe020b70[] = {
+Vtx VB_castle_inside_1_0xe020b70[] = {
 {{{ 1378, -1411, -4772 }, 0, { 7698, -4762 }, { 0, 127, 0, 255}}},
 {{{ 1728, -1411, -5743 }, 0, { 6674, -1921 }, { 0, 127, 0, 255}}},
 {{{ 1179, -1411, -5577 }, 0, { 8281, -2408 }, { 0, 127, 0, 255}}},
@@ -9130,7 +9130,7 @@ Vtx VB_0xe020b70[] = {
 {{{ 2123, -1411, -5035 }, 0, { 5518, -3993 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe020c60[] = {
+Vtx VB_castle_inside_1_0xe020c60[] = {
 {{{ 2314, -1411, -6086 }, 0, { 4959, -917 }, { 0, 127, 0, 255}}},
 {{{ 2123, -1411, -5035 }, 0, { 5518, -3993 }, { 0, 127, 0, 255}}},
 {{{ 2280, -1411, -4821 }, 0, { 5057, -4620 }, { 0, 127, 0, 255}}},
@@ -9148,7 +9148,7 @@ Vtx VB_0xe020c60[] = {
 {{{ 122, -1411, -1619 }, 0, { 11373, -13986 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe020d50[] = {
+Vtx VB_castle_inside_1_0xe020d50[] = {
 {{{ 122, -1411, -1619 }, 0, { 11373, -13986 }, { 0, 127, 0, 255}}},
 {{{ 583, -1411, -541 }, 0, { 10023, -17141 }, { 0, 127, 0, 255}}},
 {{{ 421, -1411, -1214 }, 0, { 10497, -15172 }, { 0, 127, 0, 255}}},
@@ -9166,7 +9166,7 @@ Vtx VB_0xe020d50[] = {
 {{{ 133, -1411, -3163 }, 0, { 11341, -9471 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe020e40[] = {
+Vtx VB_castle_inside_1_0xe020e40[] = {
 {{{ 133, -1411, -3163 }, 0, { 11341, -9471 }, { 0, 127, 0, 255}}},
 {{{ 5, -1411, -1242 }, 0, { 11713, -15091 }, { 0, 127, 0, 255}}},
 {{{ 122, -1411, -2053 }, 0, { 11373, -12716 }, { 0, 127, 0, 255}}},
@@ -9184,7 +9184,7 @@ Vtx VB_0xe020e40[] = {
 {{{ 653, -1411, -2728 }, 0, { 9817, -10743 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe020f30[] = {
+Vtx VB_castle_inside_1_0xe020f30[] = {
 {{{ 375, -1411, -3782 }, 0, { 10633, -7659 }, { 0, 127, 0, 255}}},
 {{{ 653, -1411, -2728 }, 0, { 9817, -10743 }, { 0, 127, 0, 255}}},
 {{{ 512, -1411, -4375 }, 0, { 10230, -5923 }, { 0, 127, 0, 255}}},
@@ -9202,7 +9202,7 @@ Vtx VB_0xe020f30[] = {
 {{{ -1528, 695, 3118 }, 0, { 539, -371 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe021020[] = {
+Vtx VB_castle_inside_1_0xe021020[] = {
 {{{ -1527, 695, 3104 }, 0, { 535, -302 }, { 0, 127, 0, 255}}},
 {{{ -1528, 695, 3118 }, 0, { 539, -371 }, { 0, 127, 0, 255}}},
 {{{ -1525, 695, 3111 }, 0, { 525, -338 }, { 0, 127, 0, 255}}},
@@ -9220,7 +9220,7 @@ Vtx VB_0xe021020[] = {
 {{{ -1515, 695, 3101 }, 0, { 475, -288 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe021110[] = {
+Vtx VB_castle_inside_1_0xe021110[] = {
 {{{ -1530, 695, 3152 }, 0, { 551, -539 }, { 0, 127, 0, 255}}},
 {{{ -1528, 695, 3132 }, 0, { 539, -442 }, { 0, 127, 0, 255}}},
 {{{ -1529, 695, 3125 }, 0, { 543, -407 }, { 0, 127, 0, 255}}},
@@ -9238,7 +9238,7 @@ Vtx VB_0xe021110[] = {
 {{{ -1517, 695, 3170 }, 0, { 485, -628 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe021200[] = {
+Vtx VB_castle_inside_1_0xe021200[] = {
 {{{ -1520, 695, 3145 }, 0, { 503, -503 }, { 0, 127, 0, 255}}},
 {{{ -1517, 695, 3170 }, 0, { 485, -628 }, { 0, 127, 0, 255}}},
 {{{ -1515, 695, 3149 }, 0, { 475, -525 }, { 0, 127, 0, 255}}},
@@ -9256,7 +9256,7 @@ Vtx VB_0xe021200[] = {
 {{{ -1510, 695, 3065 }, 0, { 454, -112 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0212f0[] = {
+Vtx VB_castle_inside_1_0xe0212f0[] = {
 {{{ -1512, 695, 3077 }, 0, { 460, -172 }, { 0, 127, 0, 255}}},
 {{{ -1514, 695, 3069 }, 0, { 470, -135 }, { 0, 127, 0, 255}}},
 {{{ -1512, 695, 3084 }, 0, { 460, -206 }, { 0, 127, 0, 255}}},
@@ -9274,7 +9274,7 @@ Vtx VB_0xe0212f0[] = {
 {{{ -1539, 695, 3104 }, 0, { 596, -302 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0213e0[] = {
+Vtx VB_castle_inside_1_0xe0213e0[] = {
 {{{ -1539, 695, 3104 }, 0, { 596, -302 }, { 0, 127, 0, 255}}},
 {{{ -1543, 695, 3184 }, 0, { 611, -695 }, { 0, 127, 0, 255}}},
 {{{ -1530, 695, 3152 }, 0, { 551, -539 }, { 0, 127, 0, 255}}},
@@ -9292,7 +9292,7 @@ Vtx VB_0xe0213e0[] = {
 {{{ -1568, 695, 3075 }, 0, { 737, -165 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0214d0[] = {
+Vtx VB_castle_inside_1_0xe0214d0[] = {
 {{{ -1568, 695, 3075 }, 0, { 737, -165 }, { 0, 127, 0, 255}}},
 {{{ -1577, 695, 3159 }, 0, { 781, -572 }, { 0, 127, 0, 255}}},
 {{{ -1566, 695, 3178 }, 0, { 726, -663 }, { 0, 127, 0, 255}}},
@@ -9310,7 +9310,7 @@ Vtx VB_0xe0214d0[] = {
 {{{ -1549, 695, 3087 }, 0, { 641, -223 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0215c0[] = {
+Vtx VB_castle_inside_1_0xe0215c0[] = {
 {{{ -1549, 695, 3087 }, 0, { 641, -223 }, { 0, 127, 0, 255}}},
 {{{ -1550, 695, 3193 }, 0, { 649, -737 }, { 0, 127, 0, 255}}},
 {{{ -1543, 695, 3184 }, 0, { 611, -695 }, { 0, 127, 0, 255}}},
@@ -9328,7 +9328,7 @@ Vtx VB_0xe0215c0[] = {
 {{{ -1523, 695, 3199 }, 0, { 514, -767 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0216b0[] = {
+Vtx VB_castle_inside_1_0xe0216b0[] = {
 {{{ -1510, 695, 3209 }, 0, { 451, -814 }, { 0, 127, 0, 255}}},
 {{{ -1523, 695, 3199 }, 0, { 514, -767 }, { 0, 127, 0, 255}}},
 {{{ -1531, 695, 3203 }, 0, { 555, -789 }, { 0, 127, 0, 255}}},
@@ -9346,7 +9346,7 @@ Vtx VB_0xe0216b0[] = {
 {{{ -1504, 695, 3186 }, 0, { 425, -703 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0217a0[] = {
+Vtx VB_castle_inside_1_0xe0217a0[] = {
 {{{ -1504, 695, 3186 }, 0, { 425, -703 }, { 0, 127, 0, 255}}},
 {{{ -1510, 695, 3209 }, 0, { 451, -814 }, { 0, 127, 0, 255}}},
 {{{ -1488, 695, 3208 }, 0, { 344, -811 }, { 0, 127, 0, 255}}},
@@ -9364,7 +9364,7 @@ Vtx VB_0xe0217a0[] = {
 {{{ -1493, 695, 3083 }, 0, { 368, -201 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe021890[] = {
+Vtx VB_castle_inside_1_0xe021890[] = {
 {{{ -1489, 695, 3057 }, 0, { 348, -75 }, { 0, 127, 0, 255}}},
 {{{ -1493, 695, 3083 }, 0, { 368, -201 }, { 0, 127, 0, 255}}},
 {{{ -1489, 695, 3093 }, 0, { 349, -253 }, { 0, 127, 0, 255}}},
@@ -9382,7 +9382,7 @@ Vtx VB_0xe021890[] = {
 {{{ -1487, 695, 3149 }, 0, { 338, -525 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe021980[] = {
+Vtx VB_castle_inside_1_0xe021980[] = {
 {{{ -1487, 695, 3149 }, 0, { 338, -525 }, { 0, 127, 0, 255}}},
 {{{ -1489, 695, 3156 }, 0, { 349, -556 }, { 0, 127, 0, 255}}},
 {{{ -1471, 695, 3149 }, 0, { 260, -521 }, { 0, 127, 0, 255}}},
@@ -9400,7 +9400,7 @@ Vtx VB_0xe021980[] = {
 {{{ -1474, 695, 3132 }, 0, { 275, -442 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe021a70[] = {
+Vtx VB_castle_inside_1_0xe021a70[] = {
 {{{ -1474, 695, 3132 }, 0, { 275, -442 }, { 0, 127, 0, 255}}},
 {{{ -1471, 695, 3149 }, 0, { 260, -521 }, { 0, 127, 0, 255}}},
 {{{ -1473, 695, 3125 }, 0, { 270, -407 }, { 0, 127, 0, 255}}},
@@ -9418,7 +9418,7 @@ Vtx VB_0xe021a70[] = {
 {{{ -1454, 695, 3187 }, 0, { 180, -710 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe021b60[] = {
+Vtx VB_castle_inside_1_0xe021b60[] = {
 {{{ -1454, 695, 3187 }, 0, { 180, -710 }, { 0, 127, 0, 255}}},
 {{{ -1467, 695, 3202 }, 0, { 241, -781 }, { 0, 127, 0, 255}}},
 {{{ -1448, 695, 3191 }, 0, { 150, -726 }, { 0, 127, 0, 255}}},
@@ -9436,7 +9436,7 @@ Vtx VB_0xe021b60[] = {
 {{{ -1530, 695, 3055 }, 0, { 549, -67 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe021c50[] = {
+Vtx VB_castle_inside_1_0xe021c50[] = {
 {{{ -1535, 695, 3048 }, 0, { 572, -32 }, { 0, 127, 0, 255}}},
 {{{ -1530, 695, 3055 }, 0, { 549, -67 }, { 0, 127, 0, 255}}},
 {{{ -1513, 695, 3042 }, 0, { 469, -2 }, { 0, 127, 0, 255}}},
@@ -9454,7 +9454,7 @@ Vtx VB_0xe021c50[] = {
 {{{ -1505, 695, 3047 }, 0, { 428, -28 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe021d40[] = {
+Vtx VB_castle_inside_1_0xe021d40[] = {
 {{{ -1513, 695, 3042 }, 0, { 469, -2 }, { 0, 127, 0, 255}}},
 {{{ -1505, 695, 3047 }, 0, { 428, -28 }, { 0, 127, 0, 255}}},
 {{{ -1492, 695, 3042 }, 0, { 363, 0 }, { 0, 127, 0, 255}}},
@@ -9472,7 +9472,7 @@ Vtx VB_0xe021d40[] = {
 {{{ -1479, 695, 3053 }, 0, { 302, -53 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe021e30[] = {
+Vtx VB_castle_inside_1_0xe021e30[] = {
 {{{ -1470, 695, 3047 }, 0, { 259, -25 }, { 0, 127, 0, 255}}},
 {{{ -1479, 695, 3053 }, 0, { 302, -53 }, { 0, 127, 0, 255}}},
 {{{ -1466, 695, 3058 }, 0, { 238, -77 }, { 0, 127, 0, 255}}},
@@ -9490,7 +9490,7 @@ Vtx VB_0xe021e30[] = {
 {{{ -1435, 695, 3072 }, 0, { 88, -150 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe021f20[] = {
+Vtx VB_castle_inside_1_0xe021f20[] = {
 {{{ -1435, 695, 3072 }, 0, { 88, -150 }, { 0, 127, 0, 255}}},
 {{{ -1449, 695, 3069 }, 0, { 154, -133 }, { 0, 127, 0, 255}}},
 {{{ -1448, 695, 3191 }, 0, { 150, -726 }, { 0, 127, 0, 255}}},
@@ -9508,7 +9508,7 @@ Vtx VB_0xe021f20[] = {
 {{{ -1418, 695, 3112 }, 0, { 2, -344 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe022010[] = {
+Vtx VB_castle_inside_1_0xe022010[] = {
 {{{ -1418, 695, 3112 }, 0, { 2, -344 }, { 0, 127, 0, 255}}},
 {{{ -1422, 695, 3155 }, 0, { 25, -555 }, { 0, 127, 0, 255}}},
 {{{ -1417, 695, 3134 }, 0, { 0, -451 }, { 0, 127, 0, 255}}},
@@ -9526,7 +9526,7 @@ Vtx VB_0xe022010[] = {
 {{{ -1471, 695, 3149 }, 0, { 260, -521 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe022100[] = {
+Vtx VB_castle_inside_1_0xe022100[] = {
 {{{ -1467, 695, 3103 }, 0, { 245, -298 }, { 0, 127, 0, 255}}},
 {{{ -1471, 695, 3149 }, 0, { 260, -521 }, { 0, 127, 0, 255}}},
 {{{ -1454, 695, 3187 }, 0, { 180, -710 }, { 0, 127, 0, 255}}},
@@ -9544,7 +9544,7 @@ Vtx VB_0xe022100[] = {
 {{{ -1514, 695, 3069 }, 0, { 470, -135 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0221f0[] = {
+Vtx VB_castle_inside_1_0xe0221f0[] = {
 {{{ -1514, 695, 3069 }, 0, { 470, -135 }, { 0, 127, 0, 255}}},
 {{{ -1516, 695, 3095 }, 0, { 481, -260 }, { 0, 127, 0, 255}}},
 {{{ -1515, 695, 3101 }, 0, { 475, -288 }, { 0, 127, 0, 255}}},
@@ -9562,7 +9562,7 @@ Vtx VB_0xe0221f0[] = {
 {{{ -1502, 695, 3092 }, 0, { 411, -247 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0222e0[] = {
+Vtx VB_castle_inside_1_0xe0222e0[] = {
 {{{ -1502, 695, 3092 }, 0, { 411, -247 }, { 0, 127, 0, 255}}},
 {{{ -1508, 695, 3098 }, 0, { 442, -275 }, { 0, 127, 0, 255}}},
 {{{ -1501, 695, 3097 }, 0, { 407, -270 }, { 0, 127, 0, 255}}},
@@ -9580,7 +9580,7 @@ Vtx VB_0xe0222e0[] = {
 {{{ -1487, 695, 3101 }, 0, { 338, -288 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0223d0[] = {
+Vtx VB_castle_inside_1_0xe0223d0[] = {
 {{{ -1493, 695, 3083 }, 0, { 368, -201 }, { 0, 127, 0, 255}}},
 {{{ -1487, 695, 3101 }, 0, { 338, -288 }, { 0, 127, 0, 255}}},
 {{{ -1489, 695, 3093 }, 0, { 349, -253 }, { 0, 127, 0, 255}}},
@@ -9598,7 +9598,7 @@ Vtx VB_0xe0223d0[] = {
 {{{ -1476, 695, 3111 }, 0, { 288, -338 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0224c0[] = {
+Vtx VB_castle_inside_1_0xe0224c0[] = {
 {{{ -1474, 695, 3064 }, 0, { 275, -111 }, { 0, 127, 0, 255}}},
 {{{ -1476, 695, 3111 }, 0, { 288, -338 }, { 0, 127, 0, 255}}},
 {{{ -1474, 695, 3099 }, 0, { 275, -282 }, { 0, 127, 0, 255}}},
@@ -9616,7 +9616,7 @@ Vtx VB_0xe0224c0[] = {
 {{{ -1486, 695, 3175 }, 0, { 336, -651 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0225b0[] = {
+Vtx VB_castle_inside_1_0xe0225b0[] = {
 {{{ -1486, 695, 3175 }, 0, { 336, -651 }, { 0, 127, 0, 255}}},
 {{{ -1494, 695, 3176 }, 0, { 374, -654 }, { 0, 127, 0, 255}}},
 {{{ -1491, 695, 3182 }, 0, { 359, -685 }, { 0, 127, 0, 255}}},
@@ -9634,7 +9634,7 @@ Vtx VB_0xe0225b0[] = {
 {{{ -1513, 695, 3042 }, 0, { 0, -34 }, { 237, 0, 131, 255}}},
 };
 
-Vtx VB_0xe0226a0[] = {
+Vtx VB_castle_inside_1_0xe0226a0[] = {
 {{{ -1513, 695, 3042 }, 0, { 106, -34 }, { 237, 0, 131, 255}}},
 {{{ -1492, 688, 3042 }, 0, { 0, 0 }, { 13, 0, 130, 255}}},
 {{{ -1513, 688, 3042 }, 0, { 106, 0 }, { 237, 0, 131, 255}}},
@@ -9652,7 +9652,7 @@ Vtx VB_0xe0226a0[] = {
 {{{ -1470, 688, 3047 }, 0, { 106, 0 }, { 45, 0, 138, 255}}},
 };
 
-Vtx VB_0xe022790[] = {
+Vtx VB_castle_inside_1_0xe022790[] = {
 {{{ -1451, 688, 3057 }, 0, { 0, 0 }, { 74, 0, 154, 255}}},
 {{{ -1470, 695, 3047 }, 0, { 106, -34 }, { 45, 0, 138, 255}}},
 {{{ -1451, 695, 3057 }, 0, { 0, -34 }, { 74, 0, 154, 255}}},
@@ -9670,7 +9670,7 @@ Vtx VB_0xe022790[] = {
 {{{ -1424, 688, 3091 }, 0, { 0, 0 }, { 116, 0, 205, 255}}},
 };
 
-Vtx VB_0xe022880[] = {
+Vtx VB_castle_inside_1_0xe022880[] = {
 {{{ -1418, 695, 3112 }, 0, { 0, -34 }, { 125, 0, 237, 255}}},
 {{{ -1424, 688, 3091 }, 0, { 106, 0 }, { 116, 0, 205, 255}}},
 {{{ -1424, 695, 3091 }, 0, { 106, -34 }, { 116, 0, 205, 255}}},
@@ -9688,7 +9688,7 @@ Vtx VB_0xe022880[] = {
 {{{ -1417, 695, 3134 }, 0, { 106, -34 }, { 126, 0, 13, 255}}},
 };
 
-Vtx VB_0xe022970[] = {
+Vtx VB_castle_inside_1_0xe022970[] = {
 {{{ -1417, 688, 3134 }, 0, { 106, 0 }, { 126, 0, 13, 255}}},
 {{{ -1422, 695, 3155 }, 0, { 0, -34 }, { 118, 0, 45, 255}}},
 {{{ -1422, 688, 3155 }, 0, { 0, 0 }, { 118, 0, 45, 255}}},
@@ -9706,7 +9706,7 @@ Vtx VB_0xe022970[] = {
 {{{ -1448, 688, 3191 }, 0, { 0, 0 }, { 79, 0, 98, 255}}},
 };
 
-Vtx VB_0xe022a60[] = {
+Vtx VB_castle_inside_1_0xe022a60[] = {
 {{{ -1448, 695, 3191 }, 0, { 106, -34 }, { 79, 0, 98, 255}}},
 {{{ -1467, 688, 3202 }, 0, { 0, 0 }, { 51, 0, 116, 255}}},
 {{{ -1448, 688, 3191 }, 0, { 106, 0 }, { 79, 0, 98, 255}}},
@@ -9724,7 +9724,7 @@ Vtx VB_0xe022a60[] = {
 {{{ -1488, 688, 3208 }, 0, { 106, 0 }, { 19, 0, 125, 255}}},
 };
 
-Vtx VB_0xe022b50[] = {
+Vtx VB_castle_inside_1_0xe022b50[] = {
 {{{ -1510, 688, 3209 }, 0, { 0, 0 }, { 243, 0, 126, 255}}},
 {{{ -1488, 695, 3208 }, 0, { 106, -34 }, { 19, 0, 125, 255}}},
 {{{ -1510, 695, 3209 }, 0, { 0, -34 }, { 243, 0, 126, 255}}},
@@ -9742,7 +9742,7 @@ Vtx VB_0xe022b50[] = {
 {{{ -1550, 695, 3193 }, 0, { 0, -34 }, { 182, 0, 102, 255}}},
 };
 
-Vtx VB_0xe022c40[] = {
+Vtx VB_castle_inside_1_0xe022c40[] = {
 {{{ -1550, 695, 3193 }, 0, { 106, -34 }, { 182, 0, 102, 255}}},
 {{{ -1566, 688, 3178 }, 0, { 0, 0 }, { 158, 0, 79, 255}}},
 {{{ -1550, 688, 3193 }, 0, { 106, 0 }, { 182, 0, 102, 255}}},
@@ -9760,7 +9760,7 @@ Vtx VB_0xe022c40[] = {
 {{{ -1584, 688, 3138 }, 0, { 0, 0 }, { 131, 0, 19, 255}}},
 };
 
-Vtx VB_0xe022d30[] = {
+Vtx VB_castle_inside_1_0xe022d30[] = {
 {{{ -1584, 695, 3138 }, 0, { 0, -34 }, { 131, 0, 19, 255}}},
 {{{ -1577, 688, 3159 }, 0, { 106, 0 }, { 140, 0, 51, 255}}},
 {{{ -1577, 695, 3159 }, 0, { 106, -34 }, { 140, 0, 51, 255}}},
@@ -9778,7 +9778,7 @@ Vtx VB_0xe022d30[] = {
 {{{ -1584, 695, 3116 }, 0, { 106, -34 }, { 130, 0, 243, 255}}},
 };
 
-Vtx VB_0xe022e20[] = {
+Vtx VB_castle_inside_1_0xe022e20[] = {
 {{{ -1579, 688, 3095 }, 0, { 106, 0 }, { 138, 0, 211, 255}}},
 {{{ -1568, 695, 3075 }, 0, { 0, -34 }, { 154, 0, 182, 255}}},
 {{{ -1568, 688, 3075 }, 0, { 0, 0 }, { 154, 0, 182, 255}}},
@@ -9796,7 +9796,7 @@ Vtx VB_0xe022e20[] = {
 {{{ -1553, 688, 3060 }, 0, { 106, 0 }, { 177, 0, 158, 255}}},
 };
 
-Vtx VB_0xe022f10[] = {
+Vtx VB_castle_inside_1_0xe022f10[] = {
 {{{ -1535, 688, 3048 }, 0, { 0, 0 }, { 205, 0, 140, 255}}},
 {{{ -1553, 695, 3060 }, 0, { 106, -34 }, { 177, 0, 158, 255}}},
 {{{ -1535, 695, 3048 }, 0, { 0, -34 }, { 205, 0, 140, 255}}},
@@ -9814,7 +9814,7 @@ Vtx VB_0xe022f10[] = {
 {{{ -1520, 695, 3145 }, 0, { 233, -233 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe023000[] = {
+Vtx VB_castle_inside_1_0xe023000[] = {
 {{{ -1525, 695, 3111 }, 0, { 254, -68 }, { 0, 127, 0, 255}}},
 {{{ -1520, 695, 3145 }, 0, { 233, -233 }, { 0, 127, 0, 255}}},
 {{{ -1522, 695, 3125 }, 0, { 238, -136 }, { 0, 127, 0, 255}}},
@@ -9832,7 +9832,7 @@ Vtx VB_0xe023000[] = {
 {{{ -1515, 695, 3140 }, 0, { 208, -208 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0230f0[] = {
+Vtx VB_castle_inside_1_0xe0230f0[] = {
 {{{ -1515, 695, 3140 }, 0, { 208, -208 }, { 0, 127, 0, 255}}},
 {{{ -1515, 695, 3149 }, 0, { 204, -254 }, { 0, 127, 0, 255}}},
 {{{ -1511, 695, 3143 }, 0, { 187, -225 }, { 0, 127, 0, 255}}},
@@ -9850,7 +9850,7 @@ Vtx VB_0xe0230f0[] = {
 {{{ -1501, 695, 3146 }, 0, { 136, -238 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0231e0[] = {
+Vtx VB_castle_inside_1_0xe0231e0[] = {
 {{{ -1501, 695, 3146 }, 0, { 136, -238 }, { 0, 127, 0, 255}}},
 {{{ -1501, 695, 3153 }, 0, { 136, -273 }, { 0, 127, 0, 255}}},
 {{{ -1493, 695, 3152 }, 0, { 101, -268 }, { 0, 127, 0, 255}}},
@@ -9868,7 +9868,7 @@ Vtx VB_0xe0231e0[] = {
 {{{ -1488, 695, 3141 }, 0, { 72, -215 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0232d0[] = {
+Vtx VB_castle_inside_1_0xe0232d0[] = {
 {{{ -1488, 695, 3141 }, 0, { 72, -215 }, { 0, 127, 0, 255}}},
 {{{ -1487, 695, 3149 }, 0, { 68, -254 }, { 0, 127, 0, 255}}},
 {{{ -1486, 695, 3140 }, 0, { 64, -208 }, { 0, 127, 0, 255}}},
@@ -9886,7 +9886,7 @@ Vtx VB_0xe0232d0[] = {
 {{{ -1480, 695, 3130 }, 0, { 37, -163 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0233c0[] = {
+Vtx VB_castle_inside_1_0xe0233c0[] = {
 {{{ -1480, 695, 3130 }, 0, { 37, -163 }, { 0, 127, 0, 255}}},
 {{{ -1481, 695, 3145 }, 0, { 39, -233 }, { 0, 127, 0, 255}}},
 {{{ -1476, 695, 3139 }, 0, { 18, -204 }, { 0, 127, 0, 255}}},
@@ -9904,7 +9904,7 @@ Vtx VB_0xe0233c0[] = {
 {{{ -1519, 695, 3115 }, 0, { 225, -85 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0234b0[] = {
+Vtx VB_castle_inside_1_0xe0234b0[] = {
 {{{ -1520, 695, 3105 }, 0, { 233, -39 }, { 0, 127, 0, 255}}},
 {{{ -1519, 695, 3115 }, 0, { 225, -85 }, { 0, 127, 0, 255}}},
 {{{ -1518, 695, 3103 }, 0, { 221, -31 }, { 0, 127, 0, 255}}},
@@ -9922,7 +9922,7 @@ Vtx VB_0xe0234b0[] = {
 {{{ -1508, 695, 3098 }, 0, { 171, -4 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0235a0[] = {
+Vtx VB_castle_inside_1_0xe0235a0[] = {
 {{{ -1508, 695, 3098 }, 0, { 171, -4 }, { 0, 127, 0, 255}}},
 {{{ -1514, 695, 3109 }, 0, { 200, -57 }, { 0, 127, 0, 255}}},
 {{{ -1511, 695, 3107 }, 0, { 187, -47 }, { 0, 127, 0, 255}}},
@@ -9940,7 +9940,7 @@ Vtx VB_0xe0235a0[] = {
 {{{ -1495, 695, 3105 }, 0, { 110, -37 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe023690[] = {
+Vtx VB_castle_inside_1_0xe023690[] = {
 {{{ -1501, 695, 3097 }, 0, { 136, 0 }, { 0, 127, 0, 255}}},
 {{{ -1495, 695, 3105 }, 0, { 110, -37 }, { 0, 127, 0, 255}}},
 {{{ -1493, 695, 3098 }, 0, { 101, -4 }, { 0, 127, 0, 255}}},
@@ -9958,7 +9958,7 @@ Vtx VB_0xe023690[] = {
 {{{ -1481, 695, 3105 }, 0, { 39, -39 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe023780[] = {
+Vtx VB_castle_inside_1_0xe023780[] = {
 {{{ -1481, 695, 3105 }, 0, { 39, -39 }, { 0, 127, 0, 255}}},
 {{{ -1486, 695, 3110 }, 0, { 64, -64 }, { 0, 127, 0, 255}}},
 {{{ -1482, 695, 3115 }, 0, { 47, -85 }, { 0, 127, 0, 255}}},
@@ -9976,7 +9976,7 @@ Vtx VB_0xe023780[] = {
 {{{ -1476, 695, 3139 }, 0, { 18, -204 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe023870[] = {
+Vtx VB_castle_inside_1_0xe023870[] = {
 {{{ -1476, 695, 3111 }, 0, { 18, -68 }, { 0, 127, 0, 255}}},
 {{{ -1476, 695, 3139 }, 0, { 18, -204 }, { 0, 127, 0, 255}}},
 {{{ -1474, 695, 3132 }, 0, { 4, -171 }, { 0, 127, 0, 255}}},
@@ -9994,7 +9994,7 @@ Vtx VB_0xe023870[] = {
 {{{ -1519, 688, 3136 }, 0, { 191, -153 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe023960[] = {
+Vtx VB_castle_inside_1_0xe023960[] = {
 {{{ -1521, 688, 3120 }, 0, { 201, -75 }, { 0, 127, 0, 255}}},
 {{{ -1519, 688, 3136 }, 0, { 191, -153 }, { 0, 127, 0, 255}}},
 {{{ -1519, 688, 3115 }, 0, { 191, -51 }, { 0, 127, 0, 255}}},
@@ -10012,7 +10012,7 @@ Vtx VB_0xe023960[] = {
 {{{ -1514, 688, 3109 }, 0, { 166, -23 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe023a50[] = {
+Vtx VB_castle_inside_1_0xe023a50[] = {
 {{{ -1514, 688, 3109 }, 0, { 166, -23 }, { 0, 127, 0, 255}}},
 {{{ -1511, 688, 3143 }, 0, { 153, -191 }, { 0, 127, 0, 255}}},
 {{{ -1511, 688, 3107 }, 0, { 153, -13 }, { 0, 127, 0, 255}}},
@@ -10030,7 +10030,7 @@ Vtx VB_0xe023a50[] = {
 {{{ -1501, 688, 3104 }, 0, { 102, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe023b40[] = {
+Vtx VB_castle_inside_1_0xe023b40[] = {
 {{{ -1501, 688, 3104 }, 0, { 102, 0 }, { 0, 127, 0, 255}}},
 {{{ -1501, 688, 3146 }, 0, { 102, -204 }, { 0, 127, 0, 255}}},
 {{{ -1495, 688, 3145 }, 0, { 75, -201 }, { 0, 127, 0, 255}}},
@@ -10048,7 +10048,7 @@ Vtx VB_0xe023b40[] = {
 {{{ -1488, 688, 3141 }, 0, { 38, -181 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe023c30[] = {
+Vtx VB_castle_inside_1_0xe023c30[] = {
 {{{ -1490, 688, 3107 }, 0, { 51, -13 }, { 0, 127, 0, 255}}},
 {{{ -1488, 688, 3141 }, 0, { 38, -181 }, { 0, 127, 0, 255}}},
 {{{ -1486, 688, 3110 }, 0, { 29, -29 }, { 0, 127, 0, 255}}},
@@ -10066,7 +10066,7 @@ Vtx VB_0xe023c30[] = {
 {{{ -1480, 688, 3130 }, 0, { 3, -128 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe023d20[] = {
+Vtx VB_castle_inside_1_0xe023d20[] = {
 {{{ -1482, 688, 3115 }, 0, { 13, -51 }, { 0, 127, 0, 255}}},
 {{{ -1480, 688, 3130 }, 0, { 3, -128 }, { 0, 127, 0, 255}}},
 {{{ -1480, 688, 3120 }, 0, { 3, -75 }, { 0, 127, 0, 255}}},
@@ -10084,7 +10084,7 @@ Vtx VB_0xe023d20[] = {
 {{{ -1490, 688, 3143 }, 0, { 15, 0 }, { 193, 0, 147, 255}}},
 };
 
-Vtx VB_0xe023e10[] = {
+Vtx VB_castle_inside_1_0xe023e10[] = {
 {{{ -1488, 688, 3141 }, 0, { 0, 0 }, { 179, 0, 156, 255}}},
 {{{ -1490, 695, 3143 }, 0, { 15, -34 }, { 193, 0, 147, 255}}},
 {{{ -1488, 695, 3141 }, 0, { 0, -34 }, { 179, 0, 156, 255}}},
@@ -10102,7 +10102,7 @@ Vtx VB_0xe023e10[] = {
 {{{ -1495, 695, 3145 }, 0, { 0, -34 }, { 224, 0, 134, 255}}},
 };
 
-Vtx VB_0xe023f00[] = {
+Vtx VB_castle_inside_1_0xe023f00[] = {
 {{{ -1506, 695, 3145 }, 0, { 26, -34 }, { 32, 0, 134, 255}}},
 {{{ -1501, 688, 3146 }, 0, { 0, 0 }, { 0, 0, 129, 255}}},
 {{{ -1506, 688, 3145 }, 0, { 26, 0 }, { 32, 0, 134, 255}}},
@@ -10120,7 +10120,7 @@ Vtx VB_0xe023f00[] = {
 {{{ -1515, 688, 3140 }, 0, { 26, 0 }, { 89, 0, 167, 255}}},
 };
 
-Vtx VB_0xe023ff0[] = {
+Vtx VB_castle_inside_1_0xe023ff0[] = {
 {{{ -1511, 688, 3143 }, 0, { 0, 0 }, { 63, 0, 147, 255}}},
 {{{ -1515, 695, 3140 }, 0, { 26, -34 }, { 89, 0, 167, 255}}},
 {{{ -1511, 695, 3143 }, 0, { 0, -34 }, { 63, 0, 147, 255}}},
@@ -10138,7 +10138,7 @@ Vtx VB_0xe023ff0[] = {
 {{{ -1519, 688, 3136 }, 0, { 0, 0 }, { 109, 0, 193, 255}}},
 };
 
-Vtx VB_0xe0240e0[] = {
+Vtx VB_castle_inside_1_0xe0240e0[] = {
 {{{ -1521, 695, 3130 }, 0, { 0, -34 }, { 122, 0, 224, 255}}},
 {{{ -1522, 688, 3125 }, 0, { 26, 0 }, { 127, 0, 0, 255}}},
 {{{ -1522, 695, 3125 }, 0, { 26, -34 }, { 127, 0, 0, 255}}},
@@ -10156,7 +10156,7 @@ Vtx VB_0xe0240e0[] = {
 {{{ -1519, 695, 3115 }, 0, { 26, -34 }, { 109, 0, 63, 255}}},
 };
 
-Vtx VB_0xe0241d0[] = {
+Vtx VB_castle_inside_1_0xe0241d0[] = {
 {{{ -1519, 688, 3115 }, 0, { 26, 0 }, { 109, 0, 63, 255}}},
 {{{ -1521, 695, 3120 }, 0, { 0, -34 }, { 122, 0, 32, 255}}},
 {{{ -1521, 688, 3120 }, 0, { 0, 0 }, { 122, 0, 32, 255}}},
@@ -10174,7 +10174,7 @@ Vtx VB_0xe0241d0[] = {
 {{{ -1515, 695, 3110 }, 0, { 0, -34 }, { 89, 0, 89, 255}}},
 };
 
-Vtx VB_0xe0242c0[] = {
+Vtx VB_castle_inside_1_0xe0242c0[] = {
 {{{ -1511, 695, 3107 }, 0, { 15, -34 }, { 63, 0, 109, 255}}},
 {{{ -1514, 688, 3109 }, 0, { 0, 0 }, { 77, 0, 100, 255}}},
 {{{ -1511, 688, 3107 }, 0, { 15, 0 }, { 63, 0, 109, 255}}},
@@ -10192,7 +10192,7 @@ Vtx VB_0xe0242c0[] = {
 {{{ -1501, 688, 3104 }, 0, { 26, 0 }, { 0, 0, 127, 255}}},
 };
 
-Vtx VB_0xe0243b0[] = {
+Vtx VB_castle_inside_1_0xe0243b0[] = {
 {{{ -1506, 688, 3105 }, 0, { 0, 0 }, { 32, 0, 122, 255}}},
 {{{ -1501, 695, 3104 }, 0, { 26, -34 }, { 0, 0, 127, 255}}},
 {{{ -1506, 695, 3105 }, 0, { 0, -34 }, { 32, 0, 122, 255}}},
@@ -10210,7 +10210,7 @@ Vtx VB_0xe0243b0[] = {
 {{{ -1495, 695, 3105 }, 0, { 0, -34 }, { 224, 0, 122, 255}}},
 };
 
-Vtx VB_0xe0244a0[] = {
+Vtx VB_castle_inside_1_0xe0244a0[] = {
 {{{ -1486, 695, 3110 }, 0, { 26, -34 }, { 167, 0, 89, 255}}},
 {{{ -1490, 688, 3107 }, 0, { 0, 0 }, { 193, 0, 109, 255}}},
 {{{ -1486, 688, 3110 }, 0, { 26, 0 }, { 167, 0, 89, 255}}},
@@ -10228,7 +10228,7 @@ Vtx VB_0xe0244a0[] = {
 {{{ -1482, 688, 3115 }, 0, { 0, 0 }, { 147, 0, 63, 255}}},
 };
 
-Vtx VB_0xe024590[] = {
+Vtx VB_castle_inside_1_0xe024590[] = {
 {{{ -1482, 695, 3115 }, 0, { 0, -34 }, { 147, 0, 63, 255}}},
 {{{ -1480, 688, 3120 }, 0, { 26, 0 }, { 134, 0, 32, 255}}},
 {{{ -1480, 695, 3120 }, 0, { 26, -34 }, { 134, 0, 32, 255}}},
@@ -10246,7 +10246,7 @@ Vtx VB_0xe024590[] = {
 {{{ -1480, 695, 3130 }, 0, { 26, -34 }, { 134, 0, 224, 255}}},
 };
 
-Vtx VB_0xe024680[] = {
+Vtx VB_castle_inside_1_0xe024680[] = {
 {{{ -1482, 688, 3136 }, 0, { 26, 0 }, { 147, 0, 193, 255}}},
 {{{ -1480, 695, 3130 }, 0, { 0, -34 }, { 134, 0, 224, 255}}},
 {{{ -1480, 688, 3130 }, 0, { 0, 0 }, { 134, 0, 224, 255}}},
@@ -10264,7 +10264,7 @@ Vtx VB_0xe024680[] = {
 {{{ -1489, 695, 3156 }, 0, { 168, -34 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe024770[] = {
+Vtx VB_castle_inside_1_0xe024770[] = {
 {{{ -1489, 695, 3164 }, 0, { 167, -76 }, { 0, 127, 0, 255}}},
 {{{ -1497, 695, 3167 }, 0, { 209, -88 }, { 0, 127, 0, 255}}},
 {{{ -1486, 695, 3175 }, 0, { 155, -130 }, { 0, 127, 0, 255}}},
@@ -10282,7 +10282,7 @@ Vtx VB_0xe024770[] = {
 {{{ -1467, 695, 3172 }, 0, { 62, -112 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe024860[] = {
+Vtx VB_castle_inside_1_0xe024860[] = {
 {{{ -1474, 695, 3195 }, 0, { 94, -228 }, { 0, 127, 0, 255}}},
 {{{ -1486, 695, 3175 }, 0, { 155, -130 }, { 0, 127, 0, 255}}},
 {{{ -1486, 695, 3189 }, 0, { 155, -198 }, { 0, 127, 0, 255}}},
@@ -10300,7 +10300,7 @@ Vtx VB_0xe024860[] = {
 {{{ -1454, 695, 3187 }, 0, { 0, -188 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe024950[] = {
+Vtx VB_castle_inside_1_0xe024950[] = {
 {{{ -1473, 695, 3188 }, 0, { 89, -192 }, { 0, 127, 0, 255}}},
 {{{ -1454, 695, 3187 }, 0, { 0, -188 }, { 0, 127, 0, 255}}},
 {{{ -1461, 695, 3184 }, 0, { 33, -174 }, { 0, 127, 0, 255}}},
@@ -10318,7 +10318,7 @@ Vtx VB_0xe024950[] = {
 {{{ -1470, 695, 3165 }, 0, { 76, -79 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe024a40[] = {
+Vtx VB_castle_inside_1_0xe024a40[] = {
 {{{ -1471, 695, 3149 }, 0, { 79, 0 }, { 0, 127, 0, 255}}},
 {{{ -1470, 695, 3165 }, 0, { 76, -79 }, { 0, 127, 0, 255}}},
 {{{ -1454, 695, 3187 }, 0, { 0, -188 }, { 0, 127, 0, 255}}},
@@ -10336,7 +10336,7 @@ Vtx VB_0xe024a40[] = {
 {{{ -1467, 695, 3172 }, 0, { 28, 0 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe024b30[] = {
+Vtx VB_castle_inside_1_0xe024b30[] = {
 {{{ -1467, 695, 3172 }, 0, { 28, 0 }, { 0, 127, 0, 255}}},
 {{{ -1473, 695, 3188 }, 0, { 55, -79 }, { 0, 127, 0, 255}}},
 {{{ -1461, 695, 3184 }, 0, { 0, -62 }, { 0, 127, 0, 255}}},
@@ -10354,7 +10354,7 @@ Vtx VB_0xe024b30[] = {
 {{{ -1506, 695, 3179 }, 0, { 74, -15 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe024c20[] = {
+Vtx VB_castle_inside_1_0xe024c20[] = {
 {{{ -1494, 695, 3176 }, 0, { 14, 0 }, { 0, 127, 0, 255}}},
 {{{ -1504, 695, 3186 }, 0, { 65, -48 }, { 0, 127, 0, 255}}},
 {{{ -1491, 695, 3182 }, 0, { 0, -30 }, { 0, 127, 0, 255}}},
@@ -10372,7 +10372,7 @@ Vtx VB_0xe024c20[] = {
 {{{ -1508, 695, 3160 }, 0, { 0, -49 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe024d10[] = {
+Vtx VB_castle_inside_1_0xe024d10[] = {
 {{{ -1537, 695, 3193 }, 0, { 140, -207 }, { 0, 127, 0, 255}}},
 {{{ -1525, 695, 3173 }, 0, { 82, -109 }, { 0, 127, 0, 255}}},
 {{{ -1543, 695, 3184 }, 0, { 168, -166 }, { 0, 127, 0, 255}}},
@@ -10390,7 +10390,7 @@ Vtx VB_0xe024d10[] = {
 {{{ -1525, 695, 3173 }, 0, { 82, -109 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe024e00[] = {
+Vtx VB_castle_inside_1_0xe024e00[] = {
 {{{ -1467, 695, 3103 }, 0, { 90, -245 }, { 0, 127, 0, 255}}},
 {{{ -1474, 695, 3064 }, 0, { 120, -58 }, { 0, 127, 0, 255}}},
 {{{ -1474, 695, 3099 }, 0, { 120, -228 }, { 0, 127, 0, 255}}},
@@ -10408,7 +10408,7 @@ Vtx VB_0xe024e00[] = {
 {{{ -1474, 695, 3064 }, 0, { 120, -58 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe024ef0[] = {
+Vtx VB_castle_inside_1_0xe024ef0[] = {
 {{{ -1479, 695, 3053 }, 0, { 147, 0 }, { 0, 127, 0, 255}}},
 {{{ -1474, 695, 3064 }, 0, { 120, -58 }, { 0, 127, 0, 255}}},
 {{{ -1466, 695, 3058 }, 0, { 83, -24 }, { 0, 127, 0, 255}}},
@@ -10426,7 +10426,7 @@ Vtx VB_0xe024ef0[] = {
 {{{ -1506, 695, 3070 }, 0, { 84, -111 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe024fe0[] = {
+Vtx VB_castle_inside_1_0xe024fe0[] = {
 {{{ -1506, 695, 3070 }, 0, { 84, -111 }, { 0, 127, 0, 255}}},
 {{{ -1508, 695, 3090 }, 0, { 95, -208 }, { 0, 127, 0, 255}}},
 {{{ -1506, 695, 3079 }, 0, { 85, -153 }, { 0, 127, 0, 255}}},
@@ -10444,7 +10444,7 @@ Vtx VB_0xe024fe0[] = {
 {{{ -1499, 695, 3086 }, 0, { 51, -187 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0250d0[] = {
+Vtx VB_castle_inside_1_0xe0250d0[] = {
 {{{ -1499, 695, 3086 }, 0, { 51, -187 }, { 0, 127, 0, 255}}},
 {{{ -1502, 695, 3092 }, 0, { 63, -218 }, { 0, 127, 0, 255}}},
 {{{ -1495, 695, 3089 }, 0, { 31, -204 }, { 0, 127, 0, 255}}},
@@ -10462,7 +10462,7 @@ Vtx VB_0xe0250d0[] = {
 {{{ -1493, 695, 3083 }, 0, { 19, -173 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0251c0[] = {
+Vtx VB_castle_inside_1_0xe0251c0[] = {
 {{{ -1514, 695, 3059 }, 0, { 125, -58 }, { 0, 127, 0, 255}}},
 {{{ -1515, 695, 3048 }, 0, { 127, -1 }, { 0, 127, 0, 255}}},
 {{{ -1521, 695, 3051 }, 0, { 156, -19 }, { 0, 127, 0, 255}}},
@@ -10480,7 +10480,7 @@ Vtx VB_0xe0251c0[] = {
 {{{ -1506, 695, 3070 }, 0, { 84, -111 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0252b0[] = {
+Vtx VB_castle_inside_1_0xe0252b0[] = {
 {{{ -1510, 695, 3054 }, 0, { 105, -32 }, { 0, 127, 0, 255}}},
 {{{ -1506, 695, 3070 }, 0, { 84, -111 }, { 0, 127, 0, 255}}},
 {{{ -1507, 695, 3059 }, 0, { 87, -56 }, { 0, 127, 0, 255}}},
@@ -10498,7 +10498,7 @@ Vtx VB_0xe0252b0[] = {
 {{{ -1499, 695, 3070 }, 0, { 49, -108 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe0253a0[] = {
+Vtx VB_castle_inside_1_0xe0253a0[] = {
 {{{ -1502, 695, 3066 }, 0, { 64, -88 }, { 0, 127, 0, 255}}},
 {{{ -1499, 695, 3070 }, 0, { 49, -108 }, { 0, 127, 0, 255}}},
 {{{ -1498, 695, 3061 }, 0, { 45, -65 }, { 0, 127, 0, 255}}},
@@ -10516,7 +10516,7 @@ Vtx VB_0xe0253a0[] = {
 {{{ -1510, 695, 3054 }, 0, { 105, -32 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe025490[] = {
+Vtx VB_castle_inside_1_0xe025490[] = {
 {{{ -1505, 695, 3047 }, 0, { 79, 0 }, { 0, 127, 0, 255}}},
 {{{ -1507, 695, 3059 }, 0, { 87, -56 }, { 0, 127, 0, 255}}},
 {{{ -1502, 695, 3052 }, 0, { 64, -21 }, { 0, 127, 0, 255}}},
@@ -10534,7 +10534,7 @@ Vtx VB_0xe025490[] = {
 {{{ -1507, 695, 3059 }, 0, { 54, -34 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe025580[] = {
+Vtx VB_castle_inside_1_0xe025580[] = {
 {{{ -1502, 695, 3052 }, 0, { 31, 0 }, { 0, 127, 0, 255}}},
 {{{ -1502, 695, 3066 }, 0, { 31, -66 }, { 0, 127, 0, 255}}},
 {{{ -1495, 695, 3054 }, 0, { 0, -12 }, { 0, 127, 0, 255}}},
@@ -10552,7 +10552,7 @@ Vtx VB_0xe025580[] = {
 {{{ -1499, 695, 3079 }, 0, { 0, -21 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe025670[] = {
+Vtx VB_castle_inside_1_0xe025670[] = {
 {{{ -1539, 695, 3104 }, 0, { 114, -234 }, { 0, 127, 0, 255}}},
 {{{ -1532, 695, 3099 }, 0, { 80, -212 }, { 0, 127, 0, 255}}},
 {{{ -1535, 695, 3095 }, 0, { 95, -194 }, { 0, 127, 0, 255}}},
@@ -10570,7 +10570,7 @@ Vtx VB_0xe025670[] = {
 {{{ -1549, 695, 3087 }, 0, { 159, -156 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe025760[] = {
+Vtx VB_castle_inside_1_0xe025760[] = {
 {{{ -1546, 695, 3082 }, 0, { 145, -130 }, { 0, 127, 0, 255}}},
 {{{ -1542, 695, 3090 }, 0, { 127, -167 }, { 0, 127, 0, 255}}},
 {{{ -1535, 695, 3085 }, 0, { 95, -144 }, { 0, 127, 0, 255}}},
@@ -10588,7 +10588,7 @@ Vtx VB_0xe025760[] = {
 {{{ -1530, 695, 3077 }, 0, { 68, -106 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe025850[] = {
+Vtx VB_castle_inside_1_0xe025850[] = {
 {{{ -1530, 695, 3077 }, 0, { 68, -106 }, { 0, 127, 0, 255}}},
 {{{ -1527, 695, 3084 }, 0, { 56, -139 }, { 0, 127, 0, 255}}},
 {{{ -1530, 695, 3055 }, 0, { 67, 0 }, { 0, 127, 0, 255}}},
@@ -10606,7 +10606,7 @@ Vtx VB_0xe025850[] = {
 {{{ -1545, 695, 3073 }, 0, { 140, -86 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe025940[] = {
+Vtx VB_castle_inside_1_0xe025940[] = {
 {{{ -1550, 695, 3068 }, 0, { 167, -62 }, { 0, 127, 0, 255}}},
 {{{ -1545, 695, 3073 }, 0, { 140, -86 }, { 0, 127, 0, 255}}},
 {{{ -1530, 695, 3055 }, 0, { 67, 0 }, { 0, 127, 0, 255}}},
@@ -10624,7 +10624,7 @@ Vtx VB_0xe025940[] = {
 {{{ -1535, 695, 3095 }, 0, { 53, -55 }, { 0, 127, 0, 255}}},
 };
 
-Vtx VB_0xe025a30[] = {
+Vtx VB_castle_inside_1_0xe025a30[] = {
 {{{ -1527, 695, 3084 }, 0, { 15, 0 }, { 0, 127, 0, 255}}},
 {{{ -1532, 695, 3099 }, 0, { 39, -73 }, { 0, 127, 0, 255}}},
 {{{ -1524, 695, 3093 }, 0, { 0, -42 }, { 0, 127, 0, 255}}},
@@ -10642,7 +10642,7 @@ Vtx VB_0xe025a30[] = {
 {{{ 0, 0, 0 }, 0, { 0, 0 }, { 0, 0, 0, 255}}},
 };
 
-u16 texture_0x9005800[] = {
+u16 texture_castle_inside_1_0x9005800[] = {
 0x4AD3,0x5B15,0x6B97,0x73D7,0x7C19,0x7C19,0x841B,0x841B,0x73D9,0x7397,0x52D3,0x5313,0x52D3,0x6B55,0x8419,0x7BD9,
 0x7BD9,0x6B97,0x4AD1,0x4291,0x4A91,0x4AD1,0x4AD3,0x4AD3,0x4AD3,0x4A91,0x4251,0x320F,0x320D,0x320D,0x320F,0x320D,
 0x320D,0x320F,0x3A4F,0x4A91,0x52D3,0x5AD1,0x5B13,0x6353,0x6355,0x5B15,0x424F,0x3A0D,0x31CD,0x3A4F,0x3A4D,0x3A4F,
@@ -10709,7 +10709,7 @@ u16 texture_0x9005800[] = {
 0x3A93,0x2A0F,0x2A11,0x3A93,0x4315,0x4317,0x4315,0x4315,0x4315,0x4317,0x4317,0x4317,0x4B17,0x4B57,0x4B57,0x4B59,
 };
 
-u16 texture_0xe003810[] = {
+u16 texture_castle_inside_1_0xe003810[] = {
 0xBDA9,0xA4E9,0x7C1D,0x7C5F,0xA529,0xAD6B,0xADE9,0xBE2D,0xB5A9,0xB56B,0xCE31,0xCDEF,0xC671,0xD671,0xD6B1,0xD673,
 0xCE31,0xB66F,0xC62F,0xCE2B,0xBE2D,0xB62B,0xB5AB,0x94E3,0x9D65,0xB5ED,0xBDAD,0xBDEB,0xC62D,0xC66D,0xB5A9,0xBDEB,
 0x5A0F,0x49D1,0x59CF,0x6251,0x6A11,0x5253,0x528F,0x4A0F,0x5291,0x5A51,0x5A11,0x5A91,0x5A4F,0x6A4F,0x620F,0x8C5D,
@@ -10776,7 +10776,7 @@ u16 texture_0xe003810[] = {
 0xAD67,0xA525,0xB525,0xAD69,0xBE2D,0xBE2D,0xC66D,0xBDE9,0xADAB,0xB62D,0xB56B,0xB529,0xADA9,0xB5EB,0xAD67,0xBDAB,
 };
 
-u16 texture_0xe003010[] = {
+u16 texture_castle_inside_1_0xe003010[] = {
 0x63D7,0x5B99,0x6C1B,0x63D7,0x5BD7,0x5B97,0x6C1B,0x745B,0x5B97,0x4B55,0x5397,0x745D,0x8D21,0x6C19,0x4B15,0x5357,
 0x5BD9,0x5357,0x5357,0x7C9D,0x641B,0x5399,0x5B99,0x6C1B,0x6C5D,0x8D63,0x7419,0x6BD5,0x84DF,0x745B,0x6C19,0x6C19,
 0x745F,0x8D65,0x84E1,0x6C1B,0x5BD9,0x63D9,0x5355,0x5B99,0x6C1B,0x63D9,0x63D9,0x745B,0x7CDF,0xADE7,0x5BD9,0x4B15,
@@ -10843,7 +10843,7 @@ u16 texture_0xe003010[] = {
 0x5BD9,0x5B97,0x6419,0x745D,0x7C9F,0x7C5B,0x5B99,0x6C1B,0x8D21,0x8D21,0x5B99,0x5B97,0x5399,0x84DF,0x42D5,0x5357,
 };
 
-u16 texture_0xe000010[] = {
+u16 texture_castle_inside_1_0xe000010[] = {
 0xB24F,0xA30F,0x9351,0xA291,0x9291,0x824F,0x824F,0xB30F,0xD28F,0xB24F,0xD28F,0xC2D1,0xDBCF,0xC34F,0xA351,0xC28F,
 0x9291,0x9351,0xB2D1,0x9291,0xB2D1,0xC34F,0xA30F,0xC2D1,0xC28F,0xC34F,0xD38F,0xC34F,0xB30F,0xC2D1,0xCB11,0xC34F,
 0xB2D1,0xA351,0xA291,0xB24F,0xB30F,0xA24F,0x9291,0xA291,0xC34F,0xC34F,0xC34F,0xB2D1,0xC2D1,0xC34F,0xB30F,0xC34F,
@@ -10910,7 +10910,7 @@ u16 texture_0xe000010[] = {
 0xBAD1,0xC34F,0xB2D1,0xA351,0xB391,0xC3D1,0xBBD1,0xC2D1,0xC34F,0xBAD1,0xB391,0x9291,0xA351,0xBBD1,0xB391,0x9351,
 };
 
-u16 texture_0xe007810[] = {
+u16 texture_castle_inside_1_0xe007810[] = {
 0x6319,0x6319,0x6319,0x4211,0x294B,0x4211,0x6B5B,0x4211,0x318D,0x294B,0x4A53,0x6B5B,0x7BDF,0x739D,0x6B5B,0x8421,
 0xA529,0x9CE7,0x8C63,0x8421,0x8421,0x318D,0x4211,0x94A5,0x8C63,0x739D,0x4A53,0x5AD7,0x6B5B,0x8C63,0x6319,0x5295,
 0x5AD7,0x7BDF,0x8421,0x5295,0x39CF,0x4211,0x5AD7,0x4A53,0x4211,0x5AD7,0x8421,0x8421,0x8421,0x8C63,0x6319,0x6B5B,
@@ -10977,7 +10977,7 @@ u16 texture_0xe007810[] = {
 0x4A53,0x6B5B,0x6319,0x4211,0x4211,0x6319,0xBDEF,0xCE73,0x9CE7,0x8C63,0x6319,0x7BDF,0x5295,0x8421,0x6B5B,0x6319,
 };
 
-u16 texture_0xe005010[] = {
+u16 texture_castle_inside_1_0xe005010[] = {
 0x2043,0x1041,0x2083,0x1041,0x2083,0x2103,0x2043,0x1001,0x40CF,0x48CD,0x51C9,0x514B,0x514B,0x698D,0x5109,0x594B,
 0x698B,0x5A0B,0x6B4D,0x598D,0x598D,0x5A0B,0x6987,0x1801,0x3105,0x2843,0x1843,0x2083,0x2043,0x2083,0x2043,0x1847,
 0x5985,0x59C7,0x4985,0x59C7,0x4985,0x5105,0x5A49,0x2041,0x7A8B,0x6A09,0x6A49,0x71C9,0x7249,0x6A09,0x69C9,0x8289,
@@ -11044,7 +11044,7 @@ u16 texture_0xe005010[] = {
 0x6A4B,0x6A4B,0x7A0B,0x7A8B,0x824D,0x82CD,0x8A4F,0x8B0F,0x8B0F,0x9A8F,0x8A8D,0x8B0F,0x824D,0x7A0B,0x8B0F,0x8B0F,
 };
 
-u16 texture_0xe005810[] = {
+u16 texture_castle_inside_1_0xe005810[] = {
 0xCE73,0xCEB3,0xD6B3,0xD6B3,0xD6B3,0xD6B3,0xCE2F,0xCE2F,0xD6B5,0xD6B5,0xD6B1,0xD66F,0xDEB5,0xDEB5,0xDEF5,0xCE73,
 0xC62F,0xC62F,0xC62F,0xC62F,0xBDED,0xB523,0xCE71,0xCE31,0xBDED,0xB565,0xC5EB,0xCE71,0xC631,0xCE31,0xCE71,0xCE73,
 0xCE73,0xCE73,0xD6B3,0xD6B3,0xD6B5,0xD6B5,0xCE71,0xCE31,0xCE71,0xD6B5,0xD66D,0xD66F,0xDEF5,0xDEF5,0xDEF5,0xD673,
@@ -11111,7 +11111,7 @@ u16 texture_0xe005810[] = {
 0xC62F,0xC62F,0xC62F,0xC62F,0xB5ED,0xAD21,0xCE73,0xCE31,0xBDED,0xB565,0xBDE9,0xCE71,0xC631,0xCE31,0xCE71,0xCE73,
 };
 
-u16 texture_0xe006810[] = {
+u16 texture_castle_inside_1_0xe006810[] = {
 0x8399,0xAC5F,0x9C1D,0xAC5D,0xA41D,0xBD23,0xA45D,0x93DB,0x93D9,0x7B55,0x9C5F,0x8BDB,0x7B57,0x8357,0x9BD9,0xBD23,
 0x7B15,0x7B55,0x8357,0x7B15,0x7B13,0x520F,0x8BDB,0x9C5F,0x9C1B,0xAC9F,0xB4DF,0xB4E1,0xAC9F,0xB4E1,0x9C5F,0x6A91,
 0x93DB,0xACA1,0xA45F,0xB4E3,0xAC9F,0xAC9F,0xBD25,0x941B,0x93D9,0xB4E1,0x8B99,0x941B,0x8399,0xBD23,0x8357,0x93D9,
@@ -11178,7 +11178,7 @@ u16 texture_0xe006810[] = {
 0x6AD3,0x6AD3,0x8357,0x7315,0x6AD1,0x3949,0x6AD3,0x93DB,0x8355,0xAC9F,0xAC9D,0xA41B,0x941B,0xA49F,0x8BDB,0x5A4F,
 };
 
-u16 texture_0xe004810[] = {
+u16 texture_castle_inside_1_0xe004810[] = {
 0x4641,0x3E41,0x3E41,0x3E41,0x4681,0x4681,0x4681,0x4681,0x3E81,0x3641,0x3641,0x3641,0x3641,0x3601,0x3601,0x3601,
 0x3E81,0x4681,0x46C1,0x3E81,0x3681,0x2E41,0x2E01,0x2601,0x2601,0x2601,0x2E41,0x2E41,0x3641,0x3641,0x3E41,0x4641,
 0x3E41,0x3601,0x2E01,0x3601,0x3E41,0x4681,0x4681,0x4681,0x3E81,0x3641,0x3641,0x3641,0x3E81,0x3E41,0x3641,0x3601,
@@ -11245,7 +11245,7 @@ u16 texture_0xe004810[] = {
 0x3E81,0x46C1,0x46C1,0x3E81,0x3681,0x2E41,0x2E01,0x2601,0x2601,0x2601,0x2E41,0x2E41,0x3641,0x3641,0x3E41,0x4641,
 };
 
-u16 texture_0xe007010[] = {
+u16 texture_castle_inside_1_0xe007010[] = {
 0x4081,0x4881,0x4081,0x4081,0x3841,0x3001,0x2801,0x3841,0x48C1,0x4081,0x3841,0x3841,0x3041,0x2801,0x2801,0x3801,
 0x3041,0x3841,0x4041,0x3841,0x3041,0x3841,0x4081,0x4081,0x3841,0x2801,0x2801,0x4881,0x4081,0x3841,0x3841,0x3841,
 0x4881,0x4881,0x40C1,0x4901,0x50C1,0x3841,0x2801,0x3841,0x4081,0x3041,0x2001,0x3041,0x3041,0x3041,0x2801,0x2801,
@@ -11312,7 +11312,7 @@ u16 texture_0xe007010[] = {
 0x3881,0x3881,0x3881,0x3041,0x3041,0x3881,0x3881,0x3841,0x3841,0x3841,0x4081,0x4881,0x3841,0x2801,0x1801,0x1801,
 };
 
-u16 texture_0xe002810[] = {
+u16 texture_castle_inside_1_0xe002810[] = {
 0xC201,0xCA01,0xC201,0xC1C1,0xB981,0xB081,0xA801,0xB981,0xCA81,0xC201,0xB981,0xB941,0xB101,0xA8C1,0xA8C1,0xB8C1,
 0xB141,0xB901,0xC141,0xB941,0xB101,0xB941,0xC1C1,0xC1C1,0xB941,0xA841,0xA8C1,0xC9C1,0xC181,0xB981,0xB941,0xB901,
 0xCA01,0xCA01,0xC241,0xCAC1,0xD281,0xB901,0xA801,0xB941,0xC201,0xB101,0xA081,0xB141,0xB141,0xB101,0xA8C1,0xA8C1,
@@ -11379,7 +11379,7 @@ u16 texture_0xe002810[] = {
 0xB9C1,0xBA01,0xBA01,0xB101,0xB101,0xBA01,0xBA41,0xB981,0xB941,0xB981,0xC201,0xCA01,0xB941,0xA841,0x9801,0x9801,
 };
 
-u16 texture_0xe002010[] = {
+u16 texture_castle_inside_1_0xe002010[] = {
 0x2553,0x2555,0x2555,0x2555,0x2555,0x2595,0x2593,0x2595,0x2555,0x2555,0x2555,0x2555,0x2555,0x2555,0x2555,0x2555,
 0x2555,0x2595,0x2595,0x2555,0x2557,0x2D17,0x2555,0x2557,0x2557,0x2557,0x2557,0x2555,0x2555,0x2555,0x2555,0x2555,
 0x2555,0x2555,0x2557,0x2555,0x2555,0x2555,0x2555,0x2555,0x2555,0x2555,0x2555,0x2555,0x2595,0x2555,0x2555,0x2555,
@@ -11446,7 +11446,7 @@ u16 texture_0xe002010[] = {
 0x2555,0x2595,0x25D5,0x2595,0x2597,0x2557,0x2557,0x2517,0x2517,0x2557,0x2557,0x2557,0x2557,0x2557,0x2555,0x2555,
 };
 
-u16 texture_0xe001810[] = {
+u16 texture_castle_inside_1_0xe001810[] = {
 0x3943,0x4183,0x4183,0x4183,0x4183,0x4183,0x4183,0x4183,0x4183,0x4185,0x4183,0x4185,0x4185,0x4185,0x4185,0x4985,
 0x2903,0x4183,0x4185,0x4183,0x4183,0x4183,0x4185,0x4183,0x4185,0x4183,0x4183,0x4183,0x4183,0x4183,0x4183,0x4183,
 0x6A89,0x6A47,0x6A47,0x6A47,0x6A89,0x6A89,0x6A47,0x6A87,0x6A47,0x6A47,0x7287,0x7287,0x7289,0x6A47,0x6A47,0x7289,
@@ -11513,7 +11513,7 @@ u16 texture_0xe001810[] = {
 0x5983,0x59C3,0x59C3,0x59C3,0x5983,0x5183,0x59C3,0x59C3,0x5181,0x5983,0x59C3,0x5983,0x5181,0x5983,0x59C3,0x4983,
 };
 
-u16 texture_0x9002000[] = {
+u16 texture_castle_inside_1_0x9002000[] = {
 0x93D9,0x8B99,0x8BDB,0x93DD,0x93DD,0x93DF,0x93DD,0x8B9D,0x8B5B,0x8359,0x72D3,0x7AD5,0x8357,0x8B9B,0x93DD,0x941F,
 0x941F,0x9421,0x9463,0x9C63,0x9C63,0x9CA3,0x9CA3,0x9CA3,0x9CA3,0x9CA5,0x9CA3,0x9C63,0x9461,0x93DB,0x8B95,0x9397,
 0x941D,0x9463,0x9463,0x9C63,0x9421,0x9421,0x93DF,0x8B9B,0x8359,0x7B15,0x6A4D,0x7291,0x7B17,0x8B9B,0x941F,0x9461,
@@ -11580,7 +11580,7 @@ u16 texture_0x9002000[] = {
 0x93E1,0x93E1,0x93DF,0x9421,0x93DF,0x93DF,0x9421,0x93E1,0x93E1,0x9421,0x9421,0x9421,0x9421,0x9421,0x9421,0x9421,
 };
 
-u16 texture_0xe001010[] = {
+u16 texture_castle_inside_1_0xe001010[] = {
 0xF625,0xF625,0xF625,0xF627,0xF669,0xF625,0xF625,0xF667,0xF6A9,0xF6A9,0xF625,0xF5E3,0xF625,0xF625,0xF625,0xF625,
 0xF625,0xF625,0xF625,0xF625,0xF625,0xF625,0xF625,0xF625,0xF625,0xF625,0xF625,0xF625,0xF625,0xF667,0xF667,0xF625,
 0xEE25,0xF667,0xF627,0xF625,0xF625,0xEDE3,0xEE25,0xF667,0xF667,0xF625,0xEDE3,0xEE25,0xF625,0xEE25,0xEE25,0xEE25,
@@ -11647,7 +11647,7 @@ u16 texture_0xe001010[] = {
 0xF667,0xF667,0xF667,0xF6A9,0xF667,0xF625,0xF667,0xF667,0xF6A9,0xF5E3,0xF625,0xF625,0xF625,0xF625,0xF667,0xF6A9,
 };
 
-u16 texture_0xe000810[] = {
+u16 texture_castle_inside_1_0xe000810[] = {
 0x7C4D,0x7C8F,0x7BCD,0x6B8B,0x7C0D,0x73CB,0x7C4D,0x740D,0x7C4D,0x84D5,0x7C8F,0x7C4D,0x7C0D,0x740D,0x7C4D,0x73CD,
 0x744D,0x7C4D,0x73CD,0x744D,0x740D,0x740D,0x73CD,0x73CD,0x848F,0x7C4D,0x7C4D,0x740D,0x744D,0x73CB,0x7C4D,0x740D,
 0x7C4D,0x7C4D,0x7C0D,0x7C0D,0x8497,0x84D5,0x7C4D,0x7C0D,0x7C4D,0x848F,0x7C0D,0x740D,0x7C4D,0x7C91,0x7C4D,0x7C4D,
@@ -11714,7 +11714,7 @@ u16 texture_0xe000810[] = {
 0x740D,0x73CB,0x73CD,0x744D,0x740D,0x740D,0x744D,0x744D,0x7C4D,0x73CB,0x7C4D,0x8CDB,0x7C4D,0x744D,0x73CD,0x844D,
 };
 
-u16 texture_0xe009810[] = {
+u16 texture_castle_inside_1_0xe009810[] = {
 0xEA81,0xF2C9,0xF2CF,0xE291,0xC20B,0x91C9,0x8945,0xA181,0xB181,0xA8C3,0x98C1,0x90C1,0x9101,0x9941,0xA1C1,0xB241,
 0xEAC1,0xF2CB,0xF2D1,0xE291,0xBA0D,0x91C9,0x8143,0x8901,0xA983,0xB103,0x98C1,0x9101,0x9941,0xA1C1,0xAA41,0xBA81,
 0xEA81,0xF2C7,0xE20D,0xA1CB,0x9947,0x9103,0x9101,0xA9C1,0xF241,0xF249,0xE9C3,0xB141,0x9941,0x9941,0xA1C1,0xB241,
@@ -11781,7 +11781,7 @@ u16 texture_0xe009810[] = {
 0xEAC1,0xF2CB,0xF2D1,0xF2D3,0xEB53,0xEB0D,0xF203,0xC9C1,0x9941,0x8081,0x8081,0x9101,0x9941,0xA1C1,0xAA41,0xBA81,
 };
 
-u16 texture_0xe00b010[] = {
+u16 texture_castle_inside_1_0xe00b010[] = {
 0xA6B5,0xAEF9,0xA6B7,0x95EF,0x8DAB,0x95F1,0x8DEF,0x8DEF,0x85AF,0x85AF,0x85AF,0x85AF,0x85AF,0x9E71,0xA6B7,0x2295,
 0x6CA3,0x4B9B,0x9E31,0x9E31,0x9E75,0x9E75,0x9E73,0xA675,0xA6B9,0x74E5,0x3B59,0x98B,0x2A51,0x9E2F,0x8DAF,0x8DAD,
 0xA6B5,0xAEF7,0xAEF9,0x9E73,0x8567,0x8DAD,0x856D,0x85AD,0x85AD,0x85AD,0x85AF,0x85AD,0x85AD,0x95EF,0xAEF7,0x9CF,
@@ -11848,7 +11848,7 @@ u16 texture_0xe00b010[] = {
 0x8DAB,0x645F,0x9E33,0x9E33,0x9E75,0x9E75,0xA6B7,0xB73D,0x9633,0x6CA3,0x32D5,0x109,0x74E5,0x962F,0x8DF1,0x9633,
 };
 
-u16 texture_0xe00a810[] = {
+u16 texture_castle_inside_1_0xe00a810[] = {
 0x398B,0x39CB,0x420D,0x4A51,0x6315,0x6357,0x424F,0x3189,0x39CB,0x39CD,0x18C7,0x18C7,0x2947,0x420F,0x4A4F,0x4A8F,
 0x4A4F,0x4A4F,0x5291,0x5AD3,0x5B15,0x52D3,0x2989,0x18C5,0x2107,0x2949,0x31CD,0x18C7,0x18C7,0x3189,0x31CB,0x420D,
 0x318B,0x39CB,0x424F,0x5293,0x5B17,0x6B59,0x6357,0x4A51,0x398B,0x39CD,0x318B,0x18C7,0x18C5,0x2947,0x3A0D,0x4A8F,
@@ -11915,7 +11915,7 @@ u16 texture_0xe00a810[] = {
 0x31CB,0x3A0D,0x39C9,0x420D,0x6315,0x6B57,0x41CB,0x18C5,0x18C7,0x18C7,0x18C7,0x2107,0x2947,0x3147,0x2947,0x18C7,
 };
 
-u16 texture_0xe004010[] = {
+u16 texture_castle_inside_1_0xe004010[] = {
 0xEA81,0xF2C9,0xF2CF,0xE291,0xC20B,0x91C9,0x8945,0xA181,0xB181,0xA8C3,0x98C1,0x90C1,0x9101,0x9941,0xA1C1,0xB241,
 0xEAC1,0xF2CB,0xF2D1,0xE291,0xBA0D,0x91C9,0x8143,0x8901,0xA983,0xB103,0x98C1,0x9101,0x9941,0xA1C1,0xAA41,0xBA81,
 0xEA81,0xF2C7,0xE20D,0xA1CB,0x9947,0x9103,0x9101,0xA9C1,0xF241,0xF249,0xE9C3,0xB141,0x9941,0x9941,0xA1C1,0xB241,
@@ -11982,7 +11982,7 @@ u16 texture_0xe004010[] = {
 0xEAC1,0xF2CB,0xF2D1,0xF2D3,0xEB53,0xEB0D,0xF203,0xC9C1,0x9941,0x8081,0x8081,0x9101,0x9941,0xA1C1,0xAA41,0xBA81,
 };
 
-u16 texture_0xe006010[] = {
+u16 texture_castle_inside_1_0xe006010[] = {
 0xA881,0xA8C1,0x9801,0xA041,0xA041,0xA841,0xA001,0x8001,0x6801,0xA081,0xA841,0x8001,0x7801,0x8801,0x9001,0x9001,
 0x8801,0x8801,0x7801,0x5001,0x801,0x3801,0x5801,0x6801,0x6801,0x8001,0x9001,0xA041,0xA041,0xA041,0xA041,0xA881,
 0x9001,0x9841,0x9841,0xA041,0xA841,0xA841,0xA841,0x8001,0x5801,0xA041,0xA841,0x7001,0x6001,0x8001,0x9001,0x8801,
@@ -12049,7 +12049,7 @@ u16 texture_0xe006010[] = {
 0x9001,0x9041,0x9041,0x7001,0x4001,0x5001,0x7001,0x6801,0x7001,0x8801,0x9001,0x9841,0x9841,0x9001,0xA041,0xA881,
 };
 
-u16 texture_0xe00a010[] = {
+u16 texture_castle_inside_1_0xe00a010[] = {
 0xEFBD,0xEFBD,0xEFBD,0xEFBD,0xDF7D,0xDF7D,0xD73D,0xD6FD,0xC6FD,0xC6FD,0xCEFD,0xD73D,0xDF7D,0xD77D,0xD73D,0xD73D,
 0xD73D,0xD73D,0xD77D,0xDF7D,0xD77D,0xCF3D,0xCF3D,0xCF3D,0xCF3D,0xCF3D,0xCF3D,0xCF3D,0xD73D,0xD77D,0xE77D,0xE77D,
 0xEFBD,0xEFBD,0xEFBD,0xEFBD,0xDF7D,0xDF3D,0xD73D,0xD73D,0xCEFD,0xC6BD,0xCEFD,0xD73D,0xD73D,0xD73D,0xCF3D,0xCF3D,
@@ -12116,7 +12116,7 @@ u16 texture_0xe00a010[] = {
 0xD73D,0xDF7D,0xDF7D,0xE77D,0xDF7D,0xCF3D,0xCF3D,0xCF3D,0xCF3D,0xCF3D,0xCF3D,0xCEFD,0xD73D,0xDF7D,0xE77D,0xE77D,
 };
 
-u16 texture_0xe009010[] = {
+u16 texture_castle_inside_1_0xe009010[] = {
 0xBDEF,0xBDEF,0xBDEF,0xBDEF,0xB5AB,0xB5AB,0xB5AB,0xB5AB,0xB569,0xB567,0xB5A9,0xB5AB,0xB5AB,0xB56B,0xB56B,0xB5AB,
 0xB5AB,0xB5AB,0xB56B,0xB5AB,0xB56B,0xB569,0xB569,0xB569,0xB569,0xB569,0xB569,0xB569,0xB5AB,0xB56B,0xB5AD,0xBDEF,
 0xBDEF,0xBDEF,0xBDEF,0xBDEF,0xB5AD,0xB5AB,0xB5AB,0xB5AB,0xB5A9,0xB567,0xB5A9,0xB56B,0xB5AB,0xB5AB,0xB569,0xB569,
@@ -12183,7 +12183,7 @@ u16 texture_0xe009010[] = {
 0xB5AB,0xB5AB,0xB5AD,0xBDEF,0xB5AD,0xB569,0xB5A9,0xB5A9,0xB569,0xB569,0xB5A9,0xB569,0xB5AB,0xB5AD,0xB5AD,0xB5AD,
 };
 
-u16 texture_0xe008810[] = {
+u16 texture_castle_inside_1_0xe008810[] = {
 0x7C65,0x7C65,0x7C65,0x63A9,0x42ED,0x42ED,0x4A2D,0x4A2D,0x39EB,0x322B,0x3A6D,0x42ED,0x42ED,0x3B2D,0x3B2D,0x3A6D,
 0x3A6D,0x42ED,0x3B2D,0x42ED,0x3B2D,0x3AAB,0x3B2D,0x3B2D,0x3B2D,0x3B2D,0x3B2D,0x3B2D,0x3A6D,0x3B2D,0x53AB,0x63A9,
 0x7C65,0x7C65,0x7C65,0x63A9,0x52AB,0x42ED,0x42ED,0x4A2D,0x41ED,0x39EB,0x3A6D,0x3B2D,0x42ED,0x3A6D,0x3B2D,0x3B2D,
@@ -12250,7 +12250,7 @@ u16 texture_0xe008810[] = {
 0x42ED,0x42ED,0x4BAB,0x63A9,0x4BAB,0x3AAB,0x3A6D,0x3A6D,0x3AAB,0x3AAB,0x3A6D,0x39EB,0x3A6D,0x4AAB,0x52AB,0x52AB,
 };
 
-u16 texture_0xe008010[] = {
+u16 texture_castle_inside_1_0xe008010[] = {
 0x9B5F,0x9B5F,0x9B5F,0xAA95,0xB1CF,0xB1CF,0xB2CD,0xB2CD,0xB24B,0xA989,0xB20D,0xB1CD,0xB1CF,0xB18D,0xB18D,0xB20D,
 0xB20D,0xB1CD,0xB18D,0xB1CF,0xB18D,0xB18B,0xB18D,0xB18D,0xB18D,0xB18D,0xB18D,0xB18D,0xB20D,0xB18D,0xB213,0xAA95,
 0x9B5F,0x9B5F,0x9B5F,0xAA95,0xB2D1,0xB1CF,0xB1CD,0xB2CD,0xB2CD,0xB24B,0xB20D,0xB18D,0xB1CD,0xB20D,0xB18D,0xB18D,
@@ -12317,11 +12317,11 @@ u16 texture_0xe008010[] = {
 0xB1CD,0xB1CF,0xB213,0xAA93,0xB213,0xB18B,0xB20D,0xB20D,0xB18B,0xB18B,0xB20D,0xB24B,0xB20D,0xB2D1,0xB2D1,0xB2D1,
 };
 
-Light_t Light_0xe000000 = {
+Light_t Light_castle_inside_1_0xe000000 = {
 { 255, 255, 255}, 0, { 255, 255, 255}, 0, { 255, 255, 255}, 0
 };
 
-Ambient_t Light_0xe000008 = {
+Ambient_t Light_castle_inside_1_0xe000008 = {
 {255, 255, 255}, 0, {255, 255, 255}, 0
 };
 

@@ -54,7 +54,7 @@ def ModelWrite(rom,ModelData,nameG,id):
 			if vb in vbs:
 				continue
 			vbs.append(vb)
-			VBn = 'Vtx VB_%s[]'%hex(vb[0])
+			VBn = 'Vtx VB_%s[]'%(id+hex(vb[0]))
 			refs.append(VBn)
 			f.write(VBn+' = {\n')
 			for i in range(vb[2]):
@@ -73,7 +73,7 @@ def ModelWrite(rom,ModelData,nameG,id):
 			if t in txt:
 				continue
 			txt.append(t)
-			texn = 'u16 texture_%s[]'%hex(t[1])
+			texn = 'u16 texture_%s[]'%(id+hex(t[1]))
 			refs.append(texn)
 			f.write(texn+' = {\n')
 			for i in range(t[2]):
@@ -87,7 +87,7 @@ def ModelWrite(rom,ModelData,nameG,id):
 			if a in diffs:
 				continue
 			diffs.append(a)
-			lig = 'Light_t Light_%s'%hex(a[1])
+			lig = 'Light_t Light_%s'%(id+hex(a[1]))
 			refs.append(lig)
 			f.write(lig+' = {\n')
 			Amb=rom[a[0]:a[0]+16]
@@ -99,7 +99,7 @@ def ModelWrite(rom,ModelData,nameG,id):
 			if a in ambs:
 				continue
 			ambs.append(a)
-			lig = 'Ambient_t Light_%s'%hex(a[1])
+			lig = 'Ambient_t Light_%s'%(id+hex(a[1]))
 			refs.append(lig)
 			f.write(lig+' = {\n')
 			Amb=rom[a[0]:a[0]+8]
@@ -121,10 +121,10 @@ class F3D_decode():
 
 #give cmd as binary.
 #should return cmd as string, and args as tuple
-def Bin2C(cmd):
+def Bin2C(cmd,id):
 	cmd = BitArray(cmd)
 	c = F3D_decode(cmd[0:8].uint)
-	V= c.func(cmd[8:])
+	V= c.func(cmd[8:],id)
 	q = c.decode(c.fmt,V)
 	if len(q[1])<4 and (cmd[:8].uint==0xb9 or cmd[:8].uint==0xbA):
 		q[0]=q[1][0]
@@ -142,7 +142,7 @@ def Bin2C(cmd):
 			q[0]='gsSPBranchList'
 	return [q[0]+ags,cmd]
 
-def DecodeDL(rom,start,s):
+def DecodeDL(rom,start,s,id):
 	dl=[]
 	#needs (ptr,length)
 	verts=[]
@@ -160,7 +160,7 @@ def DecodeDL(rom,start,s):
 	#print(rom[start:start+8].hex())
 	while(True):
 		cmd=rom[start+x:start+x+8]
-		cmd=Bin2C(cmd)
+		cmd=Bin2C(cmd,id)
 		#g dl
 		if (cmd[1][:8].uint==6):
 			ptr=cmd[1][32:64].uint
@@ -212,22 +212,22 @@ def DecodeDL(rom,start,s):
 
 #take argument bits and make tuple of args
 
-def G_SNOOP_Decode(bin):
+def G_SNOOP_Decode(bin,id):
 	return ()
 
-def G_VTX_Decode(bin):
+def G_VTX_Decode(bin,id):
 	num,start,len,segment=bin.unpack('uint:4,uint:4,uint:16,uint:32')
-	return ('VB_%s'%hex(segment),num+1,start)
+	return ('VB_%s'%(id+hex(segment)),num+1,start)
 
-def G_TRI1_Decode(bin):
+def G_TRI1_Decode(bin,id):
 	pad,v1,v2,v3=bin.unpack('int:32,3*uint:8')
 	return (int(v1/10),int(v2/10),int(v3/10),0)
 
-def G_TEXTURE_Decode(bin):
+def G_TEXTURE_Decode(bin,id):
 	pad,mip,tile,state,Sscale,Tscale=bin.unpack('int:10,2*uint:3,uint:8,2*uint:16')
 	return (Sscale,Tscale,mip,tile,state)
 
-def G_POPMTX_Decode(bin):
+def G_POPMTX_Decode(bin,id):
 	pad,num=bin.unpack('int:24,uint:32')
 	return (int(num/64),)
 
@@ -252,25 +252,25 @@ def CheckGeoMacro(set):
 			str+=(v+"|")
 	return str[:-1]
 
-def G_CLEARGEOMETRYMODE_Decode(bin):
+def G_CLEARGEOMETRYMODE_Decode(bin,id):
 	pad,set=bin.unpack('uint:24,uint:32')
 	if set==0:
 		return (0,0)
 	set=CheckGeoMacro(set)
 	return (set,0)
 
-def G_SETGEOMETRYMODE_Decode(bin):
+def G_SETGEOMETRYMODE_Decode(bin,id):
 	pad,set=bin.unpack('uint:24,uint:32')
 	if set==0:
 		return (0,0)
 	set=CheckGeoMacro(set)
 	return (0,set)
 
-def G_MTX_Decode(bin):
+def G_MTX_Decode(bin,id):
 	pad,param,seg=bin.unpack('int:16,uint:8,uint:32')
 	return (param,seg)
 
-def G_MOVEWORD_Decode(bin):
+def G_MOVEWORD_Decode(bin,id):
 	index,offset,value=bin.unpack('uint:8,uint:16,uint:32')
 	indices={0:'G_MW_MATRIX',
 	2:'G_MW_NUMLIGHT',
@@ -286,29 +286,29 @@ def G_MOVEWORD_Decode(bin):
 		pass
 	return (index,offset,value)
 	
-def G_MOVEMEM_Decode(bin):
+def G_MOVEMEM_Decode(bin,id):
 	index,size,seg=bin.unpack('uint:8,uint:16,uint:32')
 	fuckgbi=1
 	if index==0x88:
 		fuckgbi=2
-	return ('&Light_%s.col'%hex(seg),fuckgbi)
+	return ('&Light_%s.col'%(id+hex(seg)),fuckgbi)
 
-def G_LOAD_UCODE_Decode(bin):
+def G_LOAD_UCODE_Decode(bin,id):
 	#idk yet
 	return (data,size,text)
 	
-def G_DL_Decode(bin):
+def G_DL_Decode(bin,id):
 	store,pad,seg=bin.unpack('uint:8,int:16,uint:32')
 	return (seg,)
 
-def G_ENDDL_Decode(bin):
+def G_ENDDL_Decode(bin,id):
 	return ()
 
-def G_RDPHALF_1_Decode(bin):
+def G_RDPHALF_1_Decode(bin,id):
 	pad,bits=bin.unpack('int:24,uint:32')
 	return (bits,)
 
-def G_SETOTHERMODE_L_Decode(bin):
+def G_SETOTHERMODE_L_Decode(bin,id):
 	pad,shift,bits,value=bin.unpack('3*uint:8,uint:32')
 	enums={
 		0:'gsDPSetAlphaCompare',
@@ -325,7 +325,7 @@ def G_SETOTHERMODE_L_Decode(bin):
 		pass
 	return (0xb9,shift,bits,value)
 
-def G_SETOTHERMODE_H_Decode(bin):
+def G_SETOTHERMODE_H_Decode(bin,id):
 	pad,shift,bits,value=bin.unpack('3*uint:8,uint:32')
 	enums={
 		4:'gsDPSetAlphaDither',
@@ -402,23 +402,23 @@ def G_SETOTHERMODE_H_Decode(bin):
 		pass
 	return (0xba,shift,bits,value)
 
-def G_TEXRECT_Decode(bin):
+def G_TEXRECT_Decode(bin,id):
 	Xstart,Ystart,pad,tile,Xend,Yend,pad1,Sstart,Tstart,pad2,dsdx,dtdy=bin.unpack('2*uint:12,2*int:4,2*uint:12,uint:32,2*uint:16,uint:32,2*uint:16')
 	return (Xstart,Ystart,tile,Xend,Yend,Sstart,Tstart,dsdx,dtdy)
 
-def G_SETKEYGB_Decode(bin):
+def G_SETKEYGB_Decode(bin,id):
 	Gwidth,Bwidth,Gint,Grecip,Bint,Brecip=bin.unpack('2*uint:12,4*uint:8')
 	return (Gwidth,Bwidth,Gint,Grecip,Bint,Brecip)
 
-def G_SETKEYR_Decode(bin):
+def G_SETKEYR_Decode(bin,id):
 	pad,Rwidth,Rint,Rrecip=bin.unpack('int:28,uint:12,2*uint:8')
 	return (Rwidth,Rint,Rrecip)
 
-def G_SETCONVERT_Decode(bin):
+def G_SETCONVERT_Decode(bin,id):
 	p,k0,k1,k2,k3,k4,k5=bin.unpack('int:2,6*int:9')
 	return (k0,k1,k2,k3,k4,k5)
 	
-def G_SETSCISSOR_Decode(bin):
+def G_SETSCISSOR_Decode(bin,id):
 	Xstart,Ystart,pad,mode,Xend,Yend=bin.unpack('2*uint:12,2*uint:4,2*uint:12')
 	try:
 		modes={0:'G_SC_NON_INTERLACE',
@@ -429,52 +429,52 @@ def G_SETSCISSOR_Decode(bin):
 		mode='invalid mode'
 	return (Xstart,Ystart,mode,Xend,Yend)
 
-def G_SETPRIMDEPTH_Decode(bin):
+def G_SETPRIMDEPTH_Decode(bin,id):
 	pad,zval,depth=bin.unpack('int:24,2*uint:16')
 	return (zval,depth)
 
-def G_RDPSETOTHERMODE_Decode(bin):
+def G_RDPSETOTHERMODE_Decode(bin,id):
 	hi,lo=bin.unpack('uint:24,uint:32')
 	return (hi,lo)
 
-def G_LOADTLUT_Decode(bin):
+def G_LOADTLUT_Decode(bin,id):
 	pad,tile,color,pad1=bin.unpack('int:28,uint:4,2*uint:12')
 	return (tile,(((color>>2)&0x3ff)+1))
 	
-def G_RDPHALF_2_Decode(bin):
+def G_RDPHALF_2_Decode(bin,id):
 	pad,bits=bin.unpack('int:24,uint:32')
 	return (bits,)
 	
-def G_SETTILESIZE_Decode(bin):
+def G_SETTILESIZE_Decode(bin,id):
 	Sstart,Tstart,pad,tile,width,height=bin.unpack('2*uint:12,2*uint:4,2*uint:12')
 	return (tile,Sstart,Tstart,width,height)
 
-def G_LOADBLOCK_Decode(bin):
+def G_LOADBLOCK_Decode(bin,id):
 	Sstart,Tstart,pad,tile,texels,dxt=bin.unpack('2*uint:12,2*uint:4,2*uint:12')
 	return (tile,Sstart,Tstart,texels,dxt)
 
-def G_LOADTILE_Decode(bin):
+def G_LOADTILE_Decode(bin,id):
 	Sstart,Tstart,pad,tile,Send,Tend=bin.unpack('2*uint:12,2*uint:4,2*uint:12')
 	return (tile,Sstart,Tstart,Send,Tend)
 
-def G_SETTILE_Decode(bin):
+def G_SETTILE_Decode(bin,id):
 	fmt,bitsize,pad,numrows,offset,pad1,tile,palette,Tflag,Tmask,Tshift,Sflag,Smask,Sshift=bin.unpack('uint:3,uint:2,int:1,2*uint:9,int:5,uint:3,uint:4,uint:2,2*uint:4,uint:2,2*uint:4')
 	return (fmt,bitsize,numrows,offset,tile,palette,Tflag,Tmask,Tshift,Sflag,Smask,Sshift)
 
-def G_FILLRECT_Decode(bin):
+def G_FILLRECT_Decode(bin,id):
 	Xstart,Ystart,pad,Xend,Yend=bin.unpack('2*uint:12,uint:8,2*uint:12')
 	return (Xstart,Ystart,Xend,Yend)
 
 #fog,env,blend,fill
-def G_COLOR_Decode(bin):
+def G_COLOR_Decode(bin,id):
 	pad,r,g,b,a=bin.unpack('int:24,4*uint:8')
 	return (r,g,b,a)
 
-def G_SETPRIMCOLOR_Decode(bin):
+def G_SETPRIMCOLOR_Decode(bin,id):
 	pad,min,fraction,r,g,b,a=bin.unpack('7*uint:8')
 	return (min/256,fraction/256,r,g,b,a)
 
-def G_SETCOMBINE_Decode(bin):
+def G_SETCOMBINE_Decode(bin,id):
 	a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p=bin.unpack('uint:4,uint:5,2*uint:3,uint:4,uint:5,2*uint:4,8*uint:3')
 	Basic={
 	1:'TEXEL0',
@@ -561,15 +561,15 @@ def G_SETCOMBINE_Decode(bin):
 	[m,p] = [DAmode.get(color,0) for color in Dalpha]
 	return (a,g,b,k,c,l,d,m,e,h,f,n,i,o,j,p)
 
-def G_SETTIMG_Decode(bin):
+def G_SETTIMG_Decode(bin,id):
 	fmt,bit,pad,seg=bin.unpack('uint:3,uint:2,uint:19,uint:32')
-	return (fmt,bit,1,'texture_%s'%hex(seg))
+	return (fmt,bit,1,'texture_%s'%(id+hex(seg)))
 
-def G_SETZIMG_Decode(bin):
+def G_SETZIMG_Decode(bin,id):
 	pad,addr=bin.unpack('int:24,uint:32')
 	return (addr,)
 
-def G_SETCIMG_Decode(bin):
+def G_SETCIMG_Decode(bin,id):
 	fmt,bit,pad,width,addr=bin.unpack('uint:3,uint:2,int:7,uint:12,uint:32')
 	return (fmt,bit,width,addr)
 

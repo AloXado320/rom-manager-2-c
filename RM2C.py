@@ -374,7 +374,7 @@ def PLC(rom,start):
 	return PLC(rom,start)
 
 def WriteGeo(rom,s,num,name):
-	(geo,dls)=GW.GeoParse(rom,s.B2P(s.models[num][0]),s,s.models[num][0])
+	(geo,dls)=GW.GeoParse(rom,s.B2P(s.models[num][0]),s,s.models[num][0],"actor_"+str(num)+"_")
 	#write geo layout file
 	GW.GeoWrite(geo,name/'geo.inc.c',"actor_"+str(num)+"_")
 	return dls
@@ -389,7 +389,7 @@ def WriteModel(rom,dls,s,name,Hname,id):
 		c=rom[st]
 		if first==0x01010101 or not F3D.DecodeFmt.get(c):
 			return
-		(dl,verts,textures,amb,diff,jumps)=F3D.DecodeDL(rom,dls[x],s)
+		(dl,verts,textures,amb,diff,jumps)=F3D.DecodeDL(rom,dls[x],s,id)
 		ModelData.append((dls[x],dl,verts,textures,amb,diff))
 		for jump in jumps:
 			if jump not in dls:
@@ -490,8 +490,8 @@ def WriteLevel(rom,s,num,areas,rootdir):
 		area=s.levels[num][a]
 		#get real bank 0x0e location
 		s.RME(a,rom)
-		(geo,dls)=GW.GeoParse(rom,s.B2P(area.geo),s,area.geo)
 		id = name+"_"+str(a)+"_"
+		(geo,dls)=GW.GeoParse(rom,s.B2P(area.geo),s,area.geo,id)
 		GW.GeoWrite(geo,adir/"geo.inc.c",id)
 		for g in geo:
 			s.MakeDec("GeoLayout Geo_%s[]"%(id+hex(g[1])))
@@ -636,4 +636,5 @@ if __name__=='__main__':
 				ExportLevel(rom,k,range(1,255,1))
 			else:
 				ExportLevel(rom,k,args[1])
+			print(Num2Name[k] + ' done')
 	print('Export Completed')
