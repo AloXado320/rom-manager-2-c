@@ -421,18 +421,19 @@ def WriteLevelScript(name,Lnum,s,area,Anum):
 	f.write("MARIO_POS({},{},{},{},{}),\n".format(*s.mStart))
 	f.write("CALL(/*arg*/ 0, /*func*/ lvl_init_or_update),\nCALL_LOOP(/*arg*/ 1, /*func*/ lvl_init_or_update),\nCLEAR_LEVEL(),\nSLEEP_BEFORE_EXIT(/*frames*/ 1),\nEXIT(),\n};\n")
 	for a in Anum:
-		WriteArea(f,s,area,a)
+		id = Lnum+"_"+str(a)+"_"
+		WriteArea(f,s,area,a,id)
 	
-def WriteArea(f,s,area,Anum):
+def WriteArea(f,s,area,Anum,id):
 	#begin area
 	ascript = "LevelScript local_area_%d[]"%Anum
 	f.write(ascript+' = {\n')
 	s.MakeDec(ascript)
-	Gptr='Geo_'+hex(area.geo)
+	Gptr='Geo_'+id+hex(area.geo)
 	f.write("AREA(%d,%s),\n"%(Anum,Gptr))
-	f.write("TERRAIN(%s),\n"%("col_"+hex(area.col)))
+	f.write("TERRAIN(%s),\n"%("col_"+id+hex(area.col)))
 	f.write("SET_BACKGROUND_MUSIC(0,%d),\n"%area.music)
-	f.write("TERRAIN_TYPE(%d),\n"%area.terrain)
+	f.write("TERRAIN_TYPE(%d),\n"%(area.terrain))
 	f.write("JUMP_LINK(local_objects_%d),\nJUMP_LINK(local_warps_%d),\n"%(Anum,Anum))
 	f.write("END_AREA(),\nRETURN()\n};\n")
 	asobj = 'LevelScript local_objects_%d[]'%Anum
