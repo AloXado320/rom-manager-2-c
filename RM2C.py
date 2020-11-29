@@ -43,6 +43,53 @@ Num2Name = {
     36:'ttm'
 }
 
+#level specific banks have different addresses than vanilla, so I need a dict for them.
+
+#all skyboxes are in bank 0xA
+#in cmd, it goes:
+#LOAD_MIO0(0xA,str+SegmentRomStart,str+SegmentRomEnd)
+skyboxes = {
+0xB35770:'_water_skybox_mio0',
+0xB5D8B0:'_ccm_skybox_mio0',
+0xBEADB0:'_clouds_skybox_mio0',
+0xBA2330:'_bitfs_skybox_mio0',
+0xBC2C70:'_wdw_skybox_mio0',
+0xB859F0:'_cloud_floor_skybox_mio0',
+0xC12EF0:'_ssl_skybox_mio0',
+0xC3B030:'_bbh_skybox_mio0',
+0xC57970:'_bidw_skybox_mio0',
+0xC7FAB0:'_bits_skybox_mio0'
+}
+
+#name of actor group, bank gfx is in, bank geo is in
+#for gfx it goes:
+#LOAD_MIO0(bank,'_'+str+'_mio0SegmentRomStart',same w/ end)
+#for geo it goes:
+#LOAD_RAW(bank,'_'+str+'_geoSegmentRomStart',same w/ end)
+#I will identify which are used by geo bank starts
+#the last member is the global scripts to include after loading
+#the bank
+actors = {
+0x132850:['_group1', 5, 12,'script_func_global_2'],
+0x134a70:['_group2', 5, 12,'script_func_global_3'],
+0x13B5D0:['_group3', 5, 12,'script_func_global_4'],
+0x145C10:['_group4', 5, 12,'script_func_global_5'],
+0x151B70:['_group5', 5, 12,'script_func_global_6'],
+0x1602E0:['_group6', 5, 12,'script_func_global_7'],
+0x1656E0:['_group7', 5, 12,'script_func_global_8'],
+0x166BD0:['_group8', 5, 12,'script_func_global_9'],
+0x16D5C0:['_group9', 5, 12,'script_func_global_10'],
+0x180540:['_group10', 5, 12,'script_func_global_11'],
+0x187FA0:['_group11', 5, 12,'script_func_global_12'],
+0x1B9070:['_group12', 6, 13,'script_func_global_13'],
+0x1C3DB0:['_group13', 6, 13,'script_func_global_14'],
+0x1D7C90:['_group14', 6, 13,'script_func_global_15'],
+0x1E4BF0:['_group15', 6, 13,'script_func_global_16'],
+0x1E7D90:['_group16', 6, 13,'script_func_global_17'],
+0x1F1B30:['_group17', 6, 13,'script_func_global_18'],
+0x2008D0:['_common0', 8, 15,'script_func_global_1']
+}
+
 scriptHeader='''#include <ultra64.h>
 #include "sm64.h"
 #include "behavior_data.h"
@@ -406,13 +453,51 @@ def WriteModel(rom,dls,s,name,Hname,id):
 	mh.close()
 	return dls
 
+def ClosestIntinDict(num,dict):
+	min=0xFFFFFFFFFFFFFF
+	res = None
+	for k,v in dict.items():
+		if abs(k-num)<min:
+			min=abs(k-num)
+			res = v
+	return res
+
+
+def InsertBankLoads(s,f):
+	banks = [s.banks[10],s.banks[15],s.banks[12],s.banks[13]]
+	for i,b in enumerate(banks):
+		if not i:
+			d=skyboxes
+		else:
+			d=actors
+		if b:
+			banks[i]=ClosestIntinDict(b[0],d)
+			if not i:
+				load = "LOAD_MIO0(0xA,"+banks[i]+"SegmentRomStart,"+banks[i]+"SegmentRomEnd),\n"
+			else:
+				load = "LOAD_MIO0(%d,"%banks[i][1]+banks[i][0]+"_mio0SegmentRomStart,"+banks[i][0]+"_mio0SegmentRomEnd),\n"
+				load += "LOAD_RAW(%d,"%banks[i][2]+banks[i][0]+"_geoSegmentRomStart,"+banks[i][0]+"_geoSegmentRomEnd),\n"
+			f.write(load)
+	return banks
+
+
 def WriteLevelScript(name,Lnum,s,area,Anum):
 	f = open(name,'w')
 	f.write(scriptHeader)
 	f.write('#include "levels/%s/header.h"\n'%Lnum)
-	f.write('LevelScript level_%s_entry[] = {\n'%Lnum)
+	f.write('const LevelScript level_%s_entry[] = {\n'%Lnum)
 	#entry stuff
-	f.write("INIT_LEVEL(),\nLOAD_MIO0(        /*seg*/ 0x08, _common0_mio0SegmentRomStart, _common0_mio0SegmentRomEnd),\nLOAD_RAW(         /*seg*/ 0x0F, _common0_geoSegmentRomStart,  _common0_geoSegmentRomEnd),\nALLOC_LEVEL_POOL(),\nMARIO(/*model*/ MODEL_MARIO, /*behParam*/ 0x00000001, /*beh*/ bhvMario),\nJUMP_LINK(script_func_global_1),\n")
+	f.write("INIT_LEVEL(),\n")
+	#insert bank for current level for now, conflicts can be dealt
+	#with by user later
+	f.write("LOAD_MIO0(0x07, _"+Lnum+"_segment_7SegmentRomStart, _"+Lnum+"_segment_7SegmentRomEnd),\n")
+	#add in loaded banks
+	banks = InsertBankLoads(s,f)
+	f.write("ALLOC_LEVEL_POOL(),\nMARIO(/*model*/ MODEL_MARIO, /*behParam*/ 0x00000001, /*beh*/ bhvMario),\n")
+	#add in jumps based on banks returned
+	for b in banks:
+		if type(b)==list:
+			f.write("JUMP_LINK("+b[3]+"),\n")
 	#a bearable amount of cringe
 	for a in Anum:
 		id = Lnum+"_"+str(a)+"_"
@@ -427,7 +512,7 @@ def WriteLevelScript(name,Lnum,s,area,Anum):
 	
 def WriteArea(f,s,area,Anum,id):
 	#begin area
-	ascript = "LevelScript local_area_%s[]"%id
+	ascript = "const LevelScript local_area_%s[]"%id
 	f.write(ascript+' = {\n')
 	s.MakeDec(ascript)
 	Gptr='Geo_'+id+hex(area.geo)
@@ -437,14 +522,14 @@ def WriteArea(f,s,area,Anum,id):
 	f.write("TERRAIN_TYPE(%d),\n"%(area.terrain))
 	f.write("JUMP_LINK(local_objects_%s),\nJUMP_LINK(local_warps_%s),\n"%(id,id))
 	f.write("END_AREA(),\nRETURN()\n};\n")
-	asobj = 'LevelScript local_objects_%s[]'%id
+	asobj = 'const LevelScript local_objects_%s[]'%id
 	f.write(asobj+' = {\n')
 	s.MakeDec(asobj)
 	#write objects
 	for o in area.objects:
 		f.write("OBJECT_WITH_ACTS({},{},{},{},{},{},{},{},{},{}),\n".format(*o))
 	f.write("RETURN()\n};\n")
-	aswarps = 'LevelScript local_warps_%s[]'%id
+	aswarps = 'const LevelScript local_warps_%s[]'%id
 	f.write(aswarps+' = {\n')
 	s.MakeDec(aswarps)
 	#write warps
@@ -504,16 +589,16 @@ def WriteLevel(rom,s,num,areas,rootdir):
 		(geo,dls)=GW.GeoParse(rom,s.B2P(area.geo),s,area.geo,id)
 		GW.GeoWrite(geo,adir/"geo.inc.c",id)
 		for g in geo:
-			s.MakeDec("GeoLayout Geo_%s[]"%(id+hex(g[1])))
+			s.MakeDec("const GeoLayout Geo_%s[]"%(id+hex(g[1])))
 		dls = WriteModel(rom,dls,s,adir,"%s_%d"%(name.upper(),a),id)
 		for d in dls:
-			s.MakeDec("Gfx DL_%s[]"%(id+hex(d[1])))
+			s.MakeDec("const Gfx DL_%s[]"%(id+hex(d[1])))
 		#write collision file
 		ColParse.ColWrite(adir/"collision.inc.c",s,rom,area.col,id)
-		s.MakeDec('Collision col_%s[]'%(id+hex(area.col)))
+		s.MakeDec('const Collision col_%s[]'%(id+hex(area.col)))
 	#now write level script
 	WriteLevelScript(level/"script.c",name,s,area,areas)
-	s.MakeDec("LevelScript level_%s_entry[]"%name)
+	s.MakeDec("const LevelScript level_%s_entry[]"%name)
 	#finally write header
 	H=level/"header.h"
 	q = open(H,'w')

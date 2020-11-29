@@ -21,7 +21,7 @@ def Bytes(start,len,rom):
 
 def ColWrite(name,s,rom,start,id):
 	f = open(name,'w')
-	f.write("Collision col_%s[] = {\nCOL_INIT(),\n"%(id+hex(start)))
+	f.write("const Collision col_%s[] = {\nCOL_INIT(),\n"%(id+hex(start)))
 	b=s.B2P(start)
 	vnum=HalfsU(b+2,1,rom)[0]
 	f.write("COL_VERTEX_INIT({}),\n".format(vnum))

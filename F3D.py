@@ -42,7 +42,7 @@ def ModelWrite(rom,ModelData,nameG,id):
 	f.write('#include "%s"\n'%('model.inc.h'))
 	for md in ModelData:
 		#display lists
-		DLn = 'Gfx DL_'+id+hex(md[0][1])+'[]'
+		DLn = 'const Gfx DL_'+id+hex(md[0][1])+'[]'
 		f.write(DLn+' = {')
 		refs.append(DLn)
 		f.write('\n')
@@ -54,7 +54,7 @@ def ModelWrite(rom,ModelData,nameG,id):
 			if vb in vbs:
 				continue
 			vbs.append(vb)
-			VBn = 'Vtx VB_%s[]'%(id+hex(vb[0]))
+			VBn = 'const Vtx VB_%s[]'%(id+hex(vb[0]))
 			refs.append(VBn)
 			f.write(VBn+' = {\n')
 			for i in range(vb[2]):
@@ -73,7 +73,7 @@ def ModelWrite(rom,ModelData,nameG,id):
 			if t in txt:
 				continue
 			txt.append(t)
-			texn = 'u16 texture_%s[]'%(id+hex(t[1]))
+			texn = 'const u16 texture_%s[]'%(id+hex(t[1]))
 			refs.append(texn)
 			f.write(texn+' = {\n')
 			for i in range(t[2]):
@@ -87,7 +87,7 @@ def ModelWrite(rom,ModelData,nameG,id):
 			if a in diffs:
 				continue
 			diffs.append(a)
-			lig = 'Light_t Light_%s'%(id+hex(a[1]))
+			lig = 'const Light_t Light_%s'%(id+hex(a[1]))
 			refs.append(lig)
 			f.write(lig+' = {\n')
 			Amb=rom[a[0]:a[0]+16]
@@ -99,7 +99,7 @@ def ModelWrite(rom,ModelData,nameG,id):
 			if a in ambs:
 				continue
 			ambs.append(a)
-			lig = 'Ambient_t Light_%s'%(id+hex(a[1]))
+			lig = 'const Ambient_t Light_%s'%(id+hex(a[1]))
 			refs.append(lig)
 			f.write(lig+' = {\n')
 			Amb=rom[a[0]:a[0]+8]

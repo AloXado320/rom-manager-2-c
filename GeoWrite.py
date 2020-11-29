@@ -123,7 +123,7 @@ def GeoParse(rom,start,script,segstart,id):
 def GeoWrite(geo,name,id):
 	f=open(name,'w')
 	for g in geo:
-		f.write('GeoLayout Geo_%s[]= {\n'%(id+hex(g[1])))
+		f.write('const GeoLayout Geo_%s[]= {\n'%(id+hex(g[1])))
 		for c in g[0]:
 			f.write(c+',\n')
 		f.write('};\n')
