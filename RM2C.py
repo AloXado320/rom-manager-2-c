@@ -426,7 +426,7 @@ def WriteGeo(rom,s,num,name):
 	GW.GeoWrite(geo,name/'geo.inc.c',"actor_"+str(num)+"_")
 	return dls
 
-def WriteModel(rom,dls,s,name,Hname,id):
+def WriteModel(rom,dls,s,name,Hname,id,tdir):
 	x=0
 	ModelData=[]
 	while(x<len(dls)):
@@ -442,7 +442,7 @@ def WriteModel(rom,dls,s,name,Hname,id):
 			if jump not in dls:
 				dls.append(jump)
 		x+=1
-	refs = F3D.ModelWrite(rom,ModelData,name,id)
+	refs = F3D.ModelWrite(rom,ModelData,name,id,tdir)
 	modelH = name/'model.inc.h'
 	mh = open(modelH,'w')
 	headgaurd="%s_HEADER_H"%(Hname)
@@ -590,7 +590,7 @@ def WriteLevel(rom,s,num,areas,rootdir):
 		GW.GeoWrite(geo,adir/"geo.inc.c",id)
 		for g in geo:
 			s.MakeDec("const GeoLayout Geo_%s[]"%(id+hex(g[1])))
-		dls = WriteModel(rom,dls,s,adir,"%s_%d"%(name.upper(),a),id)
+		dls = WriteModel(rom,dls,s,adir,"%s_%d"%(name.upper(),a),id,level)
 		for d in dls:
 			s.MakeDec("const Gfx DL_%s[]"%(id+hex(d[1])))
 		#write collision file
@@ -696,7 +696,7 @@ def ExportLevel(rom,level,assets):
 				dls=WriteGeo(rom,s,i,md)
 			else:
 				dls=[[s.B2P(s.models[i][0]),s.models[i][0]]]
-			WriteModel(rom,dls,s,md,"MODEL_%d"%i,"actor_"+str(i)+"_")
+			WriteModel(rom,dls,s,md,"MODEL_%d"%i,"actor_"+str(i)+"_",md)
 	#now do level
 	WriteLevel(rom,s,level,[1],rootdir)
 

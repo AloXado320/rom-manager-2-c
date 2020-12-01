@@ -3,6 +3,7 @@ from bitstring import *
 import math
 import time
 import struct
+import BinPNG
 
 #typedef struct {
 #  unsigned char	col[3];		/* diffuse light value (rgba) */
@@ -29,7 +30,7 @@ def TcH(bytes):
 	if len(bytes)==1:
 		return struct.unpack(">B",a)[0]
 
-def ModelWrite(rom,ModelData,nameG,id):
+def ModelWrite(rom,ModelData,nameG,id,tdir):
 	#start,dl,verts,textureptrs,ambient lights, diffuse lights
 	dl=[]
 	vbs=[]
@@ -37,7 +38,14 @@ def ModelWrite(rom,ModelData,nameG,id):
 	ambs=[]
 	diffs=[]
 	refs = []
+	ImgTypes = {
+	'RGBA':BinPNG.RGBA,
+	'CI':BinPNG.CI,
+	'IA':BinPNG.IA,
+	'I':BinPNG.I
+	}
 	name = nameG/'model.inc.c'
+	textures = open(tdir/'texture.inc.c','w')
 	f = open(name,'w')
 	f.write('#include "%s"\n'%('model.inc.h'))
 	for md in ModelData:
@@ -70,18 +78,31 @@ def ModelWrite(rom,ModelData,nameG,id):
 			f.write('};\n\n')
 		#textures
 		for t in md[3]:
-			if t in txt:
-				continue
-			txt.append(t)
-			texn = 'const u16 texture_%s[]'%(id+hex(t[1]))
-			refs.append(texn)
-			f.write(texn+' = {\n')
-			for i in range(t[2]):
-				h=rom[t[0]+i*2:t[0]+i*2+2]
-				f.write("0x{:02X},".format(int(h.hex(),16)))
-				if i%16==15:
-					f.write('\n')
-			f.write('};\n\n')
+			print(t)
+			if t[0]:
+				#textureptrs = raw ptr, bank ptr, length, width, height, imgtype, bitdepth, palette
+				if t in txt:
+					continue
+				texn = 'const u8 texture_%s[]'%(id+hex(t[1]))
+				txt.append(t)
+				refs.append(texn)
+				if t[5]=='CI' or t[7]:
+					f.write('ALIGNED8 '+texn+' = {\n')
+					for i in range(t[2]):
+						h=rom[t[0]+i*2:t[0]+i*2+2]
+						f.write("0x{:02X},".format(int(h.hex(),16)))
+						if i%16==15:
+							f.write('\n')
+					f.write('};\n\n')
+				else:
+					#export a include of a png file
+					textures.write('ALIGNED8 '+texn+' = {\n')
+					inc = "levels/"+tdir.parts[-1]+"/"
+					textures.write('#include "%s.inc.c"\n};'%(str(inc+(hex(t[1])+".rgba16"))))
+					#export a png
+					bin = rom[t[0]:t[0]+t[2]*2+2]
+					png = BinPNG.MakeImage(str(tdir/(hex(t[1])+".%s"%(t[5].lower()+str(t[6])))))
+					png = ImgTypes[t[5]](t[3],t[4],t[6],bin,png)
 		#lights
 		for a in md[5]:
 			if a in diffs:
@@ -147,7 +168,7 @@ def DecodeDL(rom,start,s,id):
 	#needs (ptr,length)
 	verts=[]
 	#needs (ptr,length)
-	textureptrs=[]
+	textureptrs=[[0,0,0,0,0,0,0,0]]
 	#needs ptr
 	amb=[]
 	#neess ptr
@@ -185,16 +206,54 @@ def DecodeDL(rom,start,s,id):
 					q=0
 			if q:
 				dl.append(cmd[0])
+		types = {
+		0:'RGBA',
+		2:'CI',
+		3:'IA',
+		4:'I'
+		}
 		#adding stuff to data arrays
 		if (cmd[1][:8].uint==0x4):
 			ptr=cmd[1][32:64]
 			length=cmd[1][8:12]
 			Rptr=s.B2P(ptr.uint)
 			verts.append((ptr.uint,Rptr,length.uint+1))
+		#if a triangle is drawn and there is a texture, assume a new one is loaded next
+		elif(cmd[1][:8].uint==0xBF):
+			if textureptrs[-1][0]:
+				textureptrs.append([0,0,0,0,0,0,0,0])
+		#textureptrs = raw ptr, bank ptr, length, width, height, imgtype, bitdepth, palette
+		#implementing a very naive alg because I'm lazy and no one hand writes stuff
+		#so I will just assume it follows nice structure, if you want to make it better then PR
+		#set tile
+		elif(cmd[1][:8].uint==0xf5):
+			tile = cmd[1][32:40].uint
+			if tile==0:
+				type=cmd[1][8:11].uint
+				textureptrs[-1][5]=types[type]
+				bpp=4*2**(cmd[1][11:13].uint)
+				textureptrs[-1][6]=bpp
+		#tlut
+		elif(cmd[1][:8].uint==0xf0):
+			textureptrs[-1][7]=1
+			textureptrs.append([0,0,0,0,0,0,0])
+		#set tile size
+		elif(cmd[1][:8].uint==0xf2):
+			tile = cmd[1][32:40].uint
+			f2 = (lambda x: (x>>2)+1)
+			textureptrs[-1][3] = f2(cmd[1][40:52].uint)
+			textureptrs[-1][4] = f2(cmd[1][52:64].uint)
+		#load tex
 		elif(cmd[1][:8].uint==0xfd):
 			ptr=cmd[1][32:64]
+			type=cmd[1][8:11].uint
 			bpp=4*2**(cmd[1][11:13].uint)
-			textureptrs.append([s.B2P(ptr.uint),ptr.uint,bpp])
+			textureptrs[-1][0]=s.B2P(ptr.uint)
+			textureptrs[-1][1]=ptr.uint
+			textureptrs[-1][2]=bpp
+			textureptrs[-1][5]=types[type]
+			textureptrs[-1][6]=bpp
+		#load block
 		elif (cmd[1][:8].uint==0xf3):
 			if textureptrs:
 				texels=cmd[1][40:52]
