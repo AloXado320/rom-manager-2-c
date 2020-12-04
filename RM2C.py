@@ -6,6 +6,7 @@ import ColParse
 import sys
 import os
 from pathlib import Path
+from capstone import *
 
 #skip ending for now because script inf loops or something idk
 #needs investigation
@@ -133,7 +134,8 @@ ldHeader='''#include <ultra64.h>
 '''
 
 class Script():
-	def __init__(self,level):
+	def __init__(self,level,editor):
+		self.editor=editor
 		self.map = open('sm64.us.map','r')
 		self.map=self.map.readlines()
 		self.banks=[None for a in range(32)]
@@ -174,9 +176,9 @@ class Script():
 			if addr in l:
 				q= l.rfind(" ")
 				return l[q:-1]
-		return addr
+		return "0x"+addr
 	def RME(self,num,rom):
-		if eval(sys.argv[2]):
+		if self.editor:
 			return
 		start=self.B2P(0x19005f00)
 		start=TcH(rom[start+num*16:start+num*16+4])
@@ -661,9 +663,9 @@ jumps = {
     0x36:SetMusic,
     0x37:SetMusic2
 }
-def ExportLevel(rom,level,assets):
+def ExportLevel(rom,level,assets,editor):
 	#choose level
-	s = Script(level)
+	s = Script(level,editor)
 	entry = 0x108A10
 	#get all level data from script
 	while(True):
@@ -702,34 +704,52 @@ def ExportLevel(rom,level,assets):
 
 if __name__=='__main__':
 	HelpMsg="""
-	#arguments for RM2C are as follows:
-	#RM2C.py, romname, editor (bool), levels (list, or 'all'), assets (list, or 'all')
-	All arguments must be listed for proper use. Use space to separate args.
-	Because assets are level specific, please define a single level when
-	exporting specific assets. Assets sharing a model ID will overwrite
-	previous assets if multiple levels are selected.
-	
-	Example input1 (all models in BoB): python RM2C.py ASA.z64 True [9] range(0,255)
-	Example input2 (Export all Levels): python RM2C.py baserom.z64 True 'all' []
+------------------Invalid Input - Error ------------------
+
+Arguments for RM2C are as follows:
+RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all')
+
+Arguments with equals sign are shown in default state, do not put commas between args.
+Levels and assets accept any list argument or only the string 'all'.
+
+Example input1 (all models in BoB for editor rom):
+python RM2C.py rom="ASA.z64" editor=True levels=[9] assets=range(0,255)
+
+Example input2 (Export all Levels in a RM rom):
+python RM2C.py rom="baserom.z64" levels='all'
+
+------------------Invalid Input - Error ------------------
 	"""
-	if len(sys.argv)!=5:
+	levels=[]
+	assets=[]
+	editor=False
+	rom=''
+	try:
+		#the utmosts of cringes
+		for arg in sys.argv:
+			if arg=='RM2C.py':
+				continue
+			arg=arg.split('=')
+			locals()[arg[0]]=eval(arg[1])
+	except:
 		print(HelpMsg)
 		raise 'bad arguments'
-	rom=open(sys.argv[1],'rb')
+	args = (levels,assets)
+	rom=open(rom,'rb')
 	rom = rom.read()
-	args = (eval(sys.argv[3]),eval(sys.argv[4]))
+	print('Starting Export')
 	if args[0]=='all':
 		for k in Num2Name.keys():
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1))
+				ExportLevel(rom,k,range(1,255,1),editor)
 			else:
-				ExportLevel(rom,k,args[1])
+				ExportLevel(rom,k,args[1],editor)
 			print(Num2Name[k] + ' done')
 	else:
 		for k in args[0]:
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1))
+				ExportLevel(rom,k,range(1,255,1),editor)
 			else:
-				ExportLevel(rom,k,args[1])
+				ExportLevel(rom,k,args[1],editor)
 			print(Num2Name[k] + ' done')
 	print('Export Completed')

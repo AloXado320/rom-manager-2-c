@@ -2,14 +2,27 @@
 
 Convert sm64 levels made with rom manager or SM64 Editor (not gauranteed to work with all versions) to sm64 decomp compliant C files.
 
+dependencies:
+
+bistring, capstone, pypng.
+installation:
+pip install bitstring
+pip install capstone
+pip install pypng
+
 Usage:
 place rom in root, run RM2C.py with the following arguments:
 
-RM2C.py, romname, editor (bool), levels (list, or 'all'), assets (list, or 'all')
+RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all')
 
-Example input1 (all models in BoB plus BoB level model): python RM2C.py ASA.z64 True [9] range(0,255)
+Arguments with equals sign are shown in default state, do not put commas between args.
+Levels and assets accept any list argument or only the string 'all'.
 
-Example input2 (Export all Levels): python RM2C.py baserom.z64 True 'all' []
+Example input1 (all models in BoB for editor rom):
+python RM2C.py rom="ASA.z64" editor=True levels=[9] assets=range(0,255)
+
+Example input2 (Export all Levels in a RM rom):
+python RM2C.py rom="baserom.z64" levels='all'
 
 Expected results:
 Should extract all levels, scripts, and assets from the levels specified by arguments.

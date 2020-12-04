@@ -78,7 +78,6 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 			f.write('};\n\n')
 		#textures
 		for t in md[3]:
-			print(t)
 			if t[0]:
 				#textureptrs = raw ptr, bank ptr, length, width, height, imgtype, bitdepth, palette
 				if t in txt:
