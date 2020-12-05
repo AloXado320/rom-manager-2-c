@@ -45,7 +45,7 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 	'I':BinPNG.I
 	}
 	name = nameG/'model.inc.c'
-	textures = open(tdir/'texture.inc.c','w')
+	textures = open(tdir/'textureNew.inc.c','w')
 	f = open(name,'w')
 	f.write('#include "%s"\n'%('model.inc.h'))
 	for md in ModelData:

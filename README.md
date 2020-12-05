@@ -33,6 +33,7 @@ Levels and assets accept any list argument or only the string 'all'.
 1. All models in BoB for editor rom
 	* python RM2C.py rom="ASA.z64" editor=True levels=[9] assets=range(0,255)
 
+
 2. Export all Levels in a RM rom
 	* python RM2C.py rom="baserom.z64" levels='all'
 

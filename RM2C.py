@@ -333,6 +333,9 @@ def LoadPolyGeo(rom,cmd,start,script):
 def PlaceObject(rom,cmd,start,script):
 	arg=cmd[2]
 	mask=arg[0]
+	#remove disabled objects
+	if mask==0:
+		return start
 	id=arg[1]
 	#efficiency
 	x=U2S(TcH(arg[2:4]))
@@ -627,6 +630,7 @@ def WriteLevel(rom,s,num,areas,rootdir):
 	ld.write(ldHeader)
 	for i,a in enumerate(areas):
 		ld.write('#include "levels/%s/areas/%d/model.inc.c"\n'%(name,(i+1)))
+		ld.write('#include "levels/%s/areas/%d/textureNew.inc.c"\n'%(name,(i+1)))
 		# ld.write('#include "levels/%s/areas/%d/collision.inc.c"\n'%(name,(i+1)))
 	ld = GrabOGDatld(ld,rootdir,name)
 	ld.close
