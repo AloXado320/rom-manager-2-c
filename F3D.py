@@ -49,33 +49,6 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 	f = open(name,'w')
 	f.write('#include "%s"\n'%('model.inc.h'))
 	for md in ModelData:
-		#display lists
-		DLn = 'const Gfx DL_'+id+hex(md[0][1])+'[]'
-		f.write(DLn+' = {')
-		refs.append(DLn)
-		f.write('\n')
-		for c in md[1]:
-			f.write(c+',\n')
-		f.write('};\n\n')
-		#verts
-		for vb in md[2]:
-			if vb in vbs:
-				continue
-			vbs.append(vb)
-			VBn = 'const Vtx VB_%s[]'%(id+hex(vb[0]))
-			refs.append(VBn)
-			f.write(VBn+' = {\n')
-			for i in range(vb[2]):
-				V=rom[vb[1]+i*16:vb[1]+i*16+16]
-				V=BitArray(V)
-				q=V.unpack('3*int:16,uint:16,2*int:16,4*uint:8')
-				#feel there should be a better way to do this
-				pos=q[0:3]
-				UV=q[4:6]
-				rgba=q[6:10]
-				V="{{{ %d, %d, %d }, 0, { %d, %d }, { %d, %d, %d, %d}}},"%(*pos,*UV,*rgba)
-				f.write(V+'\n')
-			f.write('};\n\n')
 		#textures
 		for t in md[3]:
 			if t[0]:
@@ -102,6 +75,44 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 					bin = rom[t[0]:t[0]+t[2]*2+2]
 					png = BinPNG.MakeImage(str(tdir/(hex(t[1])+".%s"%(t[5].lower()+str(t[6])))))
 					png = ImgTypes[t[5]](t[3],t[4],t[6],bin,png)
+		#display lists
+		DLn = 'const Gfx DL_'+id+hex(md[0][1])+'[]'
+		f.write(DLn+' = {')
+		refs.append(DLn)
+		f.write('\n')
+		for c in md[1]:
+			#remove asset loads that are not referenced (e.g. garbage texture loads)
+			#this may cause empty loads, but thats better than not compiling
+			if c.startswith('gsDPSetTextureImage'):
+				args = c.split(',')
+				tex = args[-1][:-1]
+				for ref in refs:
+					if tex in ref:
+						break
+				else:
+					continue
+			f.write(c+',\n')
+		f.write('};\n\n')
+		#verts
+		for vb in md[2]:
+			if vb in vbs:
+				continue
+			vbs.append(vb)
+			VBn = 'const Vtx VB_%s[]'%(id+hex(vb[0]))
+			refs.append(VBn)
+			f.write(VBn+' = {\n')
+			for i in range(vb[2]):
+				V=rom[vb[1]+i*16:vb[1]+i*16+16]
+				V=BitArray(V)
+				q=V.unpack('3*int:16,uint:16,2*int:16,4*uint:8')
+				#feel there should be a better way to do this
+				pos=q[0:3]
+				UV=q[4:6]
+				rgba=q[6:10]
+				V="{{{ %d, %d, %d }, 0, { %d, %d }, { %d, %d, %d, %d}}},"%(*pos,*UV,*rgba)
+				f.write(V+'\n')
+			f.write('};\n\n')
+
 		#lights
 		for a in md[5]:
 			if a in diffs:
