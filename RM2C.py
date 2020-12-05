@@ -630,8 +630,7 @@ def WriteLevel(rom,s,num,areas,rootdir):
 	ld.write(ldHeader)
 	for i,a in enumerate(areas):
 		ld.write('#include "levels/%s/areas/%d/model.inc.c"\n'%(name,(i+1)))
-		ld.write('#include "levels/%s/areas/%d/textureNew.inc.c"\n'%(name,(i+1)))
-		# ld.write('#include "levels/%s/areas/%d/collision.inc.c"\n'%(name,(i+1)))
+	ld.write('#include "levels/%s/textureNew.inc.c"\n'%(name))
 	ld = GrabOGDatld(ld,rootdir,name)
 	ld.close
 
