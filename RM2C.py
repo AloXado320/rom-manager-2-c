@@ -807,7 +807,7 @@ def SetMusic2(rom,cmd,start,script):
 		arg=cmd[2]
 		A.music=TcH(arg[3:4])
 	return start
-			
+
 def SetTerrain(rom,cmd,start,script):
 	A=script.GetArea()
 	if A:
@@ -968,7 +968,7 @@ def GrabOGDatH(q,rootdir,name):
 	for l in head:
 		if not l.startswith('extern'):
 			continue
-		if 'Gfx %s_seg7'%name in l or 'GeoLayout %s'%name in l or 'LevelScript' in l or 'Collision %s_seg7_area'%name in l or 'Collision %s_seg7_collision_level'%name in l:
+		if 'Gfx %s_seg7'%name in l or 'LevelScript' in l or 'Collision %s_seg7_area'%name in l or 'Collision %s_seg7_collision_level'%name in l:
 			continue
 		q.write(l)
 	return q
