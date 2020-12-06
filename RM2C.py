@@ -901,23 +901,23 @@ def WriteLevelScript(name,Lnum,s,area,Anum):
 	f = open(name,'w')
 	f.write(scriptHeader)
 	f.write('#include "levels/%s/header.h"\n'%Lnum)
-	LoadLevel = DetLevelSpecBank(s,f)
-	if LoadLevel:
-		f.write('#include "levels/%s/header.h"\n'%LoadLevel)
+	#This is the ideal to match hacks, but currently the way the linker is
+	#setup, level object data is in the same bank as level mesh so this cannot be done.
+	# LoadLevel = DetLevelSpecBank(s,f)
+	# if LoadLevel and LoadLevel!=Lnum:
+		# f.write('#include "levels/%s/header.h"\n'%LoadLevel)
 	f.write('const LevelScript level_%s_entry[] = {\n'%Lnum)
 	#entry stuff
 	f.write("INIT_LEVEL(),\n")
-	#insert bank for current level for now, conflicts can be dealt
-	#with by user later
-	if LoadLevel:
-		f.write("LOAD_MIO0(0x07, _"+LoadLevel+"_segment_7SegmentRomStart, _"+LoadLevel+"_segment_7SegmentRomEnd),\n")
-	else:
-		f.write("LOAD_MIO0(0x07, _"+Lnum+"_segment_7SegmentRomStart, _"+Lnum+"_segment_7SegmentRomEnd),\n")
+	# if LoadLevel:
+		# f.write("LOAD_MIO0(0x07, _"+LoadLevel+"_segment_7SegmentRomStart, _"+LoadLevel+"_segment_7SegmentRomEnd),\n")
+	# else:
+	f.write("LOAD_MIO0(0x07, _"+Lnum+"_segment_7SegmentRomStart, _"+Lnum+"_segment_7SegmentRomEnd),\n")
 	#add in loaded banks
 	banks = InsertBankLoads(s,f)
-	f.write("ALLOC_LEVEL_POOL(),\nMARIO(/*model*/ MODEL_MARIO, /*behParam*/ 0x00000001, /*beh*/ bhvMario),\nLOAD_MODEL_FROM_GEO(MODEL_VCUTM_WARP_PIPE, warp_pipe_geo),\n")
-	if LoadLevel:
-		f.write(LevelSpecificModels[LoadLevel])
+	f.write("ALLOC_LEVEL_POOL(),\nMARIO(/*model*/ MODEL_MARIO, /*behParam*/ 0x00000001, /*beh*/ bhvMario),\nLOAD_MODEL_FROM_GEO(22, warp_pipe_geo),\n")
+	# if LoadLevel:
+		# f.write(LevelSpecificModels[LoadLevel])
 	#add in jumps based on banks returned
 	for b in banks:
 		if type(b)==list:
@@ -968,7 +968,7 @@ def GrabOGDatH(q,rootdir,name):
 	for l in head:
 		if not l.startswith('extern'):
 			continue
-		if 'Gfx %s_seg7'%name in l or 'LevelScript' in l or 'Collision %s_seg7_area'%name in l or 'Collision %s_seg7_collision_level'%name in l:
+		if 'LevelScript' in l or 'Collision %s_seg7_area'%name in l or 'Collision %s_seg7_collision_level'%name in l:
 			continue
 		q.write(l)
 	return q
@@ -1034,15 +1034,14 @@ def WriteLevel(rom,s,num,areas,rootdir):
 	q = GrabOGDatH(q,rootdir,name)
 	q.write("#endif")
 	q.close()
-	#write geo.c
-	G = level/"geo.c"
-	g = open(G,'w')
-	g.write(geocHeader)
-	g.write('#include "levels/%s/header.h"\n'%name)
-	for i,a in enumerate(areas):
-		g.write('#include "levels/%s/areas/%d/geo.inc.c"\n'%(name,(i+1)))
-	g.close
-	
+	#write geo.c, maybe the original works good always??
+	# G = level/"geo.c"
+	# g = open(G,'w')
+	# g.write(geocHeader)
+	# g.write('#include "levels/%s/header.h"\n'%name)
+	# for i,a in enumerate(areas):
+		# g.write('#include "levels/%s/areas/%d/geo.inc.c"\n'%(name,(i+1)))
+	# g.close
 	#write leveldata.c
 	LD = level/"leveldata.c"
 	ld = open(LD,'w')
