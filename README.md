@@ -22,10 +22,10 @@ bistring, capstone, pypng.
 
 place rom in root, run RM2C.py with the following arguments:
 
-RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all')
+RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...]
 
 Arguments with equals sign are shown in default state, do not put commas between args.
-Levels and assets accept any list argument or only the string 'all'.
+Levels and assets accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset.
 
 
 ### Example Inputs
@@ -36,6 +36,9 @@ Levels and assets accept any list argument or only the string 'all'.
 
 2. Export all Levels in a RM rom
 	* python RM2C.py rom="baserom.z64" levels='all'
+
+3. Export all BoB in a RM rom with a second area from another rom
+	* python RM2C.py rom="baserom.z64" levels='all' Append=[('rom2.z64',1,True)]
 
 ### Expected results
 Should extract all levels, scripts, and assets from the levels specified by arguments.

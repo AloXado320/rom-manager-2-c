@@ -1,5 +1,4 @@
-baserom.z64
-sm74.z64
+*.z64
 __pycache__/**
 assets/**
 castle_grounds/**

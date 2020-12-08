@@ -50,16 +50,16 @@ Num2Name = {
 #in cmd, it goes:
 #LOAD_MIO0(0xA,str+SegmentRomStart,str+SegmentRomEnd)
 skyboxes = {
-0xB35770:'_water_skybox_mio0',
-0xB5D8B0:'_ccm_skybox_mio0',
-0xBEADB0:'_clouds_skybox_mio0',
-0xBA2330:'_bitfs_skybox_mio0',
-0xBC2C70:'_wdw_skybox_mio0',
-0xB859F0:'_cloud_floor_skybox_mio0',
-0xC12EF0:'_ssl_skybox_mio0',
-0xC3B030:'_bbh_skybox_mio0',
-0xC57970:'_bidw_skybox_mio0',
-0xC7FAB0:'_bits_skybox_mio0'
+	0xB35770:'_water_skybox_mio0',
+	0xB5D8B0:'_ccm_skybox_mio0',
+	0xBEADB0:'_clouds_skybox_mio0',
+	0xBA2330:'_bitfs_skybox_mio0',
+	0xBC2C70:'_wdw_skybox_mio0',
+	0xB859F0:'_cloud_floor_skybox_mio0',
+	0xC12EF0:'_ssl_skybox_mio0',
+	0xC3B030:'_bbh_skybox_mio0',
+	0xC57970:'_bidw_skybox_mio0',
+	0xC7FAB0:'_bits_skybox_mio0'
 }
 
 #name of actor group, bank gfx is in, bank geo is in
@@ -71,24 +71,24 @@ skyboxes = {
 #the last member is the global scripts to include after loading
 #the bank
 actors = {
-0x132850:['_group1', 5, 12,'script_func_global_2'],
-0x134a70:['_group2', 5, 12,'script_func_global_3'],
-0x13B5D0:['_group3', 5, 12,'script_func_global_4'],
-0x145C10:['_group4', 5, 12,'script_func_global_5'],
-0x151B70:['_group5', 5, 12,'script_func_global_6'],
-0x1602E0:['_group6', 5, 12,'script_func_global_7'],
-0x1656E0:['_group7', 5, 12,'script_func_global_8'],
-0x166BD0:['_group8', 5, 12,'script_func_global_9'],
-0x16D5C0:['_group9', 5, 12,'script_func_global_10'],
-0x180540:['_group10', 5, 12,'script_func_global_11'],
-0x187FA0:['_group11', 5, 12,'script_func_global_12'],
-0x1B9070:['_group12', 6, 13,'script_func_global_13'],
-0x1C3DB0:['_group13', 6, 13,'script_func_global_14'],
-0x1D7C90:['_group14', 6, 13,'script_func_global_15'],
-0x1E4BF0:['_group15', 6, 13,'script_func_global_16'],
-0x1E7D90:['_group16', 6, 13,'script_func_global_17'],
-0x1F1B30:['_group17', 6, 13,'script_func_global_18'],
-0x2008D0:['_common0', 8, 15,'script_func_global_1']
+	0x132850:['_group1', 5, 12,'script_func_global_2'],
+	0x134a70:['_group2', 5, 12,'script_func_global_3'],
+	0x13B5D0:['_group3', 5, 12,'script_func_global_4'],
+	0x145C10:['_group4', 5, 12,'script_func_global_5'],
+	0x151B70:['_group5', 5, 12,'script_func_global_6'],
+	0x1602E0:['_group6', 5, 12,'script_func_global_7'],
+	0x1656E0:['_group7', 5, 12,'script_func_global_8'],
+	0x166BD0:['_group8', 5, 12,'script_func_global_9'],
+	0x16D5C0:['_group9', 5, 12,'script_func_global_10'],
+	0x180540:['_group10', 5, 12,'script_func_global_11'],
+	0x187FA0:['_group11', 5, 12,'script_func_global_12'],
+	0x1B9070:['_group12', 6, 13,'script_func_global_13'],
+	0x1C3DB0:['_group13', 6, 13,'script_func_global_14'],
+	0x1D7C90:['_group14', 6, 13,'script_func_global_15'],
+	0x1E4BF0:['_group15', 6, 13,'script_func_global_16'],
+	0x1E7D90:['_group16', 6, 13,'script_func_global_17'],
+	0x1F1B30:['_group17', 6, 13,'script_func_global_18'],
+	0x2008D0:['_common0', 8, 15,'script_func_global_1']
 }
 
 #addresses of banks for each specific level, just using RM start addr
@@ -541,8 +541,7 @@ ldHeader='''#include <ultra64.h>
 '''
 
 class Script():
-	def __init__(self,level,editor):
-		self.editor=editor
+	def __init__(self,level):
 		self.map = open('sm64.us.map','r')
 		self.map=self.map.readlines()
 		self.banks=[None for a in range(32)]
@@ -550,6 +549,7 @@ class Script():
 		self.models=[None for a in range(256)]
 		self.Currlevel=level
 		self.levels={}
+		self.levels[self.Currlevel]=[None for a in range(8)]
 		#stack is simply a stack of ptrs
 		#base is the prev pos
 		#top is the current pos
@@ -575,6 +575,12 @@ class Script():
 			return self.levels[self.Currlevel][self.CurrArea]
 		except:
 			return None
+	def GetNumAreas(self,level):
+		count=[]
+		for i,area in enumerate(self.levels[level]):
+			if area:
+				count.append(i)
+		return count
 	def GetLabel(self,addr):
 		#behavior is in bank 0 and won't be in map ever
 		if len(addr)==6:
@@ -597,7 +603,7 @@ class Script():
 class Area():
 		def __init__(self):
 			pass
-		
+
 #tuple convert to hex
 def TcH(bytes):
 	a = struct.pack(">%dB"%len(bytes),*bytes)
@@ -679,8 +685,8 @@ def CondJump(rom,cmd,start,script):
 def SetLevel(rom,cmd,start,script):
 	#gonna ignore this and take user input instead
 	#script.Currlevel=TcH(cmd[2])
-	if not script.levels.get("Currlevel"):
-		script.levels[script.Currlevel]=[None for a in range(8)]
+	# if not script.levels.get("Currlevel"):
+		# script.levels[script.Currlevel]=[None for a in range(8)]
 	return start
 	
 def LoadAsm(rom,cmd,start,script):
@@ -708,13 +714,17 @@ def LoadMio0Tex(rom,cmd,start,script):
 	return LoadData(rom,cmd,start,script)
 
 def StartArea(rom,cmd,start,script):
+	#ignore stuff in bank 0x14 because thats star select/file select and messes up export
 	arg=cmd[2]
-	area=arg[0]
+	if TcH(arg[2:3])==0x14:
+		return start
+	area=arg[0]+script.Aoffset
 	script.CurrArea=area
 	q=Area()
 	q.geo=TcH(arg[2:6])
 	q.objects=[]
 	q.warps=[]
+	q.rom=rom
 	script.levels[script.Currlevel][script.CurrArea]=q
 	return start
 	
@@ -739,6 +749,9 @@ def LoadPolyGeo(rom,cmd,start,script):
 	
 def PlaceObject(rom,cmd,start,script):
 	arg=cmd[2]
+	A=script.GetArea()
+	if not A:
+		return start
 	mask=arg[0]
 	#remove disabled objects
 	if mask==0:
@@ -755,7 +768,6 @@ def PlaceObject(rom,cmd,start,script):
 	bhv=script.GetLabel(hex(TcH(arg[18:22]))[2:])
 	#print(bhv)
 	PO=(id,x,y,z,rx,ry,rz,bparam,bhv,mask)
-	A=script.GetArea()
 	A.objects.append(PO)
 	return start
 	
@@ -765,8 +777,10 @@ def PlaceMario(rom,cmd,start,script):
 
 def ConnectWarp(rom,cmd,start,script):
 	A=script.GetArea()
+	if not A:
+		return start
 	arg=cmd[2]
-	W=(arg[0],arg[1],arg[2],arg[3],arg[4])
+	W=(arg[0],arg[1],arg[2]+script.Aoffset,arg[3],arg[4])
 	A.warps.append(W)
 	return start
 	
@@ -785,6 +799,8 @@ def LoadCol(rom,cmd,start,script):
 	arg=cmd[2]
 	col=TcH(arg[2:6])
 	A=script.GetArea()
+	if not A:
+		return start
 	A.col=col
 	return start
 	
@@ -814,7 +830,6 @@ def SetTerrain(rom,cmd,start,script):
 		arg=cmd[2]
 		A.terrain=TcH(arg[1:2])
 	return start
-
 
 def ULC(rom,start):
 	cmd = struct.unpack(">B",rom[start:start+1])[0]
@@ -1007,19 +1022,21 @@ def WriteLevel(rom,s,num,areas,rootdir):
 		adir = Areasdir/("%d"%a)
 		adir.mkdir(exist_ok=True)
 		area=s.levels[num][a]
+		Arom = area.rom
 		#get real bank 0x0e location
-		s.RME(a,rom)
+		s.RME(a,Arom)
 		id = name+"_"+str(a)+"_"
-		(geo,dls)=GW.GeoParse(rom,s.B2P(area.geo),s,area.geo,id)
+		(geo,dls)=GW.GeoParse(Arom,s.B2P(area.geo),s,area.geo,id)
 		GW.GeoWrite(geo,adir/"geo.inc.c",id)
 		for g in geo:
 			s.MakeDec("const GeoLayout Geo_%s[]"%(id+hex(g[1])))
-		dls = WriteModel(rom,dls,s,adir,"%s_%d"%(name.upper(),a),id,level)
+		dls = WriteModel(Arom,dls,s,adir,"%s_%d"%(name.upper(),a),id,level)
 		for d in dls:
 			s.MakeDec("const Gfx DL_%s[]"%(id+hex(d[1])))
 		#write collision file
-		ColParse.ColWrite(adir/"collision.inc.c",s,rom,area.col,id)
+		ColParse.ColWrite(adir/"collision.inc.c",s,Arom,area.col,id)
 		s.MakeDec('const Collision col_%s[]'%(id+hex(area.col)))
+		print('finished area '+str(a)+ ' in level '+name)
 	#now write level script
 	WriteLevelScript(level/"script.c",name,s,area,areas)
 	s.MakeDec("const LevelScript level_%s_entry[]"%name)
@@ -1084,10 +1101,31 @@ jumps = {
     0x36:SetMusic,
     0x37:SetMusic2
 }
-def ExportLevel(rom,level,assets,editor):
+
+def AppendAreas(entry,script,Append):
+	for rom,offset,editor in Append:
+		script.Aoffset = offset
+		script.editor = editor
+		Arom=open(rom,'rb')
+		Arom = Arom.read()
+		#get all level data from script
+		while(True):
+			#parse script until reaching special
+			q=PLC(Arom,entry)
+			#execute special cmd
+			entry = jumps[q[0]](Arom,q,q[3],script)
+			#check for end, then loop
+			if not entry:
+				break
+	return script
+
+def ExportLevel(rom,level,assets,editor,Append):
 	#choose level
-	s = Script(level,editor)
+	s = Script(level)
 	entry = 0x108A10
+	s = AppendAreas(entry,s,Append)
+	s.Aoffset = 0
+	s.editor = editor
 	#get all level data from script
 	while(True):
 		#parse script until reaching special
@@ -1121,17 +1159,17 @@ def ExportLevel(rom,level,assets,editor):
 				dls=[[s.B2P(s.models[i][0]),s.models[i][0]]]
 			WriteModel(rom,dls,s,md,"MODEL_%d"%i,"actor_"+str(i)+"_",md)
 	#now do level
-	WriteLevel(rom,s,level,[1],rootdir)
+	WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir)
 
 if __name__=='__main__':
 	HelpMsg="""
 ------------------Invalid Input - Error ------------------
 
 Arguments for RM2C are as follows:
-RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all')
+RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...]
 
 Arguments with equals sign are shown in default state, do not put commas between args.
-Levels and assets accept any list argument or only the string 'all'.
+Levels and assets accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset.
 
 Example input1 (all models in BoB for editor rom):
 python RM2C.py rom="ASA.z64" editor=True levels=[9] assets=range(0,255)
@@ -1139,12 +1177,16 @@ python RM2C.py rom="ASA.z64" editor=True levels=[9] assets=range(0,255)
 Example input2 (Export all Levels in a RM rom):
 python RM2C.py rom="baserom.z64" levels='all'
 
+Example input3 (Export all BoB in a RM rom with a second area from another rom):
+python RM2C.py rom="baserom.z64" levels='all' Append=[('rom2.z64',1,True)]
+
 ------------------Invalid Input - Error ------------------
 	"""
 	levels=[]
 	assets=[]
 	editor=False
 	rom=''
+	Append=[]
 	try:
 		#the utmosts of cringes
 		for arg in sys.argv:
@@ -1162,15 +1204,15 @@ python RM2C.py rom="baserom.z64" levels='all'
 	if args[0]=='all':
 		for k in Num2Name.keys():
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor)
+				ExportLevel(rom,k,range(1,255,1),editor,Append)
 			else:
-				ExportLevel(rom,k,args[1],editor)
+				ExportLevel(rom,k,args[1],editor,Append)
 			print(Num2Name[k] + ' done')
 	else:
 		for k in args[0]:
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor)
+				ExportLevel(rom,k,range(1,255,1),editor,Append)
 			else:
-				ExportLevel(rom,k,args[1],editor)
+				ExportLevel(rom,k,args[1],editor,Append)
 			print(Num2Name[k] + ' done')
 	print('Export Completed')

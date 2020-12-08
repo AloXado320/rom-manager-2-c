@@ -55,7 +55,7 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 				#textureptrs = raw ptr, bank ptr, length, width, height, imgtype, bitdepth, palette
 				if t in txt:
 					continue
-				texn = 'const u8 texture_%s[]'%(id+hex(t[1]))
+				texn = 'const u8 texture_%s_custom[]'%(id+hex(t[1]))
 				txt.append(t)
 				refs.append(texn)
 				if t[5]=='CI' or t[7]:
@@ -70,10 +70,10 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 					#export a include of a png file
 					textures.write('ALIGNED8 '+texn+' = {\n')
 					inc = "levels/"+tdir.parts[-1]+"/"
-					textures.write('#include "%s.inc.c"\n};'%(str(inc+(hex(t[1])+".rgba16"))))
+					textures.write('#include "%s.inc.c"\n};'%(str(inc+(id+hex(t[1])+"_custom.rgba16"))))
 					#export a png
 					bin = rom[t[0]:t[0]+t[2]*2+2]
-					png = BinPNG.MakeImage(str(tdir/(hex(t[1])+".%s"%(t[5].lower()+str(t[6])))))
+					png = BinPNG.MakeImage(str(tdir/(id+hex(t[1])+"_custom.%s"%(t[5].lower()+str(t[6])))))
 					png = ImgTypes[t[5]](t[3],t[4],t[6],bin,png)
 		#display lists
 		DLn = 'const Gfx DL_'+id+hex(md[0][1])+'[]'
@@ -632,7 +632,7 @@ def G_SETCOMBINE_Decode(bin,id):
 
 def G_SETTIMG_Decode(bin,id):
 	fmt,bit,pad,seg=bin.unpack('uint:3,uint:2,uint:19,uint:32')
-	return (fmt,bit,1,'texture_%s'%(id+hex(seg)))
+	return (fmt,bit,1,'texture_%s_custom'%(id+hex(seg)))
 
 def G_SETZIMG_Decode(bin,id):
 	pad,addr=bin.unpack('int:24,uint:32')
