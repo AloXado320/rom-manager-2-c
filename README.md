@@ -58,11 +58,11 @@ Water boxes must currently be commented out of geometry layout
 ## Successful results
 Ultra Mario Course 1 ported from sm64 editor to SM64EX pc port:
 
-![UltraMarioPC.png](https://gitlab.com/scuttlebugraiser/rom-manger-2-c/-/raw/master/UltraMarioPC.png)
+![UltraMarioPC.png](https://gitlab.com/scuttlebugraiser/rom-manger-2-c/-/blob/master/Extra%20Resources/UltraMarioPC.png)
 
 Speed Star Adventure Course 1 ported from Rom Manager to SM64 decomp:
 
-![SSAEmu.png](https://gitlab.com/scuttlebugraiser/rom-manger-2-c/-/raw/master/SSAEmu.png)
+![SSAEmu.png](https://gitlab.com/scuttlebugraiser/rom-manger-2-c/-/blob/master/Extra%20Resources/SSAEmu.png)
 
 ------------------------------------------------------------------
 
@@ -82,4 +82,4 @@ Speed Star Adventure Course 1 ported from Rom Manager to SM64 decomp:
 
 With porting to PC automatically a possiblity, so is the addition of auto upscaling textures for higher quality gameplay. Using ESRGAN and various models I have tested what the best models are for AI upscaling.
 
-![ESRGAN Comparison.png](https://gitlab.com/scuttlebugraiser/rom-manger-2-c/-/raw/master/Extra_Resources/ESRGAN_Comparison.png)
+![ESRGAN Comparison.png](https://gitlab.com/scuttlebugraiser/rom-manger-2-c/-/blob/master/Extra%20Resources/ESRGAN%20Comparison.png)
