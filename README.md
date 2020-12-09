@@ -8,13 +8,16 @@ Convert sm64 levels made with rom manager or SM64 Editor (not gauranteed to work
 
 ## Dependencies
 
-bistring, capstone, pypng.
+bistring, capstone, pypng, ESRGAN (only for ai upscaling for PC port *Currently Testing*)
 
 ### Installation
 
 * pip install bitstring
 * pip install capstone
 * pip install pypng
+
+#### ESRGAN
+Currently testing, installation method coming after optimal fork and model are found.
 
 ------------------------------------------------------------------
 
@@ -74,3 +77,9 @@ Speed Star Adventure Course 1 ported from Rom Manager to SM64 decomp:
 * water boxes do not export
 
 * custom objects do not export with labels (plan to have custom map support)
+
+## Image Upscaling
+
+With porting to PC automatically a possiblity, so is the addition of auto upscaling textures for higher quality gameplay. Using ESRGAN and various models I have tested what the best models are for AI upscaling.
+
+![ESRGAN Comparison.png](https://gitlab.com/scuttlebugraiser/rom-manger-2-c/-/raw/master/Extra_Resources/ESRGAN_Comparison.png)
