@@ -85,8 +85,8 @@ def GetPalette(palette,depth,bpp):
 	for p in range(2**depth):
 		b = BitArray(bin[p*2:p*2+2])
 		a=b.unpack('3*uint:5,uint:1')
-		shifts = [3,3,3,7]
-		a = [c>>s in zip(a,shifts)]
+		shifts = [3,3,3,8]
+		a = [(c<<s)-((c<<s)&256)//256 for c,s in zip(a,shifts)]
 		o.append(tuple(a))
 	return o
 

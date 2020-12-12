@@ -7,6 +7,7 @@ import sys
 import os
 from pathlib import Path
 from capstone import *
+import shutil
 
 #skip ending for now because script inf loops or something idk
 #needs investigation
@@ -814,14 +815,14 @@ def SetMusic(rom,cmd,start,script):
 	A=script.GetArea()
 	if A:
 		arg=cmd[2]
-		A.music=TcH(arg[1:2])
+		A.music=TcH(arg[3:4])
 	return start
 
 def SetMusic2(rom,cmd,start,script):
 	A=script.GetArea()
 	if A:
 		arg=cmd[2]
-		A.music=TcH(arg[3:4])
+		A.music=TcH(arg[1:2])
 	return start
 
 def SetTerrain(rom,cmd,start,script):
@@ -912,7 +913,7 @@ def DetLevelSpecBank(s,f):
 		level =ClosestIntinDict(s.banks[7][0],LevelSpecificBanks)
 	return level
 
-def WriteLevelScript(name,Lnum,s,area,Anum):
+def WriteLevelScript(name,Lnum,s,level,Anum):
 	f = open(name,'w')
 	f.write(scriptHeader)
 	f.write('#include "levels/%s/header.h"\n'%Lnum)
@@ -947,6 +948,7 @@ def WriteLevelScript(name,Lnum,s,area,Anum):
 	f.write("CALL(/*arg*/ 0, /*func*/ lvl_init_or_update),\nCALL_LOOP(/*arg*/ 1, /*func*/ lvl_init_or_update),\nCLEAR_LEVEL(),\nSLEEP_BEFORE_EXIT(/*frames*/ 1),\nEXIT(),\n};\n")
 	for a in Anum:
 		id = Lnum+"_"+str(a)+"_"
+		area=level[a]
 		WriteArea(f,s,area,a,id)
 
 def WriteArea(f,s,area,Anum,id):
@@ -1009,11 +1011,15 @@ def GrabOGDatld(L,rootdir,name):
 		L.write(l)
 	return L
 
-def WriteLevel(rom,s,num,areas,rootdir):
+def WriteLevel(rom,s,num,areas,rootdir,m64dir):
 	#create level directory
 	name=Num2Name[num]
 	level=Path(sys.path[0])/("%s"%name)
-	level.mkdir(exist_ok=True)
+	if os.path.isdir(level):
+		shutil.rmtree(level)
+	original = rootdir/'originals'/("%s"%name)
+	shutil.copytree(original,level)
+	# level.mkdir(exist_ok=True)
 	Areasdir = level/"areas"
 	Areasdir.mkdir(exist_ok=True)
 	#create area directory for each area
@@ -1023,6 +1029,8 @@ def WriteLevel(rom,s,num,areas,rootdir):
 		adir.mkdir(exist_ok=True)
 		area=s.levels[num][a]
 		Arom = area.rom
+		if area.music:
+			pass# RipSequence(Arom,area.music+1,m64dir,num,a)
 		#get real bank 0x0e location
 		s.RME(a,Arom)
 		id = name+"_"+str(a)+"_"
@@ -1038,7 +1046,7 @@ def WriteLevel(rom,s,num,areas,rootdir):
 		s.MakeDec('const Collision col_%s[]'%(id+hex(area.col)))
 		print('finished area '+str(a)+ ' in level '+name)
 	#now write level script
-	WriteLevelScript(level/"script.c",name,s,area,areas)
+	WriteLevelScript(level/"script.c",name,s,s.levels[num],areas)
 	s.MakeDec("const LevelScript level_%s_entry[]"%name)
 	#finally write header
 	H=level/"header.h"
@@ -1101,6 +1109,20 @@ jumps = {
     0x36:SetMusic,
     0x37:SetMusic2
 }
+#Not sure if it works, because I think editor memes me and puts sequences in some random spot
+def RipSequence(rom,seqNum,m64Dir,Lnum,Anum):
+	gMusicData=0x7B0860
+	#format is tbl,m64s[]
+	#tbl format is [len,offset][]
+	UPW = (lambda x,y: struct.unpack(">L",x[y:y+4])[0])
+	gMusicData+=seqNum*8+8
+	len=UPW(rom,gMusicData)
+	offset=UPW(rom,gMusicData+4)
+	m64 = rom[offset:offset+len]
+	m64File = m64Dir/("%d_Level_%d_Area_%d_sequence_custom.m64"%(seqNum,Lnum,Anum))
+	f = open(m64File,'wb')
+	f.write(m64)
+	f.close()
 
 def AppendAreas(entry,script,Append):
 	for rom,offset,editor in Append:
@@ -1146,6 +1168,8 @@ def ExportLevel(rom,level,assets,editor,Append):
 	ass=Path("assets")
 	ass=Path(sys.path[0])/ass
 	ass.mkdir(exist_ok=True)
+	m64dir = rootdir/"m64"
+	m64dir.mkdir(exist_ok=True)
 	#create subfolders for each model
 	for i in assets:
 		#skip error for now until seg 2 detect
@@ -1159,7 +1183,7 @@ def ExportLevel(rom,level,assets,editor,Append):
 				dls=[[s.B2P(s.models[i][0]),s.models[i][0]]]
 			WriteModel(rom,dls,s,md,"MODEL_%d"%i,"actor_"+str(i)+"_",md)
 	#now do level
-	WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir)
+	WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir)
 
 if __name__=='__main__':
 	HelpMsg="""
@@ -1169,7 +1193,7 @@ Arguments for RM2C are as follows:
 RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...]
 
 Arguments with equals sign are shown in default state, do not put commas between args.
-Levels and assets accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset.
+Levels and assets accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
 
 Example input1 (all models in BoB for editor rom):
 python RM2C.py rom="ASA.z64" editor=True levels=[9] assets=range(0,255)
