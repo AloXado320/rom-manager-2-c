@@ -994,6 +994,7 @@ def GrabOGDatld(L,rootdir,name):
 	dir = rootdir/'originals'/name
 	ld = open(dir/'leveldata.c','r')
 	ld = ld.readlines()
+	grabbed = []
 	for l in ld:
 		if not l.startswith('#include "levels/%s/'%name):
 			continue
@@ -1009,7 +1010,8 @@ def GrabOGDatld(L,rootdir,name):
 		# if ('/areas/' in l and '/collision.inc.c' in l):
 			# continue
 		L.write(l)
-	return L
+		grabbed.append(l)
+	return [L,grabbed]
 
 def WriteLevel(rom,s,num,areas,rootdir,m64dir):
 	#create level directory
@@ -1071,10 +1073,17 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir):
 	LD = level/"leveldata.c"
 	ld = open(LD,'w')
 	ld.write(ldHeader)
+	[ld,grabbed] = GrabOGDatld(ld,rootdir,name)
+	Ftypes = ['model.inc.c"\n','geo.inc.c"\n','collision.inc.c"\n']
 	for i,a in enumerate(areas):
-		ld.write('#include "levels/%s/areas/%d/model.inc.c"\n'%(name,(i+1)))
+		start = '#include "levels/%s/areas/%d/'%(name,(i+1))
+		for Ft in Ftypes:
+			for l in grabbed:
+				if start+Ft in l:
+					break
+			else:
+				ld.write(start+Ft)
 	ld.write('#include "levels/%s/textureNew.inc.c"\n'%(name))
-	ld = GrabOGDatld(ld,rootdir,name)
 	ld.close
 
 #dictionary of actions to take based on script cmds
