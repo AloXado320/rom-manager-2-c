@@ -1061,20 +1061,24 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir):
 	q = GrabOGDatH(q,rootdir,name)
 	q.write("#endif")
 	q.close()
-	#write geo.c, maybe the original works good always??
-	# G = level/"geo.c"
-	# g = open(G,'w')
-	# g.write(geocHeader)
-	# g.write('#include "levels/%s/header.h"\n'%name)
-	# for i,a in enumerate(areas):
-		# g.write('#include "levels/%s/areas/%d/geo.inc.c"\n'%(name,(i+1)))
-	# g.close
+	#append to geo.c, maybe the original works good always??
+	G = level/"geo.c"
+	g = open(G,'r+')
+	geolines = g.readlines()
+	for i,a in enumerate(areas):
+		geo = '#include "levels/%s/areas/%d/geo.inc.c"\n'%(name,(i+1))
+		for l in geolines:
+			if geo in l:
+				break
+		else:
+			g.write(geo)
+	g.close
 	#write leveldata.c
 	LD = level/"leveldata.c"
 	ld = open(LD,'w')
 	ld.write(ldHeader)
 	[ld,grabbed] = GrabOGDatld(ld,rootdir,name)
-	Ftypes = ['model.inc.c"\n','geo.inc.c"\n','collision.inc.c"\n']
+	Ftypes = ['model.inc.c"\n','collision.inc.c"\n']
 	for i,a in enumerate(areas):
 		start = '#include "levels/%s/areas/%d/'%(name,(i+1))
 		for Ft in Ftypes:
