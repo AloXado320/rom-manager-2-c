@@ -204,9 +204,9 @@ def DecodeDL(rom,start,s,id):
 	#jump dls
 	jumps=[]
 	x=0
-	#print(hex(start[0]),hex(start[1]))
 	start=start[0]
-	#print(rom[start:start+8].hex())
+	global gCycle
+	gCycle = 1
 	while(True):
 		cmd=rom[start+x:start+x+8]
 		cmd=Bin2C(cmd,id)
@@ -483,6 +483,12 @@ def G_SETOTHERMODE_H_Decode(bin,id):
 		32768:'G_TT_RGBA16'
 	}
 	try:
+		#2 cycle
+		if shift==20 and value==1048576:
+			gCycle = 2
+		#1 cycle
+		elif shift==20 and value==0:
+			gCycle = 1
 		enum=enums[shift]
 		value = locals()['values'+str(shift)].get(value,value)
 		return (enum,value)
@@ -647,6 +653,33 @@ def G_SETCOMBINE_Decode(bin,id):
 	[l,o] = [BAmode.get(color,0) for color in Balpha]
 	[d,j] = [CAmode.get(color,0) for color in Calpha]
 	[m,p] = [DAmode.get(color,0) for color in Dalpha]
+	if gCycle == 1:
+		#get rid of combined by making assumptions about common combine types
+		if a=='COMBINED':
+			a='TEXEL0'
+		if g=='COMBINED':
+			g==0
+		if b=='COMBINED':
+			b=='SHADE'
+		if k=='COMBINED':
+			k==0
+		if c=='COMBINED':
+			c=='TEXEL0'
+		if l=='COMBINED':
+			l==0
+		if d=='COMBINED':
+			d=='SHADE'
+		if m=='COMBINED':
+			m==0
+		#set 2 cycle values to same as 1 cycle values
+		e=a
+		h=g
+		f=b
+		n=k
+		i=c
+		o=l
+		j=d
+		p=m
 	return (a,g,b,k,c,l,d,m,e,h,f,n,i,o,j,p)
 
 def G_SETTIMG_Decode(bin,id):
