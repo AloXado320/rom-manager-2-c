@@ -51,9 +51,17 @@ Drag and drop all levels folders into /sm64/levels directory of your decomp repo
 You must manage scripts of individual levels so that it matches with your current
 repo, and may need to comment out certain objects.
 
-Water boxes must currently be commented out of geometry layout
 
 ***NOT GUARANTEED TO COMPILE DIRECTLY AFTER EXTRACTION***
+
+### Necessary Manual Changes
+
+1. Water box visuals do not get exported at all, they must be manually added completely
+
+2. Levels with fog made in editor need their setcombines changed.
+	* Change the 2nd cycle value to "0, 0, 0, COMBINED, 0, 0, 0, COMBINED"
+	* The cmd prompt will print out warnings whenever fog is encountered. Use that to look at the levels with fog.
+
 
 ## Successful results
 Ultra Mario Course 1 ported from sm64 editor to SM64EX pc port:
@@ -70,11 +78,13 @@ Speed Star Adventure Course 1 ported from Rom Manager to SM64 decomp:
 
 * Memory bloat because original data is still included due to not hardcoding which data can be excluded safely vs what cannot
 
-* End cake picture does not work sometimes
+* End cake picture does export
 
-* original levels do not work
+* original levels do not export
 
 * water boxes do not export
+
+* Editor Display Lists not auto fixed for fog
 
 * custom objects do not export with labels (plan to have custom map support)
 

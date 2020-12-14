@@ -359,7 +359,7 @@ def G_MTX_Decode(bin,id):
 	return (param,seg)
 
 def G_MOVEWORD_Decode(bin,id):
-	index,offset,value=bin.unpack('uint:8,uint:16,uint:32')
+	offset,index,value=bin.unpack('uint:16,uint:8,uint:32')
 	indices={0:'G_MW_MATRIX',
 	2:'G_MW_NUMLIGHT',
 	4:'G_MW_CLIP',
@@ -373,7 +373,7 @@ def G_MOVEWORD_Decode(bin,id):
 	except:
 		pass
 	return (index,offset,value)
-	
+
 def G_MOVEMEM_Decode(bin,id):
 	index,size,seg=bin.unpack('uint:8,uint:16,uint:32')
 	fuckgbi=1
@@ -406,6 +406,10 @@ def G_SETOTHERMODE_L_Decode(bin,id):
 	try:
 		enum=enums[shift]
 		if shift==3:
+			#broken fog in editor
+			if value==0xC8112078:
+				print(id+" has fog in it. Visit the model.inc.c file and make sure the setcombine is properly set")
+				return (enum,'G_RM_FOG_SHADE_A', 'G_RM_AA_ZB_OPA_SURF2')
 			return (enum,0,value)
 		else:
 			return (enum,value)
