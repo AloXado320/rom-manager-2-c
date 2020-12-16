@@ -21,6 +21,11 @@ import os
 #  unsigned char	colc[3];	/* copy of ambient light value (rgba) */
 #  char 		pad2;
 #} Ambient_t;
+class Mat():
+	def __init__(self,dict):
+		#set up all the attribute to match the dictionary you're checking against
+		for k in dict.keys():
+			setattr(self,str(k),0)
 
 def TcH(bytes):
 	a = struct.pack(">%dB"%len(bytes),*bytes)
@@ -205,13 +210,23 @@ def DecodeDL(rom,start,s,id):
 	jumps=[]
 	x=0
 	start=start[0]
+	LastMat = Mat(Persist)
 	global gCycle
-	gCycle = 1
+	gCycle = 0
 	while(True):
 		cmd=rom[start+x:start+x+8]
 		cmd=Bin2C(cmd,id)
+		#check if cmd is not needed and can be skipped
+		MSB = cmd[1][:8].uint
+		if hasattr(LastMat,str(MSB)):
+			attr = getattr(LastMat,str(MSB))
+			if attr == cmd[1][8:].uint:
+				x+=8
+				continue
+			else:
+				setattr(LastMat,str(MSB),cmd[1][8:].uint)
 		#g dl
-		if (cmd[1][:8].uint==6):
+		if (MSB==6):
 			ptr=cmd[1][32:64].uint
 			x+=8
 			jumps.append([s.B2P(ptr),ptr])
@@ -219,7 +234,7 @@ def DecodeDL(rom,start,s,id):
 			if cmd[1][8:16].uint==1:
 				break
 		#end dl
-		elif (cmd[1][:8].uint==0xb8):
+		elif (MSB==0xb8):
 			dl.append(cmd[0])
 			break
 		else:
@@ -241,20 +256,21 @@ def DecodeDL(rom,start,s,id):
 		4:'I'
 		}
 		#adding stuff to data arrays
-		if (cmd[1][:8].uint==0x4):
+		if (MSB==0x4):
 			ptr=cmd[1][32:64]
 			length=cmd[1][8:12]
 			Rptr=s.B2P(ptr.uint)
 			verts.append((ptr.uint,Rptr,length.uint+1))
 		#if a triangle is drawn and there is a texture, assume a new one is loaded next
-		elif(cmd[1][:8].uint==0xBF):
-			if textureptrs[-1][0]:
-				textureptrs.append([0,0,0,0,0,0,0,0,0])
+		elif(MSB==0xBF):
+			if textureptrs[-1][0] != 0:
+				textureptrs.append(textureptrs[-1].copy())
+				textureptrs[-1][0] = 0
 		#textureptrs = raw ptr, bank ptr, length, width, height, imgtype, bitdepth, palette, tile
 		#implementing a very naive alg because I'm lazy and no one hand writes stuff
 		#so I will just assume it follows nice structure, if you want to make it better then PR
 		#set tile
-		elif(cmd[1][:8].uint==0xf5):
+		elif(MSB==0xf5):
 			tile = cmd[1][32:40].uint
 			if tile!=7:
 				type=cmd[1][8:11].uint
@@ -263,17 +279,17 @@ def DecodeDL(rom,start,s,id):
 				textureptrs[-1][6]=bpp
 				textureptrs[-1][8]=tile
 		#tlut
-		elif(cmd[1][:8].uint==0xf0):
+		elif(MSB==0xf0):
 			tile = cmd[1][32:40].uint
 			if textureptrs[-1][8]==tile:
 				textureptrs[-1][7]=textureptrs[-1][:2]
 		#set tile size
-		elif(cmd[1][:8].uint==0xf2):
+		elif(MSB==0xf2):
 			f2 = (lambda x: (x>>2)+1)
 			textureptrs[-1][3] = f2(cmd[1][40:52].uint)
 			textureptrs[-1][4] = f2(cmd[1][52:64].uint)
 		#load tex
-		elif(cmd[1][:8].uint==0xfd):
+		elif(MSB==0xfd):
 			ptr=cmd[1][32:64]
 			type=cmd[1][8:11].uint
 			bpp=4*2**(cmd[1][11:13].uint)
@@ -283,12 +299,12 @@ def DecodeDL(rom,start,s,id):
 			textureptrs[-1][5]=types[type]
 			textureptrs[-1][6]=bpp
 		#load block
-		elif (cmd[1][:8].uint==0xf3):
+		elif (MSB==0xf3):
 			if textureptrs:
 				texels=cmd[1][40:52]
 				bpp=textureptrs[-1][2]
 				textureptrs[-1][2]=((texels.uint+1)*bpp)//16
-		elif (cmd[1][:8].uint==3):
+		elif (MSB==3):
 			ptr=cmd[1][32:64]
 			if cmd[1][8:16].uint==0x88:
 				#ambient
@@ -698,23 +714,35 @@ def G_SETCIMG_Decode(bin,id):
 	fmt,bit,pad,width,addr=bin.unpack('uint:3,uint:2,int:7,uint:12,uint:32')
 	return (fmt,bit,width,addr)
 
-DecodeFmt={
-0x0:('gsDPNoOp',G_SNOOP_Decode),
-0x04:('gsSPVertex',G_VTX_Decode),
-0xbf:('gsSP1Triangle',G_TRI1_Decode),
-0xbb:('gsSPTexture',G_TEXTURE_Decode),
-0xbd:('gsSPPopMatrix',G_POPMTX_Decode),
-0xb6:('gsSPGeometryMode',G_CLEARGEOMETRYMODE_Decode),
-0xb7:('gsSPGeometryMode',G_SETGEOMETRYMODE_Decode),
-0x01:('gsSPMatrix',G_MTX_Decode),
-0xbc:('gsMoveWd',G_MOVEWORD_Decode),
-0x03:('gsSPLight',G_MOVEMEM_Decode),
-0x06:('gsSPDisplayList',G_DL_Decode),
-0xb8:('gsSPEndDisplayList',G_ENDDL_Decode),
-0xc0:('gsDPNoOp',G_SNOOP_Decode),
-0xb4:('G_RDPHALF_1',G_RDPHALF_1_Decode),
+
+Persist={
+0xf2:('gsDPSetTileSize',G_SETTILESIZE_Decode),
+0xef:('G_RDPSETOTHERMODE',G_RDPSETOTHERMODE_Decode),
 0xb9:('gsSPSetOtherMode',G_SETOTHERMODE_L_Decode),
 0xba:('gsSPSetOtherMode',G_SETOTHERMODE_H_Decode),
+0xbc:('gsMoveWd',G_MOVEWORD_Decode),
+0x03:('gsSPLight',G_MOVEMEM_Decode),
+0xb6:('gsSPGeometryMode',G_CLEARGEOMETRYMODE_Decode),
+0xb7:('gsSPGeometryMode',G_SETGEOMETRYMODE_Decode),
+0xbb:('gsSPTexture',G_TEXTURE_Decode),
+0xf7:('gsDPSetFillColor',G_COLOR_Decode),
+0xf8:('gsDPSetFogColor',G_COLOR_Decode),
+0xf9:('gsDPSetBlendColor',G_COLOR_Decode),
+0xfa:('gsDPSetPrimColor',G_SETPRIMCOLOR_Decode),
+0xfb:('gsDPSetEnvColor',G_COLOR_Decode),
+0xfc:('gsDPSetCombineLERP',G_SETCOMBINE_Decode),
+0xfe:('gsDPSetDepthImage',G_SETZIMG_Decode),
+0xf5:('gsDPSetTile',G_SETTILE_Decode),
+0xff:('gsDPSetColorImage',G_SETCIMG_Decode)
+}
+NonPersist={
+0x04:('gsSPVertex',G_VTX_Decode),
+0xbf:('gsSP1Triangle',G_TRI1_Decode),
+0xbd:('gsSPPopMatrix',G_POPMTX_Decode),
+0x01:('gsSPMatrix',G_MTX_Decode),
+0x06:('gsSPDisplayList',G_DL_Decode),
+0xb8:('gsSPEndDisplayList',G_ENDDL_Decode),
+0xb4:('G_RDPHALF_1',G_RDPHALF_1_Decode),
 0xe4:('G_TEXRECT',G_TEXRECT_Decode),
 0xe5:('G_TEXRECTFLIP',G_TEXRECT_Decode),
 0xe6:('gsDPLoadSync',G_SNOOP_Decode),
@@ -726,21 +754,15 @@ DecodeFmt={
 0xec:('G_SETCONVERT',G_SETCONVERT_Decode),
 0xed:('G_SETSCISSOR',G_SETSCISSOR_Decode),
 0xee:('gsDPSetPrimDepth',G_SETPRIMDEPTH_Decode),
-0xef:('G_RDPSETOTHERMODE',G_RDPSETOTHERMODE_Decode),
 0xf0:('gsDPLoadTLUTCmd',G_LOADTLUT_Decode),
 0xb3:('G_RDPHALF_2',G_RDPHALF_2_Decode),
-0xf2:('gsDPSetTileSize',G_SETTILESIZE_Decode),
 0xf3:('gsDPLoadBlock',G_LOADBLOCK_Decode),
 0xf4:('gsDPLoadTile',G_LOADTILE_Decode),
-0xf5:('gsDPSetTile',G_SETTILE_Decode),
 0xf6:('G_FILLRECT',G_FILLRECT_Decode),
-0xf7:('gsDPSetFillColor',G_COLOR_Decode),
-0xf8:('gsDPSetFogColor',G_COLOR_Decode),
-0xf9:('gsDPSetBlendColor',G_COLOR_Decode),
-0xfa:('gsDPSetPrimColor',G_SETPRIMCOLOR_Decode),
-0xfb:('gsDPSetEnvColor',G_COLOR_Decode),
-0xfc:('gsDPSetCombineLERP',G_SETCOMBINE_Decode),
 0xfd:('gsDPSetTextureImage',G_SETTIMG_Decode),
-0xfe:('gsDPSetDepthImage',G_SETZIMG_Decode),
-0xff:('gsDPSetColorImage',G_SETCIMG_Decode)
 }
+Useless={
+0x0:('gsDPNoOp',G_SNOOP_Decode),
+0xc0:('gsDPNoOp',G_SNOOP_Decode)
+}
+DecodeFmt={**Persist,**NonPersist,**Useless}
