@@ -1261,12 +1261,9 @@ You could also just use the references shown here at the top and and them manual
 			MTinc.write("{ %s },\n"%a)
 		else:
 			levelBoxes = []
-			pops=[]
 			for j,wb in enumerate(AllWaterBoxes):
 				if L==wb[1]:
 					levelBoxes.append(wb)
-					pops.append(j)
-			[AllWaterBoxes.pop(p) for p in pops]
 			if AllWaterBoxes:
 				first = AllWaterBoxes[0][1]
 			if levelBoxes:
