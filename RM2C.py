@@ -1295,13 +1295,25 @@ python RM2C.py rom="baserom.z64" levels='all'
 Example input3 (Export all BoB in a RM rom with a second area from another rom):
 python RM2C.py rom="baserom.z64" levels='all' Append=[('rom2.z64',1,True)]
 
+NOTE! if you are on unix bash requires you to escape certain characters. For this module, these
+are quotes and paranthesis. Add in a escape before each.
+
+example: python3 RM2C.py rom=\'sm74.z64\' levels=[9] Append=[\(\'sm74EE.z64\',1,1\)] editor=1
+
+A bad input will automatically generate an escaped version of your args, but it cannot do so before
+certain bash errors.
 ------------------Invalid Input - Error ------------------
-	"""
+"""
 	levels=[]
 	assets=[]
 	editor=False
 	rom=''
 	Append=[]
+	args = ""
+	for arg in sys.argv[1:]:
+		args+=arg+" "
+	a = "\\".join(args)
+	a = "python3 RM2C.py "+a
 	try:
 		#the utmosts of cringes
 		for arg in sys.argv:
@@ -1311,6 +1323,7 @@ python RM2C.py rom="baserom.z64" levels='all' Append=[('rom2.z64',1,True)]
 			locals()[arg[0]]=eval(arg[1])
 	except:
 		print(HelpMsg)
+		print("If you are using terminal try using this\n"+a)
 		raise 'bad arguments'
 	args = (levels,assets)
 	rom=open(rom,'rb')

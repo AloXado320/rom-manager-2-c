@@ -264,6 +264,12 @@ def DecodeDL(rom,start,s,id):
 		#if a triangle is drawn and there is a texture, assume a new one is loaded next
 		elif(MSB==0xBF):
 			if textureptrs[-1][0] != 0:
+				#editor or RM used to do solid colors using 1px texels with 0 dimensions UVs
+				#it was really dumb and now I have to deal with this case.
+				if textureptrs[-1][3] ==0:
+					textureptrs[-1][3] = 1
+				if textureptrs[-1][4] == 0:
+					textureptrs[-1][4] = 1
 				textureptrs.append(textureptrs[-1].copy())
 				textureptrs[-1][0] = 0
 		#textureptrs = raw ptr, bank ptr, length, width, height, imgtype, bitdepth, palette, tile

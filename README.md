@@ -43,6 +43,11 @@ Levels and assets accept any list argument or only the string 'all'. Append is f
 3. Export all BoB in a RM rom with a second area from another rom
 	* python RM2C.py rom="baserom.z64" levels='all' Append=[('rom2.z64',1,True)]
 
+### NOTE! if you are on unix bash requires you to escape certain characters.
+For this module, these are quotes and paranthesis. Add in a escape before each.
+
+* python3 RM2C.py rom=\'sm74.z64\' levels=[9] Append=[\(\'sm74EE.z64\',1,1\)] editor=1
+
 ### Expected results
 Should extract all levels, scripts, and assets from the levels specified by arguments.
 
