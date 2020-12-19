@@ -1,5 +1,4 @@
 import struct
-import time
 import GeoWrite as GW
 import F3D
 import ColParse
@@ -564,7 +563,8 @@ class Script():
 		offset=B&0xFFFFFF
 		seg = self.banks[Bank]
 		if not seg:
-			print(hex(B),hex(Bank),self.banks[Bank-2:Bank+3])
+			# print(hex(B),hex(Bank),self.banks[Bank-2:Bank+3])
+			raise ''
 		return seg[0]+offset
 	def L4B(self,T):
 		x=0
@@ -849,7 +849,7 @@ def PLC(rom,start):
 	return PLC(rom,start)
 
 def WriteGeo(rom,s,num,name):
-	(geo,dls)=GW.GeoParse(rom,s.B2P(s.models[num][0]),s,s.models[num][0],"actor_"+str(num)+"_")
+	(geo,dls,WB)=GW.GeoParse(rom,s.B2P(s.models[num][0]),s,s.models[num][0],"actor_"+str(num)+"_")
 	#write geo layout file
 	GW.GeoWrite(geo,name/'geo.inc.c',"actor_"+str(num)+"_")
 	return dls
@@ -1013,7 +1013,7 @@ def GrabOGDatld(L,rootdir,name):
 		grabbed.append(l)
 	return [L,grabbed]
 
-def WriteLevel(rom,s,num,areas,rootdir,m64dir):
+def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes):
 	#create level directory
 	name=Num2Name[num]
 	level=Path(sys.path[0])/("%s"%name)
@@ -1032,11 +1032,11 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir):
 		area=s.levels[num][a]
 		Arom = area.rom
 		if area.music:
-			pass# RipSequence(Arom,area.music+1,m64dir,num,a)
+			RipSequence(Arom,area.music+1,m64dir,num,a)
 		#get real bank 0x0e location
 		s.RME(a,Arom)
 		id = name+"_"+str(a)+"_"
-		(geo,dls)=GW.GeoParse(Arom,s.B2P(area.geo),s,area.geo,id)
+		(geo,dls,WB)=GW.GeoParse(Arom,s.B2P(area.geo),s,area.geo,id)
 		GW.GeoWrite(geo,adir/"geo.inc.c",id)
 		for g in geo:
 			s.MakeDec("const GeoLayout Geo_%s[]"%(id+hex(g[1])))
@@ -1046,6 +1046,29 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir):
 		#write collision file
 		ColParse.ColWrite(adir/"collision.inc.c",s,Arom,area.col,id)
 		s.MakeDec('const Collision col_%s[]'%(id+hex(area.col)))
+		#write mov tex file
+		#WB = [types][array of type][box data]
+		MovTex = adir / "movtextNew.inc.c"
+		MovTex = open(MovTex,'w')
+		Wrefs = []
+		for k,Boxes in enumerate(WB):
+			wref = []
+			for j,box in enumerate(Boxes):
+				#Now a box is an array of all the data
+				#Movtex is just an s16 array, it uses macros but
+				#they don't matter
+				dat = repr(box).replace("[","{").replace("]","}")
+				dat = "static Movtex %sMovtex_%d_%d[] = "%(id,j,k) + dat+";\n\n"
+				MovTex.write(dat)
+				wref.append("%sMovtex_%d_%d"%(id,k,j))
+			Wrefs.append(wref)
+		for j,Type in enumerate(Wrefs):
+			MovTex.write("const struct MovtexQuadCollection %sMovtex_%d[] = {\n"%(id,j))
+			for k,ref in enumerate(Type):
+				MovTex.write("{%d,%s},\n"%(k,ref))
+			MovTex.write("{-1, NULL},\n};")
+			s.MakeDec("struct MovtexQuadCollection %sMovtex_%d[]"%(id,j))
+			AllWaterBoxes.append(["%sMovtex_%d"%(id,j),num,a,j])
 		print('finished area '+str(a)+ ' in level '+name)
 	#now write level script
 	WriteLevelScript(level/"script.c",name,s,s.levels[num],areas)
@@ -1080,6 +1103,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir):
 	[ld,grabbed] = GrabOGDatld(ld,rootdir,name)
 	Ftypes = ['model.inc.c"\n','collision.inc.c"\n']
 	for i,a in enumerate(areas):
+		ld.write('#include "levels/%s/areas/%d/movtextNew.inc.c"\n'%(name,(i+1)))
 		start = '#include "levels/%s/areas/%d/'%(name,(i+1))
 		for Ft in Ftypes:
 			for l in grabbed:
@@ -1089,6 +1113,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir):
 				ld.write(start+Ft)
 	ld.write('#include "levels/%s/textureNew.inc.c"\n'%(name))
 	ld.close
+	return AllWaterBoxes
 
 #dictionary of actions to take based on script cmds
 jumps = {
@@ -1124,13 +1149,16 @@ jumps = {
 }
 #Not sure if it works, because I think editor memes me and puts sequences in some random spot
 def RipSequence(rom,seqNum,m64Dir,Lnum,Anum):
-	gMusicData=0x7B0860
+	#audio_dma_copy_immediate loads gSeqFileHeader in audio_init at 0x80319768
+	#the line of asm is at 0xD4768 which sets the arg to this
+	UPW = (lambda x,y: struct.unpack(">L",x[y:y+4])[0])
+	gSeqFileHeader=(UPW(rom,0xD4768)&0xFFFF)<<16 #this is LUI asm cmd
+	gSeqFileHeader+=(UPW(rom,0xD4770)&0xFFFF) #this is an addiu asm cmd
 	#format is tbl,m64s[]
 	#tbl format is [len,offset][]
-	UPW = (lambda x,y: struct.unpack(">L",x[y:y+4])[0])
-	gMusicData+=seqNum*8+8
-	len=UPW(rom,gMusicData)
-	offset=UPW(rom,gMusicData+4)
+	gSeqFileHeader+=seqNum*8
+	len=UPW(rom,gSeqFileHeader)
+	offset=UPW(rom,gSeqFileHeader+4)
 	m64 = rom[offset:offset+len]
 	m64File = m64Dir/("%d_Level_%d_Area_%d_sequence_custom.m64"%(seqNum,Lnum,Anum))
 	f = open(m64File,'wb')
@@ -1154,7 +1182,7 @@ def AppendAreas(entry,script,Append):
 				break
 	return script
 
-def ExportLevel(rom,level,assets,editor,Append):
+def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes):
 	#choose level
 	s = Script(level)
 	entry = 0x108A10
@@ -1196,7 +1224,57 @@ def ExportLevel(rom,level,assets,editor,Append):
 				dls=[[s.B2P(s.models[i][0]),s.models[i][0]]]
 			WriteModel(rom,dls,s,md,"MODEL_%d"%i,"actor_"+str(i)+"_",md)
 	#now do level
-	WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir)
+	return WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes)
+
+def ExportWaterBoxes(AllWaterBoxes,rootdir):
+	MovtexEdit = rootdir / "moving_texture.inc.c"
+	infoMsg = """/*
+This is an include meant to help with the addition of moving textures for water boxes. Moving textures are hardcoded
+in vanilla, but in hacks they're procedural. Every hack uses 0x5000 +Type (0 for water, 1 for toxic mist, 2 for mist)
+to locate the tables for their water boxes. I will replicate this by using a 3 dimensional array of pointers. This
+wastes a little bit of memory but is way easier to manage.
+To use this, goto your moving_texture.c file and change the default case in void *get_quad_collection_from_id(u32 id)
+to return GetRomhackWaterBox(id); Then above the function, write #include "moving_texture.inc.c" and make sure to place
+this file in your source folder so that it can be included.
+You could also just use the references shown here at the top and and them manually yourself to the current switch case.
+*/
+"""
+	MTinc = open(MovtexEdit,'w')
+	MTinc.write(infoMsg)
+	for a in AllWaterBoxes:
+		MTinc.write("extern u8 "+a[0]+"[];\n")
+	MTinc.write("\nstatic void *RM2C_Water_Box_Array[37][8][3] = {\n")
+	for L in range(37):
+		if L not in Num2Name.keys():
+			a = "{NULL,NULL,NULL},"*8
+			MTinc.write("{ %s },\n"%a)
+		else:
+			for wb in AllWaterBoxes:
+				if L==wb[1]:
+					MTinc.write("{ ")
+					for a in range(8):
+						if a==wb[2]:
+							b = "{"
+							for t in range(3):
+								if t==wb[3]:
+									b+="&"+wb[0]+","
+								else:
+									b+="NULL,"
+							b+="},"
+						else:
+							b = "{NULL,NULL,NULL},"
+						MTinc.write(b)
+					MTinc.write(" },\n")
+				else:
+					a = "{NULL,NULL,NULL},"*8
+					MTinc.write("{ %s },\n"%a)
+	MTinc.write("};")
+	func = """
+void *GetRomhackWaterBox(u32 id){
+id = id&0xF;
+return RM2C_Water_Box_Array[gCurrLevelNum][gCurrAreaIndex][id];
+};"""
+	MTinc.write(func)
 
 if __name__=='__main__':
 	HelpMsg="""
@@ -1238,18 +1316,23 @@ python RM2C.py rom="baserom.z64" levels='all' Append=[('rom2.z64',1,True)]
 	rom=open(rom,'rb')
 	rom = rom.read()
 	print('Starting Export')
+	AllWaterBoxes = []
 	if args[0]=='all':
 		for k in Num2Name.keys():
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor,Append)
+				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes)
 			else:
-				ExportLevel(rom,k,args[1],editor,Append)
+				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes)
 			print(Num2Name[k] + ' done')
 	else:
 		for k in args[0]:
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor,Append)
+				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes)
 			else:
-				ExportLevel(rom,k,args[1],editor,Append)
+				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes)
 			print(Num2Name[k] + ' done')
+	#AllWaterBoxes should have refs to all water boxes, using that, I will generate a function
+	#and array of references so it can be hooked into moving_texture.c
+	#example of AllWaterBoxes format [[str,level,area]...]
+	ExportWaterBoxes(AllWaterBoxes,Path(sys.path[0]))
 	print('Export Completed')

@@ -1,5 +1,4 @@
 import struct
-import time
 
 def B2I(bytes):
 	return int(bytes.hex(),16)
@@ -75,12 +74,47 @@ def TcH(bytes):
 	if len(bytes)==1:
 		return struct.unpack(">B",a)[0]
 
+def GetWaterData(rom,script,arg):
+	#for editor water tables are at 0x19001800, but that might not be gauranteed
+	type = arg&0xFF #0 for water, 1 for toxic mist, 2 for mist, all start with 0x50 for msb
+	if script.editor:
+		WT = script.B2P(0x19001800+0x50*type)
+	else:
+	#for RM they are at 0x19006000
+		WT = script.B2P(0x19006000+0x280*type)
+	UPW = (lambda x,y: struct.unpack(">L",x[y:y+4])[0])
+	UPH = (lambda x,y: struct.unpack(">h",x[y:y+2])[0])
+	#Because I don't really know how many water boxes there are as thats set by collision or something
+	#I'm just going to detect a bad ptr and go off that
+	ptrs = []
+	x=0
+	while(True):
+		dat = UPW(rom,WT+4+x)
+		try:
+			if dat==0:
+				break
+			loc = script.B2P(dat)
+			ptrs.append(loc)
+		except:
+			break
+		x+=8
+	#Now ptrs should be an array of my water data
+	WB = []
+	for p in ptrs:
+		wb = []
+		for i in range(0,0x20,2):
+			wb.append(UPH(rom,i+p))
+		WB.append(wb)
+	return WB
+
+
 def GeoParse(rom,start,script,segstart,id):
 	x=0
 	g=[ [ [],segstart] ]
 	start=[start]
 	DLs=[]
 	t=0
+	WaterBoxes = []
 	while(True):
 		q=rom[start[-1]+x:start[-1]+x+24]
 		C=Cmds[q[0]]
@@ -91,6 +125,8 @@ def GeoParse(rom,start,script,segstart,id):
 				r=TcH(F[3])
 				if r!=0:
 					label=script.GetLabel(f)
+					if 'geo_movtex_draw_water_regions' in label:
+						WaterBoxes.append(GetWaterData(rom,script,B2I(q[2:4])))
 					F[0]=F[0].replace(str(r),label)
 			if F[2]=="STOREDL":
 				b=[a for a in F[3]]
@@ -118,7 +154,7 @@ def GeoParse(rom,start,script,segstart,id):
 		g[t][0].append(F[0])
 		if F[0]=="GEO_END()":
 			break
-	return (g,DLs)
+	return (g,DLs,WaterBoxes)
 
 def GeoWrite(geo,name,id):
 	f=open(name,'w')
