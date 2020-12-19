@@ -1264,8 +1264,6 @@ You could also just use the references shown here at the top and and them manual
 			for j,wb in enumerate(AllWaterBoxes):
 				if L==wb[1]:
 					levelBoxes.append(wb)
-			if AllWaterBoxes:
-				first = AllWaterBoxes[0][1]
 			if levelBoxes:
 				MTinc.write("{ ")
 				for a in range(8):
