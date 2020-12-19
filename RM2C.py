@@ -1013,8 +1013,11 @@ def GrabOGDatld(L,rootdir,name):
 		grabbed.append(l)
 	return [L,grabbed]
 
-def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes):
+def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys):
 	#create level directory
+	WaterOnly = Onlys[0]
+	ObjectOnly = Onlys[1]
+	OnlySkip = all(Onlys)
 	name=Num2Name[num]
 	level=Path(sys.path[0])/("%s"%name)
 	if os.path.isdir(level):
@@ -1031,88 +1034,94 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes):
 		adir.mkdir(exist_ok=True)
 		area=s.levels[num][a]
 		Arom = area.rom
-		if area.music:
+		if area.music and not OnlySkip:
 			RipSequence(Arom,area.music+1,m64dir,num,a)
 		#get real bank 0x0e location
 		s.RME(a,Arom)
 		id = name+"_"+str(a)+"_"
 		(geo,dls,WB)=GW.GeoParse(Arom,s.B2P(area.geo),s,area.geo,id)
-		GW.GeoWrite(geo,adir/"geo.inc.c",id)
+		if not OnlySkip:
+			GW.GeoWrite(geo,adir/"geo.inc.c",id)
 		for g in geo:
 			s.MakeDec("const GeoLayout Geo_%s[]"%(id+hex(g[1])))
-		dls = WriteModel(Arom,dls,s,adir,"%s_%d"%(name.upper(),a),id,level)
+		if not OnlySkip:
+			dls = WriteModel(Arom,dls,s,adir,"%s_%d"%(name.upper(),a),id,level)
 		for d in dls:
 			s.MakeDec("const Gfx DL_%s[]"%(id+hex(d[1])))
 		#write collision file
-		ColParse.ColWrite(adir/"collision.inc.c",s,Arom,area.col,id)
+		if not OnlySkip:
+			ColParse.ColWrite(adir/"collision.inc.c",s,Arom,area.col,id)
 		s.MakeDec('const Collision col_%s[]'%(id+hex(area.col)))
 		#write mov tex file
-		#WB = [types][array of type][box data]
-		MovTex = adir / "movtextNew.inc.c"
-		MovTex = open(MovTex,'w')
-		Wrefs = []
-		for k,Boxes in enumerate(WB):
-			wref = []
-			for j,box in enumerate(Boxes):
-				#Now a box is an array of all the data
-				#Movtex is just an s16 array, it uses macros but
-				#they don't matter
-				dat = repr(box).replace("[","{").replace("]","}")
-				dat = "static Movtex %sMovtex_%d_%d[] = "%(id,j,k) + dat+";\n\n"
-				MovTex.write(dat)
-				wref.append("%sMovtex_%d_%d"%(id,k,j))
-			Wrefs.append(wref)
-		for j,Type in enumerate(Wrefs):
-			MovTex.write("const struct MovtexQuadCollection %sMovtex_%d[] = {\n"%(id,j))
-			for k,ref in enumerate(Type):
-				MovTex.write("{%d,%s},\n"%(k,ref))
-			MovTex.write("{-1, NULL},\n};")
-			s.MakeDec("struct MovtexQuadCollection %sMovtex_%d[]"%(id,j))
-			AllWaterBoxes.append(["%sMovtex_%d"%(id,j),num,a,j])
+		if not ObjectOnly:
+			#WB = [types][array of type][box data]
+			MovTex = adir / "movtextNew.inc.c"
+			MovTex = open(MovTex,'w')
+			Wrefs = []
+			for k,Boxes in enumerate(WB):
+				wref = []
+				for j,box in enumerate(Boxes):
+					#Now a box is an array of all the data
+					#Movtex is just an s16 array, it uses macros but
+					#they don't matter
+					dat = repr(box).replace("[","{").replace("]","}")
+					dat = "static Movtex %sMovtex_%d_%d[] = "%(id,j,k) + dat+";\n\n"
+					MovTex.write(dat)
+					wref.append("%sMovtex_%d_%d"%(id,k,j))
+				Wrefs.append(wref)
+			for j,Type in enumerate(Wrefs):
+				MovTex.write("const struct MovtexQuadCollection %sMovtex_%d[] = {\n"%(id,j))
+				for k,ref in enumerate(Type):
+					MovTex.write("{%d,%s},\n"%(k,ref))
+				MovTex.write("{-1, NULL},\n};")
+				s.MakeDec("struct MovtexQuadCollection %sMovtex_%d[]"%(id,j))
+				AllWaterBoxes.append(["%sMovtex_%d"%(id,j),num,a,j])
 		print('finished area '+str(a)+ ' in level '+name)
 	#now write level script
-	WriteLevelScript(level/"script.c",name,s,s.levels[num],areas)
+	if not OnlySkip:
+		WriteLevelScript(level/"script.c",name,s,s.levels[num],areas)
 	s.MakeDec("const LevelScript level_%s_entry[]"%name)
-	#finally write header
-	H=level/"header.h"
-	q = open(H,'w')
-	headgaurd="%s_HEADER_H"%(name.upper())
-	q.write('#ifndef %s\n#define %s\n#include "types.h"\n#include "game/moving_texture.h"\n'%(headgaurd,headgaurd))
-	for h in s.header:
-		q.write('extern '+h+';\n')
-	#now include externs from stuff in original level
-	q = GrabOGDatH(q,rootdir,name)
-	q.write("#endif")
-	q.close()
-	#append to geo.c, maybe the original works good always??
-	G = level/"geo.c"
-	g = open(G,'r+')
-	geolines = g.readlines()
-	for i,a in enumerate(areas):
-		geo = '#include "levels/%s/areas/%d/geo.inc.c"\n'%(name,(i+1))
-		for l in geolines:
-			if geo in l:
-				break
-		else:
-			g.write(geo)
-	g.close
-	#write leveldata.c
-	LD = level/"leveldata.c"
-	ld = open(LD,'w')
-	ld.write(ldHeader)
-	[ld,grabbed] = GrabOGDatld(ld,rootdir,name)
-	Ftypes = ['model.inc.c"\n','collision.inc.c"\n']
-	for i,a in enumerate(areas):
-		ld.write('#include "levels/%s/areas/%d/movtextNew.inc.c"\n'%(name,(i+1)))
-		start = '#include "levels/%s/areas/%d/'%(name,(i+1))
-		for Ft in Ftypes:
-			for l in grabbed:
-				if start+Ft in l:
+	if not OnlySkip:
+		#finally write header
+		H=level/"header.h"
+		q = open(H,'w')
+		headgaurd="%s_HEADER_H"%(name.upper())
+		q.write('#ifndef %s\n#define %s\n#include "types.h"\n#include "game/moving_texture.h"\n'%(headgaurd,headgaurd))
+		for h in s.header:
+			q.write('extern '+h+';\n')
+		#now include externs from stuff in original level
+		q = GrabOGDatH(q,rootdir,name)
+		q.write("#endif")
+		q.close()
+		#append to geo.c, maybe the original works good always??
+		G = level/"geo.c"
+		g = open(G,'r+')
+		geolines = g.readlines()
+		for i,a in enumerate(areas):
+			geo = '#include "levels/%s/areas/%d/geo.inc.c"\n'%(name,(i+1))
+			for l in geolines:
+				if geo in l:
 					break
 			else:
-				ld.write(start+Ft)
-	ld.write('#include "levels/%s/textureNew.inc.c"\n'%(name))
-	ld.close
+				g.write(geo)
+		g.close
+		#write leveldata.c
+		LD = level/"leveldata.c"
+		ld = open(LD,'w')
+		ld.write(ldHeader)
+		[ld,grabbed] = GrabOGDatld(ld,rootdir,name)
+		Ftypes = ['model.inc.c"\n','collision.inc.c"\n']
+		for i,a in enumerate(areas):
+			ld.write('#include "levels/%s/areas/%d/movtextNew.inc.c"\n'%(name,(i+1)))
+			start = '#include "levels/%s/areas/%d/'%(name,(i+1))
+			for Ft in Ftypes:
+				for l in grabbed:
+					if start+Ft in l:
+						break
+				else:
+					ld.write(start+Ft)
+		ld.write('#include "levels/%s/textureNew.inc.c"\n'%(name))
+		ld.close
 	return AllWaterBoxes
 
 #dictionary of actions to take based on script cmds
@@ -1182,7 +1191,7 @@ def AppendAreas(entry,script,Append):
 				break
 	return script
 
-def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes):
+def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys):
 	#choose level
 	s = Script(level)
 	entry = 0x108A10
@@ -1212,19 +1221,20 @@ def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes):
 	m64dir = rootdir/"m64"
 	m64dir.mkdir(exist_ok=True)
 	#create subfolders for each model
-	for i in assets:
-		#skip error for now until seg 2 detect
-		if s.models[i]:
-			md = ass/("%d"%i)
-			md.mkdir(exist_ok=True)
-			print(i,"model")
-			if s.models[i][1]=='geo':
-				dls=WriteGeo(rom,s,i,md)
-			else:
-				dls=[[s.B2P(s.models[i][0]),s.models[i][0]]]
-			WriteModel(rom,dls,s,md,"MODEL_%d"%i,"actor_"+str(i)+"_",md)
+	if not all(Onlys):
+		for i in assets:
+			#skip error for now until seg 2 detect
+			if s.models[i]:
+				md = ass/("%d"%i)
+				md.mkdir(exist_ok=True)
+				print(i,"model")
+				if s.models[i][1]=='geo':
+					dls=WriteGeo(rom,s,i,md)
+				else:
+					dls=[[s.B2P(s.models[i][0]),s.models[i][0]]]
+				WriteModel(rom,dls,s,md,"MODEL_%d"%i,"actor_"+str(i)+"_",md)
 	#now do level
-	return WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes)
+	return WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,Onlys)
 
 def ExportWaterBoxes(AllWaterBoxes,rootdir):
 	MovtexEdit = rootdir / "moving_texture.inc.c"
@@ -1245,7 +1255,6 @@ You could also just use the references shown here at the top and and them manual
 		MTinc.write("extern u8 "+a[0]+"[];\n")
 	MTinc.write("\nstatic void *RM2C_Water_Box_Array[37][8][3] = {\n")
 	first = AllWaterBoxes[0][1]
-	print(first)
 	for L in range(4,37,1):
 		if L not in Num2Name.keys() or L<first or not AllWaterBoxes:
 			a = "{NULL,NULL,NULL},"*8
@@ -1260,7 +1269,6 @@ You could also just use the references shown here at the top and and them manual
 			[AllWaterBoxes.pop(p) for p in pops]
 			if AllWaterBoxes:
 				first = AllWaterBoxes[0][1]
-				print(first)
 			if levelBoxes:
 				MTinc.write("{ ")
 				for a in range(8):
@@ -1295,10 +1303,11 @@ if __name__=='__main__':
 ------------------Invalid Input - Error ------------------
 
 Arguments for RM2C are as follows:
-RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...]
+RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0
 
 Arguments with equals sign are shown in default state, do not put commas between args.
 Levels and assets accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
+The "Only" options are to only export certain things either to deal with specific updates or updates to RM2C itself. Only use one at a time. An only option will not maintain other data.
 
 Example input1 (all models in BoB for editor rom):
 python RM2C.py rom="ASA.z64" editor=True levels=[9] assets=range(0,255)
@@ -1324,6 +1333,8 @@ certain bash errors.
 	rom=''
 	Append=[]
 	args = ""
+	WaterOnly = 0
+	ObjectOnly = 0
 	for arg in sys.argv[1:]:
 		args+=arg+" "
 	a = "\\".join(args)
@@ -1344,19 +1355,20 @@ certain bash errors.
 	rom = rom.read()
 	print('Starting Export')
 	AllWaterBoxes = []
+	Onlys = [WaterOnly,ObjectOnly]
 	if args[0]=='all':
 		for k in Num2Name.keys():
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes)
+				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys)
 			else:
-				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes)
+				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys)
 			print(Num2Name[k] + ' done')
 	else:
 		for k in args[0]:
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes)
+				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys)
 			else:
-				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes)
+				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys)
 			print(Num2Name[k] + ' done')
 	#AllWaterBoxes should have refs to all water boxes, using that, I will generate a function
 	#and array of references so it can be hooked into moving_texture.c
