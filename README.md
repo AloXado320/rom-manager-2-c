@@ -61,11 +61,11 @@ repo, and may need to comment out certain objects.
 
 ### Necessary Manual Changes
 
-1. Water box visuals do not get exported at all, they must be manually added completely
-
-2. Levels with fog made in editor need their setcombines changed.
+1. Levels with fog made in editor need their setcombines changed.
 	* Change the 2nd cycle value to "0, 0, 0, COMBINED, 0, 0, 0, COMBINED"
 	* The cmd prompt will print out warnings whenever fog is encountered. Use that to look at the levels with fog.
+
+2. Appended roms may use different object banks which must be manually handled to prevent crashes.
 
 
 ## Successful results
