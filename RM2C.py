@@ -1244,35 +1244,49 @@ You could also just use the references shown here at the top and and them manual
 	for a in AllWaterBoxes:
 		MTinc.write("extern u8 "+a[0]+"[];\n")
 	MTinc.write("\nstatic void *RM2C_Water_Box_Array[37][8][3] = {\n")
-	for L in range(37):
-		if L not in Num2Name.keys():
+	first = AllWaterBoxes[0][1]
+	print(first)
+	for L in range(4,37,1):
+		if L not in Num2Name.keys() or L<first or not AllWaterBoxes:
 			a = "{NULL,NULL,NULL},"*8
 			MTinc.write("{ %s },\n"%a)
 		else:
-			for wb in AllWaterBoxes:
+			levelBoxes = []
+			pops=[]
+			for j,wb in enumerate(AllWaterBoxes):
 				if L==wb[1]:
-					MTinc.write("{ ")
-					for a in range(8):
-						if a==wb[2]:
-							b = "{"
-							for t in range(3):
+					levelBoxes.append(wb)
+					pops.append(j)
+			[AllWaterBoxes.pop(p) for p in pops]
+			if AllWaterBoxes:
+				first = AllWaterBoxes[0][1]
+				print(first)
+			if levelBoxes:
+				MTinc.write("{ ")
+				for a in range(8):
+					Aboxes = [wb for wb in levelBoxes if a==wb[2]]
+					if Aboxes:
+						b = "{"
+						for t in range(3):
+							for wb in Aboxes:
 								if t==wb[3]:
 									b+="&"+wb[0]+","
-								else:
-									b+="NULL,"
-							b+="},"
-						else:
-							b = "{NULL,NULL,NULL},"
-						MTinc.write(b)
-					MTinc.write(" },\n")
-				else:
-					a = "{NULL,NULL,NULL},"*8
-					MTinc.write("{ %s },\n"%a)
+									break
+							else:
+								b+="NULL,"
+						b+="},"
+					else:
+						b = "{NULL,NULL,NULL},"
+					MTinc.write(b)
+				MTinc.write(" },\n")
+			else:
+				a = "{NULL,NULL,NULL},"*8
+				MTinc.write("{ %s },\n"%a)
 	MTinc.write("};")
 	func = """
 void *GetRomhackWaterBox(u32 id){
 id = id&0xF;
-return RM2C_Water_Box_Array[gCurrLevelNum][gCurrAreaIndex][id];
+return RM2C_Water_Box_Array[gCurrLevelNum-4][gCurrAreaIndex][id];
 };"""
 	MTinc.write(func)
 
