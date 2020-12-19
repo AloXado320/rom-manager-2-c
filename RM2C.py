@@ -1228,14 +1228,14 @@ def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes):
 
 def ExportWaterBoxes(AllWaterBoxes,rootdir):
 	MovtexEdit = rootdir / "moving_texture.inc.c"
-	infoMsg = """/*
-This is an include meant to help with the addition of moving textures for water boxes. Moving textures are hardcoded
-in vanilla, but in hacks they're procedural. Every hack uses 0x5000 +Type (0 for water, 1 for toxic mist, 2 for mist)
-to locate the tables for their water boxes. I will replicate this by using a 3 dimensional array of pointers. This
-wastes a little bit of memory but is way easier to manage.
-To use this, goto your moving_texture.c file and change the default case in void *get_quad_collection_from_id(u32 id)
-to return GetRomhackWaterBox(id); Then above the function, write #include "moving_texture.inc.c" and make sure to place
-this file in your source folder so that it can be included.
+	infoMsg = """#include <ultra64.h>
+#include "sm64.h"
+#include "moving_texture.h"
+#include "area.h"
+/*
+This is an include meant to help with the addition of moving textures for water boxes. Moving textures are hardcoded in vanilla, but in hacks they're procedural. Every hack uses 0x5000 +Type (0 for water, 1 for toxic mist, 2 for mist) to locate the tables for their water boxes. I will replicate this by using a 3 dimensional array of pointers. This wastes a little bit of memory but is way easier to manage.
+To use this, goto your moving_texture.c file and change the default case in void *get_quad_collection_from_id(u32 id) to return GetRomhackWaterBox(id); Then place this file in your source folder so that it can be included.
+Make sure you add extern void *GetRomhackWaterBox(u32 id); to moving_texture.h so that you do not get a multiple reference error.
 You could also just use the references shown here at the top and and them manually yourself to the current switch case.
 */
 """
