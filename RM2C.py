@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 from capstone import *
 import shutil
+from bitstring import *
 
 #skip ending for now because script inf loops or something idk
 #needs investigation
@@ -563,7 +564,7 @@ class Script():
 		offset=B&0xFFFFFF
 		seg = self.banks[Bank]
 		if not seg:
-			# print(hex(B),hex(Bank),self.banks[Bank-2:Bank+3])
+			print(hex(B),hex(Bank),self.banks[Bank-2:Bank+3])
 			raise ''
 		return seg[0]+offset
 	def L4B(self,T):
@@ -600,6 +601,13 @@ class Script():
 		self.banks[0x0e]=[start,end]
 	def MakeDec(self,name):
 		self.header.append(name)
+	def Seg2(self,rom):
+		UPH = (lambda x,y: struct.unpack(">H",x[y:y+2])[0])
+		start=UPH(rom,0x3ac2)<<16
+		start+=UPH(rom,0x3acE)
+		end=UPH(rom,0x3ac6)<<16
+		end+=UPH(rom,0x3acA)
+		self.banks[2]=[start,end]
 
 class Area():
 		def __init__(self):
@@ -1194,6 +1202,7 @@ def AppendAreas(entry,script,Append):
 def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys):
 	#choose level
 	s = Script(level)
+	s.Seg2(rom)
 	entry = 0x108A10
 	s = AppendAreas(entry,s,Append)
 	s.Aoffset = 0
@@ -1235,6 +1244,136 @@ def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys):
 				WriteModel(rom,dls,s,md,"MODEL_%d"%i,"actor_"+str(i)+"_",md)
 	#now do level
 	return WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,Onlys)
+
+TextMap = {
+80:'^',
+81:'|',
+82:'<',
+83:'>',
+0x9e:' ',
+0x9f:'-',
+111:',',
+84:'[A]',
+85:'[B]',
+86:'[C]',
+87:'[Z]',
+88:'[R]',
+208:'/',
+62:"'",
+63:'.',
+224:'[%]',
+225:'(',
+226:')(',
+227:')',
+228:'+',
+228:'↔',
+229:'&',
+230:':',
+240:'゛',
+241:'゜',
+242:'!',
+243:'%',
+244:'?',
+245:'『',
+246:'』',
+247:'~',
+248:'…',
+249:'$',
+250:'★',
+251:'×',
+252:'・',
+253:'☆',
+254:'\\n\\\n',
+209:'the',
+210:'you'}
+
+def AsciiConvert(num):
+	#numbers start at 0x30
+	if num<10:
+		return chr(num+0x30)
+	#capital letters start at 0x41
+	elif num<0x24:
+		return chr(num+0x37)
+	#lowercase letters start at 0x61
+	elif num<0x3E:
+		return chr(num+0x3D)
+	else:
+			return TextMap[num]
+
+#seg 2 is mio0 compressed which means C code doesn't translate to whats in the rom at all.
+#This basically means I have to hardcode offsets, it should work for almost every rom anyway.
+def ExportText(rom,Append,rootdir,TxtAmt):
+	s = Script(9)
+	s.Seg2(rom)
+	DiaTbl = 0x1311E+s.banks[2][0]
+	text = rootdir/"dialogs.h"
+	text = open(text,'w',encoding="utf-8")
+	UPW = (lambda x,y: struct.unpack(">L",x[y:y+4])[0])
+	#format is u32 unused, u8 lines/box, u8 pad, u16 X, u16 width, u16 pad, offset
+	DialogFmt = "int:32,2*uint:8,3*uint:16,uint:32"
+	for dialog in range(0,TxtAmt*16,16):
+		StrSet = BitArray(rom[DiaTbl+dialog:DiaTbl+16+dialog])
+		StrSet = StrSet.unpack(DialogFmt)
+		#mio0 compression messes with banks and stuff it just werks
+		Mtxt = s.B2P(StrSet[6]+0x3156)
+		str = ""
+		while(True):
+			num = rom[Mtxt:Mtxt+1][0]
+			if num!=0xFF:
+				str+=AsciiConvert(num)
+			else:
+				break
+			Mtxt+=1
+		text.write('DEFINE_DIALOG(DIALOG_{0:03d},{1:d},{2:d},{3:d},{4:d}, _("{5}"))\n\n'.format(int(dialog/16),StrSet[0],StrSet[1],StrSet[3],StrSet[4],str))
+	text.close()
+	#now do courses
+	courses = rootdir/"courses.h"
+	LevelNames = 0x8140BE
+	courses = open(courses,'w',encoding="utf-8")
+	for course in range(26):
+		name = s.B2P(UPW(rom,course*4+LevelNames)+0x3156)
+		str = ""
+		while(True):
+			num = rom[name:name+1][0]
+			if num!=0xFF:
+				str+=AsciiConvert(num)
+			else:
+				break
+			name+=1
+		acts = []
+		ActTbl = 0x814A82
+		if course<15:
+			#get act names
+			for act in range(6):
+				act = s.B2P(UPW(rom,course*24+ActTbl+act*4)+0x3156)
+				Actstr=""
+				while(True):
+					num = rom[act:act+1][0]
+					if num!=0xFF:
+						Actstr+=AsciiConvert(num)
+					else:
+						break
+					act+=1
+				acts.append(Actstr)
+			courses.write("COURSE_ACTS({}, _(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"))\n\n".format(course+1,str,*acts))
+		elif course<25:
+			courses.write("SECRET_STAR({}, _(\"{}\"))\n".format(course,str))
+		else:
+			courses.write("CASTLE_SECRET_STARS(_(\"{}\"))\n".format(str))
+	#do extra text
+	Extra = 0x814A82+15*6*4
+	for i in range(7):
+		Ex=s.B2P(UPW(rom,Extra+i*4)+0x3156)
+		str=""
+		while(True):
+			num = rom[Ex:Ex+1][0]
+			if num!=0xFF:
+				str+=AsciiConvert(num)
+			else:
+				break
+			Ex+=1
+		courses.write("EXTRA_TEXT({},_(\"{}\"))\n".format(i,str))
+	courses.close()
 
 def ExportWaterBoxes(AllWaterBoxes,rootdir):
 	MovtexEdit = rootdir / "moving_texture.inc.c"
@@ -1298,7 +1437,7 @@ if __name__=='__main__':
 ------------------Invalid Input - Error ------------------
 
 Arguments for RM2C are as follows:
-RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0
+RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 Text=0
 
 Arguments with equals sign are shown in default state, do not put commas between args.
 Levels and assets accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
@@ -1330,6 +1469,8 @@ certain bash errors.
 	args = ""
 	WaterOnly = 0
 	ObjectOnly = 0
+	Text = 0
+	TxtAmount = 170
 	for arg in sys.argv[1:]:
 		args+=arg+" "
 	a = "\\".join(args)
@@ -1348,6 +1489,10 @@ certain bash errors.
 	args = (levels,assets)
 	rom=open(rom,'rb')
 	rom = rom.read()
+	if Text:
+		ExportText(rom,Append,Path(sys.path[0]),TxtAmount)
+		print('Text Finished')
+		sys.exit(0)
 	print('Starting Export')
 	AllWaterBoxes = []
 	Onlys = [WaterOnly,ObjectOnly]

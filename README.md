@@ -25,7 +25,7 @@ Currently testing, installation method coming after optimal fork and model are f
 
 place rom in root, run RM2C.py with the following arguments:
 
-RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0
+RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 Text=0
 
 Arguments with equals sign are shown in default state, do not put commas between args.
 Levels and assets accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
@@ -43,6 +43,10 @@ The "Only" options are to only export certain things either to deal with specifi
 3. Export all BoB in a RM rom with a second area from another rom
 	* python RM2C.py rom="baserom.z64" levels='all' Append=[('rom2.z64',1,True)]
 
+4. Export text
+	*python RM2C.py rom='sm74.z64' Text=1
+
+
 ### NOTE! if you are on unix bash requires you to escape certain characters.
 For this module, these are quotes and paranthesis. Add in a escape before each.
 
@@ -56,6 +60,9 @@ Drag and drop all levels folders into /sm64/levels directory of your decomp repo
 You must manage scripts of individual levels so that it matches with your current
 repo, and may need to comment out certain objects.
 
+For Water boxes, open moving_texture.inc.c and follow instructions in that file.
+
+For text drag courses.h and dialogs.h into your text folder.
 
 ***NOT GUARANTEED TO COMPILE DIRECTLY AFTER EXTRACTION***
 
