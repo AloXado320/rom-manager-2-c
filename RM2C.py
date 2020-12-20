@@ -1287,6 +1287,23 @@ TextMap = {
 209:'the',
 210:'you'}
 
+Course_Names= {
+0:"COURSE_BOB",
+1:"COURSE_WF",
+2:"COURSE_JRB",
+3:"COURSE_CCM",
+4:"COURSE_BBH",
+5:"COURSE_HMC",
+6:"COURSE_LLL",
+7:"COURSE_SSL",
+8:"COURSE_DDD",
+9:"COURSE_SL",
+10:"COURSE_WDW",
+11:"COURSE_TTM",
+12:"COURSE_THI",
+13:"COURSE_TTC",
+14:"COURSE_RR"}
+
 def AsciiConvert(num):
 	#numbers start at 0x30
 	if num<10:
@@ -1355,7 +1372,7 @@ def ExportText(rom,Append,rootdir,TxtAmt):
 						break
 					act+=1
 				acts.append(Actstr)
-			courses.write("COURSE_ACTS({}, _(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"))\n\n".format(course+1,str,*acts))
+			courses.write("COURSE_ACTS({}, _(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"))\n\n".format(Course_Names[course],str,*acts))
 		elif course<25:
 			courses.write("SECRET_STAR({}, _(\"{}\"))\n".format(course,str))
 		else:
