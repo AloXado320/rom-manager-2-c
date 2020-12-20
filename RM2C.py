@@ -1302,7 +1302,18 @@ Course_Names= {
 11:"COURSE_TTM",
 12:"COURSE_THI",
 13:"COURSE_TTC",
-14:"COURSE_RR"}
+14:"COURSE_RR",
+15:"COURSE_BITDW",
+16:"COURSE_BITFS",
+17:"COURSE_BITS",
+18:"COURSE_PSS",
+19:"COURSE_COTMC",
+20:"COURSE_TOTWC",
+21:"COURSE_VCUTM",
+22:"COURSE_WMOTR",
+23:"COURSE_SA",
+24:"COURSE_CAKE_END"
+}
 
 def AsciiConvert(num):
 	#numbers start at 0x30
@@ -1372,7 +1383,7 @@ def ExportText(rom,Append,rootdir,TxtAmt):
 						break
 					act+=1
 				acts.append(Actstr)
-			courses.write("COURSE_ACTS({}, _(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"),\t(\"{}\"))\n\n".format(Course_Names[course],str,*acts))
+			courses.write("COURSE_ACTS({}, _(\"{}\"),\t_(\"{}\"),\t_(\"{}\"),\t_(\"{}\"),\t_(\"{}\"),\t_(\"{}\"),\t_(\"{}\"))\n\n".format(Course_Names[course],str,*acts))
 		elif course<25:
 			courses.write("SECRET_STAR({}, _(\"{}\"))\n".format(course,str))
 		else:
