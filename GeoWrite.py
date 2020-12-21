@@ -115,6 +115,7 @@ def GeoParse(rom,start,script,segstart,id):
 	DLs=[]
 	t=0
 	WaterBoxes = []
+	envfx = 0
 	while(True):
 		q=rom[start[-1]+x:start[-1]+x+24]
 		C=Cmds[q[0]]
@@ -127,6 +128,8 @@ def GeoParse(rom,start,script,segstart,id):
 					label=script.GetLabel(f)
 					if 'geo_movtex_draw_water_regions' in label:
 						WaterBoxes.append(GetWaterData(rom,script,B2I(q[2:4])))
+					if 'geo_envfx_main' in label and B2I(q[2:4])>0:
+						envfx = 1
 					F[0]=F[0].replace(str(r),label)
 			if F[2]=="STOREDL":
 				b=[a for a in F[3]]
@@ -154,7 +157,7 @@ def GeoParse(rom,start,script,segstart,id):
 		g[t][0].append(F[0])
 		if F[0]=="GEO_END()":
 			break
-	return (g,DLs,WaterBoxes)
+	return (g,DLs,WaterBoxes,envfx)
 
 def GeoWrite(geo,name,id):
 	f=open(name,'w')

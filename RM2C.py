@@ -564,7 +564,7 @@ class Script():
 		offset=B&0xFFFFFF
 		seg = self.banks[Bank]
 		if not seg:
-			print(hex(B),hex(Bank),self.banks[Bank-2:Bank+3])
+			# print(hex(B),hex(Bank),self.banks[Bank-2:Bank+3])
 			raise ''
 		return seg[0]+offset
 	def L4B(self,T):
@@ -857,7 +857,7 @@ def PLC(rom,start):
 	return PLC(rom,start)
 
 def WriteGeo(rom,s,num,name):
-	(geo,dls,WB)=GW.GeoParse(rom,s.B2P(s.models[num][0]),s,s.models[num][0],"actor_"+str(num)+"_")
+	(geo,dls,WB,envfx)=GW.GeoParse(rom,s.B2P(s.models[num][0]),s,s.models[num][0],"actor_"+str(num)+"_")
 	#write geo layout file
 	GW.GeoWrite(geo,name/'geo.inc.c',"actor_"+str(num)+"_")
 	return dls
@@ -921,7 +921,7 @@ def DetLevelSpecBank(s,f):
 		level =ClosestIntinDict(s.banks[7][0],LevelSpecificBanks)
 	return level
 
-def WriteLevelScript(name,Lnum,s,level,Anum):
+def WriteLevelScript(name,Lnum,s,level,Anum,envfx):
 	f = open(name,'w')
 	f.write(scriptHeader)
 	f.write('#include "levels/%s/header.h"\n'%Lnum)
@@ -937,6 +937,8 @@ def WriteLevelScript(name,Lnum,s,level,Anum):
 		# f.write("LOAD_MIO0(0x07, _"+LoadLevel+"_segment_7SegmentRomStart, _"+LoadLevel+"_segment_7SegmentRomEnd),\n")
 	# else:
 	f.write("LOAD_MIO0(0x07, _"+Lnum+"_segment_7SegmentRomStart, _"+Lnum+"_segment_7SegmentRomEnd),\n")
+	if envfx:
+		f.write("LOAD_MIO0(        /*seg*/ 0x0B, _effect_mio0SegmentRomStart, _effect_mio0SegmentRomEnd),\n")
 	#add in loaded banks
 	banks = InsertBankLoads(s,f)
 	f.write("ALLOC_LEVEL_POOL(),\nMARIO(/*model*/ MODEL_MARIO, /*behParam*/ 0x00000001, /*beh*/ bhvMario),\nLOAD_MODEL_FROM_GEO(22, warp_pipe_geo),\n")
@@ -1037,6 +1039,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname):
 	Areasdir = level/"areas"
 	Areasdir.mkdir(exist_ok=True)
 	#create area directory for each area
+	envfx = 0
 	for a in areas:
 		#area dir
 		adir = Areasdir/("%d"%a)
@@ -1048,7 +1051,10 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname):
 		#get real bank 0x0e location
 		s.RME(a,Arom)
 		id = name+"_"+str(a)+"_"
-		(geo,dls,WB)=GW.GeoParse(Arom,s.B2P(area.geo),s,area.geo,id)
+		(geo,dls,WB,vfx)=GW.GeoParse(Arom,s.B2P(area.geo),s,area.geo,id)
+		#deal with some areas having it vs others not
+		if vfx:
+			envfx = 1
 		if not OnlySkip:
 			GW.GeoWrite(geo,adir/"geo.inc.c",id)
 			for g in geo:
@@ -1088,7 +1094,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname):
 		print('finished area '+str(a)+ ' in level '+name)
 	#now write level script
 	if not (WaterOnly or MusicOnly):
-		WriteLevelScript(level/"script.c",name,s,s.levels[num],areas)
+		WriteLevelScript(level/"script.c",name,s,s.levels[num],areas,envfx)
 	s.MakeDec("const LevelScript level_%s_entry[]"%name)
 	if not OnlySkip:
 		#finally write header
@@ -1178,7 +1184,7 @@ def RipSequence(rom,seqNum,m64Dir,Lnum,Anum,romname):
 	len=UPW(rom,gSeqFileHeader)
 	offset=UPW(rom,gSeqFileHeader+4)
 	m64 = rom[offset:offset+len]
-	m64File = m64Dir/("%s_Seq%d_custom.m64"%(romname,seqNum))
+	m64File = m64Dir/("{}_Seq{:03d}_custom.m64".format(romname,seqNum))
 	f = open(m64File,'wb')
 	f.write(m64)
 	f.close()
@@ -1418,43 +1424,55 @@ Make sure you add extern void *GetRomhackWaterBox(u32 id); to moving_texture.h s
 You could also just use the references shown here at the top and and them manually yourself to the current switch case.
 */
 """
+	if not AllWaterBoxes:
+		print("no water boxes")
+		return
 	MTinc = open(MovtexEdit,'w')
 	MTinc.write(infoMsg)
 	for a in AllWaterBoxes:
 		MTinc.write("extern u8 "+a[0]+"[];\n")
-	MTinc.write("\nstatic void *RM2C_Water_Box_Array[37][8][3] = {\n")
-	first = AllWaterBoxes[0][1]
-	for L in range(4,37,1):
-		if L not in Num2Name.keys() or L<first or not AllWaterBoxes:
-			a = "{NULL,NULL,NULL},"*8
-			MTinc.write("{ %s },\n"%a)
-		else:
-			levelBoxes = []
-			for j,wb in enumerate(AllWaterBoxes):
-				if L==wb[1]:
-					levelBoxes.append(wb)
-			if levelBoxes:
-				MTinc.write("{ ")
-				for a in range(8):
-					Aboxes = [wb for wb in levelBoxes if a==wb[2]]
-					if Aboxes:
-						b = "{"
-						for t in range(3):
-							for wb in Aboxes:
-								if t==wb[3]:
-									b+="&"+wb[0]+","
-									break
-							else:
-								b+="NULL,"
-						b+="},"
-					else:
-						b = "{NULL,NULL,NULL},"
-					MTinc.write(b)
-				MTinc.write(" },\n")
-			else:
-				a = "{NULL,NULL,NULL},"*8
-				MTinc.write("{ %s },\n"%a)
-	MTinc.write("};")
+	MTinc.write("\nstatic void *RM2C_Water_Box_Array[33][8][3] = {\n")
+	AreaNull = "{"+"NULL,"*3+"},"
+	LevelNull = "{ "+AreaNull*8+" },\n"
+	LastL = 4
+	LastA = 0
+	LastType=0
+	first = 0
+	for wb in AllWaterBoxes:
+		L = wb[1]
+		A = wb[2]
+		T = wb[3]
+		if (A!=LastA or L!=LastL) and first!=0:
+			for i in range(2-LastType):
+				MTinc.write("NULL,")
+			MTinc.write("},")
+		if L!=LastL and first!=0:
+			LastType = 0
+			LastA = 0
+			for i in range(7-LastA):
+				MTinc.write(AreaNull)
+			MTinc.write(" },\n{ ")
+		for i in range(L-LastL-1):
+			MTinc.write(LevelNull)
+		if first==0:
+			MTinc.write("{ ")
+		for i in range(A-LastA):
+			MTinc.write(AreaNull)
+		for i in range(T-LastType):
+			MTinc.write("NULL,")
+		if T==0:
+			MTinc.write("{")
+		MTinc.write("&%s,"%wb[0])
+		LastL = L
+		LastA = A
+		LastType = T
+		first=1
+	for i in range(2-LastType):
+		MTinc.write("NULL,")
+	MTinc.write("},")
+	for i in range(7-LastA):
+		MTinc.write(AreaNull)
+	MTinc.write(" }\n};\n")
 	func = """
 void *GetRomhackWaterBox(u32 id){
 id = id&0xF;
@@ -1518,7 +1536,7 @@ certain bash errors.
 		print("If you are using terminal try using this\n"+a)
 		raise 'bad arguments'
 	args = (levels,assets)
-	romname = rom
+	romname = rom.split(".")[0]
 	rom=open(rom,'rb')
 	rom = rom.read()
 	if Text:
