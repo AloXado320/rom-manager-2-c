@@ -1023,7 +1023,7 @@ def GrabOGDatld(L,rootdir,name):
 		grabbed.append(l)
 	return [L,grabbed]
 
-def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname):
+def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums):
 	#create level directory
 	WaterOnly = Onlys[0]
 	ObjectOnly = Onlys[1]
@@ -1047,7 +1047,9 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname):
 		area=s.levels[num][a]
 		Arom = area.rom
 		if area.music and not (ObjectOnly or WaterOnly):
-			RipSequence(Arom,area.music+1,m64dir,num,a,romname)
+			[m64,seqNum] = RipSequence(Arom,area.music+1,m64dir,num,a,romname)
+			m64s.append(m64)
+			seqNums.append(seqNum)
 		#get real bank 0x0e location
 		s.RME(a,Arom)
 		id = name+"_"+str(a)+"_"
@@ -1137,7 +1139,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname):
 					ld.write(start+Ft)
 		ld.write('#include "levels/%s/textureNew.inc.c"\n'%(name))
 		ld.close
-	return AllWaterBoxes
+	return [AllWaterBoxes,m64s,seqNums]
 
 #dictionary of actions to take based on script cmds
 jumps = {
@@ -1171,7 +1173,7 @@ jumps = {
     0x36:SetMusic,
     0x37:SetMusic2
 }
-#Not sure if it works, because I think editor memes me and puts sequences in some random spot
+
 def RipSequence(rom,seqNum,m64Dir,Lnum,Anum,romname):
 	#audio_dma_copy_immediate loads gSeqFileHeader in audio_init at 0x80319768
 	#the line of asm is at 0xD4768 which sets the arg to this
@@ -1184,10 +1186,75 @@ def RipSequence(rom,seqNum,m64Dir,Lnum,Anum,romname):
 	len=UPW(rom,gSeqFileHeader)
 	offset=UPW(rom,gSeqFileHeader+4)
 	m64 = rom[offset:offset+len]
-	m64File = m64Dir/("{}_Seq{:03d}_custom.m64".format(romname,seqNum))
+	m64File = m64Dir/("{}_Seq{:02X}_custom.m64".format(romname,seqNum))
+	m64Name = "{}_Seq{:02d}_custom.m64".format(romname,seqNum)
 	f = open(m64File,'wb')
 	f.write(m64)
 	f.close()
+	return [m64Name,seqNum]
+
+SoundBanks = {
+	0:"00",
+	1:"01_terrain",
+	2:"02_water",
+	3:"03",
+	4:"04",
+	5:"05",
+	6:"06",
+	7:"07",
+	8:"08_mario",
+	9:"09",
+	10:"0A_mario_peach",
+	11:"0B",
+	12:"0C",
+	13:"0D",
+	14:"0E",
+	15:"0F",
+	16:"10",
+	17:"11",
+	18:"12",
+	19:"13",
+	20:"14_piranha_music_box",
+	21:"15",
+	22:"16_course_start",
+	23:"17",
+	24:"18",
+	25:"19",
+	26:"1A",
+	27:"1B",
+	28:"1C_endless_stairs",
+	29:"1D_bowser_organ",
+	30:"1E",
+	31:"1F",
+	32:"20",
+	33:"21",
+	34:"22",
+	35:"23",
+	36:"24",
+	37:"25",
+}
+
+def CreateSeqJSON(romname,m64s,rootdir):
+	m64Dir = rootdir/"m64"
+	originals = rootdir/"originals"/"sequences.json"
+	m64s.sort(key=(lambda x: x[1]))
+	# origJSON = open(originals,'r')
+	# origJSON = origJSON.readlines()
+	#This is the location of the Bank to Sequence table.
+	seqMagic = 0x7f0000
+	#format is u8 len banks (always 1), u8 bank. Maintain the comment/bank 0 data of the original sequences.json
+	UPB = (lambda x,y: struct.unpack(">B",x[y:y+1])[0])
+	UPH = (lambda x,y: struct.unpack(">h",x[y:y+2])[0])
+	seqJSON = m64Dir/("{}_Sequences.json".format(romname))
+	seqJSON = open(seqJSON,'w')
+	seqJSON.write("{\n")
+	# for l in origJSON[:3]:
+		# seqJSON.write(l)
+	for m64 in m64s:
+		bank = UPH(rom,seqMagic+m64[1]*2)
+		bank = UPB(rom,seqMagic+bank+1)
+		seqJSON.write("\t\"{}\": [\"{}\"],\n".format(m64[0],SoundBanks[bank]))
+	seqJSON.write("}")
 
 def AppendAreas(entry,script,Append):
 	for rom,offset,editor in Append:
@@ -1206,7 +1273,7 @@ def AppendAreas(entry,script,Append):
 				break
 	return script
 
-def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys,romname):
+def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums):
 	#choose level
 	s = Script(level)
 	s.Seg2(rom)
@@ -1250,7 +1317,7 @@ def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys,romname):
 					dls=[[s.B2P(s.models[i][0]),s.models[i][0]]]
 				WriteModel(rom,dls,s,md,"MODEL_%d"%i,"actor_"+str(i)+"_",md)
 	#now do level
-	return WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,Onlys,romname)
+	return WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums)
 
 TextMap = {
 	80:'^',
@@ -1448,13 +1515,13 @@ You could also just use the references shown here at the top and and them manual
 			MTinc.write("},")
 		if L!=LastL and first!=0:
 			LastType = 0
-			LastA = 0
 			for i in range(7-LastA):
 				MTinc.write(AreaNull)
-			MTinc.write(" },\n{ ")
+			LastA = 0
+			MTinc.write(" },\n")
 		for i in range(L-LastL-1):
 			MTinc.write(LevelNull)
-		if first==0:
+		if first==0 or L!=LastL:
 			MTinc.write("{ ")
 		for i in range(A-LastA):
 			MTinc.write(AreaNull)
@@ -1545,24 +1612,28 @@ certain bash errors.
 		sys.exit(0)
 	print('Starting Export')
 	AllWaterBoxes = []
+	m64s = []
+	seqNums = []
 	Onlys = [WaterOnly,ObjectOnly,MusicOnly]
 	if args[0]=='all':
 		for k in Num2Name.keys():
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname)
+				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums)
 			else:
-				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname)
+				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums)
 			print(Num2Name[k] + ' done')
 	else:
 		for k in args[0]:
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname)
+				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums)
 			else:
-				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname)
+				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums)
 			print(Num2Name[k] + ' done')
 	#AllWaterBoxes should have refs to all water boxes, using that, I will generate a function
 	#and array of references so it can be hooked into moving_texture.c
 	#example of AllWaterBoxes format [[str,level,area]...]
 	if not (MusicOnly or ObjectOnly):
 		ExportWaterBoxes(AllWaterBoxes,Path(sys.path[0]))
+	if not (WaterOnly or ObjectOnly):
+		CreateSeqJSON(romname,list(zip(m64s,seqNums)),Path(sys.path[0]))
 	print('Export Completed')
