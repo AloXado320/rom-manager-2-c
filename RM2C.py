@@ -1021,11 +1021,12 @@ def GrabOGDatld(L,rootdir,name):
 		grabbed.append(l)
 	return [L,grabbed]
 
-def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys):
+def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname):
 	#create level directory
 	WaterOnly = Onlys[0]
 	ObjectOnly = Onlys[1]
-	OnlySkip = all(Onlys)
+	MusicOnly = Onlys[2]
+	OnlySkip = any(Onlys)
 	name=Num2Name[num]
 	level=Path(sys.path[0])/("%s"%name)
 	if os.path.isdir(level):
@@ -1042,26 +1043,26 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys):
 		adir.mkdir(exist_ok=True)
 		area=s.levels[num][a]
 		Arom = area.rom
-		if area.music and not OnlySkip:
-			RipSequence(Arom,area.music+1,m64dir,num,a)
+		if area.music and not (ObjectOnly or WaterOnly):
+			RipSequence(Arom,area.music+1,m64dir,num,a,romname)
 		#get real bank 0x0e location
 		s.RME(a,Arom)
 		id = name+"_"+str(a)+"_"
 		(geo,dls,WB)=GW.GeoParse(Arom,s.B2P(area.geo),s,area.geo,id)
 		if not OnlySkip:
 			GW.GeoWrite(geo,adir/"geo.inc.c",id)
-		for g in geo:
-			s.MakeDec("const GeoLayout Geo_%s[]"%(id+hex(g[1])))
+			for g in geo:
+				s.MakeDec("const GeoLayout Geo_%s[]"%(id+hex(g[1])))
 		if not OnlySkip:
 			dls = WriteModel(Arom,dls,s,adir,"%s_%d"%(name.upper(),a),id,level)
-		for d in dls:
-			s.MakeDec("const Gfx DL_%s[]"%(id+hex(d[1])))
+			for d in dls:
+				s.MakeDec("const Gfx DL_%s[]"%(id+hex(d[1])))
 		#write collision file
 		if not OnlySkip:
 			ColParse.ColWrite(adir/"collision.inc.c",s,Arom,area.col,id)
 		s.MakeDec('const Collision col_%s[]'%(id+hex(area.col)))
 		#write mov tex file
-		if not ObjectOnly:
+		if not (ObjectOnly or MusicOnly):
 			#WB = [types][array of type][box data]
 			MovTex = adir / "movtextNew.inc.c"
 			MovTex = open(MovTex,'w')
@@ -1086,7 +1087,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys):
 				AllWaterBoxes.append(["%sMovtex_%d"%(id,j),num,a,j])
 		print('finished area '+str(a)+ ' in level '+name)
 	#now write level script
-	if not OnlySkip:
+	if not (WaterOnly or MusicOnly):
 		WriteLevelScript(level/"script.c",name,s,s.levels[num],areas)
 	s.MakeDec("const LevelScript level_%s_entry[]"%name)
 	if not OnlySkip:
@@ -1165,7 +1166,7 @@ jumps = {
     0x37:SetMusic2
 }
 #Not sure if it works, because I think editor memes me and puts sequences in some random spot
-def RipSequence(rom,seqNum,m64Dir,Lnum,Anum):
+def RipSequence(rom,seqNum,m64Dir,Lnum,Anum,romname):
 	#audio_dma_copy_immediate loads gSeqFileHeader in audio_init at 0x80319768
 	#the line of asm is at 0xD4768 which sets the arg to this
 	UPW = (lambda x,y: struct.unpack(">L",x[y:y+4])[0])
@@ -1177,7 +1178,7 @@ def RipSequence(rom,seqNum,m64Dir,Lnum,Anum):
 	len=UPW(rom,gSeqFileHeader)
 	offset=UPW(rom,gSeqFileHeader+4)
 	m64 = rom[offset:offset+len]
-	m64File = m64Dir/("%d_Level_%d_Area_%d_sequence_custom.m64"%(seqNum,Lnum,Anum))
+	m64File = m64Dir/("%s_Seq%d_custom.m64"%(romname,seqNum))
 	f = open(m64File,'wb')
 	f.write(m64)
 	f.close()
@@ -1199,7 +1200,7 @@ def AppendAreas(entry,script,Append):
 				break
 	return script
 
-def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys):
+def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys,romname):
 	#choose level
 	s = Script(level)
 	s.Seg2(rom)
@@ -1243,76 +1244,77 @@ def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys):
 					dls=[[s.B2P(s.models[i][0]),s.models[i][0]]]
 				WriteModel(rom,dls,s,md,"MODEL_%d"%i,"actor_"+str(i)+"_",md)
 	#now do level
-	return WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,Onlys)
+	return WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,Onlys,romname)
 
 TextMap = {
-80:'^',
-81:'|',
-82:'<',
-83:'>',
-0x9e:' ',
-0x9f:'-',
-111:',',
-84:'[A]',
-85:'[B]',
-86:'[C]',
-87:'[Z]',
-88:'[R]',
-208:'/',
-62:"'",
-63:'.',
-224:'[%]',
-225:'(',
-226:')(',
-227:')',
-228:'+',
-228:'↔',
-229:'&',
-230:':',
-240:'゛',
-241:'゜',
-242:'!',
-243:'%',
-244:'?',
-245:'『',
-246:'』',
-247:'~',
-248:'…',
-249:'$',
-250:'★',
-251:'×',
-252:'・',
-253:'☆',
-254:'\\n\\\n',
-209:'the',
-210:'you'}
+	80:'^',
+	81:'|',
+	82:'<',
+	83:'>',
+	0x9e:' ',
+	0x9f:'-',
+	111:',',
+	84:'[A]',
+	85:'[B]',
+	86:'[C]',
+	87:'[Z]',
+	88:'[R]',
+	208:'/',
+	62:"'",
+	63:'.',
+	224:'[%]',
+	225:'(',
+	226:')(',
+	227:')',
+	228:'+',
+	228:'↔',
+	229:'&',
+	230:':',
+	240:'゛',
+	241:'゜',
+	242:'!',
+	243:'%',
+	244:'?',
+	245:'『',
+	246:'』',
+	247:'~',
+	248:'…',
+	249:'$',
+	250:'★',
+	251:'×',
+	252:'・',
+	253:'☆',
+	254:'\\n\\\n',
+	209:'the',
+	210:'you'
+}
 
 Course_Names= {
-0:"COURSE_BOB",
-1:"COURSE_WF",
-2:"COURSE_JRB",
-3:"COURSE_CCM",
-4:"COURSE_BBH",
-5:"COURSE_HMC",
-6:"COURSE_LLL",
-7:"COURSE_SSL",
-8:"COURSE_DDD",
-9:"COURSE_SL",
-10:"COURSE_WDW",
-11:"COURSE_TTM",
-12:"COURSE_THI",
-13:"COURSE_TTC",
-14:"COURSE_RR",
-15:"COURSE_BITDW",
-16:"COURSE_BITFS",
-17:"COURSE_BITS",
-18:"COURSE_PSS",
-19:"COURSE_COTMC",
-20:"COURSE_TOTWC",
-21:"COURSE_VCUTM",
-22:"COURSE_WMOTR",
-23:"COURSE_SA",
-24:"COURSE_CAKE_END"
+	0:"COURSE_BOB",
+	1:"COURSE_WF",
+	2:"COURSE_JRB",
+	3:"COURSE_CCM",
+	4:"COURSE_BBH",
+	5:"COURSE_HMC",
+	6:"COURSE_LLL",
+	7:"COURSE_SSL",
+	8:"COURSE_DDD",
+	9:"COURSE_SL",
+	10:"COURSE_WDW",
+	11:"COURSE_TTM",
+	12:"COURSE_THI",
+	13:"COURSE_TTC",
+	14:"COURSE_RR",
+	15:"COURSE_BITDW",
+	16:"COURSE_BITFS",
+	17:"COURSE_BITS",
+	18:"COURSE_PSS",
+	19:"COURSE_COTMC",
+	20:"COURSE_TOTWC",
+	21:"COURSE_VCUTM",
+	22:"COURSE_WMOTR",
+	23:"COURSE_SA",
+	24:"COURSE_CAKE_END"
 }
 
 def AsciiConvert(num):
@@ -1465,11 +1467,11 @@ if __name__=='__main__':
 ------------------Invalid Input - Error ------------------
 
 Arguments for RM2C are as follows:
-RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 Text=0
+RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 Text=0
 
 Arguments with equals sign are shown in default state, do not put commas between args.
 Levels and assets accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
-The "Only" options are to only export certain things either to deal with specific updates or updates to RM2C itself. Only use one at a time. An only option will not maintain other data.
+The "Only" options are to only export certain things either to deal with specific updates or updates to RM2C itself. Only use one at a time. An only option will not maintain other data. Do not use Append with MusicOnly, it will have no effect.
 
 Example input1 (all models in BoB for editor rom):
 python RM2C.py rom="ASA.z64" editor=True levels=[9] assets=range(0,255)
@@ -1497,6 +1499,7 @@ certain bash errors.
 	args = ""
 	WaterOnly = 0
 	ObjectOnly = 0
+	MusicOnly = 0
 	Text = 0
 	TxtAmount = 170
 	for arg in sys.argv[1:]:
@@ -1515,6 +1518,7 @@ certain bash errors.
 		print("If you are using terminal try using this\n"+a)
 		raise 'bad arguments'
 	args = (levels,assets)
+	romname = rom
 	rom=open(rom,'rb')
 	rom = rom.read()
 	if Text:
@@ -1523,23 +1527,24 @@ certain bash errors.
 		sys.exit(0)
 	print('Starting Export')
 	AllWaterBoxes = []
-	Onlys = [WaterOnly,ObjectOnly]
+	Onlys = [WaterOnly,ObjectOnly,MusicOnly]
 	if args[0]=='all':
 		for k in Num2Name.keys():
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys)
+				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname)
 			else:
-				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys)
+				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname)
 			print(Num2Name[k] + ' done')
 	else:
 		for k in args[0]:
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys)
+				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname)
 			else:
-				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys)
+				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname)
 			print(Num2Name[k] + ' done')
 	#AllWaterBoxes should have refs to all water boxes, using that, I will generate a function
 	#and array of references so it can be hooked into moving_texture.c
 	#example of AllWaterBoxes format [[str,level,area]...]
-	ExportWaterBoxes(AllWaterBoxes,Path(sys.path[0]))
+	if not (MusicOnly or ObjectOnly):
+		ExportWaterBoxes(AllWaterBoxes,Path(sys.path[0]))
 	print('Export Completed')
