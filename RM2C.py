@@ -1047,9 +1047,10 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 		area=s.levels[num][a]
 		Arom = area.rom
 		if area.music and not (ObjectOnly or WaterOnly):
-			[m64,seqNum] = RipSequence(Arom,area.music+1,m64dir,num,a,romname)
-			m64s.append(m64)
-			seqNums.append(seqNum)
+			[m64,seqNum] = RipSequence(Arom,area.music,m64dir,num,a,romname)
+			if m64 not in m64s:
+				m64s.append(m64)
+				seqNums.append(seqNum)
 		#get real bank 0x0e location
 		s.RME(a,Arom)
 		id = name+"_"+str(a)+"_"
@@ -1182,12 +1183,12 @@ def RipSequence(rom,seqNum,m64Dir,Lnum,Anum,romname):
 	gSeqFileHeader+=(UPW(rom,0xD4770)&0xFFFF) #this is an addiu asm cmd
 	#format is tbl,m64s[]
 	#tbl format is [len,offset][]
-	gSeqFileHeader+=seqNum*8
-	len=UPW(rom,gSeqFileHeader)
-	offset=UPW(rom,gSeqFileHeader+4)
-	m64 = rom[offset:offset+len]
-	m64File = m64Dir/("{}_Seq{:02X}_custom.m64".format(romname,seqNum))
-	m64Name = "{}_Seq{:02d}_custom.m64".format(romname,seqNum)
+	gSeqFileOffset = gSeqFileHeader+seqNum*8+4
+	len=UPW(rom,gSeqFileOffset+4)
+	offset=UPW(rom,gSeqFileOffset)
+	m64 = rom[gSeqFileHeader+offset:gSeqFileHeader+offset+len]
+	m64File = m64Dir/("{1:02X}_Seq_{0}_custom.m64".format(romname,seqNum))
+	m64Name = "{1:02X}_Seq_{0}_custom".format(romname,seqNum)
 	f = open(m64File,'wb')
 	f.write(m64)
 	f.close()
@@ -1238,8 +1239,8 @@ def CreateSeqJSON(romname,m64s,rootdir):
 	m64Dir = rootdir/"m64"
 	originals = rootdir/"originals"/"sequences.json"
 	m64s.sort(key=(lambda x: x[1]))
-	# origJSON = open(originals,'r')
-	# origJSON = origJSON.readlines()
+	origJSON = open(originals,'r')
+	origJSON = origJSON.readlines()
 	#This is the location of the Bank to Sequence table.
 	seqMagic = 0x7f0000
 	#format is u8 len banks (always 1), u8 bank. Maintain the comment/bank 0 data of the original sequences.json
@@ -1248,12 +1249,19 @@ def CreateSeqJSON(romname,m64s,rootdir):
 	seqJSON = m64Dir/("{}_Sequences.json".format(romname))
 	seqJSON = open(seqJSON,'w')
 	seqJSON.write("{\n")
-	# for l in origJSON[:3]:
-		# seqJSON.write(l)
+	last = 0
 	for m64 in m64s:
+		#fill in missing sequences
+		for i in range(last,m64[1]-1,1):
+			seqJSON.write(origJSON[i+3])
 		bank = UPH(rom,seqMagic+m64[1]*2)
 		bank = UPB(rom,seqMagic+bank+1)
 		seqJSON.write("\t\"{}\": [\"{}\"],\n".format(m64[0],SoundBanks[bank]))
+		if m64[1]<0x23:
+			og = origJSON[m64[1]+2]
+			og = og.split(":")[0] + ": null,\n"
+			seqJSON.write(og)
+		last = m64[1]
 	seqJSON.write("}")
 
 def AppendAreas(entry,script,Append):
