@@ -36,5 +36,4 @@ bowser_3/**
 ttm/**
 m64/**
 moving_texture.inc.c
-dialogs.h
-courses.h
+misc/**

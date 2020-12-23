@@ -25,7 +25,12 @@ class Mat():
 	def __init__(self,dict):
 		#set up all the attribute to match the dictionary you're checking against
 		for k in dict.keys():
-			setattr(self,str(k),0)
+			#make a separate case for set tile since it always repeats 2 different ones
+			if k==0xF5:
+				setattr(self,str(k)+'7',0)
+				setattr(self,str(k),0)
+			else:
+				setattr(self,str(k),0)
 
 def TcH(bytes):
 	a = struct.pack(">%dB"%len(bytes),*bytes)
@@ -57,6 +62,99 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 		textures = open(tdir/'textureNew.inc.c','w')
 	f = open(name,'w')
 	f.write('#include "%s"\n'%('model.inc.h'))
+	#ranges is model data 6, dl is model data 1
+	#attempt to optimize texture loads by looking at ranges
+	for k,md in enumerate(ModelData):
+		ranges = md[6]
+		dl = md[1]
+		NewDL = [dl[ranges[0][0]:ranges[0][2]]]
+		#End should always start from mat start as its normally not drawing anything but this could bite me
+		#At worst this could end up missing a vert load or 5 tris
+		End = dl[ranges[-1][0]:ranges[-1][2]+1]
+		NewRanges = ranges[1:-1]
+		NewRanges.sort(key=(lambda x:(x[1][1],x[4])),reverse=True)
+		# [print(r[0],r[2],r[4],dl[r[0]],dl[r[2]],dl[r[4]]) for r in NewRanges]
+		for j,r in enumerate(NewRanges):
+			#first member r[4] is a vert load
+			x=1
+			count=0
+			num = int(dl[r[4]].split(',')[1])
+			while(True):
+				cmd = dl[r[4]+x]
+				if cmd.startswith('gsSP1Triangle'):
+					count+=1
+				elif cmd.startswith('gsSP2Triangles'):
+					count+=2
+				#gsDP is an RDP cmd or a sync. Either way it signals end of tri draws
+				elif cmd.startswith('gsDP'):
+					break
+				x+=1
+			#check for duplicate textures
+			dupe=0
+			if j>0:
+				if NewRanges[j-1][1]==r[1]:
+					dupe=1
+			#If Count is greater or equal to num that means all the tris from the last vert load were drawn.
+			#This means we can start on the material cmd. If its less, we need to redo the vert load.
+			#for dupes I check starting from the texture load (r[0]) and advance until a non gsDP cmd
+			if count>=num:
+				if dupe:
+					x=r[0]
+					while(True):
+						if not dl[x].startswith('gsDP'):
+							break
+						x+=1
+					NewDL[-1].extend(dl[x:r[2]+1])
+				else:
+					NewDL.append(dl[r[0]:r[2]+1])
+			else:
+				if dupe:
+					x=r[0]
+					while(True):
+						if not dl[x].startswith('gsDP'):
+							break
+						x+=1
+					NewDL[-1].extend([dl[r[4]]])
+					NewDL[-1].extend(dl[x:r[2]+1])
+				else:
+					NewDL.append([dl[r[4]]])
+					NewDL[-1].extend(dl[r[0]:r[2]+1])
+		#Now NewDL is a list of each material. Inside each material the vertex loads and draws are shitty due to moving around textures.
+		#I will attempt to organize them to be optimal so no triangle is redrawn
+		OptNewMats = []
+		for mat in NewDL:
+			VertDict = {}
+			lastLoad = 0
+			#inside the mat, make a dictionary of every vertex load, and the subsequent triangles
+			for cmd in mat:
+				if cmd.startswith('gsSPVertex'):
+					lastLoad =cmd
+					if not VertDict.get(cmd):
+						VertDict[cmd] = []
+				if cmd.startswith('gsSP1Triangle') or cmd.startswith('gsSP2Triangles'):
+					if cmd not in VertDict[lastLoad]:
+						VertDict[lastLoad].append(cmd)
+			#Now VertDict is optimized to only have the triangles that matter.
+			#Now remake material with first grabbing all material data, then when encountering first tri draw fill in via dictionary instead
+			x=0
+			Newmat=[]
+			while(True):
+				try:
+					cmd=mat[x]
+				except:
+					break
+				if cmd.startswith('gsSP1Triangle') or cmd.startswith('gsSP2Triangles'):
+					break
+				if cmd.startswith('gsDP') or cmd.startswith('gsSPTexture') or cmd.startswith('gsSPGeometryMode'):
+					Newmat.append(cmd)
+				x+=1
+			for VertLoad,Tris in VertDict.items():
+				if Tris:
+					Newmat.append(VertLoad)
+					[Newmat.append(tri) for tri in Tris]
+			OptNewMats.extend(Newmat)
+		OptNewMats.extend(End)
+		ModelData[k][1] = OptNewMats
 	for md in ModelData:
 		#textures
 		for t in md[3]:
@@ -209,16 +307,27 @@ def DecodeDL(rom,start,s,id):
 	#jump dls
 	jumps=[]
 	x=0
+	ranges = [[0,0,0,0,0,0]]
 	start=start[0]
 	LastMat = Mat(Persist)
 	global gCycle
-	gCycle = 0
+	gCycle = 1
 	while(True):
 		cmd=rom[start+x:start+x+8]
 		cmd=Bin2C(cmd,id)
 		#check if cmd is not needed and can be skipped
 		MSB = cmd[1][:8].uint
-		if hasattr(LastMat,str(MSB)):
+		tile = cmd[1][32:40].uint
+		#separate case for set tile since its special
+		if MSB==0xF5 and tile==7:
+			if hasattr(LastMat,str(MSB)+'7'):
+				attr = getattr(LastMat,str(MSB)+'7')
+				if attr == cmd[1][8:].uint:
+					x+=8
+					continue
+				else:
+					setattr(LastMat,str(MSB)+'7',cmd[1][8:].uint)
+		elif hasattr(LastMat,str(MSB)):
 			attr = getattr(LastMat,str(MSB))
 			if attr == cmd[1][8:].uint:
 				x+=8
@@ -257,12 +366,14 @@ def DecodeDL(rom,start,s,id):
 		}
 		#adding stuff to data arrays
 		if (MSB==0x4):
+			ranges[-1][5]=len(dl)-1
 			ptr=cmd[1][32:64]
 			length=cmd[1][8:12]
 			Rptr=s.B2P(ptr.uint)
 			verts.append((ptr.uint,Rptr,length.uint+1))
 		#if a triangle is drawn and there is a texture, assume a new one is loaded next
 		elif(MSB==0xBF):
+			ranges[-1][3]=1
 			if textureptrs[-1][0] != 0:
 				#editor or RM used to do solid colors using 1px texels with 0 dimensions UVs
 				#it was really dumb and now I have to deal with this case.
@@ -272,11 +383,23 @@ def DecodeDL(rom,start,s,id):
 					textureptrs[-1][4] = 1
 				textureptrs.append(textureptrs[-1].copy())
 				textureptrs[-1][0] = 0
+		#check for an RDP cmd or geo mode or texture enable/disable
+		if (MSB&0xF0==0xF0 or MSB==0xb6 or MSB==0xb7 or MSB==0xBB):
+			if ranges[-1][3]==1:
+				#keep track of the ranges which mats are used for later optimization
+				ranges[-1][1] = textureptrs[-1].copy()
+				#I subtract 1 because len goes ones over the index, and then I subtract another one because I already appended
+				#the mat cmd to the dl.
+				ranges[-1][2] = len(dl)-2
+				if ranges[-1][5]==0:
+					ranges.append([len(dl)-1,0,0,0,ranges[-1][4],0])
+				else:
+					ranges.append([len(dl)-1,0,0,0,ranges[-1][5],0])
 		#textureptrs = raw ptr, bank ptr, length, width, height, imgtype, bitdepth, palette, tile
 		#implementing a very naive alg because I'm lazy and no one hand writes stuff
 		#so I will just assume it follows nice structure, if you want to make it better then PR
 		#set tile
-		elif(MSB==0xf5):
+		if(MSB==0xf5):
 			tile = cmd[1][32:40].uint
 			if tile!=7:
 				type=cmd[1][8:11].uint
@@ -318,7 +441,11 @@ def DecodeDL(rom,start,s,id):
 			else:
 				#diffuse
 				diffuse.append([s.B2P(ptr.uint),ptr.uint])
-	return (dl,verts,textureptrs,amb,diffuse,jumps)
+	ranges[-1][2] = len(dl)-1
+	ranges[-1][4] = len(dl)-1
+	ranges[-1][1] = textureptrs[-1].copy()
+	ranges[-1][3] = 1
+	return (dl,verts,textureptrs,amb,diffuse,jumps,ranges)
 
 #take argument bits and make tuple of args
 
@@ -430,7 +557,7 @@ def G_SETOTHERMODE_L_Decode(bin,id):
 		if shift==3:
 			#broken fog in editor
 			if value==0xC8112078:
-				print(id+" has fog in it. Visit the model.inc.c file and make sure the setcombine is properly set")
+				# print(id+" has fog in it. Visit the model.inc.c file and make sure the setcombine is properly set")
 				return (enum,'G_RM_FOG_SHADE_A', 'G_RM_AA_ZB_OPA_SURF2')
 			return (enum,0,value)
 		else:
@@ -567,7 +694,7 @@ def G_RDPHALF_2_Decode(bin,id):
 	
 def G_SETTILESIZE_Decode(bin,id):
 	Sstart,Tstart,pad,tile,width,height=bin.unpack('2*uint:12,2*uint:4,2*uint:12')
-	return (tile,Sstart,Tstart,width,height)
+	return (tile,Sstart,Tstart,(width>>2)+1,(height>>2)+1)
 
 def G_LOADBLOCK_Decode(bin,id):
 	Sstart,Tstart,pad,tile,texels,dxt=bin.unpack('2*uint:12,2*uint:4,2*uint:12')

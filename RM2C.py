@@ -872,8 +872,8 @@ def WriteModel(rom,dls,s,name,Hname,id,tdir):
 		c=rom[st]
 		if first==0x01010101 or not F3D.DecodeFmt.get(c):
 			return
-		(dl,verts,textures,amb,diff,jumps)=F3D.DecodeDL(rom,dls[x],s,id)
-		ModelData.append((dls[x],dl,verts,textures,amb,diff))
+		(dl,verts,textures,amb,diff,jumps,ranges)=F3D.DecodeDL(rom,dls[x],s,id)
+		ModelData.append([dls[x],dl,verts,textures,amb,diff,ranges])
 		for jump in jumps:
 			if jump not in dls:
 				dls.append(jump)
@@ -1023,7 +1023,7 @@ def GrabOGDatld(L,rootdir,name):
 		grabbed.append(l)
 	return [L,grabbed]
 
-def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums):
+def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend):
 	#create level directory
 	WaterOnly = Onlys[0]
 	ObjectOnly = Onlys[1]
@@ -1047,7 +1047,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 		area=s.levels[num][a]
 		Arom = area.rom
 		if area.music and not (ObjectOnly or WaterOnly):
-			[m64,seqNum] = RipSequence(Arom,area.music,m64dir,num,a,romname)
+			[m64,seqNum] = RipSequence(Arom,area.music,m64dir,num,a,romname,MusicExtend)
 			if m64 not in m64s:
 				m64s.append(m64)
 				seqNums.append(seqNum)
@@ -1175,7 +1175,7 @@ jumps = {
     0x37:SetMusic2
 }
 
-def RipSequence(rom,seqNum,m64Dir,Lnum,Anum,romname):
+def RipSequence(rom,seqNum,m64Dir,Lnum,Anum,romname,MusicExtend):
 	#audio_dma_copy_immediate loads gSeqFileHeader in audio_init at 0x80319768
 	#the line of asm is at 0xD4768 which sets the arg to this
 	UPW = (lambda x,y: struct.unpack(">L",x[y:y+4])[0])
@@ -1187,12 +1187,12 @@ def RipSequence(rom,seqNum,m64Dir,Lnum,Anum,romname):
 	len=UPW(rom,gSeqFileOffset+4)
 	offset=UPW(rom,gSeqFileOffset)
 	m64 = rom[gSeqFileHeader+offset:gSeqFileHeader+offset+len]
-	m64File = m64Dir/("{1:02X}_Seq_{0}_custom.m64".format(romname,seqNum))
-	m64Name = "{1:02X}_Seq_{0}_custom".format(romname,seqNum)
+	m64File = m64Dir/("{1:02X}_Seq_{0}_custom.m64".format(romname,seqNum+MusicExtend))
+	m64Name = "{1:02X}_Seq_{0}_custom".format(romname,seqNum+MusicExtend)
 	f = open(m64File,'wb')
 	f.write(m64)
 	f.close()
-	return [m64Name,seqNum]
+	return [m64Name,seqNum+MusicExtend]
 
 SoundBanks = {
 	0:"00",
@@ -1235,7 +1235,7 @@ SoundBanks = {
 	37:"25",
 }
 
-def CreateSeqJSON(romname,m64s,rootdir):
+def CreateSeqJSON(romname,m64s,rootdir,MusicExtend):
 	m64Dir = rootdir/"m64"
 	originals = rootdir/"originals"/"sequences.json"
 	m64s.sort(key=(lambda x: x[1]))
@@ -1251,11 +1251,14 @@ def CreateSeqJSON(romname,m64s,rootdir):
 	seqJSON.write("{\n")
 	last = 0
 	for m64 in m64s:
+		bank = UPH(rom,seqMagic+(m64[1]-MusicExtend)*2)
+		bank = UPB(rom,seqMagic+bank+1)
+		if MusicExtend:
+			seqJSON.write("\t\"{}\": [\"{}\"],\n".format(m64[0],SoundBanks[bank]))
+			continue
 		#fill in missing sequences
 		for i in range(last,m64[1]-1,1):
 			seqJSON.write(origJSON[i+3])
-		bank = UPH(rom,seqMagic+m64[1]*2)
-		bank = UPB(rom,seqMagic+bank+1)
 		seqJSON.write("\t\"{}\": [\"{}\"],\n".format(m64[0],SoundBanks[bank]))
 		if m64[1]<0x23:
 			og = origJSON[m64[1]+2]
@@ -1281,7 +1284,7 @@ def AppendAreas(entry,script,Append):
 				break
 	return script
 
-def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums):
+def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend):
 	#choose level
 	s = Script(level)
 	s.Seg2(rom)
@@ -1301,7 +1304,7 @@ def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys,romname,m64s,
 	#this tool isn't for exporting vanilla levels
 	#so I skip ones that don't have bank 0x19 loaded
 	#aka custom levels.
-	if not s.banks[0x19]:
+	if not s.banks[0x19] and not Onlys[1]:
 		return
 	#now area class should have data
 	#along with pointers to all models
@@ -1325,7 +1328,7 @@ def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys,romname,m64s,
 					dls=[[s.B2P(s.models[i][0]),s.models[i][0]]]
 				WriteModel(rom,dls,s,md,"MODEL_%d"%i,"actor_"+str(i)+"_",md)
 	#now do level
-	return WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums)
+	return WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend)
 
 TextMap = {
 	80:'^',
@@ -1417,7 +1420,9 @@ def ExportText(rom,Append,rootdir,TxtAmt):
 	s = Script(9)
 	s.Seg2(rom)
 	DiaTbl = 0x1311E+s.banks[2][0]
-	text = rootdir/"dialogs.h"
+	text = rootdir/"misc"
+	text.mkdir(exist_ok=True)
+	text = text/"dialogs.h"
 	text = open(text,'w',encoding="utf-8")
 	UPW = (lambda x,y: struct.unpack(">L",x[y:y+4])[0])
 	#format is u32 unused, u8 lines/box, u8 pad, u16 X, u16 width, u16 pad, offset
@@ -1560,11 +1565,12 @@ if __name__=='__main__':
 ------------------Invalid Input - Error ------------------
 
 Arguments for RM2C are as follows:
-RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 Text=0
+RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0
 
 Arguments with equals sign are shown in default state, do not put commas between args.
 Levels and assets accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
 The "Only" options are to only export certain things either to deal with specific updates or updates to RM2C itself. Only use one at a time. An only option will not maintain other data. Do not use Append with MusicOnly, it will have no effect.
+MusicExtend is for when you want to add in your custom music on top of the original tracks. Set it to the amount you want to offset your tracks by (0x23 for vanilla).
 
 Example input1 (all models in BoB for editor rom):
 python RM2C.py rom="ASA.z64" editor=True levels=[9] assets=range(0,255)
@@ -1593,6 +1599,7 @@ certain bash errors.
 	WaterOnly = 0
 	ObjectOnly = 0
 	MusicOnly = 0
+	MusicExtend = 0
 	Text = 0
 	TxtAmount = 170
 	for arg in sys.argv[1:]:
@@ -1626,16 +1633,16 @@ certain bash errors.
 	if args[0]=='all':
 		for k in Num2Name.keys():
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums)
+				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend)
 			else:
-				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums)
+				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend)
 			print(Num2Name[k] + ' done')
 	else:
 		for k in args[0]:
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums)
+				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend)
 			else:
-				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums)
+				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend)
 			print(Num2Name[k] + ' done')
 	#AllWaterBoxes should have refs to all water boxes, using that, I will generate a function
 	#and array of references so it can be hooked into moving_texture.c
@@ -1643,5 +1650,5 @@ certain bash errors.
 	if not (MusicOnly or ObjectOnly):
 		ExportWaterBoxes(AllWaterBoxes,Path(sys.path[0]))
 	if not (WaterOnly or ObjectOnly):
-		CreateSeqJSON(romname,list(zip(m64s,seqNums)),Path(sys.path[0]))
+		CreateSeqJSON(romname,list(zip(m64s,seqNums)),Path(sys.path[0]),MusicExtend)
 	print('Export Completed')

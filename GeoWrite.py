@@ -78,10 +78,16 @@ def GetWaterData(rom,script,arg):
 	#for editor water tables are at 0x19001800, but that might not be gauranteed
 	type = arg&0xFF #0 for water, 1 for toxic mist, 2 for mist, all start with 0x50 for msb
 	if script.editor:
-		WT = script.B2P(0x19001800+0x50*type)
+		try:
+			WT = script.B2P(0x19001800+0x50*type)
+		except:
+			return
 	else:
 	#for RM they are at 0x19006000
-		WT = script.B2P(0x19006000+0x280*type)
+		try:
+			WT = script.B2P(0x19006000+0x280*type)
+		except:
+			return
 	UPW = (lambda x,y: struct.unpack(">L",x[y:y+4])[0])
 	UPH = (lambda x,y: struct.unpack(">h",x[y:y+2])[0])
 	#Because I don't really know how many water boxes there are as thats set by collision or something

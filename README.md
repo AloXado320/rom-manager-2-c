@@ -25,11 +25,12 @@ Currently testing, installation method coming after optimal fork and model are f
 
 place rom in root, run RM2C.py with the following arguments:
 
-RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 Text=0
+RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0
 
 Arguments with equals sign are shown in default state, do not put commas between args.
 Levels and assets accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
 The "Only" options are to only export certain things either to deal with specific updates or updates to RM2C itself. Only use one at a time. An only option will not maintain other data. Do not use Append with MusicOnly, it will have no effect.
+MusicExtend is for when you want to add in your custom music on top of the original tracks. Set it to the amount you want to offset your tracks by (0x23 for vanilla).
 
 ### Example Inputs
 
@@ -62,7 +63,11 @@ repo, and may need to comment out certain objects.
 
 For Water boxes, open moving_texture.inc.c and follow instructions in that file.
 
-For text drag courses.h and dialogs.h into your text folder.
+Text should be in the "misc" folder. Drag courses.h and dialogs.h into your text folder.
+
+For music, delete the original sequences and drop in the extracted ones. Then merge (manually at this moment) the sequences.json with the original sequences.json
+
+**NOTE** sequence numbers must be in numerical order.
 
 ***NOT GUARANTEED TO COMPILE DIRECTLY AFTER EXTRACTION***
 
