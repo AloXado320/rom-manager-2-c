@@ -145,7 +145,10 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 					break
 				if cmd.startswith('gsSP1Triangle') or cmd.startswith('gsSP2Triangles'):
 					break
-				if cmd.startswith('gsDP') or cmd.startswith('gsSPTexture') or cmd.startswith('gsSPGeometryMode'):
+				elif cmd.startswith('gsSPVertex'):
+					x+=1
+					continue
+				else:
 					Newmat.append(cmd)
 				x+=1
 			for VertLoad,Tris in VertDict.items():
@@ -849,7 +852,6 @@ def G_SETCIMG_Decode(bin,id):
 
 
 Persist={
-0xf2:('gsDPSetTileSize',G_SETTILESIZE_Decode),
 0xef:('G_RDPSETOTHERMODE',G_RDPSETOTHERMODE_Decode),
 0xb9:('gsSPSetOtherMode',G_SETOTHERMODE_L_Decode),
 0xba:('gsSPSetOtherMode',G_SETOTHERMODE_H_Decode),
@@ -865,10 +867,12 @@ Persist={
 0xfb:('gsDPSetEnvColor',G_COLOR_Decode),
 0xfc:('gsDPSetCombineLERP',G_SETCOMBINE_Decode),
 0xfe:('gsDPSetDepthImage',G_SETZIMG_Decode),
-0xf5:('gsDPSetTile',G_SETTILE_Decode),
+
 0xff:('gsDPSetColorImage',G_SETCIMG_Decode)
 }
 NonPersist={
+0xf5:('gsDPSetTile',G_SETTILE_Decode),
+0xf2:('gsDPSetTileSize',G_SETTILESIZE_Decode),
 0x04:('gsSPVertex',G_VTX_Decode),
 0xbf:('gsSP1Triangle',G_TRI1_Decode),
 0xbd:('gsSPPopMatrix',G_POPMTX_Decode),
