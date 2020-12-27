@@ -928,13 +928,13 @@ def WriteLevelScript(name,Lnum,s,level,Anum,envfx):
 	#This is the ideal to match hacks, but currently the way the linker is
 	#setup, level object data is in the same bank as level mesh so this cannot be done.
 	# LoadLevel = DetLevelSpecBank(s,f)
-	# if LoadLevel and LoadLevel!=Lnum:
-		# f.write('#include "levels/%s/header.h"\n'%LoadLevel)
+	if LoadLevel and LoadLevel!=Lnum:
+		f.write('//#include "levels/%s/header.h" This is necessary because this level uses level specific objects from another level\n'%LoadLevel)
 	f.write('const LevelScript level_%s_entry[] = {\n'%Lnum)
 	#entry stuff
 	f.write("INIT_LEVEL(),\n")
-	# if LoadLevel:
-		# f.write("LOAD_MIO0(0x07, _"+LoadLevel+"_segment_7SegmentRomStart, _"+LoadLevel+"_segment_7SegmentRomEnd),\n")
+	if LoadLevel:
+		f.write("// LOAD_MIO0(0x07, _"+LoadLevel+"_segment_7SegmentRomStart, _"+LoadLevel+"_segment_7SegmentRomEnd), This will not work if added but is present in original level\n")
 	# else:
 	f.write("LOAD_MIO0(0x07, _"+Lnum+"_segment_7SegmentRomStart, _"+Lnum+"_segment_7SegmentRomEnd),\n")
 	if envfx:

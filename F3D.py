@@ -700,7 +700,7 @@ def G_RDPHALF_2_Decode(bin,id):
 	
 def G_SETTILESIZE_Decode(bin,id):
 	Sstart,Tstart,pad,tile,width,height=bin.unpack('2*uint:12,2*uint:4,2*uint:12')
-	return (tile,Sstart,Tstart,(width>>2)+1,(height>>2)+1)
+	return (tile,Sstart,Tstart,width,height)
 
 def G_LOADBLOCK_Decode(bin,id):
 	Sstart,Tstart,pad,tile,texels,dxt=bin.unpack('2*uint:12,2*uint:4,2*uint:12')
