@@ -1401,6 +1401,50 @@ Course_Names= {
 	24:"COURSE_CAKE_END"
 }
 
+
+#The locations of the star positions in the following struct, 3*(Type,ROM)
+StarPositions = {
+'KoopaBoB':('>h',0xEd868,'>h',0xEd86A,'>h',0xEd86C),
+'KoopaTHI':('>h',0xEd878,'>h',0xEd87A,'>h',0xEd87C),
+}
+
+#**Trajectory. So this is the location of the pointer to the trajectory in the rom
+Trajectories = {
+'KoopaBoB':0xEd864,
+'KoopaTHI':0xEd874
+}
+
+#Rip misc data that may or may not need to be ported. This currently is trajectories and star positions.
+#Do this if misc or 'all' is called on a rom.
+def ExportMisc(rom,rootdir,romname):
+	misc = rootdir/'misc'
+	misc.mkdir(exist_ok=True)
+	StarPos = misc/('%s_StarPositions.inc.c'%romname)
+	Trajectory = misc/('%s_Trajectories.inc.c'%romname)
+	#Trajectories are by default in the level bank, but moved to vram for all hacks
+	#If your trajectory does not follow this scheme, then too bad
+	UPA = (lambda x,y,z,w: struct.unpack("%s"%z,x[y:y+w]))
+	Trj = open(Trajectory,'w')
+	for k,v in Trajectories.items():
+		Dat = UPA(rom,v,'>L',4)[0]
+		#Check if Dat is in a segment or not
+		if Dat>>24!=0x80:
+			Trj.write('//%s Has the default vanilla value or an unrecognizable pointer\n\n'%k)
+		else:
+			Trj.write('const Trajectory {}_path[] = {{\n'.format(k))
+			Dat = Dat-0x7F200000
+			x=0
+			while(True):
+				point = UPA(rom,Dat+x,'>4h',8)
+				if point[0]==-1:
+					break
+				Trj.write('\tTRAJECTORY_POS({},{},{},{}),\n'.format(*point))
+				x+=8
+			Trj.write('\tTRAJECTORY_END(),\n};\n')
+	#Star positions
+
+
+
 def AsciiConvert(num):
 	#numbers start at 0x30
 	if num<10:
@@ -1416,13 +1460,13 @@ def AsciiConvert(num):
 
 #seg 2 is mio0 compressed which means C code doesn't translate to whats in the rom at all.
 #This basically means I have to hardcode offsets, it should work for almost every rom anyway.
-def ExportText(rom,Append,rootdir,TxtAmt):
+def ExportText(rom,rootdir,TxtAmt,romname):
 	s = Script(9)
 	s.Seg2(rom)
 	DiaTbl = 0x1311E+s.banks[2][0]
 	text = rootdir/"misc"
 	text.mkdir(exist_ok=True)
-	text = text/"dialogs.h"
+	text = text/("%s_dialogs.h"%romname)
 	text = open(text,'w',encoding="utf-8")
 	UPW = (lambda x,y: struct.unpack(">L",x[y:y+4])[0])
 	#format is u32 unused, u8 lines/box, u8 pad, u16 X, u16 width, u16 pad, offset
@@ -1443,7 +1487,7 @@ def ExportText(rom,Append,rootdir,TxtAmt):
 		text.write('DEFINE_DIALOG(DIALOG_{0:03d},{1:d},{2:d},{3:d},{4:d}, _("{5}"))\n\n'.format(int(dialog/16),StrSet[0],StrSet[1],StrSet[3],StrSet[4],str))
 	text.close()
 	#now do courses
-	courses = rootdir/"courses.h"
+	courses = rootdir/("%s_courses.h"%romname)
 	LevelNames = 0x8140BE
 	courses = open(courses,'w',encoding="utf-8")
 	for course in range(26):
@@ -1565,7 +1609,7 @@ if __name__=='__main__':
 ------------------Invalid Input - Error ------------------
 
 Arguments for RM2C are as follows:
-RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0
+RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0
 
 Arguments with equals sign are shown in default state, do not put commas between args.
 Levels and assets accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
@@ -1590,6 +1634,7 @@ A bad input will automatically generate an escaped version of your args, but it 
 certain bash errors.
 ------------------Invalid Input - Error ------------------
 """
+	#set default arguments
 	levels=[]
 	assets=[]
 	editor=False
@@ -1601,6 +1646,8 @@ certain bash errors.
 	MusicOnly = 0
 	MusicExtend = 0
 	Text = 0
+	Misc=0
+	#This is not an arg you should edit really
 	TxtAmount = 170
 	for arg in sys.argv[1:]:
 		args+=arg+" "
@@ -1621,10 +1668,28 @@ certain bash errors.
 	romname = rom.split(".")[0]
 	rom=open(rom,'rb')
 	rom = rom.read()
-	if Text:
-		ExportText(rom,Append,Path(sys.path[0]),TxtAmount)
+	#Export dialogs and course names
+	if Text or args[0]=='all':
+		for A in Append:
+			Aname = A[0].split(".")[0]
+			Arom = open(A[0],'rb')
+			Arom = Arom.read()
+			ExportText(Arom,Path(sys.path[0]),TxtAmount,Aname)
+		ExportText(rom,Path(sys.path[0]),TxtAmount,romname)
 		print('Text Finished')
-		sys.exit(0)
+		if Text:
+			sys.exit(0)
+	#Export misc data like trajectories or star positions.
+	if Misc or args[0]=='all':
+		for A in Append:
+			Aname = A[0].split(".")[0]
+			Arom = open(A[0],'rb')
+			Arom = Arom.read()
+			ExportMisc(Arom,Path(sys.path[0]),Aname)
+		ExportMisc(rom,Path(sys.path[0]),romname)
+		print('Misc Finished')
+		if Misc:
+			sys.exit(0)
 	print('Starting Export')
 	AllWaterBoxes = []
 	m64s = []
@@ -1646,7 +1711,7 @@ certain bash errors.
 			print(Num2Name[k] + ' done')
 	#AllWaterBoxes should have refs to all water boxes, using that, I will generate a function
 	#and array of references so it can be hooked into moving_texture.c
-	#example of AllWaterBoxes format [[str,level,area]...]
+	#example of AllWaterBoxes format [[str,level,area,type]...]
 	if not (MusicOnly or ObjectOnly):
 		ExportWaterBoxes(AllWaterBoxes,Path(sys.path[0]))
 	if not (WaterOnly or ObjectOnly):

@@ -55,6 +55,7 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 	'IA':BinPNG.IA,
 	'I':BinPNG.I
 	}
+	StartTri = (lambda x: (x.startswith('gsSP1Triangle') or x.startswith('gsSP2Triangles')))
 	name = nameG/'model.inc.c'
 	if os.path.isfile(tdir/'textureNew.inc.c'):
 		textures = open(tdir/'textureNew.inc.c','a')
@@ -67,7 +68,7 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 	for k,md in enumerate(ModelData):
 		ranges = md[6]
 		dl = md[1]
-		NewDL = [dl[ranges[0][0]:ranges[0][2]]]
+		NewDL = [dl[ranges[0][0]:ranges[0][2]+1]]
 		#End should always start from mat start as its normally not drawing anything but this could bite me
 		#At worst this could end up missing a vert load or 5 tris
 		End = dl[ranges[-1][0]:ranges[-1][2]+1]
@@ -77,31 +78,31 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 		for j,r in enumerate(NewRanges):
 			#first member r[4] is a vert load
 			x=1
-			count=0
-			num = int(dl[r[4]].split(',')[1])
+			orphan=0
+			mat=0
 			while(True):
 				cmd = dl[r[4]+x]
-				if cmd.startswith('gsSP1Triangle'):
-					count+=1
-				elif cmd.startswith('gsSP2Triangles'):
-					count+=2
+				if StartTri(cmd) and mat:
+					orphan=1
+				elif cmd.startswith('gsSPVertex') and mat:
+					break
 				#gsDP is an RDP cmd or a sync. Either way it signals end of tri draws
 				elif cmd.startswith('gsDP'):
-					break
+					mat=1
 				x+=1
 			#check for duplicate textures
 			dupe=0
 			if j>0:
 				if NewRanges[j-1][1]==r[1]:
 					dupe=1
-			#If Count is greater or equal to num that means all the tris from the last vert load were drawn.
-			#This means we can start on the material cmd. If its less, we need to redo the vert load.
-			#for dupes I check starting from the texture load (r[0]) and advance until a non gsDP cmd
-			if count>=num:
+			#If orphan is true it means there are tris orphaned from a vert load before the new mat.
+			#This means we have to include those orphaned tris.
+			#For dupes I check starting from the texture load (r[0]) and advance until a tri or vert load
+			if not orphan:
 				if dupe:
 					x=r[0]
 					while(True):
-						if not dl[x].startswith('gsDP'):
+						if StartTri(dl[x]) or dl[x].startswith('gsSPVertex'):
 							break
 						x+=1
 					NewDL[-1].extend(dl[x:r[2]+1])
@@ -111,7 +112,7 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 				if dupe:
 					x=r[0]
 					while(True):
-						if not dl[x].startswith('gsDP'):
+						if StartTri(dl[x]) or dl[x].startswith('gsSPVertex'):
 							break
 						x+=1
 					NewDL[-1].extend([dl[r[4]]])
@@ -131,9 +132,11 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 					lastLoad =cmd
 					if not VertDict.get(cmd):
 						VertDict[cmd] = []
-				if cmd.startswith('gsSP1Triangle') or cmd.startswith('gsSP2Triangles'):
+				if StartTri(cmd):
 					if cmd not in VertDict[lastLoad]:
 						VertDict[lastLoad].append(cmd)
+					else:
+						print(cmd)
 			#Now VertDict is optimized to only have the triangles that matter.
 			#Now remake material with first grabbing all material data, then when encountering first tri draw fill in via dictionary instead
 			x=0
