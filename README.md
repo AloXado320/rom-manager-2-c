@@ -60,14 +60,16 @@ Should extract all levels, scripts, and assets from the levels specified by argu
 
 ## Usage in Decomp
 Drag and drop all levels folders into /sm64/levels directory of your decomp repo.
-You must manage scripts of individual levels so that it matches with your current
-repo, and may need to comment out certain objects.
+You must manage scripts of individual levels so that custom objects/unknown objects
+are properly commented or included in the repo.
 
-For Water boxes, open moving_texture.inc.c and follow instructions in that file.
+ * For Water boxes, place moving_texture.inc.c from the misc folder into /src/
 
-Text should be in the "misc" folder. Drag courses.h and dialogs.h into your text folder.
+ * Text should be in the "misc" folder. Drag courses.h and dialogs.h into your text folder.
 
-For music, delete the original sequences and drop in the extracted ones. Then merge (manually at this moment) the sequences.json with the original sequences.json
+ * For music, delete the original sequences and drop in the extracted ones. Then merge (manually at this moment) the sequences.json with the original sequences.json. For convenience when working with multiple hacks, filenames include the romname, this should not cause any conflicts.
+ 
+ * For trajectories/star positions, place the Trajectories.inc.c and Star_Pos.inc.c files from /misc/ inside /src/. For convenience when working with multiple hacks, filenames include the romname. Remove the romnames from the filename before placing them in the repo.
 
 **NOTE** sequence numbers must be in numerical order.
 
@@ -95,13 +97,11 @@ Speed Star Adventure Course 1 ported from Rom Manager to SM64 decomp:
 
 ## Curret issues
 
-* Memory bloat because original data is still included due to not hardcoding which data can be excluded safely vs what cannot
+* Memory bloat because original data is still included
 
 * End cake picture does export
 
 * original levels do not export
-
-* water boxes do not export
 
 * Editor Display Lists not auto fixed for fog
 

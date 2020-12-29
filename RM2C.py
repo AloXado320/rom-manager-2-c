@@ -1574,35 +1574,138 @@ Course_Names= {
 	24:"COURSE_CAKE_END"
 }
 
+UPA = (lambda x,y,z,w: struct.unpack("%s"%z,x[y:y+w]))
+def UPF(rom,pointer):
+	return struct.unpack(">3f",rom[pointer:pointer+12])
 
-#The locations of the star positions in the following struct, 3*(Type,ROM)
+#The locations of the star positions. For koopa its args to UPA, else its 0, RM pos, Editor pos
+#None means its not supported in editor/rom manager
 StarPositions = {
-'KoopaBoB':('>h',0xEd868,'>h',0xEd86A,'>h',0xEd86C),
-'KoopaTHI':('>h',0xEd878,'>h',0xEd87A,'>h',0xEd87C),
+	'KoopaBoB':(('>h',0xEd868,2),('>h',0xEd86A,2),('>h',0xEd86C,2),'{','}'),
+	'KoopaTHI':(('>h',0xEd878,2),('>h',0xEd87A,2),('>h',0xEd87C,2),'{','}'),
+	'KingBobOmb':(0,0x1204f00,0x1204f00),
+	'KingWhomp':(0,0x1204f10,0x1204f10),
+	'Eyerock':(0,0x1204f20,0x1204f20),
+	'BigBully':(0,0x1204f30,0x1204f30),
+	'ChillBully':(0,0x1204f40,0x1204f40),
+	'BigPiranhas':(0,0x1204f50,0x1204f50),
+	'TuxieMother':(0,0x1204f60,0x1204f60),
+	'Wiggler':(0,0x1204f70,0x1204f70),
+	'PssSlide':(0,0x1204f80,0x1204f80),
+	'RacingPenguin':(0,0x1204f90,0x1204f90),
+	'TreasureChest':(0,0x1204fA0,0x1204fA0),
+	'GhostHuntBoo':(0,0x1204fAC,0x1204fAC),
+	'Klepto':(0,0x1204fC4,0x1204fC4),
+	'MerryGoRound':(0,0x1204fB8,0x1204fB8),
+	'MrI':(0,0x1204fD0,0x1204fD0),
+	'BalconyBoo':(0,0x1204fDC,0x1204fD8),
+	'BigBullyTrio':(0,0x1204fE4,0x1204fE4),
+}
+
+DefaultPos={
+	'KingBobOmb':'#DEFINE KingBobOmbStarPos 2000.0f, 4500.0f, -4500.0f\n',
+	'KingWhomp':'#DEFINE KingWhompStarPos 180.0f, 3880.0f, 340.0f\n',
+	'Eyerock':'#DEFINE EyerockStarPos 0.0f, -900.0f, -3700.0f\n',
+	'BigBully':'#DEFINE BigBullyStarPos 0, 950.0f, -6800.0f\n',
+	'ChillBully':'#DEFINE ChillBullyStarPos 130.0f, 1600.0f, -4335.0f\n',
+	'BigPiranhas':'#DEFINE BigPiranhasStarPos -6300.0f, -1850.0f, -6300.0f\n',
+	'TuxieMother':'#DEFINE TuxieMotherStarPos 3167.0f, -4300.0f, 5108.0f\n',
+	'Wiggler':'#DEFINE WigglerStarPos 0.0f, 2048.0f, 0.0f\n',
+	'PssSlide':'#DEFINE PssSlideStarPos -6358.0f, -4300.0f, 4700.0f\n',
+	'RacingPenguin':'#DEFINE RacingPenguinStarPos -7339.0f, -5700.0f, -6774.0f\n',
+	'TreasureChest':'#DEFINE TreasureChestStarPos -1800.0f, -2500.0f, -1700.0f\n',
+	'GhostHuntBoo':'#DEFINE GhostHuntBooStarPos 980.0f, 1100.0f, 250.0f\n',
+	'Klepto':'#DEFINE KleptoStarPos -5550.0f, 300.0f, -930.0f\n',
+	'MerryGoRound':'#DEFINE MerryGoRoundStarPos -1600.0f, -2100.0f, 205.0f\n',
+	'MrI':'#DEFINE MrIStarPos 1370, 2000.0f, -320.0f\n',
+	'BalconyBoo':'#DEFINE BalconyBooStarPos 700.0f, 3200.0f, 1900.0f\n',
+	'BigBullyTrio':'#DEFINE BigBullyTrioStarPos 3700.0f, 600.0f, -5500.0f\n'
 }
 
 #**Trajectory. So this is the location of the pointer to the trajectory in the rom
 Trajectories = {
-'KoopaBoB':0xEd864,
-'KoopaTHI':0xEd874
+	'KoopaBoB':0xEd864,
+	'KoopaTHI':0xEd874
 }
+
+DefaultTraj = {
+	'KoopaBoB':"""const Trajectory KoopaBoB_path[] = {
+    TRAJECTORY_POS(0, /*pos*/ -2220,   204,  5520),
+    TRAJECTORY_POS(1, /*pos*/ -2020,   204,  5820),
+    TRAJECTORY_POS(2, /*pos*/   760,   765,  5680),
+    TRAJECTORY_POS(3, /*pos*/  1920,   768,  5040),
+    TRAJECTORY_POS(4, /*pos*/  2000,   768,  4360),
+    TRAJECTORY_POS(5, /*pos*/  1240,   768,  3600),
+    TRAJECTORY_POS(6, /*pos*/  -280,   768,  2720),
+    TRAJECTORY_POS(7, /*pos*/ -1680,   768,  1840),
+    TRAJECTORY_POS(8, /*pos*/ -2280,     0,  1800),
+    TRAJECTORY_POS(9, /*pos*/ -2720,     0,  1120),
+    TRAJECTORY_POS(10, /*pos*/ -2520,     0,   480),
+    TRAJECTORY_POS(11, /*pos*/ -1720,     0,   120),
+    TRAJECTORY_POS(12, /*pos*/   560,   630,  -840),
+    TRAJECTORY_POS(13, /*pos*/  2700,  1571, -1500),
+    TRAJECTORY_POS(14, /*pos*/  4520,  1830, -2600),
+    TRAJECTORY_POS(15, /*pos*/  6240,  1943, -3500),
+    TRAJECTORY_POS(16, /*pos*/  6380,  2066, -6180),
+    TRAJECTORY_POS(17, /*pos*/  4000,  2390, -7720),
+    TRAJECTORY_POS(18, /*pos*/  -120,  2608, -5515),
+    TRAJECTORY_POS(19, /*pos*/  -180,  2641, -4860),
+    TRAJECTORY_POS(20, /*pos*/   580,  2769, -3380),
+    TRAJECTORY_POS(21, /*pos*/  1670,  2867, -2580),
+    TRAJECTORY_POS(22, /*pos*/  2216,  2900, -2126),
+    TRAJECTORY_POS(23, /*pos*/  3167,  2965, -1870),
+    TRAJECTORY_POS(24, /*pos*/  4069,  3050, -2487),
+    TRAJECTORY_POS(25, /*pos*/  4880,  3037, -3416),
+    TRAJECTORY_POS(26, /*pos*/  5020,  3181, -5760),
+    TRAJECTORY_POS(27, /*pos*/  4660,  3354, -6300),
+    TRAJECTORY_POS(28, /*pos*/  3940,  3514, -6800),
+    TRAJECTORY_POS(29, /*pos*/  3200,  3619, -6850),
+    TRAJECTORY_POS(30, /*pos*/  1290,  3768, -5793),
+    TRAJECTORY_POS(31, /*pos*/  1150,  3900, -3670),
+    TRAJECTORY_POS(32, /*pos*/  2980,  4046, -2930),
+    TRAJECTORY_POS(33, /*pos*/  4334,  4186, -3680),
+    TRAJECTORY_POS(34, /*pos*/  4180,  4242, -4220),
+    TRAJECTORY_POS(35, /*pos*/  3660,  4242, -4380),
+    TRAJECTORY_END(),
+};
+""",
+	'KoopaTHI':"""const Trajectory KoopaTHI_path[] = {
+    TRAJECTORY_POS(0, /*pos*/ -1900,  -511,  2400),
+    TRAJECTORY_POS(1, /*pos*/ -2750,  -511,  3300),
+    TRAJECTORY_POS(2, /*pos*/ -4900,  -511,  1200),
+    TRAJECTORY_POS(3, /*pos*/ -4894,   100, -2146),
+    TRAJECTORY_POS(4, /*pos*/ -5200,   143, -5050),
+    TRAJECTORY_POS(5, /*pos*/ -2800,  -962, -4900),
+    TRAJECTORY_POS(6, /*pos*/   500, -1637, -4900),
+    TRAJECTORY_POS(7, /*pos*/  1500, -2047, -5200),
+    TRAJECTORY_POS(8, /*pos*/  2971, -2046, -5428),
+    TRAJECTORY_POS(9, /*pos*/  5642, -1535, -5442),
+    TRAJECTORY_POS(10, /*pos*/  6371, -1535, -6271),
+    TRAJECTORY_POS(11, /*pos*/  6814, -1535, -6328),
+    TRAJECTORY_END(),
+};
+"""
+}
+
+
 
 #Rip misc data that may or may not need to be ported. This currently is trajectories and star positions.
 #Do this if misc or 'all' is called on a rom.
-def ExportMisc(rom,rootdir,romname):
+def ExportMisc(rom,rootdir,romname,editor):
+	s = Script(9)
 	misc = rootdir/'misc'
 	misc.mkdir(exist_ok=True)
-	StarPos = misc/('%s_StarPositions.inc.c'%romname)
+	StarPos = misc/('%s_Star_Pos.inc.c'%romname)
 	Trajectory = misc/('%s_Trajectories.inc.c'%romname)
 	#Trajectories are by default in the level bank, but moved to vram for all hacks
 	#If your trajectory does not follow this scheme, then too bad
-	UPA = (lambda x,y,z,w: struct.unpack("%s"%z,x[y:y+w]))
 	Trj = open(Trajectory,'w')
 	for k,v in Trajectories.items():
 		Dat = UPA(rom,v,'>L',4)[0]
 		#Check if Dat is in a segment or not
 		if Dat>>24!=0x80:
 			Trj.write('//%s Has the default vanilla value or an unrecognizable pointer\n\n'%k)
+			Trj.write(DefaultTraj[k])
 		else:
 			Trj.write('const Trajectory {}_path[] = {{\n'.format(k))
 			Dat = Dat-0x7F200000
@@ -1615,8 +1718,41 @@ def ExportMisc(rom,rootdir,romname):
 				x+=8
 			Trj.write('\tTRAJECTORY_END(),\n};\n')
 	#Star positions
-
-
+	SP = open(StarPos,'w')
+	#pre editor and post editor do star positions completely different.
+	#I will only be supporting post editor as the only pre editor hack people care
+	#about is sm74 which I already ported.
+	for k,v in StarPositions.items():
+		#different loading schemes for depending on if a function or array is used for star pos
+		if v[0]:
+			pos = [UPA(rom,a[1],a[0],a[2])[0] for a in v[:-2]]
+			SP.write("#DEFINE {}StarPos {} {}, {}, {} {}\n".format(k,v[-2],*pos,v[-1]))
+		else:
+			if editor:
+				pos = UPF(rom,v[2])
+			else:
+				pos = UPF(rom,v[1])
+			if UPA(rom,v[1],">L",4)[0]==0x01010101:
+				SP.write(DefaultPos[k])
+			else:
+				SP.write("#DEFINE {}StarPos {}f, {}f, {}f\n".format(k,*pos))
+	#item box. In editor its at 0xEBA0 same as vanilla, RM is at 0x1204000
+	#the struct is 4*u8 (id, bparam1, bparam2, model ID), bhvAddr u32
+	if editor:
+		ItemBox = 0xEBBA0
+	else:
+		ItemBox = 0x1204000
+	IBox = misc/('%s_Item_Box.inc.c'%romname)
+	IBox = open(IBox,'w')
+	IBox.write('struct Struct802C0DF0 sExclamationBoxContents[] = { ')
+	while(True):
+		B = UPA(rom,ItemBox,">4B",4)
+		if B[0]==99:
+			break
+		Bhv = s.GetLabel(hex(UPA(rom,ItemBox+4,">L",4)[0])[2:])
+		ItemBox+=8
+		IBox.write("{{ {}, {}, {}, {}, {} }},\n".format(*B,Bhv))
+	IBox.write("{ 99, 0, 0, 0, NULL } };\n")
 
 def AsciiConvert(num):
 	#numbers start at 0x30
@@ -1709,16 +1845,16 @@ def ExportText(rom,rootdir,TxtAmt,romname):
 	courses.close()
 
 def ExportWaterBoxes(AllWaterBoxes,rootdir):
-	MovtexEdit = rootdir / "moving_texture.inc.c"
+	misc = rootdir/'misc'
+	misc.mkdir(exist_ok=True)
+	MovtexEdit = misc/"moving_texture.inc.c"
 	infoMsg = """#include <ultra64.h>
 #include "sm64.h"
 #include "moving_texture.h"
 #include "area.h"
 /*
 This is an include meant to help with the addition of moving textures for water boxes. Moving textures are hardcoded in vanilla, but in hacks they're procedural. Every hack uses 0x5000 +Type (0 for water, 1 for toxic mist, 2 for mist) to locate the tables for their water boxes. I will replicate this by using a 3 dimensional array of pointers. This wastes a little bit of memory but is way easier to manage.
-To use this, goto your moving_texture.c file and change the default case in void *get_quad_collection_from_id(u32 id) to return GetRomhackWaterBox(id); Then place this file in your source folder so that it can be included.
-Make sure you add extern void *GetRomhackWaterBox(u32 id); to moving_texture.h so that you do not get a multiple reference error.
-You could also just use the references shown here at the top and and them manually yourself to the current switch case.
+To use this, simply place this file inside your source directory after exporting.
 */
 """
 	if not AllWaterBoxes:
@@ -1858,8 +1994,8 @@ certain bash errors.
 			Aname = A[0].split(".")[0]
 			Arom = open(A[0],'rb')
 			Arom = Arom.read()
-			ExportMisc(Arom,Path(sys.path[0]),Aname)
-		ExportMisc(rom,Path(sys.path[0]),romname)
+			ExportMisc(Arom,Path(sys.path[0]),Aname,A[2])
+		ExportMisc(rom,Path(sys.path[0]),romname,editor)
 		print('Misc Finished')
 		if Misc:
 			sys.exit(0)
