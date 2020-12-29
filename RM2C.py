@@ -92,6 +92,164 @@ actors = {
 	0x2008D0:['_common0', 8, 15,'script_func_global_1']
 }
 
+Group_Models = """
+    LOAD_MODEL_FROM_GEO(MODEL_MARIO,                   mario_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SMOKE,                   smoke_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SPARKLES,                sparkles_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BUBBLE,                  bubble_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SMALL_WATER_SPLASH,      small_water_splash_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_IDLE_WATER_WAVE,         idle_water_wave_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WATER_SPLASH,            water_splash_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WAVE_TRAIL,              wave_trail_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_YELLOW_COIN,             yellow_coin_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_STAR,                    star_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_TRANSPARENT_STAR,        transparent_star_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WOODEN_SIGNPOST,         wooden_signpost_geo),
+    LOAD_MODEL_FROM_DL( MODEL_WHITE_PARTICLE_SMALL,    white_particle_small_dl,     LAYER_ALPHA),
+    LOAD_MODEL_FROM_GEO(MODEL_RED_FLAME,               red_flame_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BLUE_FLAME,              blue_flame_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BURN_SMOKE,              burn_smoke_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_LEAVES,                  leaves_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_PURPLE_MARBLE,           purple_marble_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_FISH,                    fish_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_FISH_SHADOW,             fish_shadow_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SPARKLES_ANIMATION,      sparkles_animation_geo),
+    LOAD_MODEL_FROM_DL( MODEL_SAND_DUST,               sand_seg3_dl_0302BCD0,       LAYER_ALPHA),
+    LOAD_MODEL_FROM_GEO(MODEL_BUTTERFLY,               butterfly_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BURN_SMOKE_UNUSED,       burn_smoke_geo),
+    LOAD_MODEL_FROM_DL( MODEL_PEBBLE,                  pebble_seg3_dl_0301CB00,     LAYER_ALPHA),
+    LOAD_MODEL_FROM_GEO(MODEL_MIST,                    mist_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WHITE_PUFF,              white_puff_geo),
+    LOAD_MODEL_FROM_DL( MODEL_WHITE_PARTICLE_DL,       white_particle_dl,           LAYER_ALPHA),
+    LOAD_MODEL_FROM_GEO(MODEL_WHITE_PARTICLE,          white_particle_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_YELLOW_COIN_NO_SHADOW,   yellow_coin_no_shadow_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BLUE_COIN,               blue_coin_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BLUE_COIN_NO_SHADOW,     blue_coin_no_shadow_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MARIOS_WINGED_METAL_CAP, marios_winged_metal_cap_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MARIOS_METAL_CAP,        marios_metal_cap_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MARIOS_WING_CAP,         marios_wing_cap_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MARIOS_CAP,              marios_cap_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MARIOS_CAP,              marios_cap_geo), // repeated
+    LOAD_MODEL_FROM_GEO(MODEL_BOWSER_KEY_CUTSCENE,     bowser_key_cutscene_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOWSER_KEY,              bowser_key_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_RED_FLAME_SHADOW,        red_flame_shadow_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_1UP,                     mushroom_1up_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_RED_COIN,                red_coin_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_RED_COIN_NO_SHADOW,      red_coin_no_shadow_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_NUMBER,                  number_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_EXPLOSION,               explosion_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_DIRT_ANIMATION,          dirt_animation_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_CARTOON_STAR,            cartoon_star_geo)
+    LOAD_MODEL_FROM_GEO(MODEL_BLUE_COIN_SWITCH,        blue_coin_switch_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_AMP,                     amp_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_PURPLE_SWITCH,           purple_switch_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_CHECKERBOARD_PLATFORM,   checkerboard_platform_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BREAKABLE_BOX,           breakable_box_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BREAKABLE_BOX_SMALL,     breakable_box_small_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_EXCLAMATION_BOX_OUTLINE, exclamation_box_outline_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_EXCLAMATION_BOX,         exclamation_box_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_GOOMBA,                  goomba_geo),
+    LOAD_MODEL_FROM_DL( MODEL_EXCLAMATION_POINT,       exclamation_box_outline_seg8_dl_08025F08, LAYER_ALPHA),
+    LOAD_MODEL_FROM_GEO(MODEL_KOOPA_SHELL,             koopa_shell_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_METAL_BOX,               metal_box_geo),
+    LOAD_MODEL_FROM_DL( MODEL_METAL_BOX_DL,            metal_box_dl,                             LAYER_OPAQUE),
+    LOAD_MODEL_FROM_GEO(MODEL_BLACK_BOBOMB,            black_bobomb_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOBOMB_BUDDY,            bobomb_buddy_geo),
+    LOAD_MODEL_FROM_DL( MODEL_DL_CANNON_LID,           cannon_lid_seg8_dl_080048E0,              LAYER_OPAQUE),
+    LOAD_MODEL_FROM_GEO(MODEL_BOWLING_BALL,            bowling_ball_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_CANNON_BARREL,           cannon_barrel_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_CANNON_BASE,             cannon_base_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_HEART,                   heart_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_FLYGUY,                  flyguy_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_CHUCKYA,                 chuckya_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_TRAJECTORY_MARKER_BALL,      bowling_ball_track_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BULLET_BILL,             bullet_bill_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_YELLOW_SPHERE,           yellow_sphere_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_HOOT,                    hoot_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_YOSHI_EGG,               yoshi_egg_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_THWOMP,                  thwomp_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_HEAVE_HO,                heave_ho_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BLARGG,                  blargg_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BULLY,                   bully_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BULLY_BOSS,              bully_boss_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WATER_BOMB,              water_bomb_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WATER_BOMB_SHADOW,       water_bomb_shadow_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_KING_BOBOMB,             king_bobomb_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MANTA_RAY,               manta_seg5_geo_05008D14),
+    LOAD_MODEL_FROM_GEO(MODEL_UNAGI,                   unagi_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SUSHI,                   sushi_geo),
+    LOAD_MODEL_FROM_DL( MODEL_DL_WHIRLPOOL,            whirlpool_seg5_dl_05013CB8, LAYER_TRANSPARENT),
+    LOAD_MODEL_FROM_GEO(MODEL_CLAM_SHELL,              clam_shell_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_POKEY_HEAD,              pokey_head_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_POKEY_BODY_PART,         pokey_body_part_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_TWEESTER,                tweester_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_KLEPTO,                  klepto_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_EYEROK_LEFT_HAND,        eyerok_left_hand_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_EYEROK_RIGHT_HAND,       eyerok_right_hand_geo),
+    LOAD_MODEL_FROM_DL( MODEL_DL_MONTY_MOLE_HOLE,      monty_mole_hole_seg5_dl_05000840, LAYER_TRANSPARENT_DECAL),
+    LOAD_MODEL_FROM_GEO(MODEL_MONTY_MOLE,              monty_mole_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_UKIKI,                   ukiki_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_FWOOSH,                  fwoosh_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SPINDRIFT,               spindrift_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MR_BLIZZARD_HIDDEN,      mr_blizzard_hidden_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MR_BLIZZARD,             mr_blizzard_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_PENGUIN,                 penguin_geo),
+    LOAD_MODEL_FROM_DL( MODEL_CAP_SWITCH_EXCLAMATION,  cap_switch_exclamation_seg5_dl_05002E00, LAYER_ALPHA),
+    LOAD_MODEL_FROM_GEO(MODEL_CAP_SWITCH,              cap_switch_geo),
+    LOAD_MODEL_FROM_DL( MODEL_CAP_SWITCH_BASE,         cap_switch_base_seg5_dl_05003120,        LAYER_OPAQUE),
+    LOAD_MODEL_FROM_GEO(MODEL_BOO,                     boo_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BETA_BOO_KEY,               small_key_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_HAUNTED_CHAIR,           haunted_chair_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MAD_PIANO,               mad_piano_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOOKEND_PART,            bookend_part_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOOKEND,                 bookend_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_HAUNTED_CAGE,            haunted_cage_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BIRDS,                   birds_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_PEACH,                   peach_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_YOSHI,                   yoshi_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_ENEMY_LAKITU,            enemy_lakitu_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SPINY_BALL,              spiny_ball_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SPINY,                   spiny_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WIGGLER_HEAD,            wiggler_head_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WIGGLER_BODY,            wiggler_body_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BUBBA,                   bubba_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOWSER,                  bowser_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOWSER_BOMB_CHILD_OBJ,   bowser_bomb_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOWSER_BOMB,             bowser_bomb_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOWSER_SMOKE,            bowser_impact_smoke_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOWSER_FLAMES,           bowser_flames_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOWSER_WAVE,             invisible_bowser_accessory_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOWSER2,                 bowser2_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BUB,                     bub_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_TREASURE_CHEST_BASE,     treasure_chest_base_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_TREASURE_CHEST_LID,      treasure_chest_lid_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_CYAN_FISH,               cyan_fish_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WATER_RING,              water_ring_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WATER_MINE,              water_mine_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SEAWEED,                 seaweed_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SKEETER,                 skeeter_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_PIRANHA_PLANT,           piranha_plant_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WHOMP,                   whomp_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_KOOPA_WITH_SHELL,        koopa_with_shell_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_KOOPA_WITHOUT_SHELL,     koopa_without_shell_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_METALLIC_BALL,           metallic_ball_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_CHAIN_CHOMP,             chain_chomp_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_KOOPA_FLAG,              koopa_flag_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WOODEN_POST,             wooden_post_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MIPS,                    mips_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOO_CASTLE,              boo_castle_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_LAKITU,                  lakitu_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_TOAD,                    toad_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_CHILL_BULLY,             chilly_chief_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BIG_CHILL_BULLY,         chilly_chief_big_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MONEYBAG,                moneybag_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SWOOP,                   swoop_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SCUTTLEBUG,              scuttlebug_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MR_I_IRIS,               mr_i_iris_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_MR_I,                    mr_i_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_DORRIE,                  dorrie_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_SNUFIT,                  snufit_geo),"""
+
 #addresses of banks for each specific level, just using RM start addr
 LevelSpecificBanks = {
     0x00DB1610:'bbh',
@@ -496,7 +654,8 @@ LOAD_MODEL_FROM_GEO(MODEL_SSL_TOX_BOX,             ssl_geo_000630),
     LOAD_MODEL_FROM_GEO(MODEL_LEVEL_GEOMETRY_14,     ttm_geo_0009F0),
     LOAD_MODEL_FROM_GEO(MODEL_LEVEL_GEOMETRY_15,     ttm_geo_000A18),
     LOAD_MODEL_FROM_GEO(MODEL_LEVEL_GEOMETRY_16,     ttm_geo_000A40),
-"""
+""",
+	'pss':''
 }
 
 scriptHeader='''#include <ultra64.h>
@@ -879,7 +1038,7 @@ def WriteModel(rom,dls,s,name,Hname,id,tdir):
 				dls.append(jump)
 		x+=1
 	refs = F3D.ModelWrite(rom,ModelData,name,id,tdir)
-	modelH = name/'model.inc.h'
+	modelH = name/'custom.model.inc.h'
 	mh = open(modelH,'w')
 	headgaurd="%s_HEADER_H"%(Hname)
 	mh.write('#ifndef %s\n#define %s\n#include "types.h"\n'%(headgaurd,headgaurd))
@@ -921,29 +1080,51 @@ def DetLevelSpecBank(s,f):
 		level =ClosestIntinDict(s.banks[7][0],LevelSpecificBanks)
 	return level
 
+
+def LoadUnspecifiedModels(s,file):
+	Grouplines = Group_Models.split("\n")
+	for i,model in enumerate(s.models):
+		if model:
+			#Only deal with trees because I honestly don't know what other ones have this issue
+			lab = s.GetLabel(hex(model[0])[2:])
+			if '0x' in lab:
+				comment = "// "
+			else:
+				comment = ""
+			if not (any([lab in l for l in Grouplines])):
+				if model[1]=='geo':
+					file.write(comment+"LOAD_MODEL_FROM_GEO(%d,%s),\n"%(i,lab))
+					# print("LOAD_MODEL_FROM_GEO(%d,%s),\n"%(i,lab))
+				else:
+					#Its just a guess but I think 4 will lead to the least issues
+					file.write(comment+"LOAD_MODEL_FROM_DL(%d,%s,4),\n"%(i,lab))
+					# print("LOAD_MODEL_FROM_DL(%d,%s,4),\n"%(i,lab))
+
+
 def WriteLevelScript(name,Lnum,s,level,Anum,envfx):
 	f = open(name,'w')
 	f.write(scriptHeader)
 	f.write('#include "levels/%s/header.h"\n'%Lnum)
 	#This is the ideal to match hacks, but currently the way the linker is
 	#setup, level object data is in the same bank as level mesh so this cannot be done.
-	# LoadLevel = DetLevelSpecBank(s,f)
+	LoadLevel = DetLevelSpecBank(s,f)
 	if LoadLevel and LoadLevel!=Lnum:
-		f.write('//#include "levels/%s/header.h" This is necessary because this level uses level specific objects from another level\n'%LoadLevel)
+		f.write('#include "levels/%s/header.h"\n'%LoadLevel)
 	f.write('const LevelScript level_%s_entry[] = {\n'%Lnum)
 	#entry stuff
 	f.write("INIT_LEVEL(),\n")
 	if LoadLevel:
-		f.write("// LOAD_MIO0(0x07, _"+LoadLevel+"_segment_7SegmentRomStart, _"+LoadLevel+"_segment_7SegmentRomEnd), This will not work if added but is present in original level\n")
-	# else:
-	f.write("LOAD_MIO0(0x07, _"+Lnum+"_segment_7SegmentRomStart, _"+Lnum+"_segment_7SegmentRomEnd),\n")
+		f.write("LOAD_MIO0(0x07, _"+LoadLevel+"_segment_7SegmentRomStart, _"+LoadLevel+"_segment_7SegmentRomEnd),\n")
+	f.write("LOAD_RAW(0x0E, _"+Lnum+"_segment_ESegmentRomStart, _"+Lnum+"_segment_ESegmentRomEnd),\n")
 	if envfx:
 		f.write("LOAD_MIO0(        /*seg*/ 0x0B, _effect_mio0SegmentRomStart, _effect_mio0SegmentRomEnd),\n")
 	#add in loaded banks
 	banks = InsertBankLoads(s,f)
-	f.write("ALLOC_LEVEL_POOL(),\nMARIO(/*model*/ MODEL_MARIO, /*behParam*/ 0x00000001, /*beh*/ bhvMario),\nLOAD_MODEL_FROM_GEO(22, warp_pipe_geo),\n")
-	# if LoadLevel:
-		# f.write(LevelSpecificModels[LoadLevel])
+	f.write("ALLOC_LEVEL_POOL(),\nMARIO(/*model*/ MODEL_MARIO, /*behParam*/ 0x00000001, /*beh*/ bhvMario),\n")
+	if LoadLevel:
+		f.write(LevelSpecificModels[LoadLevel])
+	#Load models that the level uses that are outside groups/level
+	LoadUnspecifiedModels(s,f)
 	#add in jumps based on banks returned
 	for b in banks:
 		if type(b)==list:
@@ -1059,7 +1240,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 		if vfx:
 			envfx = 1
 		if not OnlySkip:
-			GW.GeoWrite(geo,adir/"geo.inc.c",id)
+			GW.GeoWrite(geo,adir/"custom.geo.inc.c",id)
 			for g in geo:
 				s.MakeDec("const GeoLayout Geo_%s[]"%(id+hex(g[1])))
 		if not OnlySkip:
@@ -1068,7 +1249,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 				s.MakeDec("const Gfx DL_%s[]"%(id+hex(d[1])))
 		#write collision file
 		if not OnlySkip:
-			ColParse.ColWrite(adir/"collision.inc.c",s,Arom,area.col,id)
+			ColParse.ColWrite(adir/"custom.collision.inc.c",s,Arom,area.col,id)
 		s.MakeDec('const Collision col_%s[]'%(id+hex(area.col)))
 		#write mov tex file
 		if not (ObjectOnly or MusicOnly):
@@ -1112,31 +1293,23 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 		q.write("#endif")
 		q.close()
 		#append to geo.c, maybe the original works good always??
-		G = level/"geo.c"
-		g = open(G,'r+')
-		geolines = g.readlines()
+		G = level/"custom.geo.c"
+		g = open(G,'w')
+		g.write(geocHeader)
+		g.write('#include "levels/%s/header.h"\n'%name)
 		for i,a in enumerate(areas):
-			geo = '#include "levels/%s/areas/%d/geo.inc.c"\n'%(name,(i+1))
-			for l in geolines:
-				if geo in l:
-					break
-			else:
-				g.write(geo)
+			geo = '#include "levels/%s/areas/%d/custom.geo.inc.c"\n'%(name,(i+1))
+			g.write(geo) #add in some support for level specific objects somehow
 		g.close
 		#write leveldata.c
-		LD = level/"leveldata.c"
+		LD = level/"custom.leveldata.c"
 		ld = open(LD,'w')
 		ld.write(ldHeader)
-		[ld,grabbed] = GrabOGDatld(ld,rootdir,name)
-		Ftypes = ['model.inc.c"\n','collision.inc.c"\n']
+		Ftypes = ['custom.model.inc.c"\n','custom.collision.inc.c"\n']
 		for i,a in enumerate(areas):
 			ld.write('#include "levels/%s/areas/%d/movtextNew.inc.c"\n'%(name,(i+1)))
 			start = '#include "levels/%s/areas/%d/'%(name,(i+1))
 			for Ft in Ftypes:
-				for l in grabbed:
-					if start+Ft in l:
-						break
-				else:
 					ld.write(start+Ft)
 		ld.write('#include "levels/%s/textureNew.inc.c"\n'%(name))
 		ld.close

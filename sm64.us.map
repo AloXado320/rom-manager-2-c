@@ -4957,39 +4957,6 @@
                 0x0000000010000000                _entrySegmentStart = ADDR (.entry)
                 0x00000000007cc6c0                _entrySegmentRomStart = __romPos
 
-.entry          0x0000000010000000       0x30 load address 0x0000000000108a10
- build/us/levels/entry.o(.data)
- .data          0x0000000010000000       0x30 build/us/levels/entry.o
-                0x0000000010000000                level_script_entry
-                0x0000000010000030                _entrySegmentEnd = (ADDR (.entry) + SIZEOF (.entry))
-                0x00000000007cc6f0                _entrySegmentRomEnd = (__romPos + SIZEOF (.entry))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.entry))
-                0x0000000002000000                _segment2_mio0SegmentStart = ADDR (.segment2_mio0)
-                0x00000000007cc6c0                _segment2_mio0SegmentRomStart = __romPos
-
-.segment2_mio0  0x0000000002000000     0xbd10 load address 0x0000000000108a40
- build/us/bin/segment2.mio0.o(.data)
- .data          0x0000000002000000     0xbd10 build/us/bin/segment2.mio0.o
-                0x000000000200bd10                . = ALIGN (0x10)
-                0x000000000200bd10                _segment2_mio0SegmentEnd = (ADDR (.segment2_mio0) + SIZEOF (.segment2_mio0))
-                0x00000000007d83d0                _segment2_mio0SegmentRomEnd = (__romPos + SIZEOF (.segment2_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.segment2_mio0))
-                0x0000000004000000                _group0_mio0SegmentStart = ADDR (.group0_mio0)
-                0x00000000007cc6c0                _group0_mio0SegmentRomStart = __romPos
-
-.group0_mio0    0x0000000004000000    0x13260 load address 0x0000000000114750
- build/us/actors/group0.mio0.o(.data)
- .data          0x0000000004000000    0x13260 build/us/actors/group0.mio0.o
-                0x0000000004013260                . = ALIGN (0x10)
-                0x0000000004013260                _group0_mio0SegmentEnd = (ADDR (.group0_mio0) + SIZEOF (.group0_mio0))
-                0x00000000007df920                _group0_mio0SegmentRomEnd = (__romPos + SIZEOF (.group0_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group0_mio0))
-                0x0000000017000000                _group0_geoSegmentStart = ADDR (.group0_geo)
-                0x00000000007cc6c0                _group0_geoSegmentRomStart = __romPos
-
-.group0_geo     0x0000000017000000     0x2e30 load address 0x00000000001279b0
- build/us/actors/group0_geo.o(.data)
- .data          0x0000000017000000     0x2e30 build/us/actors/group0_geo.o
                 0x0000000017000000                bubble_geo
                 0x000000001700001c                purple_marble_geo
                 0x0000000017000038                smoke_geo
@@ -5050,209 +5017,50 @@
                 0x0000000017002d48                mario_geo_load_low_poly_body
                 0x0000000017002d7c                mario_geo_render_body
                 0x0000000017002dd4                mario_geo
-                0x0000000017002e30                _group0_geoSegmentEnd = (ADDR (.group0_geo) + SIZEOF (.group0_geo))
-                0x00000000007cf4f0                _group0_geoSegmentRomEnd = (__romPos + SIZEOF (.group0_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group0_geo))
-                0x0000000005000000                _group1_mio0SegmentStart = ADDR (.group1_mio0)
-                0x00000000007cc6c0                _group1_mio0SegmentRomStart = __romPos
 
-.group1_mio0    0x0000000005000000     0x8070 load address 0x000000000012a7e0
- build/us/actors/group1.mio0.o(.data)
- .data          0x0000000005000000     0x8070 build/us/actors/group1.mio0.o
-                0x0000000005008070                . = ALIGN (0x10)
-                0x0000000005008070                _group1_mio0SegmentEnd = (ADDR (.group1_mio0) + SIZEOF (.group1_mio0))
-                0x00000000007d4730                _group1_mio0SegmentRomEnd = (__romPos + SIZEOF (.group1_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group1_mio0))
-                0x000000000c000000                _group1_geoSegmentStart = ADDR (.group1_geo)
-                0x00000000007cc6c0                _group1_geoSegmentRomStart = __romPos
-
-.group1_geo     0x000000000c000000      0x410 load address 0x0000000000132850
- build/us/actors/group1_geo.o(.data)
- .data          0x000000000c000000      0x410 build/us/actors/group1_geo.o
                 0x000000000c000000                yellow_sphere_geo
                 0x000000000c000018                hoot_geo
                 0x000000000c0001e4                yoshi_egg_geo
                 0x000000000c000248                thwomp_geo
                 0x000000000c000264                bullet_bill_geo
                 0x000000000c00028c                heave_ho_geo
-                0x000000000c000410                _group1_geoSegmentEnd = (ADDR (.group1_geo) + SIZEOF (.group1_geo))
-                0x00000000007ccad0                _group1_geoSegmentRomEnd = (__romPos + SIZEOF (.group1_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group1_geo))
-                0x0000000005000000                _group2_mio0SegmentStart = ADDR (.group2_mio0)
-                0x00000000007cc6c0                _group2_mio0SegmentRomStart = __romPos
 
-.group2_mio0    0x0000000005000000     0x1e10 load address 0x0000000000132c60
- build/us/actors/group2.mio0.o(.data)
- .data          0x0000000005000000     0x1e10 build/us/actors/group2.mio0.o
-                0x0000000005001e10                . = ALIGN (0x10)
-                0x0000000005001e10                _group2_mio0SegmentEnd = (ADDR (.group2_mio0) + SIZEOF (.group2_mio0))
-                0x00000000007ce4d0                _group2_mio0SegmentRomEnd = (__romPos + SIZEOF (.group2_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group2_mio0))
-                0x000000000c000000                _group2_geoSegmentStart = ADDR (.group2_geo)
-                0x00000000007cc6c0                _group2_geoSegmentRomStart = __romPos
-
-.group2_geo     0x000000000c000000      0x2b0 load address 0x0000000000134a70
- build/us/actors/group2_geo.o(.data)
- .data          0x000000000c000000      0x2b0 build/us/actors/group2_geo.o
                 0x000000000c000000                bully_geo
                 0x000000000c000120                bully_boss_geo
                 0x000000000c000240                blargg_geo
-                0x000000000c0002b0                _group2_geoSegmentEnd = (ADDR (.group2_geo) + SIZEOF (.group2_geo))
-                0x00000000007cc970                _group2_geoSegmentRomEnd = (__romPos + SIZEOF (.group2_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group2_geo))
-                0x0000000005000000                _group3_mio0SegmentStart = ADDR (.group3_mio0)
-                0x00000000007cc6c0                _group3_mio0SegmentRomStart = __romPos
 
-.group3_mio0    0x0000000005000000     0x68b0 load address 0x0000000000134d20
- build/us/actors/group3.mio0.o(.data)
- .data          0x0000000005000000     0x68b0 build/us/actors/group3.mio0.o
-                0x00000000050068b0                . = ALIGN (0x10)
-                0x00000000050068b0                _group3_mio0SegmentEnd = (ADDR (.group3_mio0) + SIZEOF (.group3_mio0))
-                0x00000000007d2f70                _group3_mio0SegmentRomEnd = (__romPos + SIZEOF (.group3_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group3_mio0))
-                0x000000000c000000                _group3_geoSegmentStart = ADDR (.group3_geo)
-                0x00000000007cc6c0                _group3_geoSegmentRomStart = __romPos
-
-.group3_geo     0x000000000c000000      0x340 load address 0x000000000013b5d0
- build/us/actors/group3_geo.o(.data)
- .data          0x000000000c000000      0x340 build/us/actors/group3_geo.o
                 0x000000000c000000                king_bobomb_geo
                 0x000000000c000308                water_bomb_geo
                 0x000000000c000328                water_bomb_shadow_geo
-                0x000000000c000340                _group3_geoSegmentEnd = (ADDR (.group3_geo) + SIZEOF (.group3_geo))
-                0x00000000007cca00                _group3_geoSegmentRomEnd = (__romPos + SIZEOF (.group3_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group3_geo))
-                0x0000000005000000                _group4_mio0SegmentStart = ADDR (.group4_mio0)
-                0x00000000007cc6c0                _group4_mio0SegmentRomStart = __romPos
 
-.group4_mio0    0x0000000005000000     0xa300 load address 0x000000000013b910
- build/us/actors/group4.mio0.o(.data)
- .data          0x0000000005000000     0xa300 build/us/actors/group4.mio0.o
-                0x000000000500a300                . = ALIGN (0x10)
-                0x000000000500a300                _group4_mio0SegmentEnd = (ADDR (.group4_mio0) + SIZEOF (.group4_mio0))
-                0x00000000007d69c0                _group4_mio0SegmentRomEnd = (__romPos + SIZEOF (.group4_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group4_mio0))
-                0x000000000c000000                _group4_geoSegmentStart = ADDR (.group4_geo)
-                0x00000000007cc6c0                _group4_geoSegmentRomStart = __romPos
 
-.group4_geo     0x000000000c000000      0x280 load address 0x0000000000145c10
- build/us/actors/group4_geo.o(.data)
- .data          0x000000000c000000      0x280 build/us/actors/group4_geo.o
                 0x000000000c000000                clam_shell_geo
                 0x000000000c000068                sushi_geo
                 0x000000000c00010c                unagi_geo
-                0x000000000c000280                _group4_geoSegmentEnd = (ADDR (.group4_geo) + SIZEOF (.group4_geo))
-                0x00000000007cc940                _group4_geoSegmentRomEnd = (__romPos + SIZEOF (.group4_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group4_geo))
-                0x0000000005000000                _group5_mio0SegmentStart = ADDR (.group5_mio0)
-                0x00000000007cc6c0                _group5_mio0SegmentRomStart = __romPos
 
-.group5_mio0    0x0000000005000000     0xbce0 load address 0x0000000000145e90
- build/us/actors/group5.mio0.o(.data)
- .data          0x0000000005000000     0xbce0 build/us/actors/group5.mio0.o
-                0x000000000500bce0                . = ALIGN (0x10)
-                0x000000000500bce0                _group5_mio0SegmentEnd = (ADDR (.group5_mio0) + SIZEOF (.group5_mio0))
-                0x00000000007d83a0                _group5_mio0SegmentRomEnd = (__romPos + SIZEOF (.group5_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group5_mio0))
-                0x000000000c000000                _group5_geoSegmentStart = ADDR (.group5_geo)
-                0x00000000007cc6c0                _group5_geoSegmentRomStart = __romPos
 
-.group5_geo     0x000000000c000000      0x660 load address 0x0000000000151b70
- build/us/actors/group5_geo.o(.data)
- .data          0x000000000c000000      0x660 build/us/actors/group5_geo.o
                 0x000000000c000000                klepto_geo
                 0x000000000c0002ac                eyerok_geo_0002AC
                 0x000000000c0005a8                eyerok_left_hand_geo
                 0x000000000c0005e4                eyerok_right_hand_geo
                 0x000000000c000610                pokey_head_geo
                 0x000000000c000644                pokey_body_part_geo
-                0x000000000c000660                _group5_geoSegmentEnd = (ADDR (.group5_geo) + SIZEOF (.group5_geo))
-                0x00000000007ccd20                _group5_geoSegmentRomEnd = (__romPos + SIZEOF (.group5_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group5_geo))
-                0x0000000005000000                _group6_mio0SegmentStart = ADDR (.group6_mio0)
-                0x00000000007cc6c0                _group6_mio0SegmentRomStart = __romPos
 
-.group6_mio0    0x0000000005000000     0xe110 load address 0x00000000001521d0
- build/us/actors/group6.mio0.o(.data)
- .data          0x0000000005000000     0xe110 build/us/actors/group6.mio0.o
-                0x000000000500e110                . = ALIGN (0x10)
-                0x000000000500e110                _group6_mio0SegmentEnd = (ADDR (.group6_mio0) + SIZEOF (.group6_mio0))
-                0x00000000007da7d0                _group6_mio0SegmentRomEnd = (__romPos + SIZEOF (.group6_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group6_mio0))
-                0x000000000c000000                _group6_geoSegmentStart = ADDR (.group6_geo)
-                0x00000000007cc6c0                _group6_geoSegmentRomStart = __romPos
-
-.group6_geo     0x000000000c000000      0x390 load address 0x00000000001602e0
- build/us/actors/group6_geo.o(.data)
- .data          0x000000000c000000      0x390 build/us/actors/group6_geo.o
                 0x000000000c000000                monty_mole_geo
                 0x000000000c000110                ukiki_geo
                 0x000000000c00036c                fwoosh_geo
-                0x000000000c000390                _group6_geoSegmentEnd = (ADDR (.group6_geo) + SIZEOF (.group6_geo))
-                0x00000000007cca50                _group6_geoSegmentRomEnd = (__romPos + SIZEOF (.group6_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group6_geo))
-                0x0000000005000000                _group7_mio0SegmentStart = ADDR (.group7_mio0)
-                0x00000000007cc6c0                _group7_mio0SegmentRomStart = __romPos
 
-.group7_mio0    0x0000000005000000     0x5070 load address 0x0000000000160670
- build/us/actors/group7.mio0.o(.data)
- .data          0x0000000005000000     0x5070 build/us/actors/group7.mio0.o
-                0x0000000005005070                . = ALIGN (0x10)
-                0x0000000005005070                _group7_mio0SegmentEnd = (ADDR (.group7_mio0) + SIZEOF (.group7_mio0))
-                0x00000000007d1730                _group7_mio0SegmentRomEnd = (__romPos + SIZEOF (.group7_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group7_mio0))
-                0x000000000c000000                _group7_geoSegmentStart = ADDR (.group7_geo)
-                0x00000000007cc6c0                _group7_geoSegmentRomStart = __romPos
-
-.group7_geo     0x000000000c000000      0x370 load address 0x00000000001656e0
- build/us/actors/group7_geo.o(.data)
- .data          0x000000000c000000      0x370 build/us/actors/group7_geo.o
                 0x000000000c000000                spindrift_geo
                 0x000000000c000104                penguin_geo
                 0x000000000c00021c                mr_blizzard_hidden_geo
                 0x000000000c000348                mr_blizzard_geo
-                0x000000000c000370                _group7_geoSegmentEnd = (ADDR (.group7_geo) + SIZEOF (.group7_geo))
-                0x00000000007cca30                _group7_geoSegmentRomEnd = (__romPos + SIZEOF (.group7_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group7_geo))
-                0x0000000005000000                _group8_mio0SegmentStart = ADDR (.group8_mio0)
-                0x00000000007cc6c0                _group8_mio0SegmentRomStart = __romPos
 
-.group8_mio0    0x0000000005000000     0x1180 load address 0x0000000000165a50
- build/us/actors/group8.mio0.o(.data)
- .data          0x0000000005000000     0x1180 build/us/actors/group8.mio0.o
-                0x0000000005001180                . = ALIGN (0x10)
-                0x0000000005001180                _group8_mio0SegmentEnd = (ADDR (.group8_mio0) + SIZEOF (.group8_mio0))
-                0x00000000007cd840                _group8_mio0SegmentRomEnd = (__romPos + SIZEOF (.group8_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group8_mio0))
-                0x000000000c000000                _group8_geoSegmentStart = ADDR (.group8_geo)
-                0x00000000007cc6c0                _group8_geoSegmentRomStart = __romPos
 
-.group8_geo     0x000000000c000000       0x90 load address 0x0000000000166bd0
- build/us/actors/group8_geo.o(.data)
- .data          0x000000000c000000       0x90 build/us/actors/group8_geo.o
                 0x000000000c000000                springboard_top_geo
                 0x000000000c000018                springboard_spring_geo
                 0x000000000c000030                springboard_bottom_geo
                 0x000000000c000048                cap_switch_geo
-                0x000000000c000090                _group8_geoSegmentEnd = (ADDR (.group8_geo) + SIZEOF (.group8_geo))
-                0x00000000007cc750                _group8_geoSegmentRomEnd = (__romPos + SIZEOF (.group8_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group8_geo))
-                0x0000000005000000                _group9_mio0SegmentStart = ADDR (.group9_mio0)
-                0x00000000007cc6c0                _group9_mio0SegmentRomStart = __romPos
 
-.group9_mio0    0x0000000005000000     0x6960 load address 0x0000000000166c60
- build/us/actors/group9.mio0.o(.data)
- .data          0x0000000005000000     0x6960 build/us/actors/group9.mio0.o
-                0x0000000005006960                . = ALIGN (0x10)
-                0x0000000005006960                _group9_mio0SegmentEnd = (ADDR (.group9_mio0) + SIZEOF (.group9_mio0))
-                0x00000000007d3020                _group9_mio0SegmentRomEnd = (__romPos + SIZEOF (.group9_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group9_mio0))
-                0x000000000c000000                _group9_geoSegmentStart = ADDR (.group9_geo)
-                0x00000000007cc6c0                _group9_geoSegmentRomStart = __romPos
-
-.group9_geo     0x000000000c000000      0x2b0 load address 0x000000000016d5c0
- build/us/actors/group9_geo.o(.data)
- .data          0x000000000c000000      0x2b0 build/us/actors/group9_geo.o
                 0x000000000c000000                bookend_part_geo
                 0x000000000c0000c0                bookend_geo
                 0x000000000c0000d8                haunted_chair_geo
@@ -5260,73 +5068,19 @@
                 0x000000000c0001b4                mad_piano_geo
                 0x000000000c000224                boo_geo
                 0x000000000c000274                haunted_cage_geo
-                0x000000000c0002b0                _group9_geoSegmentEnd = (ADDR (.group9_geo) + SIZEOF (.group9_geo))
-                0x00000000007cc970                _group9_geoSegmentRomEnd = (__romPos + SIZEOF (.group9_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group9_geo))
-                0x0000000005000000                _group10_mio0SegmentStart = ADDR (.group10_mio0)
-                0x00000000007cc6c0                _group10_mio0SegmentRomStart = __romPos
 
-.group10_mio0   0x0000000005000000    0x12cd0 load address 0x000000000016d870
- build/us/actors/group10.mio0.o(.data)
- .data          0x0000000005000000    0x12cd0 build/us/actors/group10.mio0.o
-                0x0000000005012cd0                . = ALIGN (0x10)
-                0x0000000005012cd0                _group10_mio0SegmentEnd = (ADDR (.group10_mio0) + SIZEOF (.group10_mio0))
-                0x00000000007df390                _group10_mio0SegmentRomEnd = (__romPos + SIZEOF (.group10_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group10_mio0))
-                0x000000000c000000                _group10_geoSegmentStart = ADDR (.group10_geo)
-                0x00000000007cc6c0                _group10_geoSegmentRomStart = __romPos
-
-.group10_geo    0x000000000c000000      0x670 load address 0x0000000000180540
- build/us/actors/group10_geo.o(.data)
- .data          0x000000000c000000      0x670 build/us/actors/group10_geo.o
                 0x000000000c000000                birds_geo
                 0x000000000c000098                peach_geo_000098
                 0x000000000c000254                peach_geo_000254
                 0x000000000c000410                peach_geo
                 0x000000000c000468                yoshi_geo
-                0x000000000c000670                _group10_geoSegmentEnd = (ADDR (.group10_geo) + SIZEOF (.group10_geo))
-                0x00000000007ccd30                _group10_geoSegmentRomEnd = (__romPos + SIZEOF (.group10_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group10_geo))
-                0x0000000005000000                _group11_mio0SegmentStart = ADDR (.group11_mio0)
-                0x00000000007cc6c0                _group11_mio0SegmentRomStart = __romPos
 
-.group11_mio0   0x0000000005000000     0x73f0 load address 0x0000000000180bb0
- build/us/actors/group11.mio0.o(.data)
- .data          0x0000000005000000     0x73f0 build/us/actors/group11.mio0.o
-                0x00000000050073f0                . = ALIGN (0x10)
-                0x00000000050073f0                _group11_mio0SegmentEnd = (ADDR (.group11_mio0) + SIZEOF (.group11_mio0))
-                0x00000000007d3ab0                _group11_mio0SegmentRomEnd = (__romPos + SIZEOF (.group11_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group11_mio0))
-                0x000000000c000000                _group11_geoSegmentStart = ADDR (.group11_geo)
-                0x00000000007cc6c0                _group11_geoSegmentRomStart = __romPos
-
-.group11_geo    0x000000000c000000      0x4a0 load address 0x0000000000187fa0
- build/us/actors/group11_geo.o(.data)
- .data          0x000000000c000000      0x4a0 build/us/actors/group11_geo.o
                 0x000000000c000000                bubba_geo
                 0x000000000c000030                wiggler_head_geo
                 0x000000000c0001bc                enemy_lakitu_geo
                 0x000000000c000290                spiny_ball_geo
                 0x000000000c000328                spiny_geo
-                0x000000000c0004a0                _group11_geoSegmentEnd = (ADDR (.group11_geo) + SIZEOF (.group11_geo))
-                0x00000000007ccb60                _group11_geoSegmentRomEnd = (__romPos + SIZEOF (.group11_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group11_geo))
-                0x0000000006000000                _group12_mio0SegmentStart = ADDR (.group12_mio0)
-                0x00000000007cc6c0                _group12_mio0SegmentRomStart = __romPos
 
-.group12_mio0   0x0000000006000000    0x30c30 load address 0x0000000000188440
- build/us/actors/group12.mio0.o(.data)
- .data          0x0000000006000000    0x30c30 build/us/actors/group12.mio0.o
-                0x0000000006030c30                . = ALIGN (0x10)
-                0x0000000006030c30                _group12_mio0SegmentEnd = (ADDR (.group12_mio0) + SIZEOF (.group12_mio0))
-                0x00000000007fd2f0                _group12_mio0SegmentRomEnd = (__romPos + SIZEOF (.group12_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group12_mio0))
-                0x000000000d000000                _group12_geoSegmentStart = ADDR (.group12_geo)
-                0x00000000007cc6c0                _group12_geoSegmentRomStart = __romPos
-
-.group12_geo    0x000000000d000000      0xc50 load address 0x00000000001b9070
- build/us/actors/group12_geo.o(.data)
- .data          0x000000000d000000      0xc50 build/us/actors/group12_geo.o
                 0x000000000d000000                bowser_flames_geo
                 0x000000000d000090                invisible_bowser_accessory_geo
                 0x000000000d0000b0                bowser_1_yellow_sphere_geo
@@ -5338,25 +5092,7 @@
                 0x000000000d000b40                bowser2_geo
                 0x000000000d000bbc                bowser_bomb_geo
                 0x000000000d000bfc                bowser_impact_smoke_geo
-                0x000000000d000c50                _group12_geoSegmentEnd = (ADDR (.group12_geo) + SIZEOF (.group12_geo))
-                0x00000000007cd310                _group12_geoSegmentRomEnd = (__romPos + SIZEOF (.group12_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group12_geo))
-                0x0000000006000000                _group13_mio0SegmentStart = ADDR (.group13_mio0)
-                0x00000000007cc6c0                _group13_mio0SegmentRomStart = __romPos
 
-.group13_mio0   0x0000000006000000     0xa0f0 load address 0x00000000001b9cc0
- build/us/actors/group13.mio0.o(.data)
- .data          0x0000000006000000     0xa0f0 build/us/actors/group13.mio0.o
-                0x000000000600a0f0                . = ALIGN (0x10)
-                0x000000000600a0f0                _group13_mio0SegmentEnd = (ADDR (.group13_mio0) + SIZEOF (.group13_mio0))
-                0x00000000007d67b0                _group13_mio0SegmentRomEnd = (__romPos + SIZEOF (.group13_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group13_mio0))
-                0x000000000d000000                _group13_geoSegmentStart = ADDR (.group13_geo)
-                0x00000000007cc6c0                _group13_geoSegmentRomStart = __romPos
-
-.group13_geo    0x000000000d000000      0x480 load address 0x00000000001c3db0
- build/us/actors/group13_geo.o(.data)
- .data          0x000000000d000000      0x480 build/us/actors/group13_geo.o
                 0x000000000d000000                skeeter_geo
                 0x000000000d000284                seaweed_geo
                 0x000000000d0002f4                water_mine_geo
@@ -5365,25 +5101,7 @@
                 0x000000000d000414                water_ring_geo
                 0x000000000d000450                treasure_chest_base_geo
                 0x000000000d000468                treasure_chest_lid_geo
-                0x000000000d000480                _group13_geoSegmentEnd = (ADDR (.group13_geo) + SIZEOF (.group13_geo))
-                0x00000000007ccb40                _group13_geoSegmentRomEnd = (__romPos + SIZEOF (.group13_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group13_geo))
-                0x0000000006000000                _group14_mio0SegmentStart = ADDR (.group14_mio0)
-                0x00000000007cc6c0                _group14_mio0SegmentRomStart = __romPos
 
-.group14_mio0   0x0000000006000000    0x13a60 load address 0x00000000001c4230
- build/us/actors/group14.mio0.o(.data)
- .data          0x0000000006000000    0x13a60 build/us/actors/group14.mio0.o
-                0x0000000006013a60                . = ALIGN (0x10)
-                0x0000000006013a60                _group14_mio0SegmentEnd = (ADDR (.group14_mio0) + SIZEOF (.group14_mio0))
-                0x00000000007e0120                _group14_mio0SegmentRomEnd = (__romPos + SIZEOF (.group14_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group14_mio0))
-                0x000000000d000000                _group14_geoSegmentStart = ADDR (.group14_geo)
-                0x00000000007cc6c0                _group14_geoSegmentRomStart = __romPos
-
-.group14_geo    0x000000000d000000      0x680 load address 0x00000000001d7c90
- build/us/actors/group14_geo.o(.data)
- .data          0x000000000d000000      0x680 build/us/actors/group14_geo.o
                 0x000000000d000000                koopa_flag_geo
                 0x000000000d0000b8                wooden_post_geo
                 0x000000000d0000d0                koopa_without_shell_geo
@@ -5392,97 +5110,25 @@
                 0x000000000d000480                whomp_geo
                 0x000000000d0005d0                metallic_ball_geo
                 0x000000000d0005ec                chain_chomp_geo
-                0x000000000d000680                _group14_geoSegmentEnd = (ADDR (.group14_geo) + SIZEOF (.group14_geo))
-                0x00000000007ccd40                _group14_geoSegmentRomEnd = (__romPos + SIZEOF (.group14_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group14_geo))
-                0x0000000006000000                _group15_mio0SegmentStart = ADDR (.group15_mio0)
-                0x00000000007cc6c0                _group15_mio0SegmentRomStart = __romPos
 
-.group15_mio0   0x0000000006000000     0xc8e0 load address 0x00000000001d8310
- build/us/actors/group15.mio0.o(.data)
- .data          0x0000000006000000     0xc8e0 build/us/actors/group15.mio0.o
-                0x000000000600c8e0                . = ALIGN (0x10)
-                0x000000000600c8e0                _group15_mio0SegmentEnd = (ADDR (.group15_mio0) + SIZEOF (.group15_mio0))
-                0x00000000007d8fa0                _group15_mio0SegmentRomEnd = (__romPos + SIZEOF (.group15_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group15_mio0))
-                0x000000000d000000                _group15_geoSegmentStart = ADDR (.group15_geo)
-                0x00000000007cc6c0                _group15_geoSegmentRomStart = __romPos
-
-.group15_geo    0x000000000d000000      0x600 load address 0x00000000001e4bf0
- build/us/actors/group15_geo.o(.data)
- .data          0x000000000d000000      0x600 build/us/actors/group15_geo.o
                 0x000000000d000000                lakitu_geo
                 0x000000000d000114                toad_geo_000114
                 0x000000000d00027c                toad_geo_00027C
                 0x000000000d0003e4                toad_geo
                 0x000000000d000448                mips_geo
                 0x000000000d0005b0                boo_castle_geo
-                0x000000000d000600                _group15_geoSegmentEnd = (ADDR (.group15_geo) + SIZEOF (.group15_geo))
-                0x00000000007cccc0                _group15_geoSegmentRomEnd = (__romPos + SIZEOF (.group15_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group15_geo))
-                0x0000000006000000                _group16_mio0SegmentStart = ADDR (.group16_mio0)
-                0x00000000007cc6c0                _group16_mio0SegmentRomStart = __romPos
 
-.group16_mio0   0x0000000006000000     0x2ba0 load address 0x00000000001e51f0
- build/us/actors/group16.mio0.o(.data)
- .data          0x0000000006000000     0x2ba0 build/us/actors/group16.mio0.o
-                0x0000000006002ba0                . = ALIGN (0x10)
-                0x0000000006002ba0                _group16_mio0SegmentEnd = (ADDR (.group16_mio0) + SIZEOF (.group16_mio0))
-                0x00000000007cf260                _group16_mio0SegmentRomEnd = (__romPos + SIZEOF (.group16_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group16_mio0))
-                0x000000000d000000                _group16_geoSegmentStart = ADDR (.group16_geo)
-                0x00000000007cc6c0                _group16_geoSegmentRomStart = __romPos
-
-.group16_geo    0x000000000d000000      0x150 load address 0x00000000001e7d90
- build/us/actors/group16_geo.o(.data)
- .data          0x000000000d000000      0x150 build/us/actors/group16_geo.o
                 0x000000000d000000                moneybag_geo_000000
                 0x000000000d000078                moneybag_geo_000078
                 0x000000000d0000f0                moneybag_geo
-                0x000000000d000150                _group16_geoSegmentEnd = (ADDR (.group16_geo) + SIZEOF (.group16_geo))
-                0x00000000007cc810                _group16_geoSegmentRomEnd = (__romPos + SIZEOF (.group16_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group16_geo))
-                0x0000000006000000                _group17_mio0SegmentStart = ADDR (.group17_mio0)
-                0x00000000007cc6c0                _group17_mio0SegmentRomStart = __romPos
 
-.group17_mio0   0x0000000006000000     0x9c50 load address 0x00000000001e7ee0
- build/us/actors/group17.mio0.o(.data)
- .data          0x0000000006000000     0x9c50 build/us/actors/group17.mio0.o
-                0x0000000006009c50                . = ALIGN (0x10)
-                0x0000000006009c50                _group17_mio0SegmentEnd = (ADDR (.group17_mio0) + SIZEOF (.group17_mio0))
-                0x00000000007d6310                _group17_mio0SegmentRomEnd = (__romPos + SIZEOF (.group17_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group17_mio0))
-                0x000000000d000000                _group17_geoSegmentStart = ADDR (.group17_geo)
-                0x00000000007cc6c0                _group17_geoSegmentRomStart = __romPos
-
-.group17_geo    0x000000000d000000      0x6d0 load address 0x00000000001f1b30
- build/us/actors/group17_geo.o(.data)
- .data          0x000000000d000000      0x6d0 build/us/actors/group17_geo.o
                 0x000000000d000000                mr_i_geo
                 0x000000000d00001c                mr_i_iris_geo
                 0x000000000d0000dc                swoop_geo
                 0x000000000d0001a0                snufit_geo
                 0x000000000d000230                dorrie_geo
                 0x000000000d000394                scuttlebug_geo
-                0x000000000d0006d0                _group17_geoSegmentEnd = (ADDR (.group17_geo) + SIZEOF (.group17_geo))
-                0x00000000007ccd90                _group17_geoSegmentRomEnd = (__romPos + SIZEOF (.group17_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.group17_geo))
-                0x0000000008000000                _common0_mio0SegmentStart = ADDR (.common0_mio0)
-                0x00000000007cc6c0                _common0_mio0SegmentRomStart = __romPos
 
-.common0_mio0   0x0000000008000000     0xe6d0 load address 0x00000000001f2200
- build/us/actors/common0.mio0.o(.data)
- .data          0x0000000008000000     0xe6d0 build/us/actors/common0.mio0.o
-                0x000000000800e6d0                . = ALIGN (0x10)
-                0x000000000800e6d0                _common0_mio0SegmentEnd = (ADDR (.common0_mio0) + SIZEOF (.common0_mio0))
-                0x00000000007dad90                _common0_mio0SegmentRomEnd = (__romPos + SIZEOF (.common0_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.common0_mio0))
-                0x000000000f000000                _common0_geoSegmentStart = ADDR (.common0_geo)
-                0x00000000007cc6c0                _common0_geoSegmentRomStart = __romPos
-
-.common0_geo    0x000000000f000000      0xb40 load address 0x00000000002008d0
- build/us/actors/common0_geo.o(.data)
- .data          0x000000000f000000      0xb40 build/us/actors/common0_geo.o
                 0x000000000f000000                blue_coin_switch_geo
                 0x000000000f000020                test_platform_geo
                 0x000000000f000028                amp_geo
@@ -5506,25 +5152,7 @@
                 0x000000000f000ab0                koopa_shell_geo
                 0x000000000f000adc                koopa_shell2_geo
                 0x000000000f000b08                koopa_shell3_geo
-                0x000000000f000b40                _common0_geoSegmentEnd = (ADDR (.common0_geo) + SIZEOF (.common0_geo))
-                0x00000000007cd200                _common0_geoSegmentRomEnd = (__romPos + SIZEOF (.common0_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.common0_geo))
-                0x0000000003000000                _common1_mio0SegmentStart = ADDR (.common1_mio0)
-                0x00000000007cc6c0                _common1_mio0SegmentRomStart = __romPos
 
-.common1_mio0   0x0000000003000000    0x17990 load address 0x0000000000201410
- build/us/actors/common1.mio0.o(.data)
- .data          0x0000000003000000    0x17990 build/us/actors/common1.mio0.o
-                0x0000000003017990                . = ALIGN (0x10)
-                0x0000000003017990                _common1_mio0SegmentEnd = (ADDR (.common1_mio0) + SIZEOF (.common1_mio0))
-                0x00000000007e4050                _common1_mio0SegmentRomEnd = (__romPos + SIZEOF (.common1_mio0))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.common1_mio0))
-                0x0000000016000000                _common1_geoSegmentStart = ADDR (.common1_geo)
-                0x00000000007cc6c0                _common1_geoSegmentRomStart = __romPos
-
-.common1_geo    0x0000000016000000     0x1060 load address 0x0000000000218da0
- build/us/actors/common1_geo.o(.data)
- .data          0x0000000016000000     0x1060 build/us/actors/common1_geo.o
                 0x0000000016000000                mist_geo
                 0x0000000016000020                white_puff_geo
                 0x0000000016000040                explosion_geo
@@ -5572,10 +5200,7 @@
                 0x0000000016001018                snow_tree_geo
                 0x0000000016001030                spiky_tree1_geo
                 0x0000000016001048                palm_tree_geo
-                0x0000000016001060                _common1_geoSegmentEnd = (ADDR (.common1_geo) + SIZEOF (.common1_geo))
-                0x00000000007cd720                _common1_geoSegmentRomEnd = (__romPos + SIZEOF (.common1_geo))
-                [0x00000000007cc6c0]                __romPos = (__romPos + SIZEOF (.common1_geo))
-                0x00000000007cc6c0                _behaviorSegmentRomStart = __romPos
+
                 0x0000000013000000                bhvStarDoor
                 0x0000000013000054                bhvMrI
                 0x000000001300008c                bhvMrIBody

@@ -56,13 +56,13 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 	'I':BinPNG.I
 	}
 	StartTri = (lambda x: (x.startswith('gsSP1Triangle') or x.startswith('gsSP2Triangles')))
-	name = nameG/'model.inc.c'
+	name = nameG/'custom.model.inc.c'
 	if os.path.isfile(tdir/'textureNew.inc.c'):
 		textures = open(tdir/'textureNew.inc.c','a')
 	else:
 		textures = open(tdir/'textureNew.inc.c','w')
 	f = open(name,'w')
-	f.write('#include "%s"\n'%('model.inc.h'))
+	f.write('#include "%s"\n'%('custom.model.inc.h'))
 	#ranges is model data 6, dl is model data 1
 	#attempt to optimize texture loads by looking at ranges
 	for k,md in enumerate(ModelData):
@@ -84,7 +84,7 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 				cmd = dl[r[4]+x]
 				if StartTri(cmd) and mat:
 					orphan=1
-				elif cmd.startswith('gsSPVertex') and mat:
+				elif cmd.startswith('gsSPVertex') and mat or (r[4]+x+1)==len(dl):
 					break
 				#gsDP is an RDP cmd or a sync. Either way it signals end of tri draws
 				elif cmd.startswith('gsDP'):

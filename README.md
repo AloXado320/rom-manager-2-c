@@ -16,6 +16,8 @@ bistring, capstone, pypng, ESRGAN (only for ai upscaling for PC port *Currently 
 * pip install capstone
 * pip install pypng
 
+<b> You must use <a href="https://github.com/jesusyoshi54/sm64ex-alo">this (SM64ex-alo)</a> repository for RM2C and set RM2C in the makefile to 1</b>
+
 #### ESRGAN
 Currently testing, installation method coming after optimal fork and model are found.
 
