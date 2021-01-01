@@ -11,10 +11,9 @@ from bitstring import *
 
 #skip ending for now because script inf loops or something idk
 #needs investigation
-Num2Name = {
+Num2LevelName = {
     4:'bbh',
     5:"ccm",
-    6:'castle_inside',
     7:'hmc',
     8:'ssl',
     9:'bob',
@@ -44,6 +43,9 @@ Num2Name = {
     34:'bowser_3',
     36:'ttm'
 }
+
+#Levelname uses a different castle inside name which is dumb
+Num2Name = {6:'castle_inside',**Num2LevelName}
 
 #level specific banks have different addresses than vanilla, so I need a dict for them.
 
@@ -150,6 +152,7 @@ Group_Models = """
     LOAD_MODEL_FROM_GEO(MODEL_EXCLAMATION_BOX,         exclamation_box_geo),
     LOAD_MODEL_FROM_GEO(MODEL_GOOMBA,                  goomba_geo),
     LOAD_MODEL_FROM_DL( MODEL_EXCLAMATION_POINT,       exclamation_box_outline_seg8_dl_08025F08, LAYER_ALPHA),
+    LOAD_MODEL_FROM_GEO(87,              springboard_bottom_geo),
     LOAD_MODEL_FROM_GEO(MODEL_KOOPA_SHELL,             koopa_shell_geo),
     LOAD_MODEL_FROM_GEO(MODEL_METAL_BOX,               metal_box_geo),
     LOAD_MODEL_FROM_DL( MODEL_METAL_BOX_DL,            metal_box_dl,                             LAYER_OPAQUE),
@@ -1104,17 +1107,19 @@ def LoadUnspecifiedModels(s,file):
 def WriteLevelScript(name,Lnum,s,level,Anum,envfx):
 	f = open(name,'w')
 	f.write(scriptHeader)
-	f.write('#include "levels/%s/header.h"\n'%Lnum)
+	f.write('#include "levels/%s/header.h"\nextern u8 _%s_segment_ESegmentRomStart[]; \nextern u8 _%s_segment_ESegmentRomEnd[];\n'%(Lnum,Lnum,Lnum))
 	#This is the ideal to match hacks, but currently the way the linker is
 	#setup, level object data is in the same bank as level mesh so this cannot be done.
 	LoadLevel = DetLevelSpecBank(s,f)
 	if LoadLevel and LoadLevel!=Lnum:
 		f.write('#include "levels/%s/header.h"\n'%LoadLevel)
-	f.write('const LevelScript level_%s_entry[] = {\n'%Lnum)
+	f.write('const LevelScript level_%s_custom_entry[] = {\n'%Lnum)
+	s.MakeDec('const LevelScript level_%s_custom_entry[]'%Lnum)
 	#entry stuff
 	f.write("INIT_LEVEL(),\n")
 	if LoadLevel:
 		f.write("LOAD_MIO0(0x07, _"+LoadLevel+"_segment_7SegmentRomStart, _"+LoadLevel+"_segment_7SegmentRomEnd),\n")
+		f.write("LOAD_RAW(0x1A, _"+LoadLevel+"SegmentRomStart, _"+LoadLevel+"SegmentRomEnd),\n")
 	f.write("LOAD_RAW(0x0E, _"+Lnum+"_segment_ESegmentRomStart, _"+Lnum+"_segment_ESegmentRomEnd),\n")
 	if envfx:
 		f.write("LOAD_MIO0(        /*seg*/ 0x0B, _effect_mio0SegmentRomStart, _effect_mio0SegmentRomEnd),\n")
@@ -1175,8 +1180,6 @@ def GrabOGDatH(q,rootdir,name):
 	head = head.readlines()
 	for l in head:
 		if not l.startswith('extern'):
-			continue
-		if 'LevelScript' in l or 'Collision %s_seg7_area'%name in l or 'Collision %s_seg7_collision_level'%name in l:
 			continue
 		q.write(l)
 	return q
@@ -1278,7 +1281,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 		print('finished area '+str(a)+ ' in level '+name)
 	#now write level script
 	if not (WaterOnly or MusicOnly):
-		WriteLevelScript(level/"script.c",name,s,s.levels[num],areas,envfx)
+		WriteLevelScript(level/"custom.script.c",name,s,s.levels[num],areas,envfx)
 	s.MakeDec("const LevelScript level_%s_entry[]"%name)
 	if not OnlySkip:
 		#finally write header
@@ -1431,6 +1434,8 @@ def CreateSeqJSON(romname,m64s,rootdir,MusicExtend):
 			continue
 		#fill in missing sequences
 		for i in range(last,m64[1]-1,1):
+			if i>0x22:
+				break
 			seqJSON.write(origJSON[i+3])
 		seqJSON.write("\t\"{}\": [\"{}\"],\n".format(m64[0],SoundBanks[bank]))
 		if m64[1]<0x23:
@@ -1457,7 +1462,7 @@ def AppendAreas(entry,script,Append):
 				break
 	return script
 
-def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend):
+def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs):
 	#choose level
 	s = Script(level)
 	s.Seg2(rom)
@@ -1479,6 +1484,8 @@ def ExportLevel(rom,level,assets,editor,Append,AllWaterBoxes,Onlys,romname,m64s,
 	#aka custom levels.
 	if not s.banks[0x19] and not Onlys[1]:
 		return
+	LevelName = {**Num2Name}
+	lvldefs.write("DEFINE_LEVEL(%s,%s)\n"%(Num2Name[level],"LEVEL_"+Num2LevelName.get(level,'castle').upper()))
 	#now area class should have data
 	#along with pointers to all models
 	rootdir = Path(sys.path[0])
@@ -1603,23 +1610,23 @@ StarPositions = {
 }
 
 DefaultPos={
-	'KingBobOmb':'#DEFINE KingBobOmbStarPos 2000.0f, 4500.0f, -4500.0f\n',
-	'KingWhomp':'#DEFINE KingWhompStarPos 180.0f, 3880.0f, 340.0f\n',
-	'Eyerock':'#DEFINE EyerockStarPos 0.0f, -900.0f, -3700.0f\n',
-	'BigBully':'#DEFINE BigBullyStarPos 0, 950.0f, -6800.0f\n',
-	'ChillBully':'#DEFINE ChillBullyStarPos 130.0f, 1600.0f, -4335.0f\n',
-	'BigPiranhas':'#DEFINE BigPiranhasStarPos -6300.0f, -1850.0f, -6300.0f\n',
-	'TuxieMother':'#DEFINE TuxieMotherStarPos 3167.0f, -4300.0f, 5108.0f\n',
-	'Wiggler':'#DEFINE WigglerStarPos 0.0f, 2048.0f, 0.0f\n',
-	'PssSlide':'#DEFINE PssSlideStarPos -6358.0f, -4300.0f, 4700.0f\n',
-	'RacingPenguin':'#DEFINE RacingPenguinStarPos -7339.0f, -5700.0f, -6774.0f\n',
-	'TreasureChest':'#DEFINE TreasureChestStarPos -1800.0f, -2500.0f, -1700.0f\n',
-	'GhostHuntBoo':'#DEFINE GhostHuntBooStarPos 980.0f, 1100.0f, 250.0f\n',
-	'Klepto':'#DEFINE KleptoStarPos -5550.0f, 300.0f, -930.0f\n',
-	'MerryGoRound':'#DEFINE MerryGoRoundStarPos -1600.0f, -2100.0f, 205.0f\n',
-	'MrI':'#DEFINE MrIStarPos 1370, 2000.0f, -320.0f\n',
-	'BalconyBoo':'#DEFINE BalconyBooStarPos 700.0f, 3200.0f, 1900.0f\n',
-	'BigBullyTrio':'#DEFINE BigBullyTrioStarPos 3700.0f, 600.0f, -5500.0f\n'
+	'KingBobOmb':'#define KingBobOmbStarPos 2000.0f, 4500.0f, -4500.0f\n',
+	'KingWhomp':'#define KingWhompStarPos 180.0f, 3880.0f, 340.0f\n',
+	'Eyerock':'#define EyerockStarPos 0.0f, -900.0f, -3700.0f\n',
+	'BigBully':'#define BigBullyStarPos 0, 950.0f, -6800.0f\n',
+	'ChillBully':'#define ChillBullyStarPos 130.0f, 1600.0f, -4335.0f\n',
+	'BigPiranhas':'#define BigPiranhasStarPos -6300.0f, -1850.0f, -6300.0f\n',
+	'TuxieMother':'#define TuxieMotherStarPos 3167.0f, -4300.0f, 5108.0f\n',
+	'Wiggler':'#define WigglerStarPos 0.0f, 2048.0f, 0.0f\n',
+	'PssSlide':'#define PssSlideStarPos -6358.0f, -4300.0f, 4700.0f\n',
+	'RacingPenguin':'#define RacingPenguinStarPos -7339.0f, -5700.0f, -6774.0f\n',
+	'TreasureChest':'#define TreasureChestStarPos -1800.0f, -2500.0f, -1700.0f\n',
+	'GhostHuntBoo':'#define GhostHuntBooStarPos 980.0f, 1100.0f, 250.0f\n',
+	'Klepto':'#define KleptoStarPos -5550.0f, 300.0f, -930.0f\n',
+	'MerryGoRound':'#define MerryGoRoundStarPos -1600.0f, -2100.0f, 205.0f\n',
+	'MrI':'#define MrIStarPos 1370, 2000.0f, -320.0f\n',
+	'BalconyBoo':'#define BalconyBooStarPos 700.0f, 3200.0f, 1900.0f\n',
+	'BigBullyTrio':'#define BigBullyTrioStarPos 3700.0f, 600.0f, -5500.0f\n'
 }
 
 #**Trajectory. So this is the location of the pointer to the trajectory in the rom
@@ -1687,8 +1694,6 @@ DefaultTraj = {
 """
 }
 
-
-
 #Rip misc data that may or may not need to be ported. This currently is trajectories and star positions.
 #Do this if misc or 'all' is called on a rom.
 def ExportMisc(rom,rootdir,romname,editor):
@@ -1700,6 +1705,11 @@ def ExportMisc(rom,rootdir,romname,editor):
 	#Trajectories are by default in the level bank, but moved to vram for all hacks
 	#If your trajectory does not follow this scheme, then too bad
 	Trj = open(Trajectory,'w')
+	Trj.write("""#include <PR/ultratypes.h>
+#include "level_misc_macros.h"
+#include "macros.h"
+#include "types.h""
+""")
 	for k,v in Trajectories.items():
 		Dat = UPA(rom,v,'>L',4)[0]
 		#Check if Dat is in a segment or not
@@ -1726,7 +1736,7 @@ def ExportMisc(rom,rootdir,romname,editor):
 		#different loading schemes for depending on if a function or array is used for star pos
 		if v[0]:
 			pos = [UPA(rom,a[1],a[0],a[2])[0] for a in v[:-2]]
-			SP.write("#DEFINE {}StarPos {} {}, {}, {} {}\n".format(k,v[-2],*pos,v[-1]))
+			SP.write("#define {}StarPos {} {}, {}, {} {}\n".format(k,v[-2],*pos,v[-1]))
 		else:
 			if editor:
 				pos = UPF(rom,v[2])
@@ -1735,7 +1745,7 @@ def ExportMisc(rom,rootdir,romname,editor):
 			if UPA(rom,v[1],">L",4)[0]==0x01010101:
 				SP.write(DefaultPos[k])
 			else:
-				SP.write("#DEFINE {}StarPos {}f, {}f, {}f\n".format(k,*pos))
+				SP.write("#define {}StarPos {}f, {}f, {}f\n".format(k,*pos))
 	#item box. In editor its at 0xEBA0 same as vanilla, RM is at 0x1204000
 	#the struct is 4*u8 (id, bparam1, bparam2, model ID), bhvAddr u32
 	if editor:
@@ -1744,6 +1754,12 @@ def ExportMisc(rom,rootdir,romname,editor):
 		ItemBox = 0x1204000
 	IBox = misc/('%s_Item_Box.inc.c'%romname)
 	IBox = open(IBox,'w')
+	IBox.write("""#include <PR/ultratypes.h>
+#include "behavior_actions.h"
+#include "macros.h"
+#include "types.h"
+#include "behavior_data.h"
+""")
 	IBox.write('struct Struct802C0DF0 sExclamationBoxContents[] = { ')
 	while(True):
 		B = UPA(rom,ItemBox,">4B",4)
@@ -1773,9 +1789,9 @@ def ExportText(rom,rootdir,TxtAmt,romname):
 	s = Script(9)
 	s.Seg2(rom)
 	DiaTbl = 0x1311E+s.banks[2][0]
-	text = rootdir/"misc"
-	text.mkdir(exist_ok=True)
-	text = text/("%s_dialogs.h"%romname)
+	misc = rootdir/"misc"
+	misc.mkdir(exist_ok=True)
+	text = misc/("%s_dialogs.h"%romname)
 	text = open(text,'w',encoding="utf-8")
 	UPW = (lambda x,y: struct.unpack(">L",x[y:y+4])[0])
 	#format is u32 unused, u8 lines/box, u8 pad, u16 X, u16 width, u16 pad, offset
@@ -1796,7 +1812,7 @@ def ExportText(rom,rootdir,TxtAmt,romname):
 		text.write('DEFINE_DIALOG(DIALOG_{0:03d},{1:d},{2:d},{3:d},{4:d}, _("{5}"))\n\n'.format(int(dialog/16),StrSet[0],StrSet[1],StrSet[3],StrSet[4],str))
 	text.close()
 	#now do courses
-	courses = rootdir/("%s_courses.h"%romname)
+	courses = misc/("%s_courses.h"%romname)
 	LevelNames = 0x8140BE
 	courses = open(courses,'w',encoding="utf-8")
 	for course in range(26):
@@ -2004,20 +2020,24 @@ certain bash errors.
 	m64s = []
 	seqNums = []
 	Onlys = [WaterOnly,ObjectOnly,MusicOnly]
+	#custom level defines file so the linker knows whats up. Mandatory or export won't work
+	lvldefs = Path(sys.path[0]) / "custom_level_defines.h"
+	lvldefs = open(lvldefs,'w')
 	if args[0]=='all':
 		for k in Num2Name.keys():
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend)
+				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs)
 			else:
-				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend)
+				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs)
 			print(Num2Name[k] + ' done')
 	else:
 		for k in args[0]:
 			if args[1]=='all':
-				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend)
+				ExportLevel(rom,k,range(1,255,1),editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs)
 			else:
-				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend)
+				ExportLevel(rom,k,args[1],editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs)
 			print(Num2Name[k] + ' done')
+	lvldefs.close()
 	#AllWaterBoxes should have refs to all water boxes, using that, I will generate a function
 	#and array of references so it can be hooked into moving_texture.c
 	#example of AllWaterBoxes format [[str,level,area,type]...]

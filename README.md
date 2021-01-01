@@ -61,7 +61,9 @@ Should extract all levels, scripts, and assets from the levels specified by argu
 ## Usage in Decomp
 Drag and drop all levels folders into /sm64/levels directory of your decomp repo.
 You must manage scripts of individual levels so that custom objects/unknown objects
-are properly commented or included in the repo.
+are properly commented or included in the repo. 
+
+*** You must place custom_level_defines.h inside your /levels/ folder ***
 
  * For Water boxes, place moving_texture.inc.c from the misc folder into /src/
 

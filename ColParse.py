@@ -31,15 +31,23 @@ def ColWrite(name,s,rom,start,id):
 		f.write("COL_VERTEX( {}, {}, {}),\n".format(*q))
 	x=0
 	b+=vnum*6
+	specials = [0xe,0x24,0x25,0x27,0x2c,0x2D]
 	while(True):
 		Tritype=HalfsU(x+b,2,rom)
 		if Tritype[0]==0x41 or x>132000:
 			break
 		f.write("COL_TRI_INIT( {}, {}),\n".format(*Tritype))
-		for j in range(Tritype[1]):
-			verts=HalfsU(x+b+4+j*6,3,rom)
-			f.write("COL_TRI( {}, {}, {}),\n".format(*verts))
-		x+=Tritype[1]*6+4
+		#special tri with param
+		if Tritype[0] in specials:
+			for j in range(Tritype[1]):
+				verts=HalfsU(x+b+4+j*8,4,rom)
+				f.write("COL_TRI_SPECIAL( {}, {}, {}, {}),\n".format(*verts))
+			x+=Tritype[1]*8+4
+		else:
+			for j in range(Tritype[1]):
+				verts=HalfsU(x+b+4+j*6,3,rom)
+				f.write("COL_TRI( {}, {}, {}),\n".format(*verts))
+			x+=Tritype[1]*6+4
 	f.write("COL_TRI_STOP(),\n")
 	b+=x+2
 	while(True):
@@ -49,10 +57,14 @@ def ColWrite(name,s,rom,start,id):
 			f.write("COL_END(),\n};\n")
 			break
 		#water
-		if special[0]==0x44:
+		elif special[0]==0x44:
 			b+=4
 			f.write("COL_WATER_BOX_INIT({}),\n".format(special[1]))
 			for i in range(special[1]):
 				water=Halfs(b,6,rom)
 				f.write("COL_WATER_BOX({}, {}, {}, {}, {}, {}),\n".format(*water))
 				b+=12
+		#if its neither of these something is wrong, just exit
+		else:
+			f.write("COL_END(),\n};\n")
+			break
