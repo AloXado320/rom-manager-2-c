@@ -27,12 +27,13 @@ Currently testing, installation method coming after optimal fork and model are f
 
 place rom in root, run RM2C.py with the following arguments:
 
-RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0
+RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), assets=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0
 
 Arguments with equals sign are shown in default state, do not put commas between args.
 Levels and assets accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
 The "Only" options are to only export certain things either to deal with specific updates or updates to RM2C itself. Only use one at a time. An only option will not maintain other data. Do not use Append with MusicOnly, it will have no effect.
 MusicExtend is for when you want to add in your custom music on top of the original tracks. Set it to the amount you want to offset your tracks by (0x23 for vanilla).
+Textures will export the equivalent of the /textures/ folder in decomp.
 
 ### Example Inputs
 
@@ -71,7 +72,10 @@ are properly commented or included in the repo.
 
  * For music, delete the original sequences and drop in the extracted ones. Then merge (manually at this moment) the sequences.json with the original sequences.json. For convenience when working with multiple hacks, filenames include the romname, this should not cause any conflicts.
  
- * For trajectories/star positions, place the Trajectories.inc.c and Star_Pos.inc.c files from /misc/ inside /src/. For convenience when working with multiple hacks, filenames include the romname. Remove the romnames from the filename before placing them in the repo.
+ * For trajectories/star positions/tweaks, place the tweaks.inc.c Trajectories.inc.c and Star_Pos.inc.c files from /misc/ inside /src/.
+ 
+ * For textures, drag the /textures/ folder from RM2C into your repo directory
+ 
 
 **NOTE** sequence numbers must be in numerical order.
 
@@ -95,7 +99,18 @@ Speed Star Adventure Course 1 ported from Rom Manager to SM64 decomp:
 
 <img src="Extra Resources/SSAEmu.png">
 
-------------------------------------------------------------------
+## Planned Future Features
+
+* MOP detection and texture scroll extraction
+
+* Intelligently refactoring actor extraction so that /actors/ can be merged automatically with source.
+
+* Custom Skybox Extraction (Far off future)
+
+* Behavior Script Extraction
+
+* Code disassembly and attempted auto decompiling (Far off future)
+
 
 ## Curret issues
 

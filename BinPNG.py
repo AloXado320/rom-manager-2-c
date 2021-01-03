@@ -2,7 +2,15 @@ import struct
 import png
 import math
 from bitstring import *
+from PIL import Image #for skyboxes
 #convert bin to png
+
+def InitSkybox(name):
+	return Image.new("RGB",(248,248),None)
+
+def TileSkybox(FullBox,x,y,tilepath):
+	t = Image.open(tilepath)
+	FullBox.paste(t,(x,y))
 
 def MakeImage(name):
 	return open(name+'.png','wb')
@@ -35,7 +43,7 @@ def RGBA32(width,height,file,image):
 
 def RGBA16(width,height,file,image):
 	w = png.Writer(width,height,greyscale=False,bitdepth=8,alpha=True)
-	rows = EditFile(file,width,height,[3,3,3,8],.5,2)
+	rows = EditFile(file,width,height,[3,3,3,8],1,2)
 	w.write(image,rows)
 
 def CI(width,height,depth,p,file,image):
@@ -59,18 +67,12 @@ def EditFile(file,width,height,shifts,PpB,b):
 	newfile=[]
 	for x in range(height):
 		row=[]
-		for pixel in range(0,width):
-			pixel=pixel+x*width
+		for pixel in range(0,width//PpB):
+			pixel=pixel+x*width//PpB
 			bin=file[b*pixel:b*pixel+b]
 			bin=pack('>%dB'%b,*bin)
 			upack = ['uint:%d'%(8-a) if a!=8 else 'uint:1' for a in shifts]
-			s = ''
-			for i,a in enumerate(upack):
-				if i+1 == len(upack):
-					s+=a
-				else:
-					s+=a+','
-			channels=bin.unpack(s)
+			channels=bin.unpack(','.join(upack))
 			channels=[c<<s if s!=8 else (c<<s)-(1&c) for c,s in zip(channels,shifts)]
 			p = struct.pack('>%dB'%len(channels),*channels)
 			row.extend(p)

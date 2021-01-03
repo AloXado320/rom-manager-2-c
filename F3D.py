@@ -180,7 +180,7 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 					#The palette
 					textures.write('ALIGNED8 '+texnp+' = {\n')
 					inc = "levels/"+tdir.parts[-1]+"/"
-					textures.write('#include "%s_pal.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
+					textures.write('#include "%s.pal.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
 					#export a png
 					bin = rom[t[0]:t[0]+t[2]*2+2]
 					pal = [rom[t[7][0]:t[7][0]+(2**t[6])*2],'rgba16'] #A palette is 2^bitdepth of CI * two bytes per pixel
