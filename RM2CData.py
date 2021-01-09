@@ -72,7 +72,6 @@ skyboxesEditor = {
 #Bank 0xB loads
 TextureBanks = {
 
-
 }
 
 #seg2 glyphs have holes in them because they're left out in NA.
@@ -306,7 +305,7 @@ LevelSpecificBanks = {
     0x01088CE0:'ddd',
     0x010A09F0:'wf',
     0x010E9B60:'castle_courtyard',
-    0x01125A30:'pss',
+    0x01125A30:'totwc',
     0x0115C680:'bowser_2',
     0x01166220:'bowser_3',
     0x011732E0:'ttm'
@@ -688,7 +687,8 @@ LOAD_MODEL_FROM_GEO(MODEL_SSL_TOX_BOX,             ssl_geo_000630),
     LOAD_MODEL_FROM_GEO(MODEL_LEVEL_GEOMETRY_15,     ttm_geo_000A18),
     LOAD_MODEL_FROM_GEO(MODEL_LEVEL_GEOMETRY_16,     ttm_geo_000A40),
 """,
-	'pss':''
+	'totwc':"""LOAD_MODEL_FROM_GEO(MODEL_LEVEL_GEOMETRY_03, totwc_geo_000160),
+"""
 }
 
 scriptHeader='''#include <ultra64.h>

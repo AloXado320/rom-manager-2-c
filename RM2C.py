@@ -10,11 +10,12 @@ import shutil
 from bitstring import *
 from RM2CData import *
 import BinPNG
+import groups as GD
 
 class Script():
 	def __init__(self,level):
-		self.map = open('sm64.us.map','r')
-		self.map=self.map.readlines()
+		self.mapF = open('sm64.us.map','r')
+		self.map=self.mapF.readlines()
 		self.banks=[None for a in range(32)]
 		self.asm=[[0x80400000,0x1200000,0x1220000]]
 		self.models=[None for a in range(256)]
@@ -55,13 +56,19 @@ class Script():
 		return count
 	def GetLabel(self,addr):
 		#behavior is in bank 0 and won't be in map ever
-		if len(addr)==6:
+		if addr[0:2]=='00':
+			print(addr + 'is in bank 0 cannot be found')
 			return '0x'+addr
 		for l in self.map:
 			if addr in l:
-				q= l.rfind(" ")
+				q = l.rfind(" ")
 				return l[q:-1]
 		return "0x"+addr
+	def GetAddr(self,label):
+		for l in self.map:
+			if label in l:
+				return "0x"+l.split("0x")[1][8:16]
+		return None
 	def RME(self,num,rom):
 		if self.editor:
 			return
@@ -245,7 +252,7 @@ def PlaceObject(rom,cmd,start,script):
 	ry=U2S(TcH(arg[10:12]))
 	rz=U2S(TcH(arg[12:14]))
 	bparam=hex(TcH(arg[14:18]))
-	bhv=script.GetLabel(hex(TcH(arg[18:22]))[2:])
+	bhv=script.GetLabel("{:08x}".format(TcH(arg[18:22])))
 	#print(bhv)
 	PO=(id,x,y,z,rx,ry,rz,bparam,bhv,mask)
 	A.objects.append(PO)
@@ -391,29 +398,42 @@ def InsertBankLoads(s,f):
 def DetLevelSpecBank(s,f):
 	level = None
 	if s.banks[7]:
+		#RM custom bank 7 check
+		if s.banks[7][0]>0x1220000:
+			return level
 		level =ClosestIntinDict(s.banks[7][0],LevelSpecificBanks)
 	return level
 
-
-def LoadUnspecifiedModels(s,file):
+def LoadUnspecifiedModels(s,file,level):
 	Grouplines = Group_Models.split("\n")
 	for i,model in enumerate(s.models):
 		if model:
-			#Only deal with trees because I honestly don't know what other ones have this issue
-			lab = s.GetLabel(hex(model[0])[2:])
-			if '0x' in lab:
+			#Bank 0x14 is for menus, I will ignore it
+			Seg = (model[0]>>24)
+			if Seg==0x14:
+				continue
+			#Model Loads need to use groups because seg addresses are repeated so you can get the wrong ones
+			#if you just use the map which has no distinction on which bank is loaded.
+			addr = "{:08x}".format(model[0])
+			if Seg==0x12:
+				lab = GD.__dict__[level].get((i,'0x'+addr))[1]
+			#actor groups, unlikely to exist outside existing group loads
+			if Seg==0xD or Seg==0xC:
+				group = ClosestIntinDict(s.banks[Seg][0],Groups)[0][1:]
+				lab = GD.__dict__[group].get((i,'0x'+addr))[1]
+			#group0, common0, common1 banks that have unique geo layouts
+			else:
+				lab = s.GetLabel(addr)
+			if '0x' in lab or not lab:
 				comment = "// "
 			else:
 				comment = ""
 			if not (any([lab in l for l in Grouplines])):
 				if model[1]=='geo':
 					file.write(comment+"LOAD_MODEL_FROM_GEO(%d,%s),\n"%(i,lab))
-					# print("LOAD_MODEL_FROM_GEO(%d,%s),\n"%(i,lab))
 				else:
 					#Its just a guess but I think 4 will lead to the least issues
 					file.write(comment+"LOAD_MODEL_FROM_DL(%d,%s,4),\n"%(i,lab))
-					# print("LOAD_MODEL_FROM_DL(%d,%s,4),\n"%(i,lab))
-
 
 def WriteLevelScript(name,Lnum,s,level,Anum,envfx):
 	f = open(name,'w')
@@ -440,7 +460,7 @@ def WriteLevelScript(name,Lnum,s,level,Anum,envfx):
 	if LoadLevel:
 		f.write(LevelSpecificModels[LoadLevel])
 	#Load models that the level uses that are outside groups/level
-	LoadUnspecifiedModels(s,f)
+	LoadUnspecifiedModels(s,f,LoadLevel)
 	#add in jumps based on banks returned
 	for b in banks:
 		if type(b)==list:
@@ -682,26 +702,34 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 
 #Finds out what model is based on seg addr and loaded banks
 def ProcessModel(rom,editor,s,modelID,model):
-	label = s.GetLabel(hex(model[0])[2:])
 	Seg=model[0]>>24
+	folder=None
 	bank = s.banks[Seg]
 	#A custom bank will be one that is loaded well after
 	#all other banks are. This is not guaranteed, but nominal bhv
 	if bank[0]>0x1220000:
 		return ('Custom_%d'%bank[0],Seg,label)
 	#These are in Seg C, D, F, 16, 17
-	if Seg!=7 or Seg!=0x12:
+	if Seg!=7 and Seg!=0x12:
 		group = ClosestIntinDict(bank[0],Groups)[0][1:]
+		label = GD.__dict__[group].get((modelID,"0x{:08x}".format(model[0])))
+		if label:
+			folder = label[2]
+			label=label[1]
 	#These are all in bank 7 with geo layouts in bank 12
 	else:
 		group = ClosestIntinDict(bank[0],LevelSpecificBanks)
-	return (group,Seg,label)
+		label = GD.__dict__[group].get((modelID,"0x{:08x}".format(model[0])))
+		if label:
+			folder = label[2]
+			label=label[1]
+	return (group,Seg,label,folder)
 
 #process all the script class objects from all exported levels to find specific data
 def ProcessScripts(rom,editor,Scripts):
 	#key=banknum, value = list of start/end locations
 	Banks = {}
-	#key=group name, values = [group num,label,type,rom addr,ID]
+	#key=group name, values = [seg num,label,type,rom addr,ID,folder]
 	Models = {}
 	for s in Scripts:
 		#banks
@@ -716,9 +744,9 @@ def ProcessScripts(rom,editor,Scripts):
 		#models
 		for k,M in enumerate(s.models):
 			if M:
-				[group,seg,l] = ProcessModel(rom,editor,s,k,M)
+				[group,seg,l,f] = ProcessModel(rom,editor,s,k,M)
 				dupe = Models.get(group)
-				val = [seg,l,M[1],M[3],k]
+				val = [seg,l,M[1],M[3],k,f]
 				#check for duplicate which should be the case often
 				if dupe and val not in dupe:
 					Models[group].append(val)
@@ -865,6 +893,7 @@ def ExportLevel(rom,level,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums
 
 def ExportActors(actors,rom,Banks,Models,editor):
 	for group,M in Models.items():
+	#key=group name, values = [seg num,label,type,rom addr,ID,folder]
 		print(group)
 		for m in M:
 			print(m)
@@ -1067,7 +1096,7 @@ def ExportMisc(rom,rootdir,editor):
 		B = UPA(rom,ItemBox,">4B",4)
 		if B[0]==99:
 			break
-		Bhv = s.GetLabel(hex(UPA(rom,ItemBox+4,">L",4)[0])[2:])
+		Bhv = s.GetLabel("{:08x}".format(UPA(rom,ItemBox+4,">L",4)[0]))
 		ItemBox+=8
 		IBox.write("{{ {}, {}, {}, {}, {} }},\n".format(*B,Bhv))
 	IBox.write("{ 99, 0, 0, 0, NULL } };\n")
