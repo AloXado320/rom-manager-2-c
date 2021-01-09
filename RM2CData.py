@@ -100,7 +100,8 @@ Seg2WarpTransDat=[
 #I will identify which are used by geo bank starts
 #the last member is the global scripts to include after loading
 #the bank
-actors = {
+Groups = {
+	0x1279B0:['_group0', 5, 12,'script_func_global_2'], #Mario Bank 4/17 which is always loaded
 	0x132850:['_group1', 5, 12,'script_func_global_2'],
 	0x134a70:['_group2', 5, 12,'script_func_global_3'],
 	0x13B5D0:['_group3', 5, 12,'script_func_global_4'],
@@ -118,8 +119,10 @@ actors = {
 	0x1E4BF0:['_group15', 6, 13,'script_func_global_16'],
 	0x1E7D90:['_group16', 6, 13,'script_func_global_17'],
 	0x1F1B30:['_group17', 6, 13,'script_func_global_18'],
-	0x2008D0:['_common0', 8, 15,'script_func_global_1']
+	0x2008D0:['_common0', 8, 15,'script_func_global_1'],
+	0x218DA0:['_common1', 8, 15,'script_func_global_1']#Bank 3/16, which is always loaded, so the extra stuff is pointless.
 }
+
 
 Group_Models = """
     LOAD_MODEL_FROM_GEO(MODEL_MARIO,                   mario_geo),
@@ -919,16 +922,23 @@ INHERIT = (lambda x:x[0])
 #repo doesn't time properly
 DOUBLE = (lambda x:2*x[0])
 #a nop'd JAL
-NOP = (lambda x:x[0]==0)
-RNOP = (lambda x:x[0]!=0)
-AND = (lambda x:x[0]==0)
+NOP = (lambda x:(x[0]==0)&1)
 #macros for when you widescreen
 GFXRECTLEFT =  (lambda x:'GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE({})'.format(x[0]))
-GFXRECTRIGHT =  (lambda x:'GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE({})'.format(320-x[0]))
+GFXRECTRIGHT =  (lambda x:'GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE({})'.format(320-x[0]))
+
+unkDefaults = """#define SHOW_STAR_MILESTONES 0
+#define TOAD_STAR_1_DIALOG DIALOG_082
+#define TOAD_STAR_2_DIALOG DIALOG_076
+#define TOAD_STAR_3_DIALOG DIALOG_083
+#define TOAD_STAR_1_DIALOG_AFTER DIALOG_154
+#define TOAD_STAR_2_DIALOG_AFTER DIALOG_155
+#define TOAD_STAR_3_DIALOG_AFTER DIALOG_156"""
+
 #Format is num vals, var name, [type,len,hex locations,func]
 Tweaks = [
 	[1,'MARIO_START_LIVES',[">B",1,0x1001b,INHERIT]],
-	[1,'INFINITE_LIVES',[">L",4,0x41918,RNOP]],
+	[1,'INFINITE_LIVES',[">L",4,0x41918,INHERIT]],
 	[1,'START_LEVEL',[">B",1,0x6d6b,INHERIT]],
 	[1,'COINS_REQ_COINSTAR',[">H",2,0x8BBE,INHERIT]],
 	[1,'REDS_REQ',[">H",2,0xADDDE,INHERIT]],
@@ -936,14 +946,14 @@ Tweaks = [
 	#can fail if tweak is different than in RM
 	[1,'FALL_DAMAGE',[">B",1,0x252F5,INHERIT]],
 	[6,'STAR_MILESTONES',[">B",1,0xE8B54,INHERIT,">B",1,0xE8B55,INHERIT,">B",1,0xE8B56,INHERIT,">B",1,0xE8B57,INHERIT,">B",1,0xE8B58,INHERIT,">B",1,0xE8B59,INHERIT]],
-	# IDK yet
-	# [1,'SHOW_STAR_MILESTONES',[]],
+
 	[1,'MIPS1_STAR_REQ',[">B",1,0xB34CB,INHERIT]],
 	[1,'MIPS2_STAR_REQ',[">B",1,0xB3523,INHERIT]],
 	[1,'TOAD_STAR_1_REQUIREMENT',[">H",2,0x3199A,INHERIT]],
 	[1,'TOAD_STAR_2_REQUIREMENT',[">H",2,0x319CE,INHERIT]],
 	[1,'TOAD_STAR_3_REQUIREMENT',[">H",2,0x31A02,INHERIT]],
-	# IDK yet
+	# IDK yet. So func will just always return some defualt value
+	# [1,'SHOW_STAR_MILESTONES',[]],
 	# [1,'TOAD_STAR_1_DIALOG',[]],
 	# [1,'TOAD_STAR_2_DIALOG',[]],
 	# [1,'TOAD_STAR_3_DIALOG',[]],
