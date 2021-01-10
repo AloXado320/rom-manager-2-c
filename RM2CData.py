@@ -59,10 +59,10 @@ skyboxesRM = {
 skyboxesEditor = {
 	0xB35715:'_water_skybox_mio0',
 	0xB5D855:'_ccm_skybox_mio0',
-	0xBEAD55:'_clouds_skybox_mio0',
+	0xBEAD55:'_cloud_floor_skybox_mio0',
 	0xBA22D5:'_bitfs_skybox_mio0',
 	0xBC2C15:'_wdw_skybox_mio0',
-	0xB85995:'_cloud_floor_skybox_mio0',
+	0xB85995:'_clouds_skybox_mio0',
 	0xC12E95:'_ssl_skybox_mio0',
 	0xC3AFD5:'_bbh_skybox_mio0',
 	0xC57915:'_bidw_skybox_mio0',

@@ -767,14 +767,15 @@ def ProcessScripts(rom,editor,Scripts):
 		#banks
 		for k,B in enumerate(s.banks):
 			if B:
-				#use headersize to show unique banks and retrieve them 'anonymously' of some sort
-				HS = (k<<24)-B[0]
+				#throw out garbage editor fake loads
+				if B[1]<B[0]:
+					continue
 				dupe = Banks.get(k)
 				#check for duplicate which should be the case often
-				if dupe and (B,HS) not in dupe:
-					Banks[k].append((B,HS))
-				else:
-					Banks[k] = [(B,HS)]
+				if dupe and B not in dupe:
+					Banks[k].append(B)
+				elif not dupe:
+					Banks[k] = [B]
 		#models
 		for k,M in enumerate(s.models):
 			if M:
@@ -941,7 +942,7 @@ class Actor():
 				self.folders[model[6]].append([*model[0:5],model[7],group])
 		else:
 			self.folders[model[6]] = [[*model[0:5],model[7],group]]
-	def MakeFolders(self,rom,Banks):
+	def MakeFolders(self,rom):
 		for k,val in self.folders.items():
 			fold = self.dir / k
 			shutil.rmtree(fold)
@@ -954,7 +955,7 @@ class Actor():
 					GW.GeoActWrite(geos,fgeo)
 					WriteModel(rom,dls,v[5],fold,v[1],v[1],fold)
 
-def ExportActors(actors,rom,Banks,Models,aDir):
+def ExportActors(actors,rom,Models,aDir):
 	#Models is key=group name, values = [seg num,label,type,rom addr, seg addr,ID,folder,script]
 	Actors = Actor(aDir)
 	levels = list(Num2Name.values())
@@ -965,7 +966,7 @@ def ExportActors(actors,rom,Banks,Models,aDir):
 				pass
 			for m in models:
 				Actors.EvalModel(m,group)
-		return Actors.MakeFolders(rom,Banks)
+		return Actors.MakeFolders(rom)
 	#only models with a new geo address/unk geo addr model ID combo
 	elif actors=='new':
 		print('new models are experimental currently')
@@ -975,7 +976,7 @@ def ExportActors(actors,rom,Banks,Models,aDir):
 			for m in models:
 				if m[1]:
 					Actors.EvalModel(m,group)
-		return Actors.MakeFolders(rom,Banks)
+		return Actors.MakeFolders(rom)
 	#only models with a known modelID geo addr combo
 	elif actors=='old':
 		for group,models in Models.items():
@@ -984,7 +985,7 @@ def ExportActors(actors,rom,Banks,Models,aDir):
 			for m in models:
 				if not m[1]:
 					Actors.EvalModel(m,group)
-		return Actors.MakeFolders(rom,Banks)
+		return Actors.MakeFolders(rom)
 	#if its not one of the above phrases, its the name of a group
 	elif type(actors)==str:
 		models = Models[actors]
@@ -993,7 +994,7 @@ def ExportActors(actors,rom,Banks,Models,aDir):
 		for m in models:
 			if m[1]:
 				Actors.EvalModel(m,actors)
-		return Actors.MakeFolders(rom,Banks)
+		return Actors.MakeFolders(rom)
 	#only option left is a list of groups
 	for a in actors:
 		models = Models[a]
@@ -1002,7 +1003,7 @@ def ExportActors(actors,rom,Banks,Models,aDir):
 		for m in models:
 			if m[1]:
 				Actors.EvalModel(m,a)
-	return Actors.MakeFolders(rom,Banks)
+	return Actors.MakeFolders(rom)
 
 def FindCustomSkyboxse(rom,Banks,SB):
 	custom = {}
@@ -1012,7 +1013,7 @@ def FindCustomSkyboxse(rom,Banks,SB):
 	#make some skybox rules for the linker so it can find these
 	f = open(SB / 'Skybox_Rules.ld','w')
 	for v in custom.values():
-		f.write('   MIO0_SEG({}, 0x0A000000)\n'.format(v[1:]))
+		f.write('   MIO0_SEG({}, 0x0A000000)\n'.format(v[1:]+"_skybox"))
 	return custom
 
 def ExportTextures(rom,editor,rootdir,Banks):
@@ -1036,6 +1037,8 @@ def ExportTextures(rom,editor,rootdir,Banks):
 	for k,v in skyboxes.items():
 		imgs = []
 		name = v.split('_')[1]
+		if name=='cloud':
+			name='cloud_floor'
 		for i in range(0x40):
 			namet = v.split('_')[1]+str(i)
 			box = BinPNG.MakeImage(str(SB / namet))
@@ -1507,7 +1510,7 @@ certain bash errors.
 	lvldefs.close()
 	#Process returned scripts to view certain custom data such as custom banks/actors for actor/texture exporting
 	[Banks,Models] = ProcessScripts(rom,editor,Scripts)
-	ExportActors(actors,rom,Banks,Models,ass)
+	ExportActors(actors,rom,Models,ass)
 	#export textures
 	if Textures:
 		ExportTextures(rom,editor,Path(sys.path[0]),Banks)
