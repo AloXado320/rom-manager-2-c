@@ -386,7 +386,7 @@ def InsertBankLoads(s,f):
 				#custom skybox
 				if b[0]>0x1220000:
 					name = '_%s_skybox_mio0'%('SkyboxCustom%d'%b[0])
-					load = "LOAD_MIO0(0xA,"+banks[i]+"SegmentRomStart,"+banks[i]+"SegmentRomEnd),\n"
+					load = "LOAD_MIO0(0xA,"+name+"SegmentRomStart,"+name+"SegmentRomEnd),\n"
 				else:
 					load = "LOAD_MIO0(0xA,"+banks[i]+"SegmentRomStart,"+banks[i]+"SegmentRomEnd),\n"
 			else:
