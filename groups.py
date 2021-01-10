@@ -21,9 +21,9 @@ def MD(group,s,name):
 	print('}')
 
 #Level groups. Very likely to be used by level script to find what model an address is.
-
+#These are a mess as romhacks do all sorts of dumb shit.
+#I force modelID and geo addr to be together because a abnormal modelID is most likely custom content
 bbh = {
-	(29, '0x16000720'):('MODEL_BBH_HAUNTED_DOOR', 'haunted_door_geo', 'haunted_door'),
 	(53, '0x120005b0'):('MODEL_BBH_STAIRCASE_STEP', 'geo_bbh_0005B0', 'geo_bbh'),
 	(54, '0x120005c8'):('MODEL_BBH_TILTING_FLOOR_PLATFORM', 'geo_bbh_0005C8', 'geo_bbh'),
 	(55, '0x120005e0'):('MODEL_BBH_TUMBLING_PLATFORM', 'geo_bbh_0005E0', 'geo_bbh'),
@@ -31,6 +31,7 @@ bbh = {
 	(57, '0x12000610'):('MODEL_BBH_MOVING_BOOKSHELF', 'geo_bbh_000610', 'geo_bbh'),
 	(58, '0x12000628'):('MODEL_BBH_MESH_ELEVATOR', 'geo_bbh_000628', 'geo_bbh'),
 	(59, '0x12000640'):('MODEL_BBH_MERRY_GO_ROUND', 'geo_bbh_000640', 'geo_bbh'),
+	(60, '0x12000640'):('MODEL_BBH_MERRY_GO_ROUND', 'geo_bbh_000640', 'geo_bbh'),
 	(60, '0x12000658'):('MODEL_BBH_WOODEN_TOMB', 'geo_bbh_000658', 'geo_bbh'),
 }
 ccm = {
@@ -39,16 +40,11 @@ ccm = {
 	(5, '0x120004a4'):('MODEL_LEVEL_GEOMETRY_05', 'ccm_geo_000494', 'ccm_geo'),
 	(6, '0x120004cc'):('MODEL_LEVEL_GEOMETRY_06', 'ccm_geo_0004BC', 'ccm_geo'),
 	(7, '0x120004f4'):('MODEL_LEVEL_GEOMETRY_07', 'ccm_geo_0004E4', 'ccm_geo'),
-	(39, '0x1600043c'):('MODEL_CCM_CABIN_DOOR', 'cabin_door_geo', 'cabin_door'),
-	(25, '0x16001018'):('MODEL_CCM_SNOW_TREE', 'snow_tree_geo', 'snow_tree'),
 	(54, '0x120003e0'):('MODEL_CCM_ROPEWAY_LIFT', 'ccm_geo_0003D0', 'ccm_geo'),
 	(210, '0x12000400'):('MODEL_CCM_SNOWMAN_BASE', 'ccm_geo_0003F0', 'ccm_geo'),
 	(55, '0x1200041c'):('MODEL_CCM_SNOWMAN_HEAD', 'ccm_geo_00040C', 'ccm_geo'),
 }
 hmc = {
-	(29, '0x160004d0'):('MODEL_HMC_WOODEN_DOOR', 'wooden_door_geo', 'wooden_door'),
-	(31, '0x160005f8'):('MODEL_HMC_METAL_DOOR', 'metal_door_geo', 'metal_door'),
-	(32, '0x1600068c'):('MODEL_HMC_HAZY_MAZE_DOOR', 'hazy_maze_door_geo', 'hazy_maze_door'),
 	(54, '0x120005a0'):('MODEL_HMC_METAL_PLATFORM', 'hmc_geo_0005A0', 'hmc_geo'),
 	(55, '0x120005b8'):('MODEL_HMC_METAL_ARROW_PLATFORM', 'hmc_geo_0005B8', 'hmc_geo'),
 	(56, '0x120005d0'):('MODEL_HMC_ELEVATOR_PLATFORM', 'hmc_geo_0005D0', 'hmc_geo'),
@@ -58,7 +54,6 @@ hmc = {
 	(60, '0x12000530'):('MODEL_HMC_RED_GRILLS', 'hmc_geo_000530', 'hmc_geo'),
 }
 ssl = {
-	(27, '0x16001048'):('MODEL_SSL_PALM_TREE', 'palm_tree_geo', 'palm_tree'),
 	(3, '0x120005c0'):('MODEL_LEVEL_GEOMETRY_03', 'ssl_geo_0005C0', 'ssl_geo'),
 	(4, '0x120005d8'):('MODEL_LEVEL_GEOMETRY_04', 'ssl_geo_0005D8', 'ssl_geo'),
 	(58, '0x12000618'):('MODEL_SSL_PYRAMID_TOP', 'ssl_geo_000618', 'ssl_geo'),
@@ -69,7 +64,6 @@ ssl = {
 	(199, '0x12000630'):('MODEL_SSL_TOX_BOX', 'ssl_geo_000630', 'ssl_geo'),
 }
 bob = {
-	(23, '0x16000fe8'):('MODEL_BOB_BUBBLY_TREE', 'bubbly_tree_geo', 'bubbly_tree'),
 	(54, '0x12000440'):('MODEL_BOB_CHAIN_CHOMP_GATE', 'bob_geo_000440', 'bob_geo'),
 	(55, '0x12000458'):('MODEL_BOB_SEESAW_PLATFORM', 'bob_geo_000458', 'bob_geo'),
 	(56, '0x12000470'):('MODEL_BOB_BARS_GRILLS', 'bob_geo_000470', 'bob_geo'),
@@ -78,10 +72,8 @@ sl = {
 	(54, '0x12000390'):('MODEL_SL_SNOW_TRIANGLE', 'sl_geo_000390', 'sl_geo'),
 	(55, '0x12000360'):('MODEL_SL_CRACKED_ICE', 'sl_geo_000360', 'sl_geo'),
 	(56, '0x12000378'):('MODEL_SL_CRACKED_ICE_CHUNK', 'sl_geo_000378', 'sl_geo'),
-	(25, '0x16001018'):('MODEL_SL_SNOW_TREE', 'snow_tree_geo', 'snow_tree'),
 }
 wdw = {
-	(23, '0x16000fe8'):('MODEL_WDW_BUBBLY_TREE', 'bubbly_tree_geo', 'bubbly_tree'),
 	(54, '0x12000580'):('MODEL_WDW_SQUARE_FLOATING_PLATFORM', 'wdw_geo_000580', 'wdw_geo'),
 	(55, '0x12000598'):('MODEL_WDW_ARROW_LIFT', 'wdw_geo_000598', 'wdw_geo'),
 	(56, '0x120005c0'):('MODEL_WDW_WATER_LEVEL_DIAMOND', 'wdw_geo_0005C0', 'wdw_geo'),
@@ -104,9 +96,7 @@ jrb = {
 	(63, '0x12000948'):('MODEL_JRB_FLOATING_PLATFORM', 'jrb_geo_000948', 'jrb_geo'),
 }
 thi = {
-	(23, '0x16000fe8'):('MODEL_THI_BUBBLY_TREE', 'bubbly_tree_geo', 'bubbly_tree'),
 	(3, '0x120005f0'):('MODEL_LEVEL_GEOMETRY_03', 'thi_geo_0005F0', 'thi_geo'),
-	(0x12, '0x16000388'):('MODEL_THI_WARP_PIPE', 'warp_pipe_geo', 'warp_pipe'),
 	(54, '0x120005b0'):('MODEL_THI_HUGE_ISLAND_TOP', 'thi_geo_0005B0', 'thi_geo'),
 	(55, '0x120005c8'):('MODEL_THI_TINY_ISLAND_TOP', 'thi_geo_0005C8', 'thi_geo'),
 }
@@ -167,13 +157,20 @@ rr = {
 }
 castle_grounds = {
 	(3, '0x120006f4'):('MODEL_LEVEL_GEOMETRY_03', 'castle_grounds_geo_0006F4', 'castle_grounds_geo'),
-	(23, '0x16000fe8'):('MODEL_CASTLE_GROUNDS_BUBBLY_TREE', 'bubbly_tree_geo', 'bubbly_tree'),
-	(0x12, '0x16000388'):('MODEL_CASTLE_GROUNDS_WARP_PIPE', 'warp_pipe_geo', 'warp_pipe'),
-	(38, '0x160003a8'):('MODEL_CASTLE_GROUNDS_CASTLE_DOOR', 'castle_door_geo', 'castle_door'),
-	(41, '0x160005f8'):('MODEL_CASTLE_GROUNDS_METAL_DOOR', 'metal_door_geo', 'metal_door'),
 	(54, '0x1200070c'):('MODEL_CASTLE_GROUNDS_VCUTM_GRILL', 'castle_grounds_geo_00070C', 'castle_grounds_geo'),
 	(55, '0x12000660'):('MODEL_CASTLE_GROUNDS_FLAG', 'castle_grounds_geo_000660', 'castle_grounds_geo'),
 	(56, '0x12000724'):('MODEL_CASTLE_GROUNDS_CANNON_GRILL', 'castle_grounds_geo_000724', 'castle_grounds_geo'),
+}
+castle_inside = {
+	(208,'0x12000f00'):('MODEL_CASTLE_STAR_DOOR_30_STARS','castle_geo_000F00',' '),
+	(209,'0x12000f00'):('MODEL_CASTLE_STAR_DOOR_30_STARS','castle_geo_000F00',' '),
+	(213,'0x12000f00'):('MODEL_CASTLE_STAR_DOOR_30_STARS','castle_geo_000F00',' '),
+	(214,'0x12000f00'):('MODEL_CASTLE_STAR_DOOR_30_STARS','castle_geo_000F00',' '),
+	(53,'0x12000f18'):('MODEL_CASTLE_BOWSER_TRAP','castle_geo_000F18',' '),
+	(55,'0x12001530'):('MODEL_CASTLE_CLOCK_MINUTE_HAND','castle_geo_001530',' '),
+	(56,'0x12001548'):('MODEL_CASTLE_CLOCK_HOUR_HAND','castle_geo_001548',' '),
+	(57,'0x12001518'):('MODEL_CASTLE_CLOCK_PENDULUM','castle_geo_001518',' '),
+	(54,'0x12001940'):('MODEL_CASTLE_WATER_LEVEL_PILLAR','castle_geo_001940',' ')
 }
 bitdw = {
 	(3, '0x120003c0'):('MODEL_LEVEL_GEOMETRY_03', 'geo_bitdw_0003C0', 'geo_bitdw'),
@@ -191,7 +188,6 @@ bitdw = {
 	(15, '0x120004e0'):('MODEL_LEVEL_GEOMETRY_0F', 'geo_bitdw_0004E0', 'geo_bitdw'),
 	(16, '0x120004f8'):('MODEL_LEVEL_GEOMETRY_10', 'geo_bitdw_0004F8', 'geo_bitdw'),
 	(17, '0x12000510'):('MODEL_LEVEL_GEOMETRY_11', 'geo_bitdw_000510', 'geo_bitdw'),
-	(0x12, '0x16000388'):('MODEL_BITDW_WARP_PIPE', 'warp_pipe_geo', 'warp_pipe'),
 	(54, '0x12000558'):('MODEL_BITDW_SQUARE_PLATFORM', 'geo_bitdw_000558', 'geo_bitdw'),
 	(55, '0x12000540'):('MODEL_BITDW_SEESAW_PLATFORM', 'geo_bitdw_000540', 'geo_bitdw'),
 	(56, '0x12000528'):('MODEL_BITDW_SLIDING_PLATFORM', 'geo_bitdw_000528', 'geo_bitdw'),
@@ -320,7 +316,6 @@ ddd = {
 	(56, '0x12000450'):('MODEL_DDD_POLE', 'ddd_geo_000450', 'ddd_geo'),
 }
 wf = {
-	(23, '0x16000fe8'):('MODEL_WF_BUBBLY_TREE', 'bubbly_tree_geo', 'bubbly_tree'),
 	(3, '0x120007e0'):('MODEL_LEVEL_GEOMETRY_03', 'wf_geo_0007E0', 'wf_geo'),
 	(4, '0x12000820'):('MODEL_LEVEL_GEOMETRY_04', 'wf_geo_000820', 'wf_geo'),
 	(5, '0x12000860'):('MODEL_LEVEL_GEOMETRY_05', 'wf_geo_000860', 'wf_geo'),
@@ -353,8 +348,6 @@ wf = {
 	(58, '0x12000bc8'):('MODEL_WF_KICKABLE_BOARD_FELLED', 'wf_geo_000BC8', 'wf_geo'),
 }
 castle_courtyard = {
-	(24, '0x16001000'):('MODEL_COURTYARD_SPIKY_TREE', 'spiky_tree_geo', 'spiky_tree'),
-	(39, '0x160004d0'):('MODEL_COURTYARD_WOODEN_DOOR', 'wooden_door_geo', 'wooden_door'),
 	(3, '0x12000200'):('MODEL_LEVEL_GEOMETRY_03', 'castle_courtyard_geo_000200', 'castle_courtyard_geo'),
 }
 bowser_2 = {
@@ -416,13 +409,13 @@ common0 = {
 	(131, '0x0f000a58'):('MODEL_EXCLAMATION_BOX_OUTLINE', 'exclamation_box_outline_geo', 'exclamation_box_outline'),
 	(137, '0x0f000694'):('MODEL_EXCLAMATION_BOX', 'exclamation_box_geo', 'exclamation_box'),
 	(192, '0x0f0006e4'):('MODEL_GOOMBA', 'goomba_geo', 'goomba'),
-	(132, '0x08025F08'):('MODEL_EXCLAMATION_POINT', 'exclamation_box_outline_seg8_dl_08025F08', 'exclamation_box_outline'),
+	(132, '0x08025f08'):('MODEL_EXCLAMATION_POINT', 'exclamation_box_outline_seg8_dl_08025F08', 'exclamation_box_outline'),
 	(190, '0x0f000ab0'):('MODEL_KOOPA_SHELL', 'koopa_shell_geo', 'koopa_shell'),
 	(217, '0x0f000a30'):('MODEL_METAL_BOX', 'metal_box_geo', 'metal_box'),
-	(218, '0x08024BB8'):('MODEL_METAL_BOX_DL', 'metal_box_dl', 'metal_box'),
+	(218, '0x08024bb8'):('MODEL_METAL_BOX_DL', 'metal_box_dl', 'metal_box'),
 	(188, '0x0f0007b8'):('MODEL_BLACK_BOBOMB', 'black_bobomb_geo', 'bobomb'),
 	(195, '0x0f0008f4'):('MODEL_BOBOMB_BUDDY', 'bobomb_buddy_geo', 'bobomb'),
-	(201, '0x080048E0'):('MODEL_DL_CANNON_LID', 'cannon_lid_seg8_dl_080048E0', 'cannon_lid'),
+	(201, '0x080048e0'):('MODEL_DL_CANNON_LID', 'cannon_lid_seg8_dl_080048E0', 'cannon_lid'),
 	(180, '0x0f000640'):('MODEL_BOWLING_BALL', 'bowling_ball_geo', 'bowling_ball'),
 	(127, '0x0f0001c0'):('MODEL_CANNON_BARREL', 'cannon_barrel_geo', 'cannon_barrel'),
 	(128, '0x0f0001a8'):('MODEL_CANNON_BASE', 'cannon_base_geo', 'cannon_base'),
@@ -432,8 +425,26 @@ common0 = {
 	(225, '0x0f00066c'):('MODEL_TRAJECTORY_MARKER_BALL', 'bowling_ball_track_geo', 'bowling_ball'),
 }
 common1 = {
+	(0x22,'0x160007b4'):('MODEL_CASTLE_DOOR_0_STARS','castle_door_0_star_geo','door'),
+	(0x23,'0x16000868'):('MODEL_CASTLE_DOOR_1_STAR','castle_door_1_star_geo','door'),
+	(0x24,'0x1600091c'):('MODEL_CASTLE_DOOR_3_STARS','castle_door_3_stars_geo','door'),
+	(0x25,'0x160009d0'):('MODEL_CASTLE_KEY_DOOR','key_door_geo','door'),
+	(29, '0x16000720'):('MODEL_BBH_HAUNTED_DOOR', 'haunted_door_geo', 'door'),
+	(39, '0x1600043c'):('MODEL_CCM_CABIN_DOOR', 'cabin_door_geo', 'door'),
+	(29, '0x160004d0'):('MODEL_HMC_WOODEN_DOOR', 'wooden_door_geo', 'door'),
+	(31, '0x160005f8'):('MODEL_HMC_METAL_DOOR', 'metal_door_geo', 'door'),
+	(32, '0x1600068c'):('MODEL_HMC_HAZY_MAZE_DOOR', 'hazy_maze_door_geo', 'door'),
+	(27, '0x16001048'):('MODEL_SSL_PALM_TREE', 'palm_tree_geo', 'tree'),
+	(25, '0x16001018'):('MODEL_SL_SNOW_TREE', 'snow_tree_geo', 'tree'),
+	(0x12, '0x16000388'):('MODEL_THI_WARP_PIPE', 'warp_pipe_geo', 'warp_pipe'),
+	(0x16, '0x16000388'):('MODEL_THI_WARP_PIPE', 'warp_pipe_geo', 'warp_pipe'),
+	(24, '0x16001000'):('MODEL_COURTYARD_SPIKY_TREE', 'spiky_tree_geo', 'tree'),
+	(39, '0x160004d0'):('MODEL_COURTYARD_WOODEN_DOOR', 'wooden_door_geo', 'door'),
+	(23, '0x16000fe8'):('MODEL_CASTLE_GROUNDS_BUBBLY_TREE', 'bubbly_tree_geo', 'tree'),
+	(38, '0x160003a8'):('MODEL_CASTLE_GROUNDS_CASTLE_DOOR', 'castle_door_geo', 'door'),
+	(41, '0x160005f8'):('MODEL_CASTLE_GROUNDS_METAL_DOOR', 'metal_door_geo', 'door'),
 	(116, '0x1600013c'):('MODEL_YELLOW_COIN', 'yellow_coin_geo', 'coin'),
-	(122, '0x160007b4'):('MODEL_STAR', 'star_geo', 'star'),
+	(122, '0x16000ea0'):('MODEL_STAR', 'star_geo', 'star'),
 	(121, '0x16000f6c'):('MODEL_TRANSPARENT_STAR', 'transparent_star_geo', 'transparent_star'),
 	(124, '0x16000fb4'):('MODEL_WOODEN_SIGNPOST', 'wooden_signpost_geo', 'wooden_signpost'),
 	(144, '0x16000b2c'):('MODEL_RED_FLAME', 'red_flame_geo', 'flame'),
@@ -441,12 +452,12 @@ common1 = {
 	(162, '0x16000c8c'):('MODEL_LEAVES', 'leaves_geo', 'leaves'),
 	(185, '0x16000c44'):('MODEL_FISH', 'fish_geo', 'blue_fish'),
 	(186, '0x16000bec'):('MODEL_FISH_SHADOW', 'fish_shadow_geo', 'fish'),
-	(159, '0x0302BCD0'):('MODEL_SAND_DUST', 'sand_seg3_dl_0302BCD0', 'sand'),
+	(159, '0x0302bcd0'):('MODEL_SAND_DUST', 'sand_seg3_dl_0302BCD0', 'sand'),
 	(187, '0x160000a8'):('MODEL_BUTTERFLY', 'butterfly_geo', 'butterfly'),
-	(161, '0x0301CB00'):('MODEL_PEBBLE', 'pebble_seg3_dl_0301CB00', 'pebble'),
+	(161, '0x0301cb00'):('MODEL_PEBBLE', 'pebble_seg3_dl_0301CB00', 'pebble'),
 	(142, '0x16000000'):('MODEL_MIST', 'mist_geo', 'mist'),
 	(224, '0x16000020'):('MODEL_WHITE_PUFF', 'white_puff_geo', 'white_puff'),
-	(158, '0x03006948'):('MODEL_WHITE_PARTICLE_DL', 'white_particle_dl', 'white_particle'),
+	(158, '0x0302c8a0'):('MODEL_WHITE_PARTICLE_DL', 'white_particle_dl', 'white_particle'),
 	(160, '0x16000f98'):('MODEL_WHITE_PARTICLE', 'white_particle_geo', 'white_particle'),
 	(117, '0x160001a0'):('MODEL_YELLOW_COIN_NO_SHADOW', 'yellow_coin_no_shadow_geo', 'coin'),
 	(118, '0x16000200'):('MODEL_BLUE_COIN', 'blue_coin_geo', 'coin'),
@@ -470,14 +481,15 @@ group0 = {
 	(143, '0x17000284'):('MODEL_SPARKLES_ANIMATION', 'sparkles_animation_geo', 'sparkles_animation'),
 	(170, '0x1700001c'):('MODEL_PURPLE_MARBLE', 'purple_marble_geo', 'bubble'),
 	(148, '0x17000084'):('MODEL_BURN_SMOKE', 'burn_smoke_geo', 'burn_smoke'),
-	(164, '0x04032A18'):('MODEL_WHITE_PARTICLE_SMALL', 'white_particle_small_dl', 'white_particle_small'),
+	(156, '0x17000084'):('MODEL_BURN_SMOKE', 'burn_smoke_geo', 'burn_smoke'),
+	(164, '0x04032a18'):('MODEL_WHITE_PARTICLE_SMALL', 'white_particle_small_dl', 'white_particle_small'),
 	(1, '0x17002dd4'):('MODEL_MARIO', 'mario_geo', 'mario'),
 	(150, '0x17000038'):('MODEL_SMOKE', 'smoke_geo', 'walk_smoke'),
 	(149, '0x170001bc'):('MODEL_SPARKLES', 'sparkles_geo', 'sparkle'),
 	(168, '0x17000000'):('MODEL_BUBBLE', 'bubble_geo', 'bubble'),
 	(165, '0x1700009c'):('MODEL_SMALL_WATER_SPLASH', 'small_water_splash_geo', 'stomp_smoke'),
 	(166, '0x17000124'):('MODEL_IDLE_WATER_WAVE', 'idle_water_wave_geo', 'water_wave'),
-	(167, '0x1700009c'):('MODEL_WATER_SPLASH', 'water_splash_geo', 'water_splash'),
+	(167, '0x17000230'):('MODEL_WATER_SPLASH', 'water_splash_geo', 'water_splash'),
 	(163, '0x17000168'):('MODEL_WAVE_TRAIL', 'wave_trail_geo', 'water_wave'),
 }
 group1 = {
@@ -502,7 +514,7 @@ group11 = {
 	(89, '0x0c000000'):('MODEL_BUBBA', 'bubba_geo', 'bubba'),
 }
 group12 = {
-	(100, '0x0d0000d8'):('MODEL_BOWSER', 'bowser_geo', 'bowser'),
+	(100, '0x0d000ac4'):('MODEL_BOWSER', 'bowser_geo', 'bowser'),
 	(101, '0x0d000bbc'):('MODEL_BOWSER_BOMB_CHILD_OBJ', 'bowser_bomb_geo', 'bowser_bomb'),
 	(179, '0x0d000bbc'):('MODEL_BOWSER_BOMB', 'bowser_bomb_geo', 'bowser_bomb'),
 	(102, '0x0d000bfc'):('MODEL_BOWSER_SMOKE', 'bowser_impact_smoke_geo', 'impact_smoke'),
@@ -533,8 +545,8 @@ group14 = {
 group15 = {
 	(100, '0x0d000448'):('MODEL_MIPS', 'mips_geo', 'mips'),
 	(101, '0x0d0005b0'):('MODEL_BOO_CASTLE', 'boo_castle_geo', 'boo_castle'),
-	(102, '0x0c0001bc'):('MODEL_LAKITU', 'lakitu_geo', 'lakitu_cameraman'),
-	(221, '0x0d000114'):('MODEL_TOAD', 'toad_geo', 'toad'),
+	(102, '0x0d000000'):('MODEL_LAKITU', 'lakitu_geo', 'lakitu_cameraman'),
+	(221, '0x0d0003e4'):('MODEL_TOAD', 'toad_geo', 'toad'),
 }
 group16 = {
 	(100, '0x06003754'):('MODEL_CHILL_BULLY', 'chilly_chief_geo', 'chillychief'),
@@ -552,7 +564,7 @@ group17 = {
 group2 = {
 	(84, '0x0c000240'):('MODEL_BLARGG', 'blargg_geo', 'blargg'),
 	(86, '0x0c000000'):('MODEL_BULLY', 'bully_geo', 'bully'),
-	(87, '0x0c000120'):('MODEL_BULLY_BOSS', 'bully_boss_geo', 'bully_boss'),
+	(87, '0x0c000120'):('MODEL_BULLY_BOSS', 'bully_boss_geo', 'bully'),
 }
 group3 = {
 	(84, '0x0c000308'):('MODEL_WATER_BOMB', 'water_bomb_geo', 'water_bubble'),

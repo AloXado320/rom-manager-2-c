@@ -201,6 +201,10 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 					#export a png
 					bin = rom[t[0]:t[0]+t[2]*2+2]
 					png = BinPNG.MakeImage(str(tdir/(id+hex(t[1])+"_custom.%s"%(t[5].lower()+str(t[6])))))
+					#I lost the dimensions somehow, so its probably jumping around alot. assume 32x32
+					if t[3]==0 or t[4]==0:
+						t[3]=32
+						t[4]=32
 					png = ImgTypes[t[5]](t[3],t[4],t[6],bin,png)
 		#display lists
 		DLn = 'const Gfx DL_'+id+hex(md[0][1])+'[]'
@@ -542,7 +546,7 @@ def G_LOAD_UCODE_Decode(bin,id):
 	
 def G_DL_Decode(bin,id):
 	store,pad,seg=bin.unpack('uint:8,int:16,uint:32')
-	return (seg,)
+	return ('DL_'+id+hex(seg),)
 
 def G_ENDDL_Decode(bin,id):
 	return ()

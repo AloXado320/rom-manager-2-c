@@ -224,14 +224,14 @@ def LoadPolyF3d(rom,cmd,start,script):
 	id=arg[1:2]
 	layer=TcH(arg[0:1])>>4
 	f3d=TcH(arg[2:6])
-	script.models[TcH(id)]=(f3d,'f3d',layer,script.B2P(f3d))
+	script.models[TcH(id)]=(f3d,'f3d',layer,script.B2P(f3d),script)
 	return start
 	
 def LoadPolyGeo(rom,cmd,start,script):
 	arg=cmd[2]
 	id=arg[1:2]
 	geo=TcH(arg[2:6])
-	script.models[TcH(id)]=(geo,'geo',None,script.B2P(geo))
+	script.models[TcH(id)]=(geo,'geo',None,script.B2P(geo),script)
 	return start
 	
 def PlaceObject(rom,cmd,start,script):
@@ -392,7 +392,8 @@ def InsertBankLoads(s,f):
 			else:
 				load = "LOAD_MIO0(%d,"%banks[i][1]+banks[i][0]+"_mio0SegmentRomStart,"+banks[i][0]+"_mio0SegmentRomEnd),\n"
 				load += "LOAD_RAW(%d,"%banks[i][2]+banks[i][0]+"_geoSegmentRomStart,"+banks[i][0]+"_geoSegmentRomEnd),\n"
-			f.write(load)
+			if f:
+				f.write(load)
 	return banks
 
 def DetLevelSpecBank(s,f):
@@ -416,11 +417,20 @@ def LoadUnspecifiedModels(s,file,level):
 			#if you just use the map which has no distinction on which bank is loaded.
 			addr = "{:08x}".format(model[0])
 			if Seg==0x12:
-				lab = GD.__dict__[level].get((i,'0x'+addr))[1]
+				lab = GD.__dict__[level].get((i,'0x'+addr))
+				if not lab:
+					print(addr,level,i)
+					lab = s.GetLabel(addr)
+				else:
+					lab= lab[1]
 			#actor groups, unlikely to exist outside existing group loads
 			if Seg==0xD or Seg==0xC:
 				group = ClosestIntinDict(s.banks[Seg][0],Groups)[0][1:]
-				lab = GD.__dict__[group].get((i,'0x'+addr))[1]
+				lab = GD.__dict__[group].get((i,'0x'+addr))
+				if not lab:
+					lab = s.GetLabel(addr)
+				else:
+					lab= lab[1]
 			#group0, common0, common1 banks that have unique geo layouts
 			else:
 				lab = s.GetLabel(addr)
@@ -539,7 +549,6 @@ def GrabOGDatld(L,rootdir,name):
 	return [L,grabbed]
 
 def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend):
-	#create level directory
 	WaterOnly = Onlys[0]
 	ObjectOnly = Onlys[1]
 	MusicOnly = Onlys[2]
@@ -705,48 +714,75 @@ def ProcessModel(rom,editor,s,modelID,model):
 	Seg=model[0]>>24
 	folder=None
 	bank = s.banks[Seg]
+	#I'm skipping seg 14 for now, which is menu geo stuff
+	if Seg==0x14:
+		return [None,None,None,None]
 	#A custom bank will be one that is loaded well after
 	#all other banks are. This is not guaranteed, but nominal bhv
 	if bank[0]>0x1220000:
-		return ('Custom_%d'%bank[0],Seg,label)
+		if model[2]=='geo':
+			label = "custom_geo_{:08x}".format(model[0])
+		else:
+			label = "custom_DL_{:08x}".format(model[0])
+		folder = "custom_{:08x}".format(model[0])
+		return ('custom_%x'%bank[0],Seg,label,folder)
 	#These are in Seg C, D, F, 16, 17
 	if Seg!=7 and Seg!=0x12:
-		group = ClosestIntinDict(bank[0],Groups)[0][1:]
+		#catch group0/common0/1 f3d/geo loads. f3d loads happen most often in these
+		if Seg==8 or Seg==0xF:
+			group='common0'
+		elif Seg==3 or Seg==0x16:
+			group='common1'
+		elif Seg==4 or Seg==0x17:
+			group='group0'
+		else:
+			group = ClosestIntinDict(bank[0],Groups)[0][1:]
 		label = GD.__dict__[group].get((modelID,"0x{:08x}".format(model[0])))
 		if label:
 			folder = label[2]
 			label=label[1]
 	#These are all in bank 7 with geo layouts in bank 12
 	else:
-		group = ClosestIntinDict(bank[0],LevelSpecificBanks)
+		group = ClosestIntinDict(s.banks[7][0],LevelSpecificBanks)
 		label = GD.__dict__[group].get((modelID,"0x{:08x}".format(model[0])))
 		if label:
 			folder = label[2]
 			label=label[1]
+	#Something extra added to existing bank
+	if not label:
+		if model[2]=='geo':
+			label = "custom_geo_{:08x}".format(model[0])
+		else:
+			label = "custom_DL_{:08x}".format(model[0])
+		folder = "custom_{:08x}".format(model[0])
 	return (group,Seg,label,folder)
 
 #process all the script class objects from all exported levels to find specific data
 def ProcessScripts(rom,editor,Scripts):
 	#key=banknum, value = list of start/end locations
 	Banks = {}
-	#key=group name, values = [seg num,label,type,rom addr,ID,folder]
+	#key=group name, values = [seg num,label,type,rom addr,seg addr,ID,folder,script]
 	Models = {}
 	for s in Scripts:
 		#banks
 		for k,B in enumerate(s.banks):
 			if B:
+				#use headersize to show unique banks and retrieve them 'anonymously' of some sort
+				HS = (k<<24)-B[0]
 				dupe = Banks.get(k)
 				#check for duplicate which should be the case often
-				if dupe and B not in dupe:
-					Banks[k].append(B)
+				if dupe and (B,HS) not in dupe:
+					Banks[k].append((B,HS))
 				else:
-					Banks[k] = [B]
+					Banks[k] = [(B,HS)]
 		#models
 		for k,M in enumerate(s.models):
 			if M:
 				[group,seg,l,f] = ProcessModel(rom,editor,s,k,M)
+				if group==None:
+					continue
 				dupe = Models.get(group)
-				val = [seg,l,M[1],M[3],k,f]
+				val = [seg,l,M[1],M[3],M[0],k,f,M[4]]
 				#check for duplicate which should be the case often
 				if dupe and val not in dupe:
 					Models[group].append(val)
@@ -891,12 +927,82 @@ def ExportLevel(rom,level,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums
 	WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend)
 	return s
 
-def ExportActors(actors,rom,Banks,Models,editor):
-	for group,M in Models.items():
-	#key=group name, values = [seg num,label,type,rom addr,ID,folder]
-		print(group)
-		for m in M:
-			print(m)
+class Actor():
+	def __init__(self,aDir):
+		self.folders ={}
+		self.dir = aDir
+	def EvalModel(self,model,group):
+		folder = self.folders.get(model[6])
+		if folder:
+			for v in folder:
+				if model[3] in v:
+					break
+			else:
+				self.folders[model[6]].append([*model[0:5],model[7],group])
+		else:
+			self.folders[model[6]] = [[*model[0:5],model[7],group]]
+	def MakeFolders(self,rom,Banks):
+		for k,val in self.folders.items():
+			fold = self.dir / k
+			shutil.rmtree(fold)
+			fold.mkdir(exist_ok=True)
+			fgeo = fold/'custom.geo.inc.c'
+			fgeo = open(fgeo,'w')
+			for v in val:
+				if v[2]=='geo':
+					[geos,dls] = GW.GeoActParse(rom,v)
+					GW.GeoActWrite(geos,fgeo)
+					WriteModel(rom,dls,v[5],fold,v[1],v[1],fold)
+
+def ExportActors(actors,rom,Banks,Models,aDir):
+	#Models is key=group name, values = [seg num,label,type,rom addr, seg addr,ID,folder,script]
+	Actors = Actor(aDir)
+	levels = list(Num2Name.values())
+	#every model seen
+	if actors=='all':
+		for group,models in Models.items():
+			if group in levels:
+				pass
+			for m in models:
+				Actors.EvalModel(m,group)
+		return Actors.MakeFolders(rom,Banks)
+	#only models with a new geo address/unk geo addr model ID combo
+	elif actors=='new':
+		print('new models are experimental currently')
+		for group,models in Models.items():
+			if group in levels:
+				pass
+			for m in models:
+				if m[1]:
+					Actors.EvalModel(m,group)
+		return Actors.MakeFolders(rom,Banks)
+	#only models with a known modelID geo addr combo
+	elif actors=='old':
+		for group,models in Models.items():
+			if group in levels:
+				pass
+			for m in models:
+				if not m[1]:
+					Actors.EvalModel(m,group)
+		return Actors.MakeFolders(rom,Banks)
+	#if its not one of the above phrases, its the name of a group
+	elif type(actors)==str:
+		models = Models[actors]
+		if actors in levels:
+			pass
+		for m in models:
+			if m[1]:
+				Actors.EvalModel(m,actors)
+		return Actors.MakeFolders(rom,Banks)
+	#only option left is a list of groups
+	for a in actors:
+		models = Models[a]
+		if a in levels:
+			pass
+		for m in models:
+			if m[1]:
+				Actors.EvalModel(m,a)
+	return Actors.MakeFolders(rom,Banks)
 
 def FindCustomSkyboxse(rom,Banks,SB):
 	custom = {}
@@ -1292,7 +1398,7 @@ RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), actors=[] (or
 
 Arguments with equals sign are shown in default state, do not put commas between args.
 Levels accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
-Actors will accept either a list of modelIDs, a string for a group (see decomp group folders e.g. common0, group1 etc.) the string 'all' for all models, or the string 'new' for only models without a known label.
+Actors will accept either a list of groups, a string for a group (see decomp group folders e.g. common0, group1 etc.) the string 'all' for all models, or the string 'new' for only models without a known label, or 'old' for only known original models.
 The "Only" options are to only export certain things either to deal with specific updates or updates to RM2C itself. Only use one at a time. An only option will not maintain other data. Do not use Append with MusicOnly, it will have no effect.
 MusicExtend is for when you want to add in your custom music on top of the original tracks. Set it to the amount you want to offset your tracks by (0x23 for vanilla).
 Textures will export the equivalent of the /textures/ folder in decomp.
@@ -1300,7 +1406,7 @@ Inherit is a file management arg for when dealing with multiple roms. Normal beh
 Upscale is an option to use ESRGAN ai upscaling to increase texture size. The upscaled textures will generate #ifdefs in each model file for non N64 targeting to compile them instead of the original textures.
 
 Example input1 (all actor models in BoB):
-python RM2C.py rom="ASA.z64" editor=True levels=[9] actors='all'
+python RM2C.py rom="ASA.z64" editor=True levels=[9] actors='all' ObjectOnly=1
 
 Example input2 (Export all Levels in a RM rom):
 python RM2C.py rom="baserom.z64" levels='all'
@@ -1401,7 +1507,7 @@ certain bash errors.
 	lvldefs.close()
 	#Process returned scripts to view certain custom data such as custom banks/actors for actor/texture exporting
 	[Banks,Models] = ProcessScripts(rom,editor,Scripts)
-	ExportActors(actors,rom,Banks,Models,editor)
+	ExportActors(actors,rom,Banks,Models,ass)
 	#export textures
 	if Textures:
 		ExportTextures(rom,editor,Path(sys.path[0]),Banks)
