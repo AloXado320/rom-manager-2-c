@@ -168,7 +168,7 @@ def CondJump(rom,cmd,start,script):
 		return script.B2P(TcH(jump))
 	else:
 		return start
-	
+
 def SetLevel(rom,cmd,start,script):
 	#gonna ignore this and take user input instead
 	#script.Currlevel=TcH(cmd[2])
@@ -344,13 +344,10 @@ def WriteModel(rom,dls,s,name,Hname,id,tdir):
 		c=rom[st]
 		if first==0x01010101 or not F3D.DecodeFmt.get(c):
 			return
-		(dl,verts,textures,amb,diff,jumps,ranges)=F3D.DecodeDL(rom,dls[x],s,id)
-		ModelData.append([dls[x],dl,verts,textures,amb,diff,ranges])
-		for jump in jumps:
-			if jump not in dls:
-				dls.append(jump)
+		(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id)
+		ModelData.append([starts,dl,verts,textures,amb,diff,ranges,0])
 		x+=1
-	refs = F3D.ModelWrite(rom,ModelData,name,id,tdir)
+	refs = F3D.ModelWrite(rom,ModelData,name,id,tdir,s.editor)
 	modelH = name/'custom.model.inc.h'
 	mh = open(modelH,'w')
 	headgaurd="%s_HEADER_H"%(Hname)
@@ -943,17 +940,59 @@ class Actor():
 		else:
 			self.folders[model[6]] = [[*model[0:5],model[7],group]]
 	def MakeFolders(self,rom):
+		#key is folder name, values = [seg num,label,type,rom addr, seg addr,ID,script,groupname]
 		for k,val in self.folders.items():
 			fold = self.dir / k
-			shutil.rmtree(fold)
+			if os.path.isdir(fold):
+				shutil.rmtree(fold)
 			fold.mkdir(exist_ok=True)
 			fgeo = fold/'custom.geo.inc.c'
 			fgeo = open(fgeo,'w')
+			geos = []
+			dls = []
+			ids = []
 			for v in val:
 				if v[2]=='geo':
-					[geos,dls] = GW.GeoActParse(rom,v)
-					GW.GeoActWrite(geos,fgeo)
-					WriteModel(rom,dls,v[5],fold,v[1],v[1],fold)
+					[geo,dl] = GW.GeoActParse(rom,v)
+					geos.extend(geo)
+					dls.append(dl)
+					ids.append(v[1]+'_')
+				#load via f3d
+				else:
+					dls.append([[v[3],v[4]]])
+					ids.append(v[1]+'_')
+			if geos:
+				GW.GeoActWrite(geos,fgeo)
+			#turn editor off for script object so optimization
+			#doesn't happen
+			v[5].editor=0
+			self.WriteActorModel(rom,dls,v[5],k+'_model',ids,fold)
+			print('{} exported'.format(k))
+	def WriteActorModel(self,rom,dlss,s,Hname,ids,dir):
+		x=0
+		ModelData=[]
+		for dls,id in zip(dlss,ids):
+			x=0
+			while(x<len(dls)):
+				#check for bad ptr
+				st=dls[x][0]
+				first=TcH(rom[st:st+4])
+				c=rom[st]
+				if first==0x01010101 or not F3D.DecodeFmt.get(c):
+					return
+				(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id)
+				ModelData.append([starts,dl,verts,textures,amb,diff,ranges,id])
+				x+=1
+		refs = F3D.ModelWrite(rom,ModelData,dir,ids[0],dir,s.editor)
+		modelH = dir/'custom.model.inc.h'
+		mh = open(modelH,'w')
+		headgaurd="%s_HEADER_H"%(Hname)
+		mh.write('#ifndef %s\n#define %s\n#include "types.h"\n'%(headgaurd,headgaurd))
+		for r in refs:
+			mh.write('extern '+r+';\n')
+		mh.write("#endif")
+		mh.close()
+		return dls
 
 def ExportActors(actors,rom,Models,aDir):
 	#Models is key=group name, values = [seg num,label,type,rom addr, seg addr,ID,folder,script]
@@ -1392,12 +1431,43 @@ return RM2C_Water_Box_Array[gCurrLevelNum-4][gCurrAreaIndex][id];
 };"""
 	MTinc.write(func)
 
+def ExportTitleScreen(rom,level):
+	pass#8016f904,8016f908
+	UPH = (lambda x,y: struct.unpack(">h",x[y:y+2])[0])
+	titleptr = UPH(rom,0x0021FDC6)<<16
+	titleptr += UPH(rom,0x0021FDCA)
+	#choose level
+	s = Script(0)
+	s.editor=0
+	s.Seg2(rom)
+	entry = 0x108A10
+	#get all level data from script
+	while(True):
+		#parse script until reaching special
+		q=PLC(rom,entry)
+		#execute special cmd
+		entry = jumps[q[0]](rom,q,q[3],s)
+		#I assume no one messed with the entry script
+		#or else this will fail hard. I have to exit manually
+		#early because the title screen is overwritten quickly
+		if entry>=2531020:
+			break
+	Rtitleptr = s.B2P(titleptr)
+	intro = level/'intro'
+	intro.mkdir(exist_ok=True)
+	WriteModel(rom,[[Rtitleptr,titleptr]],s,intro,'TITLESCREEN','intro_seg7_',intro)
+	#Make leveldata.c for intro
+	ld = intro/ 'leveldata.c'
+	ld = open(ld,'w')
+	ld.write(TitleStrFormatter.format('DL_intro_seg7_0x%x'%titleptr))
+	ld.close()
+
 if __name__=='__main__':
 	HelpMsg="""
 ------------------Invalid Input - Error ------------------
 
 Arguments for RM2C are as follows:
-RM2C.py, rom="romname", editor=False, levels=[] (or levels='all'), actors=[] (or assets='all'), Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0 Inherit=0 Upsacle=0
+RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0 Inherit=0 Upscale=0 Title=0
 
 Arguments with equals sign are shown in default state, do not put commas between args.
 Levels accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
@@ -1406,7 +1476,9 @@ The "Only" options are to only export certain things either to deal with specifi
 MusicExtend is for when you want to add in your custom music on top of the original tracks. Set it to the amount you want to offset your tracks by (0x23 for vanilla).
 Textures will export the equivalent of the /textures/ folder in decomp.
 Inherit is a file management arg for when dealing with multiple roms. Normal behavior is to clear level folder each time, inherit prevents this.
+Title exports the title screen. This will also be exported if levels='all'
 Upscale is an option to use ESRGAN ai upscaling to increase texture size. The upscaled textures will generate #ifdefs in each model file for non N64 targeting to compile them instead of the original textures.
+
 
 Example input1 (all actor models in BoB):
 python RM2C.py rom="ASA.z64" editor=True levels=[9] actors='all' ObjectOnly=1
@@ -1442,6 +1514,7 @@ certain bash errors.
 	Textures=0
 	Inherit=0
 	Upscale=0
+	Title=0
 	#This is not an arg you should edit really
 	TxtAmount = 170
 	for arg in sys.argv[1:]:
@@ -1484,20 +1557,25 @@ certain bash errors.
 	seqNums = []
 	Onlys = [WaterOnly,ObjectOnly,MusicOnly]
 	#custom level defines file so the linker knows whats up. Mandatory or export won't work
-	lvldefs = Path(sys.path[0]) / 'levels'
+	lvldir = Path(sys.path[0]) / 'levels'
 	#So you don't have truant level folders from a previous export
 	if not Inherit:
-		if os.path.isdir(lvldefs):
-			shutil.rmtree(lvldefs)
-	lvldefs.mkdir(exist_ok=True)
-	lvldefs = lvldefs/"custom_level_defines.h"
+		if os.path.isdir(lvldir):
+			shutil.rmtree(lvldir)
+	lvldir.mkdir(exist_ok=True)
+	lvldefs = lvldir/"custom_level_defines.h"
 	lvldefs = open(lvldefs,'w')
 	ass=Path("actors")
 	ass=Path(sys.path[0])/ass
+	if not Inherit:
+		if os.path.isdir(ass):
+			shutil.rmtree(ass)
 	ass.mkdir(exist_ok=True)
 	#Array of all scripts from each level
 	Scripts = []
 	if levels=='all':
+		#export title screen
+		ExportTitleScreen(rom,lvldir)
 		for k in Num2Name.keys():
 			Scripts.append(ExportLevel(rom,k,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs))
 			print(Num2Name[k] + ' done')
@@ -1508,6 +1586,9 @@ certain bash errors.
 			Scripts.append(ExportLevel(rom,k,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs))
 			print(Num2Name[k] + ' done')
 	lvldefs.close()
+	#export title screen via arg
+	if Title and levels!='all':
+		ExportTitleScreen(rom,lvldir)
 	#Process returned scripts to view certain custom data such as custom banks/actors for actor/texture exporting
 	[Banks,Models] = ProcessScripts(rom,editor,Scripts)
 	ExportActors(actors,rom,Models,ass)

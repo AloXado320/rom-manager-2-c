@@ -41,33 +41,13 @@ def TcH(bytes):
 	if len(bytes)==1:
 		return struct.unpack(">B",a)[0]
 
-def ModelWrite(rom,ModelData,nameG,id,tdir):
-	#start,dl,verts,textureptrs,ambient lights, diffuse lights
-	dl=[]
-	vbs=[]
-	txt=[]
-	ambs=[]
-	diffs=[]
-	refs = []
-	ImgTypes = {
-	'RGBA':BinPNG.RGBA,
-	'CI':BinPNG.CI,
-	'IA':BinPNG.IA,
-	'I':BinPNG.I
-	}
-	StartTri = (lambda x: (x.startswith('gsSP1Triangle') or x.startswith('gsSP2Triangles')))
-	name = nameG/'custom.model.inc.c'
-	if os.path.isfile(tdir/'textureNew.inc.c'):
-		textures = open(tdir/'textureNew.inc.c','a')
-	else:
-		textures = open(tdir/'textureNew.inc.c','w')
-	f = open(name,'w')
-	f.write('#include "%s"\n'%('custom.model.inc.h'))
+def OptimizeModeldata(ModelData):
 	#ranges is model data 6, dl is model data 1
 	#attempt to optimize texture loads by looking at ranges
+	StartTri = (lambda x: (x.startswith('gsSP1Triangle') or x.startswith('gsSP2Triangles')))
 	for k,md in enumerate(ModelData):
 		ranges = md[6]
-		dl = md[1]
+		dl = md[1][0]
 		NewDL = [dl[ranges[0][0]:ranges[0][2]+1]]
 		#End should always start from mat start as its normally not drawing anything but this could bite me
 		#At worst this could end up missing a vert load or 5 tris
@@ -161,15 +141,85 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 			OptNewMats.extend(Newmat)
 		OptNewMats.extend(End)
 		ModelData[k][1] = OptNewMats
-	for md in ModelData:
+	return ModelData
+
+def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
+	#ModelData = start,dl,verts,textureptrs,ambient lights, diffuse lights, ranges, ids
+	#create redundancy trackers for each data type
+	S,dl,vbs,txt,ambs,diffs,refs=[],[],[],[],[],[],[]
+	#indices of which model data they are so I can get IDs backwards while replacing
+	Trackers = [[],[],[],[],[],[]]
+	#keep track of which symbols are rejected to replace later.
+	#[rejected symb, original symb]
+	Excess=[]
+	Eapp = (lambda x,y,z: Excess.append([z%x,z%y]))
+	ImgTypes = {
+	'RGBA':BinPNG.RGBA,
+	'CI':BinPNG.CI,
+	'IA':BinPNG.IA,
+	'I':BinPNG.I
+	}
+	name = nameG/'custom.model.inc.c'
+	if os.path.isfile(tdir/'textureNew.inc.c'):
+		textures = open(tdir/'textureNew.inc.c','a')
+	else:
+		textures = open(tdir/'textureNew.inc.c','w')
+	f = open(name,'w')
+	f.write('#include "%s"\n'%('custom.model.inc.h'))
+	#For editor levels, do not use on actors or RM unless explicitly told flagged
+	#depends on all data being in the same display list.
+	if opt:
+		Modeldata = OptimizeModeldata(ModelData)
+	#Write vertices first so that they're all in a row in ram so vert scrolls work better
+	for k,md in enumerate(ModelData):
+		if md[-1]:
+			id = md[-1]
+			GetNID = (lambda pos,id,q: ModelData[Trackers[pos][q]][-1])
+		else:
+			GetNID = (lambda pos,id,q: id)
+		#verts
+		pos=2
+		Verts = md[pos]
+		Verts.sort(key=(lambda x: x[0]))
+		for vb in Verts:
+			if vb in vbs:
+				q = vbs.index(vb)
+				Eapp((id+hex(vb[0])),(GetNID(pos,id,q)+hex(vbs[q][0])),'VB_%s')
+				continue
+			vbs.append(vb)
+			Trackers[pos].append(k)
+			VBn = 'const Vtx VB_%s[]'%(id+hex(vb[0]))
+			refs.append(VBn)
+			f.write(VBn+' = {\n')
+			for i in range(vb[2]):
+				V=rom[vb[1]+i*16:vb[1]+i*16+16]
+				V=BitArray(V)
+				q=V.unpack('3*int:16,uint:16,2*int:16,4*uint:8')
+				#feel there should be a better way to do this
+				Vpos=q[0:3]
+				UV=q[4:6]
+				rgba=q[6:10]
+				V="{{{ %d, %d, %d }, 0, { %d, %d }, { %d, %d, %d, %d}}},"%(*Vpos,*UV,*rgba)
+				f.write(V+'\n')
+			f.write('};\n\n')
+	for k,md in enumerate(ModelData):
+		if md[-1]:
+			id = md[-1]
+			GetNID = (lambda pos,id,q: ModelData[Trackers[pos][q]][-1])
+		else:
+			GetNID = (lambda pos,id,q: id)
 		#textures
-		for t in md[3]:
+		pos=3
+		for t in md[pos]:
 			if t[0]:
 				#textureptrs = raw ptr, bank ptr, length, width, height, imgtype, bitdepth, palette, tile
 				if t in txt:
+					q = txt.index(t)
+					Eapp((id+hex(t[1])),(GetNID(pos,id,q)+hex(txt[q][1])),'texture_%s_custom')
 					continue
 				texn = 'const u8 texture_%s_custom[]'%(id+hex(t[1]))
 				txt.append(t)
+				Trackers[pos].append(k)
 				refs.append(texn)
 				if t[5]=='CI':
 					texnp = 'const u8 texture_%s_custom_pal[]'%(id+hex(t[1]))
@@ -186,13 +236,6 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 					pal = [rom[t[7][0]:t[7][0]+(2**t[6])*2],'rgba16'] #A palette is 2^bitdepth of CI * two bytes per pixel
 					png = BinPNG.MakeImage(str(tdir/(id+hex(t[1])+"_custom.%s"%(t[5].lower()+str(t[6])))))
 					png = ImgTypes[t[5]](t[3],t[4],t[6],pal,bin,png)
-					# f.write('ALIGNED8 '+texn+' = {\n')
-					# for i in range(t[2]):
-						# h=rom[t[0]+i*2:t[0]+i*2+2]
-						# f.write("0x{:02X},".format(int(h.hex(),16)))
-						# if i%16==15:
-							# f.write('\n')
-					# f.write('};\n\n')
 				else:
 					#export a include of a png file
 					textures.write('ALIGNED8 '+texn+' = {\n')
@@ -206,49 +249,16 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 						t[3]=32
 						t[4]=32
 					png = ImgTypes[t[5]](t[3],t[4],t[6],bin,png)
-		#display lists
-		DLn = 'const Gfx DL_'+id+hex(md[0][1])+'[]'
-		f.write(DLn+' = {')
-		refs.append(DLn)
-		f.write('\n')
-		for c in md[1]:
-			#remove asset loads that are not referenced (e.g. garbage texture loads)
-			#this may cause empty loads, but thats better than not compiling
-			if c.startswith('gsDPSetTextureImage'):
-				args = c.split(',')
-				tex = args[-1][:-1]
-				for ref in refs:
-					if tex in ref:
-						break
-				else:
-					continue
-			f.write(c+',\n')
-		f.write('};\n\n')
-		#verts
-		for vb in md[2]:
-			if vb in vbs:
-				continue
-			vbs.append(vb)
-			VBn = 'const Vtx VB_%s[]'%(id+hex(vb[0]))
-			refs.append(VBn)
-			f.write(VBn+' = {\n')
-			for i in range(vb[2]):
-				V=rom[vb[1]+i*16:vb[1]+i*16+16]
-				V=BitArray(V)
-				q=V.unpack('3*int:16,uint:16,2*int:16,4*uint:8')
-				#feel there should be a better way to do this
-				pos=q[0:3]
-				UV=q[4:6]
-				rgba=q[6:10]
-				V="{{{ %d, %d, %d }, 0, { %d, %d }, { %d, %d, %d, %d}}},"%(*pos,*UV,*rgba)
-				f.write(V+'\n')
-			f.write('};\n\n')
-
+		
 		#lights
-		for a in md[5]:
+		pos=5
+		for a in md[pos]:
 			if a in diffs:
+				q = diffs.index(a)
+				Eapp((id+hex(a[1])),(GetNID(pos,id,q)+hex(diffs[q][1])),'Light_%s')
 				continue
 			diffs.append(a)
+			Trackers[pos].append(k)
 			lig = 'const Light_t Light_%s'%(id+hex(a[1]))
 			refs.append(lig)
 			f.write(lig+' = {\n')
@@ -257,10 +267,14 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 			col2=Amb[4:7]
 			dir1=Amb[8:11]
 			f.write("{ %d, %d, %d}, 0, { %d, %d, %d}, 0, { %d, %d, %d}, 0\n};\n\n"%(*col1,*col2,*dir1))
-		for a in md[4]:
+		pos=4
+		for a in md[pos]:
 			if a in ambs:
+				q = ambs.index(a)
+				Eapp((id+hex(a[1])),(GetNID(pos,id,q)+hex(ambs[q][1])),'Light_%s')
 				continue
 			ambs.append(a)
+			Trackers[pos].append(k)
 			lig = 'const Ambient_t Light_%s'%(id+hex(a[1]))
 			refs.append(lig)
 			f.write(lig+' = {\n')
@@ -268,6 +282,37 @@ def ModelWrite(rom,ModelData,nameG,id,tdir):
 			col1=Amb[0:3]
 			col2=Amb[4:7]
 			f.write("{%d, %d, %d}, 0, {%d, %d, %d}, 0\n};\n\n"%(*col1,*col2))
+		#display lists
+		pos=0
+		for s,d in zip(md[pos],md[1]):
+			if s in S:
+				q = S.index(s)
+				Eapp((id+hex(s[1])),(GetNID(pos,id,q)+hex(S[q][1])),'DL_%s')
+				continue
+			else:
+				S.append(s)
+				Trackers[pos].append(k)
+			DLn = 'const Gfx DL_'+id+hex(s[1])+'[]'
+			f.write(DLn+' = {')
+			refs.append(DLn)
+			f.write('\n')
+			for c in d:
+				#remove asset loads that are not referenced (e.g. garbage texture loads)
+				#this may cause empty loads, but thats better than not compiling
+				if c.startswith('gsDPSetTextureImage'):
+					args = c.split(',')
+					tex = args[-1][:-1]
+					for ref in refs:
+						if tex in ref:
+							break
+					else:
+						continue
+				#replace culled data refs with first instance of data
+				for e in Excess:
+					if e[0] in c:
+						c = c.replace(e[0],e[1])
+				f.write(c+',\n')
+			f.write('};\n\n')
 	f.close()
 	return refs
 
@@ -304,8 +349,8 @@ def Bin2C(cmd,id):
 			q[0]='gsSPBranchList'
 	return [q[0]+ags,cmd]
 
-def DecodeDL(rom,start,s,id):
-	dl=[]
+def DecodeVDL(rom,start,s,id):
+	dl=[[]]
 	#needs (ptr,length)
 	verts=[]
 	#needs (ptr,length)
@@ -314,16 +359,17 @@ def DecodeDL(rom,start,s,id):
 	amb=[]
 	#neess ptr
 	diffuse=[]
-	#jump dls
-	jumps=[]
 	x=0
 	ranges = [[0,0,0,0,0,0]]
-	start=start[0]
 	LastMat = Mat(Persist)
 	global gCycle
 	gCycle = 1
+	return DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,[start],LastMat,0)
+
+#recursively get DLs
+def DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,start,LastMat,dlStack):
 	while(True):
-		cmd=rom[start+x:start+x+8]
+		cmd=rom[start[dlStack][0]+x:start[dlStack][0]+x+8]
 		cmd=Bin2C(cmd,id)
 		#check if cmd is not needed and can be skipped
 		MSB = cmd[1][:8].uint
@@ -348,114 +394,121 @@ def DecodeDL(rom,start,s,id):
 		if (MSB==6):
 			ptr=cmd[1][32:64].uint
 			x+=8
-			jumps.append([s.B2P(ptr),ptr])
-			dl.append(cmd[0])
+			dl[dlStack].append(cmd[0])
+			dl.append([])
+			start.append([s.B2P(ptr),ptr])
+			(dl,verts,textureptrs,amb,diffuse,ranges,start) = DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,0,start,LastMat,len(dl)-1)
 			if cmd[1][8:16].uint==1:
 				break
 		#end dl
 		elif (MSB==0xb8):
-			dl.append(cmd[0])
+			dl[dlStack].append(cmd[0])
 			break
 		else:
 			x+=8
 			#concat 2 tri ones to a tri2
 			q=1
-			if dl:
-				if dl[-1].startswith('gsSP1Triangle') and cmd[0].startswith('gsSP1Triangle'):
-					old=dl[-1][14:-1]
+			if dl[dlStack]:
+				if dl[dlStack][-1].startswith('gsSP1Triangle') and cmd[0].startswith('gsSP1Triangle'):
+					old=dl[dlStack][-1][14:-1]
 					new=cmd[0][14:-1]
-					dl[-1]="gsSP2Triangles("+old+','+new+')'
+					dl[dlStack][-1]="gsSP2Triangles("+old+','+new+')'
 					q=0
 			if q:
-				dl.append(cmd[0])
-		types = {
-		0:'RGBA',
-		2:'CI',
-		3:'IA',
-		4:'I'
-		}
-		#adding stuff to data arrays
-		if (MSB==0x4):
-			ranges[-1][5]=len(dl)-1
-			ptr=cmd[1][32:64]
-			length=cmd[1][8:12]
-			Rptr=s.B2P(ptr.uint)
-			verts.append((ptr.uint,Rptr,length.uint+1))
-		#if a triangle is drawn and there is a texture, assume a new one is loaded next
-		elif(MSB==0xBF):
-			ranges[-1][3]=1
-			if textureptrs[-1][0] != 0:
-				#editor or RM used to do solid colors using 1px texels with 0 dimensions UVs
-				#it was really dumb and now I have to deal with this case.
-				if textureptrs[-1][3] ==0:
-					textureptrs[-1][3] = 1
-				if textureptrs[-1][4] == 0:
-					textureptrs[-1][4] = 1
-				textureptrs.append(textureptrs[-1].copy())
-				textureptrs[-1][0] = 0
-		#check for an RDP cmd or geo mode or texture enable/disable
-		if (MSB&0xF0==0xF0 or MSB==0xb6 or MSB==0xb7 or MSB==0xBB):
-			if ranges[-1][3]==1:
-				#keep track of the ranges which mats are used for later optimization
-				ranges[-1][1] = textureptrs[-1].copy()
-				#I subtract 1 because len goes ones over the index, and then I subtract another one because I already appended
-				#the mat cmd to the dl.
-				ranges[-1][2] = len(dl)-2
-				if ranges[-1][5]==0:
-					ranges.append([len(dl)-1,0,0,0,ranges[-1][4],0])
-				else:
-					ranges.append([len(dl)-1,0,0,0,ranges[-1][5],0])
-		#textureptrs = raw ptr, bank ptr, length, width, height, imgtype, bitdepth, palette, tile
-		#implementing a very naive alg because I'm lazy and no one hand writes stuff
-		#so I will just assume it follows nice structure, if you want to make it better then PR
-		#set tile
-		if(MSB==0xf5):
-			tile = cmd[1][32:40].uint
-			if tile!=7:
-				type=cmd[1][8:11].uint
-				textureptrs[-1][5]=types[type]
-				bpp=4*2**(cmd[1][11:13].uint)
-				textureptrs[-1][6]=bpp
-				textureptrs[-1][8]=tile
-		#tlut
-		elif(MSB==0xf0):
-			tile = cmd[1][32:40].uint
-			if textureptrs[-1][8]==tile:
-				textureptrs[-1][7]=textureptrs[-1][:2]
-		#set tile size
-		elif(MSB==0xf2):
-			f2 = (lambda x: (x>>2)+1)
-			textureptrs[-1][3] = f2(cmd[1][40:52].uint)
-			textureptrs[-1][4] = f2(cmd[1][52:64].uint)
-		#load tex
-		elif(MSB==0xfd):
-			ptr=cmd[1][32:64]
-			type=cmd[1][8:11].uint
-			bpp=4*2**(cmd[1][11:13].uint)
-			textureptrs[-1][0]=s.B2P(ptr.uint)
-			textureptrs[-1][1]=ptr.uint
-			textureptrs[-1][2]=bpp
-			textureptrs[-1][5]=types[type]
-			textureptrs[-1][6]=bpp
-		#load block
-		elif (MSB==0xf3):
-			if textureptrs:
-				texels=cmd[1][40:52]
-				bpp=textureptrs[-1][2]
-				textureptrs[-1][2]=((texels.uint+1)*bpp)//16
-		elif (MSB==3):
-			ptr=cmd[1][32:64]
-			if cmd[1][8:16].uint==0x88:
-				#ambient
-				amb.append([s.B2P(ptr.uint),ptr.uint])
-			else:
-				#diffuse
-				diffuse.append([s.B2P(ptr.uint),ptr.uint])
-	ranges[-1][2] = len(dl)-1
-	ranges[-1][4] = len(dl)-1
+				dl[dlStack].append(cmd[0])
+		[ranges,textureptrs,diffuse,amb,verts] = EvalMaterial(MSB,ranges,cmd,textureptrs,diffuse,amb,verts,s,dl[dlStack])
+	ranges[-1][2] = len(dl[dlStack])-1
+	ranges[-1][4] = len(dl[dlStack])-1
 	ranges[-1][1] = textureptrs[-1].copy()
 	ranges[-1][3] = 1
-	return (dl,verts,textureptrs,amb,diffuse,jumps,ranges)
+	return (dl,verts,textureptrs,amb,diffuse,ranges,start)
+
+#based on the f3d cmd, add things to data objects
+def EvalMaterial(MSB,ranges,cmd,textureptrs,diffuse,amb,verts,s,dl):
+	types = {
+	0:'RGBA',
+	2:'CI',
+	3:'IA',
+	4:'I'
+	}
+	#adding stuff to data arrays
+	if (MSB==0x4):
+		ranges[-1][5]=len(dl)-1
+		ptr=cmd[1][32:64]
+		length=cmd[1][8:12]
+		Rptr=s.B2P(ptr.uint)
+		verts.append((ptr.uint,Rptr,length.uint+1))
+	#if a triangle is drawn and there is a texture, assume a new one is loaded next
+	elif(MSB==0xBF):
+		ranges[-1][3]=1
+		if textureptrs[-1][0] != 0:
+			#editor or RM used to do solid colors using 1px texels with 0 dimensions UVs
+			#it was really dumb and now I have to deal with this case.
+			if textureptrs[-1][3] ==0:
+				textureptrs[-1][3] = 1
+			if textureptrs[-1][4] == 0:
+				textureptrs[-1][4] = 1
+			textureptrs.append(textureptrs[-1].copy())
+			textureptrs[-1][0] = 0
+	#check for an RDP cmd or geo mode or texture enable/disable
+	if (MSB&0xF0==0xF0 or MSB==0xb6 or MSB==0xb7 or MSB==0xBB):
+		if ranges[-1][3]==1:
+			#keep track of the ranges which mats are used for later optimization
+			ranges[-1][1] = textureptrs[-1].copy()
+			#I subtract 1 because len goes ones over the index, and then I subtract another one because I already appended
+			#the mat cmd to the dl.
+			ranges[-1][2] = len(dl)-2
+			if ranges[-1][5]==0:
+				ranges.append([len(dl)-1,0,0,0,ranges[-1][4],0])
+			else:
+				ranges.append([len(dl)-1,0,0,0,ranges[-1][5],0])
+	#textureptrs = raw ptr, bank ptr, length, width, height, imgtype, bitdepth, palette, tile
+	#implementing a very naive alg because I'm lazy and no one hand writes stuff
+	#so I will just assume it follows nice structure, if you want to make it better then PR
+	#set tile
+	if(MSB==0xf5):
+		tile = cmd[1][32:40].uint
+		if tile!=7:
+			type=cmd[1][8:11].uint
+			textureptrs[-1][5]=types[type]
+			bpp=4*2**(cmd[1][11:13].uint)
+			textureptrs[-1][6]=bpp
+			textureptrs[-1][8]=tile
+	#tlut
+	elif(MSB==0xf0):
+		tile = cmd[1][32:40].uint
+		if textureptrs[-1][8]==tile:
+			textureptrs[-1][7]=textureptrs[-1][:2]
+	#set tile size
+	elif(MSB==0xf2):
+		f2 = (lambda x: (x>>2)+1)
+		textureptrs[-1][3] = f2(cmd[1][40:52].uint)
+		textureptrs[-1][4] = f2(cmd[1][52:64].uint)
+	#load tex
+	elif(MSB==0xfd):
+		ptr=cmd[1][32:64]
+		type=cmd[1][8:11].uint
+		bpp=4*2**(cmd[1][11:13].uint)
+		textureptrs[-1][0]=s.B2P(ptr.uint)
+		textureptrs[-1][1]=ptr.uint
+		textureptrs[-1][2]=bpp
+		textureptrs[-1][5]=types[type]
+		textureptrs[-1][6]=bpp
+	#load block
+	elif (MSB==0xf3):
+		if textureptrs:
+			texels=cmd[1][40:52]
+			bpp=textureptrs[-1][2]
+			textureptrs[-1][2]=((texels.uint+1)*bpp)//16
+	elif (MSB==3):
+		ptr=cmd[1][32:64]
+		if cmd[1][8:16].uint==0x88:
+			#ambient
+			amb.append([s.B2P(ptr.uint),ptr.uint])
+		else:
+			#diffuse
+			diffuse.append([s.B2P(ptr.uint),ptr.uint])
+	return [ranges,textureptrs,diffuse,amb,verts]
 
 #take argument bits and make tuple of args
 
