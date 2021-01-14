@@ -1567,7 +1567,7 @@ certain bash errors.
 	lvldefs = open(lvldefs,'w')
 	ass=Path("actors")
 	ass=Path(sys.path[0])/ass
-	if not Inherit:
+	if not Inherit and actors:
 		if os.path.isdir(ass):
 			shutil.rmtree(ass)
 	ass.mkdir(exist_ok=True)
@@ -1591,7 +1591,8 @@ certain bash errors.
 		ExportTitleScreen(rom,lvldir)
 	#Process returned scripts to view certain custom data such as custom banks/actors for actor/texture exporting
 	[Banks,Models] = ProcessScripts(rom,editor,Scripts)
-	ExportActors(actors,rom,Models,ass)
+	if actors:
+		ExportActors(actors,rom,Models,ass)
 	#export textures
 	if Textures:
 		ExportTextures(rom,editor,Path(sys.path[0]),Banks)
