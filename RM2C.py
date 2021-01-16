@@ -11,6 +11,7 @@ from bitstring import *
 from RM2CData import *
 import BinPNG
 import groups as GD
+import math
 
 class Script():
 	def __init__(self,level):
@@ -22,6 +23,8 @@ class Script():
 		self.Currlevel=level
 		self.levels={}
 		self.levels[self.Currlevel]=[None for a in range(8)]
+		self.texScrolls=False
+		self.verts = []
 		#stack is simply a stack of ptrs
 		#base is the prev pos
 		#top is the current pos
@@ -56,9 +59,9 @@ class Script():
 		return count
 	def GetLabel(self,addr):
 		#behavior is in bank 0 and won't be in map ever
-		if addr[0:2]=='00':
-			print(addr + 'is in bank 0 cannot be found')
-			return '0x'+addr
+		# if addr[0:2]=='00':
+			# print(addr + ' is in bank 0 cannot be found')
+			# return '0x'+addr
 		for l in self.map:
 			if addr in l:
 				q = l.rfind(" ")
@@ -233,7 +236,104 @@ def LoadPolyGeo(rom,cmd,start,script):
 	geo=TcH(arg[2:6])
 	script.models[TcH(id)]=(geo,'geo',None,script.B2P(geo),script)
 	return start
-	
+
+#yep
+def ConvertTexScrolls(script,Obj):
+	if script.editor:
+		return ConvertEditorTexScrolls(script,Obj)
+	else:
+		return ConvertRMTexScrolls(script,Obj)
+
+def ConvertRMTexScrolls(script,Obj):
+	# RM rules
+	# Verts addr = bparam
+	# Verts axis = Y (0x8000 - Y, 0xA000 - X, 0x4000 - Z, 0x2000 - Y, 0x0000 - X)
+	# Scroll Type = Y lower, but different between RMScroll and RMScroll2
+	# Speed= Z pos
+	# NumVerts = X
+	Addr=Obj[7]
+	Num=Obj[1]
+	Speed = Obj[3]
+	dir = Obj[2]
+	# cycle = Obj[]
+	Bhvs = {
+	0xA000:'x',
+	0x8000:'y',
+	0x4000:'xPos',
+	0x2000:'yPos',
+	0x0000:'zPos'
+	}
+	Types = {
+	0x0:'normal',
+	0x100:'sine',
+	0x200:'jumping'
+	}
+	if script.texScrolls:
+		script.texScrolls.append((Obj,script.CurrArea,Addr,Num,Speed,Bhvs[dir&0xF000],Types[dir&0xFFF],0))
+	else:
+		script.texScrolls = [(Obj,script.CurrArea,Addr,Num,Speed,Bhvs[dir&0xF000],Types[dir&0xFFF],0)]
+	return Obj
+
+def ConvertEditorTexScrolls(script,Obj):
+	# Editor rules
+	# Verts scrolled = 0x0E000000+(((log2(Xpos)+127)&0x1E)-2)<<16+(bparam>>16)
+	# Verts addr = Verts scrolled&0xFFFFFFF0
+	# Verts axis = Verts scrolled&0xF (0x8 = x, 0xA = y)
+	# Num verts scrolled = (((log2(Ypos)+127)&0x1E)*3)
+	# Speed=0x1000 // (((log2(Zpos)+127)&0x1E)
+	# I have zero clue if this is true for all editor versions
+	# it likely isn't
+	PosByte = (lambda x: (int(math.log(x,2))+127)&0x1E)
+	Addr=0x0E000000+((PosByte(Obj[1])-2)<<16)+(int(Obj[7],16)>>16) #x
+	Num=PosByte(Obj[2])*3 #y
+	Speed = 0x1000 // PosByte(Obj[3]) #z
+	dir = Addr&0xF
+	if dir==0x8:
+		dir='x'
+	else:
+		dir='y'
+	if script.texScrolls:
+		script.texScrolls.append((Obj,script.CurrArea,Addr&0xFFFFFFF0,Num,Speed,dir,'normal',0)
+	else:
+		script.texScrolls = [(Obj,script.CurrArea,Addr&0xFFFFFFF0,Num,Speed,dir,'normal',0)]
+	return Obj
+
+def FormatScrollObject(scroll,verts,obj,s):
+	#not efficient at all, but number of scrolls is low and I'm lazy
+	#vert = [seg ptr, rom ptr, num verts], sorted by seg ptrs
+	addr=scroll[2]
+	closest=0
+	offset=0
+	for v in verts:
+		if addr>v[0] and addr>v[0]+v[2]*0x10:
+			continue
+		elif addr>v[0]:
+			closest = v[0]
+			offset = addr-v[0]
+	bparam = '&VB_%s_%d_0x%x + %d'%(Num2Name[s.Currlevel],scroll[1],closest,int(offset/0x10))
+	Bhvs = {
+	'x':4,
+	'y':5,
+	'xPos':0,
+	'yPos':1,
+	'zPos':5,
+	}
+	Types = {
+	'normal':0,
+	'sine':1,
+	'jumping':2,
+	}
+	#format I will use is bparam=addr,z=vert amount,x=spd,y=bhv,ry=type, rz=cycle
+	# (Obj,script.CurrArea,Addr,Num,Speed,Bhvs[dir&0xF000],Types[dir&0xFFF],cycle)
+	# PO=[id,x,y,z,rx,ry,rz,bparam,bhv,mask]
+	obj[1]=scroll[4]
+	obj[2]=Bhvs[scroll[-3]]
+	obj[3]=scroll[3]
+	obj[5]=Types[scroll[-2]]
+	obj[6]=Types[scroll[-1]]
+	obj[-3] = bparam
+	return obj
+
 def PlaceObject(rom,cmd,start,script):
 	arg=cmd[2]
 	A=script.GetArea()
@@ -253,8 +353,9 @@ def PlaceObject(rom,cmd,start,script):
 	rz=U2S(TcH(arg[12:14]))
 	bparam=hex(TcH(arg[14:18]))
 	bhv=script.GetLabel("{:08x}".format(TcH(arg[18:22])))
-	#print(bhv)
-	PO=(id,x,y,z,rx,ry,rz,bparam,bhv,mask)
+	PO=[id,x,y,z,rx,ry,rz,bparam,bhv,mask]
+	if 'editor_Scroll_Texture' in bhv or 'RM_Scroll_Texture' in bhv:
+		PO = ConvertTexScrolls(script,PO)
 	A.objects.append(PO)
 	return start
 	
@@ -347,6 +448,8 @@ def WriteModel(rom,dls,s,name,Hname,id,tdir):
 		(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id)
 		ModelData.append([starts,dl,verts,textures,amb,diff,ranges,0])
 		x+=1
+		if s.texScrolls:
+			s.verts.extend(verts) #for texture scrolls
 	refs = F3D.ModelWrite(rom,ModelData,name,id,tdir,s.editor)
 	modelH = name/'custom.model.inc.h'
 	mh = open(modelH,'w')
@@ -445,6 +548,8 @@ def LoadUnspecifiedModels(s,file,level):
 def WriteLevelScript(name,Lnum,s,level,Anum,envfx):
 	f = open(name,'w')
 	f.write(scriptHeader)
+	for a in Anum:
+		f.write('#include "areas/%d/custom.model.inc.h"'%a)
 	f.write('#include "levels/%s/header.h"\nextern u8 _%s_segment_ESegmentRomStart[]; \nextern u8 _%s_segment_ESegmentRomEnd[];\n'%(Lnum,Lnum,Lnum))
 	#This is the ideal to match hacks, but currently the way the linker is
 	#setup, level object data is in the same bank as level mesh so this cannot be done.
@@ -502,6 +607,12 @@ def WriteArea(f,s,area,Anum,id):
 	s.MakeDec(asobj)
 	#write objects
 	for o in area.objects:
+		if s.texScrolls:
+			if 'Scroll_Texture' in o[-2]:
+				for scroll in s.texScrolls:
+					if scroll[0]==o and scroll[1]==Anum:
+						o = FormatScrollObject(scroll,s.verts,o,s)
+						break
 		f.write("OBJECT_WITH_ACTS({},{},{},{},{},{},{},{},{},{}),\n".format(*o))
 	f.write("RETURN()\n};\n")
 	aswarps = 'const LevelScript local_warps_%s[]'%id

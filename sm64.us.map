@@ -1,4 +1,10 @@
-                0x0000000004000000                RM_Scroll_Texture
+                0x0000000000400000                RM_Scroll_Texture
+                0x0000000000401700                RM_Scroll_Texture
+				//editor is 2c00 but uses similar args
+                0x0000000000402300                editor_Scroll_Texture
+                0x0000000080402300                editor_Scroll_Texture
+                0x0000000080400000                RM_Scroll_Texture
+                0x0000000080401700                RM_Scroll_Texture
                 0x00000000802f69cc                func_sh_802F69CC = 0x802f69cc
                 0x0000000080302ef0                osMotorStop = 0x80302ef0
                 0x0000000080303090                osMotorStart = 0x80303090
