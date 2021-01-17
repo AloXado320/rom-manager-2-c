@@ -358,7 +358,23 @@ def PlaceObject(rom,cmd,start,script):
 		PO = ConvertTexScrolls(script,PO)
 	A.objects.append(PO)
 	return start
-	
+
+def MacroObjects(rom,cmd,start,script):
+	arg=cmd[2]
+	macros = script.B2P(TcH(arg[2:6]))
+	A=script.GetArea()
+	A.macros = []
+	x=0
+	while(True):
+		m = BitArray(rom[macros+x:macros+x+10])
+		[yRot,Preset,X,Y,Z,Bp] = m.unpack("uint:7,uint:9,4*uint:16")
+		if Preset==0 or Preset==0x1E:
+			break
+		else:
+			A.macros.append([yRot,Preset,X,Y,Z,Bp])
+		x+=10
+	return start
+
 def PlaceMario(rom,cmd,start,script):
 	#do nothing
 	return start
@@ -601,6 +617,8 @@ def WriteArea(f,s,area,Anum,id):
 	f.write("SET_BACKGROUND_MUSIC(0,%d),\n"%area.music)
 	f.write("TERRAIN_TYPE(%d),\n"%(area.terrain))
 	f.write("JUMP_LINK(local_objects_%s),\nJUMP_LINK(local_warps_%s),\n"%(id,id))
+	if hasattr(area,'macros'):
+		f.write("MACRO_OBJECTS('local_macro_objects_%s')"%id)
 	f.write("END_AREA(),\nRETURN()\n};\n")
 	asobj = 'const LevelScript local_objects_%s[]'%id
 	f.write(asobj+' = {\n')
@@ -621,6 +639,13 @@ def WriteArea(f,s,area,Anum,id):
 	#write warps
 	for w in area.warps:
 		f.write("WARP_NODE({},{},{},{},{}),\n".format(*w))
+	#write macro objects if they exist
+	if hasattr(area,'macros'):
+		asobj = 'const MacroObject local_macro_objects_%s[]'%id
+		f.write(asobj+' = {\n')
+		for m in area.macros:
+			f.write("MACRO_OBJECT_WITH_BEH_PARAM({},{},{},{},{},{}),\n".format(MacroNames[m[1]],m[0],*m[2:]))
+		f.write("MACRO_OBJECT_END(),\n};")
 	f.write("RETURN()\n};\n")
 
 def GrabOGDatH(q,rootdir,name):
@@ -678,6 +703,24 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 	for a in areas:
 		j=0
 		area=s.levels[num][a]
+		#advanced past includes
+		while(True):
+			if '"levels/%s/header.h"'%name in Slines[x]:
+				x+=1
+				break
+			x+=1
+		#write macro objects if they exist
+		if hasattr(area,'macros'):
+			CheckMacro = (lambda x: 'MACRO_OBJECTS(' in x )
+			asobj = 'static const MacroObject local_macro_objects_%s_%d[]'%(name,a)
+			Slines.insert(x,(asobj+' = {\n'))
+			x+=1
+			for m in area.macros:
+				Slines.insert(x,"MACRO_OBJECT_WITH_BEH_PARAM({},{},{},{},{},{}),\n".format(MacroNames[m[1]],m[0],*m[2:]))
+				x+=1
+			Slines.insert(x,"MACRO_OBJECT_END(),\n};")
+		else:
+			CheckMacro = (lambda x: 0)
 		while(True):
 			if 'AREA(' in Slines[x]:
 				x+=1
@@ -685,7 +728,7 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 			x+=1
 		#remove other objects/warps
 		while(True):
-			if CheckRestrict(Slines[j+x]):
+			if CheckRestrict(Slines[j+x]) or CheckMacro(Slines[j+x]):
 				Slines.pop(j+x)
 				continue
 			elif 'END_AREA()' in Slines[j+x]:
@@ -697,6 +740,8 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 			Slines.insert(x,"OBJECT_WITH_ACTS({},{},{},{},{},{},{},{},{},{}),\n".format(*o))
 		for w in area.warps:
 			Slines.insert(x,"WARP_NODE({},{},{},{},{}),\n".format(*w))
+		if hasattr(area,'macros'):
+			Slines.insert(x,"MACRO_OBJECTS(local_macro_objects_%s_%d),\n"%(name,a))
 		x=j+x
 		#area dir
 		Arom = area.rom
@@ -929,7 +974,8 @@ jumps = {
     0x30:SetDialog,
     0x31:SetTerrain,
     0x36:SetMusic,
-    0x37:SetMusic2
+    0x37:SetMusic2,
+	0x39:MacroObjects
 }
 
 def RipSequence(rom,seqNum,m64Dir,Lnum,Anum,romname,MusicExtend):
@@ -1284,12 +1330,22 @@ def ExportSeg2(rom,Textures,s):
 		else:
 			BinPNG.RGBA16(32,32,bin,glyph)
 
+def ExportInternalName(rom,src):
+	IntNameS = open(src/'internal_name.s','w')
+	IntNameS.write(".byte ")
+	for i in range(20):
+		comma = ','*(i!=19)
+		IntNameS.write("0x{:x}{}".format(struct.unpack(">B",rom[0x20+i:0x21+i])[0],comma))
+
 #Rip misc data that may or may not need to be ported. This currently is trajectories and star positions.
 #Do this if misc or 'all' is called on a rom.
 def ExportMisc(rom,rootdir,editor):
+	#export internal name
+	src = rootdir/'src'
 	s = Script(9)
 	misc = rootdir/'src'/'game'
 	os.makedirs(misc,exist_ok=True)
+	ExportInternalName(rom,src)
 	StarPos = misc/('Star_Pos.inc.c')
 	Trajectory = misc/('Trajectories.inc.c')
 	#Trajectories are by default in the level bank, but moved to vram for all hacks
@@ -1342,6 +1398,8 @@ def ExportMisc(rom,rootdir,editor):
 		ItemBox = 0xEBBA0
 	else:
 		ItemBox = 0x1204000
+	#some hacks move this so I want to put a stop in just in case
+	stop=ItemBox+0x800
 	IBox = misc/('Item_Box.inc.c')
 	IBox = open(IBox,'w')
 	IBox.write("""#include <PR/ultratypes.h>
@@ -1358,6 +1416,8 @@ def ExportMisc(rom,rootdir,editor):
 		Bhv = s.GetLabel("{:08x}".format(UPA(rom,ItemBox+4,">L",4)[0]))
 		ItemBox+=8
 		IBox.write("{{ {}, {}, {}, {}, {} }},\n".format(*B,Bhv))
+		if ItemBox>stop:
+			break
 	IBox.write("{ 99, 0, 0, 0, NULL } };\n")
 	ExportTweaks(rom,rootdir)
 
@@ -1543,7 +1603,7 @@ return RM2C_Water_Box_Array[gCurrLevelNum-4][gCurrAreaIndex][id];
 	MTinc.write(func)
 
 def ExportTitleScreen(rom,level):
-	pass#8016f904,8016f908
+	#8016f904,8016f908
 	UPH = (lambda x,y: struct.unpack(">h",x[y:y+2])[0])
 	titleptr = UPH(rom,0x0021FDC6)<<16
 	titleptr += UPH(rom,0x0021FDCA)
@@ -1572,6 +1632,26 @@ def ExportTitleScreen(rom,level):
 	ld = open(ld,'w')
 	ld.write(TitleStrFormatter.format('DL_intro_seg7_0x%x'%titleptr))
 	ld.close()
+	#Export file/star select textures manually
+	#continue script parsing until new bank 7 is reached
+	while(True):
+		#parse script until reaching special
+		q=PLC(rom,entry)
+		#execute special cmd
+		entry = jumps[q[0]](rom,q,q[3],s)
+		#I assume no one messed with the entry script
+		#or else this will fail hard. I have to exit manually
+		#early because the title screen is overwritten quickly
+		if entry>=0x2abca0:
+			break
+	menu = level/'menu'
+	menu.mkdir(exist_ok=True)
+	#format is name,seg addr,size, binsize. All textures are RGBA16 fmt
+	for tex in Seg7Textures:
+		img = BinPNG.MakeImage(str(menu / tex[0]))
+		loc= s.B2P(0x07000000+tex[1])
+		bin = rom[loc:loc+tex[3]]
+		BinPNG.RGBA16(*tex[2],bin,img)
 
 if __name__=='__main__':
 	HelpMsg="""
@@ -1620,8 +1700,8 @@ certain bash errors.
 	ObjectOnly = 0
 	MusicOnly = 0
 	MusicExtend = 0
-	Text = 0
-	Misc=0
+	Text = None
+	Misc=None
 	Textures=0
 	Inherit=0
 	Upscale=0
@@ -1647,7 +1727,7 @@ certain bash errors.
 	rom=open(rom,'rb')
 	rom = rom.read()
 	#Export dialogs and course names
-	if Text or levels=='all':
+	if (Text or levels=='all') and Text!=0:
 		for A in Append:
 			Arom = open(A[0],'rb')
 			Arom = Arom.read()
@@ -1655,7 +1735,7 @@ certain bash errors.
 		ExportText(rom,Path(sys.path[0]),TxtAmount)
 		print('Text Finished')
 	#Export misc data like trajectories or star positions.
-	if Misc or levels=='all':
+	if (Misc or levels=='all') and Misc!=0:
 		for A in Append:
 			Arom = open(A[0],'rb')
 			Arom = Arom.read()
