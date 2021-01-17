@@ -144,9 +144,9 @@ def OptimizeModeldata(ModelData):
 	return ModelData
 
 def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
-	#ModelData = start,dl,verts,textureptrs,ambient lights, diffuse lights, ranges, ids
+	#ModelData = start,dl,verts,textureptrs, amb/diff lights, ranges, ids
 	#create redundancy trackers for each data type
-	S,dl,vbs,txt,ambs,diffs,refs=[],[],[],[],[],[],[]
+	S,dl,vbs,txt,amb,diffs,refs=[],[],[],[],[],[],[]
 	#indices of which model data they are so I can get IDs backwards while replacing
 	Trackers = [[],[],[],[],[],[]]
 	#keep track of which symbols are rejected to replace later.
@@ -221,15 +221,14 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
 				txt.append(t)
 				Trackers[pos].append(k)
 				refs.append(texn)
+				inc = tdir.parts[-2]+"/"+tdir.parts[-1]+"/"
 				if t[5]=='CI':
 					texnp = 'const u8 texture_%s_custom_pal[]'%(id+hex(t[1]))
 					#export a include of a png file
 					textures.write('ALIGNED8 '+texn+' = {\n')
-					inc = "levels/"+tdir.parts[-1]+"/"
 					textures.write('#include "%s.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
 					#The palette
 					textures.write('ALIGNED8 '+texnp+' = {\n')
-					inc = "levels/"+tdir.parts[-1]+"/"
 					textures.write('#include "%s.pal.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
 					#export a png
 					bin = rom[t[0]:t[0]+t[2]*2+2]
@@ -239,7 +238,6 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
 				else:
 					#export a include of a png file
 					textures.write('ALIGNED8 '+texn+' = {\n')
-					inc = "levels/"+tdir.parts[-1]+"/"
 					textures.write('#include "%s.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
 					#export a png
 					bin = rom[t[0]:t[0]+t[2]*2+2]
@@ -249,15 +247,20 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
 						t[3]=32
 						t[4]=32
 					png = ImgTypes[t[5]](t[3],t[4],t[6],bin,png)
-		
 		#lights
+		#redundant symbols in lights in models sometimes
+		#This happens with certain importers or if someone wanted to lazily remove shading
 		pos=5
 		for a in md[pos]:
+			if a in amb:
+				q = amb.index(a)
+				Eapp((id+hex(a[1])),(GetNID(pos,id,q)+hex(amb[q][1])),'Light_%s')
+				continue
 			if a in diffs:
 				q = diffs.index(a)
 				Eapp((id+hex(a[1])),(GetNID(pos,id,q)+hex(diffs[q][1])),'Light_%s')
 				continue
-			diffs.append(a)
+			amb.append(a)
 			Trackers[pos].append(k)
 			lig = 'const Light_t Light_%s'%(id+hex(a[1]))
 			refs.append(lig)
@@ -269,11 +272,15 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
 			f.write("{ %d, %d, %d}, 0, { %d, %d, %d}, 0, { %d, %d, %d}, 0\n};\n\n"%(*col1,*col2,*dir1))
 		pos=4
 		for a in md[pos]:
-			if a in ambs:
-				q = ambs.index(a)
-				Eapp((id+hex(a[1])),(GetNID(pos,id,q)+hex(ambs[q][1])),'Light_%s')
+			if a in diffs:
+				q = diffs.index(a)
+				Eapp((id+hex(a[1])),(GetNID(pos,id,q)+hex(diffs[q][1])),'Light_%s')
 				continue
-			ambs.append(a)
+			if a in amb:
+				q = amb.index(a)
+				Eapp((id+hex(a[1])),(GetNID(pos,id,q)+hex(amb[q][1])),'Light_%s')
+				continue
+			diffs.append(a)
 			Trackers[pos].append(k)
 			lig = 'const Ambient_t Light_%s'%(id+hex(a[1]))
 			refs.append(lig)
@@ -284,29 +291,39 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
 			f.write("{%d, %d, %d}, 0, {%d, %d, %d}, 0\n};\n\n"%(*col1,*col2))
 		#display lists
 		pos=0
+		#because symbols can exist inside DLs and as DLs themselves
+		#I have to create trackers and excess before writing any DL
+		#because DLs can be completely non linear and even recursive
+		twice=[]
+		#this exists because I lose track of which DLs to skip
 		for s,d in zip(md[pos],md[1]):
 			if s in S:
 				q = S.index(s)
 				Eapp((id+hex(s[1])),(GetNID(pos,id,q)+hex(S[q][1])),'DL_%s')
+				twice.append(s)
 				continue
 			else:
 				S.append(s)
 				Trackers[pos].append(k)
+		for s,d in zip(md[pos],md[1]):
+			if s in twice:
+				continue
 			DLn = 'const Gfx DL_'+id+hex(s[1])+'[]'
 			f.write(DLn+' = {')
 			refs.append(DLn)
 			f.write('\n')
 			for c in d:
-				#remove asset loads that are not referenced (e.g. garbage texture loads)
-				#this may cause empty loads, but thats better than not compiling
-				if c.startswith('gsDPSetTextureImage'):
-					args = c.split(',')
-					tex = args[-1][:-1]
-					for ref in refs:
-						if tex in ref:
-							break
-					else:
-						continue
+				if opt:
+					#remove asset loads that are not referenced (e.g. garbage texture loads)
+					#this may cause empty loads, but thats better than not compiling
+					if c.startswith('gsDPSetTextureImage'):
+						args = c.split(',')
+						tex = args[-1][:-1]
+						for ref in refs:
+							if tex in ref:
+								break
+						else:
+							continue
 				#replace culled data refs with first instance of data
 				for e in Excess:
 					if e[0] in c:
@@ -346,10 +363,10 @@ def Bin2C(cmd,id):
 		ags=ags.replace(',','')
 	if cmd[:8].uint==6:
 		if cmd[8:16].uint!=1:
-			q[0]='gsSPBranchList'
+			q[0]='gsSPDisplayList'
 	return [q[0]+ags,cmd]
 
-def DecodeVDL(rom,start,s,id):
+def DecodeVDL(rom,start,s,id,opt):
 	dl=[[]]
 	#needs (ptr,length)
 	verts=[]
@@ -364,10 +381,10 @@ def DecodeVDL(rom,start,s,id):
 	LastMat = Mat(Persist)
 	global gCycle
 	gCycle = 1
-	return DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,[start],LastMat,0)
+	return DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,[start],LastMat,0,opt)
 
 #recursively get DLs
-def DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,start,LastMat,dlStack):
+def DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,start,LastMat,dlStack,opt):
 	while(True):
 		cmd=rom[start[dlStack][0]+x:start[dlStack][0]+x+8]
 		cmd=Bin2C(cmd,id)
@@ -375,21 +392,22 @@ def DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,start,LastMat,dl
 		MSB = cmd[1][:8].uint
 		tile = cmd[1][32:40].uint
 		#separate case for set tile since its special
-		if MSB==0xF5 and tile==7:
-			if hasattr(LastMat,str(MSB)+'7'):
-				attr = getattr(LastMat,str(MSB)+'7')
+		if opt==1:
+			if MSB==0xF5 and tile==7:
+				if hasattr(LastMat,str(MSB)+'7'):
+					attr = getattr(LastMat,str(MSB)+'7')
+					if attr == cmd[1][8:].uint:
+						x+=8
+						continue
+					else:
+						setattr(LastMat,str(MSB)+'7',cmd[1][8:].uint)
+			elif hasattr(LastMat,str(MSB)):
+				attr = getattr(LastMat,str(MSB))
 				if attr == cmd[1][8:].uint:
 					x+=8
 					continue
 				else:
-					setattr(LastMat,str(MSB)+'7',cmd[1][8:].uint)
-		elif hasattr(LastMat,str(MSB)):
-			attr = getattr(LastMat,str(MSB))
-			if attr == cmd[1][8:].uint:
-				x+=8
-				continue
-			else:
-				setattr(LastMat,str(MSB),cmd[1][8:].uint)
+					setattr(LastMat,str(MSB),cmd[1][8:].uint)
 		#g dl
 		if (MSB==6):
 			ptr=cmd[1][32:64].uint
@@ -397,7 +415,7 @@ def DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,start,LastMat,dl
 			dl[dlStack].append(cmd[0])
 			dl.append([])
 			start.append([s.B2P(ptr),ptr])
-			(dl,verts,textureptrs,amb,diffuse,ranges,start) = DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,0,start,LastMat,len(dl)-1)
+			(dl,verts,textureptrs,amb,diffuse,ranges,start) = DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,0,start,LastMat,len(dl)-1,opt)
 			if cmd[1][8:16].uint==1:
 				break
 		#end dl
@@ -937,7 +955,7 @@ NonPersist={
 0xbf:('gsSP1Triangle',G_TRI1_Decode),
 0xbd:('gsSPPopMatrix',G_POPMTX_Decode),
 0x01:('gsSPMatrix',G_MTX_Decode),
-0x06:('gsSPDisplayList',G_DL_Decode),
+0x06:('gsSPBranchList',G_DL_Decode),
 0xb8:('gsSPEndDisplayList',G_ENDDL_Decode),
 0xb4:('G_RDPHALF_1',G_RDPHALF_1_Decode),
 0xe4:('G_TEXRECT',G_TEXRECT_Decode),

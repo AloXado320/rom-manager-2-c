@@ -247,8 +247,8 @@ def ConvertTexScrolls(script,Obj):
 def ConvertRMTexScrolls(script,Obj):
 	# RM rules
 	# Verts addr = bparam
-	# Verts axis = Y (0x8000 - Y, 0xA000 - X, 0x4000 - Z, 0x2000 - Y, 0x0000 - X)
-	# Scroll Type = Y lower, but different between RMScroll and RMScroll2
+	# Verts axis = Y&0xF000 (0x8000 - Y, 0xA000 - X, 0x4000 - Z, 0x2000 - Y, 0x0000 - X)
+	# Scroll Type = Y&0F00 (0x000 - normal, 0x0100 - sine, 0x0200 - jumping)
 	# Speed= Z pos
 	# NumVerts = X
 	Addr=Obj[7]
@@ -269,9 +269,9 @@ def ConvertRMTexScrolls(script,Obj):
 	0x200:'jumping'
 	}
 	if script.texScrolls:
-		script.texScrolls.append((Obj,script.CurrArea,Addr,Num,Speed,Bhvs[dir&0xF000],Types[dir&0xFFF],0))
+		script.texScrolls.append((Obj,script.CurrArea,Addr,Num,Speed,Bhvs[dir&0xF000],Types[dir&0xF00],dir&0xFF))
 	else:
-		script.texScrolls = [(Obj,script.CurrArea,Addr,Num,Speed,Bhvs[dir&0xF000],Types[dir&0xFFF],0)]
+		script.texScrolls = [(Obj,script.CurrArea,Addr,Num,Speed,Bhvs[dir&0xF000],Types[dir&0xF00],dir&0xFF)]
 	return Obj
 
 def ConvertEditorTexScrolls(script,Obj):
@@ -293,7 +293,7 @@ def ConvertEditorTexScrolls(script,Obj):
 	else:
 		dir='y'
 	if script.texScrolls:
-		script.texScrolls.append((Obj,script.CurrArea,Addr&0xFFFFFFF0,Num,Speed,dir,'normal',0)
+		script.texScrolls.append((Obj,script.CurrArea,Addr&0xFFFFFFF0,Num,Speed,dir,'normal',0))
 	else:
 		script.texScrolls = [(Obj,script.CurrArea,Addr&0xFFFFFFF0,Num,Speed,dir,'normal',0)]
 	return Obj
@@ -445,7 +445,7 @@ def WriteModel(rom,dls,s,name,Hname,id,tdir):
 		c=rom[st]
 		if first==0x01010101 or not F3D.DecodeFmt.get(c):
 			return
-		(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id)
+		(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id,1)
 		ModelData.append([starts,dl,verts,textures,amb,diff,ranges,0])
 		x+=1
 		if s.texScrolls:
@@ -1091,7 +1091,7 @@ class Actor():
 				c=rom[st]
 				if first==0x01010101 or not F3D.DecodeFmt.get(c):
 					return
-				(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id)
+				(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id,0)
 				ModelData.append([starts,dl,verts,textures,amb,diff,ranges,id])
 				x+=1
 		refs = F3D.ModelWrite(rom,ModelData,dir,ids[0],dir,s.editor)
@@ -1365,7 +1365,7 @@ def ExportMisc(rom,rootdir,editor):
 def ExportTweaks(rom,rootdir):
 	misc = rootdir/'src'/'game'
 	os.makedirs(misc,exist_ok=True)
-	twk = open(misc/'tweak.inc.c','w')
+	twk = open(misc/'tweaks.inc.c','w')
 	twk.write("""//This is a series of defines to edit commonly changed parameters in romhacks
 //These are commonly referred to as tweaks
 """)

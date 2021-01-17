@@ -920,7 +920,7 @@ DefaultTraj = {
 #Some tweaks are logical ops, others just are literals, this is for Ls
 INHERIT = (lambda x:x[0])
 #repo doesn't time properly
-DOUBLE = (lambda x:2*x[0])
+DOUBLE = (lambda x:int(1.5*x[0]))
 #a nop'd JAL
 NOP = (lambda x:(x[0]==0)&1)
 #macros for when you widescreen
@@ -1050,10 +1050,14 @@ TitleStrFormatter = '''#include <PR/ultratypes.h>
 #include "types.h"
 
 #include "make_const_nonconst.h"
+#include "textureNew.inc.c"
 #include "custom.model.inc.c"
-static const Gfx intro_seg7_dl_0700B3A0[] = {{
+const Gfx intro_seg7_dl_0700B3A0[] = {{
 gsSPDisplayList({})
 }};
+const Gfx intro_seg7_dl_0700C6A0[] = {
+gsSPEndDisplayList()
+};
 // 0x0700C790
 const f32 intro_seg7_table_0700C790[] = {{
     0.016000f, 0.052000f, 0.002500f, 0.148300f,
