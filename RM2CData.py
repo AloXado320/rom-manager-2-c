@@ -77,19 +77,19 @@ TextureBanks = {
 #seg 7 is menu, aka file/star select
 #format is name,seg addr,size. All textures are RGBA16 fmt
 Seg7Textures=[
-['main_menu_seg7_.0D1A8.rgba16',0xBCE0,(64,32),0x1000],
-['main_menu_seg7_.0E1A8.rgba16',0xCCE0,(64,32),0x1000],
-['main_menu_seg7_.00018.rgba16',0x18,(32,32),0x800],
-['main_menu_seg7_.00818.rgba16',0x818,(32,32),0x800],
-['main_menu_seg7_.01018.rgba16',0x1018,(64,32),0x1000],
-['main_menu_seg7_.02018.rgba16',0x2018,(64,32),0x1000],
-['main_menu_seg7_.03468.rgba16',0x3468,(32,32),0x800],
-['main_menu_seg7_.03C68.rgba16',0x3C68,(32,32),0x800],
-['main_menu_seg7_.04468.rgba16',0x4468,(32,32),0x800],
-['main_menu_seg7_.04C68.rgba16',0x4C68,(32,32),0x800],
-['main_menu_seg7_.05468.rgba16',0x5468,(32,32),0x800],
-['main_menu_seg7_.06328.rgba16',0x6328,(32,32),0x800],
-['main_menu_seg7_.06B28.rgba16',0x6B28,(32,32),0x800]
+['main_menu_seg7.0D1A8.rgba16',0xBCE0,(64,32),0x1000],
+['main_menu_seg7.0E1A8.rgba16',0xCCE0,(64,32),0x1000],
+['main_menu_seg7.00018.rgba16',0x18,(32,32),0x800],
+['main_menu_seg7.00818.rgba16',0x818,(32,32),0x800],
+['main_menu_seg7.01018.rgba16',0x1018,(64,32),0x1000],
+['main_menu_seg7.02018.rgba16',0x2018,(64,32),0x1000],
+['main_menu_seg7.03468.rgba16',0x3468,(32,32),0x800],
+['main_menu_seg7.03C68.rgba16',0x3C68,(32,32),0x800],
+['main_menu_seg7.04468.rgba16',0x4468,(32,32),0x800],
+['main_menu_seg7.04C68.rgba16',0x4C68,(32,32),0x800],
+['main_menu_seg7.05468.rgba16',0x5468,(32,32),0x800],
+['main_menu_seg7.06328.rgba16',0x6328,(32,32),0x800],
+['main_menu_seg7.06B28.rgba16',0x6B28,(32,32),0x800]
 ]
 
 

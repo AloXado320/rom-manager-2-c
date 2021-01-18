@@ -73,22 +73,32 @@ def EditFile(file,width,height,shifts,PpB,b):
 			bin=pack('>%dB'%b,*bin)
 			upack = ['uint:%d'%(8-a) if a!=8 else 'uint:1' for a in shifts]
 			channels=bin.unpack(','.join(upack))
-			channels=[c<<s if s!=8 else (c<<s)-(1&c) for c,s in zip(channels,shifts)]
+			channels=[CB(c,8-s) if s<8 else OBA(c) for c,s in zip(channels,shifts)]
 			p = struct.pack('>%dB'%len(channels),*channels)
 			row.extend(p)
 		newfile.append(row)
 	return newfile
 
+#convert bits
+def CB(val,bits):
+	return int(((val*255)+(2**(bits-1))-1)/(2**(bits)-1))
+
+#one bit alpha
+def OBA(val):
+	if val:
+		return 255
+	else:
+		return 0
 
 #Palette is [Binary Region,format],every palette uses either IA16 or RGBA16
 def GetPalette(palette,depth,bpp):
 	bin = palette[0]
+	shifts = [3,3,3,8]
 	o=[]
 	for p in range(2**depth):
 		b = BitArray(bin[p*2:p*2+2])
 		a=b.unpack('3*uint:5,uint:1')
-		shifts = [3,3,3,8]
-		a = [(c<<s)-((c<<s)&256)//256 for c,s in zip(a,shifts)]
+		a = [CB(c,8-s) if s<8 else OBA(c) for c,s in zip(a,shifts)]
 		o.append(tuple(a))
 	return o
 
