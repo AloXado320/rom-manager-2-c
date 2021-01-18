@@ -140,7 +140,7 @@ def OptimizeModeldata(ModelData):
 					[Newmat.append(tri) for tri in Tris]
 			OptNewMats.extend(Newmat)
 		OptNewMats.extend(End)
-		ModelData[k][1] = OptNewMats
+		ModelData[k][1] = [OptNewMats]
 	return ModelData
 
 def ModelWrite(rom,ModelData,nameG,id,tdir,opt):

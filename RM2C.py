@@ -824,7 +824,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 					dat = repr(box).replace("[","{").replace("]","}")
 					dat = "static Movtex %sMovtex_%d_%d[] = "%(id,j,k) + dat+";\n\n"
 					MovTex.write(dat)
-					wref.append("%sMovtex_%d_%d"%(id,k,j))
+					wref.append("%sMovtex_%d_%d"%(id,j,k))
 				Wrefs.append(wref)
 			for j,Type in enumerate(Wrefs):
 				MovTex.write("const struct MovtexQuadCollection %sMovtex_%d[] = {\n"%(id,j))
@@ -1024,7 +1024,7 @@ def CreateSeqJSON(romname,m64s,rootdir,MusicExtend):
 	seqJSON = m64Dir/"sequences.json"
 	seqJSON = open(seqJSON,'w')
 	last = 0
-	for m64 in m64s:
+	for j,m64 in enumerate(m64s):
 		bank = UPH(rom,seqMagic+(m64[1]-MusicExtend)*2)
 		bank = UPB(rom,seqMagic+bank+1)
 		if MusicExtend:
@@ -1038,12 +1038,13 @@ def CreateSeqJSON(romname,m64s,rootdir,MusicExtend):
 				seqJSON.write(origJSON[i][:-1]+',\n')
 				break
 			seqJSON.write(origJSON[i])
-		seqJSON.write("\t\"{}\": [\"{}\"],\n".format(m64[0],SoundBanks[bank]))
+		comma = ","*(j<(len(m64s)-1)) #last index can't have comma or json doesn't parse
+		seqJSON.write("\t\"{}\": [\"{}\"]{}\n".format(m64[0],SoundBanks[bank],comma))
 		if m64[1]<0x23:
-			og = origJSON[m64[1]]
+			og = origJSON[m64[1]+2]
 			og = og.split(":")[0] + ": null,\n"
 			seqJSON.write(og)
-		last = m64[1]+2
+		last = m64[1]+3
 	seqJSON.write("}")
 
 def AppendAreas(entry,script,Append):
@@ -1757,6 +1758,11 @@ certain bash errors.
 	m64s = []
 	seqNums = []
 	Onlys = [WaterOnly,ObjectOnly,MusicOnly]
+	#clean sound dir
+	sound = Path(sys.path[0]) / 'sound'
+	if not Inherit:
+		if os.path.isdir(sound):
+			shutil.rmtree(sound)
 	#custom level defines file so the linker knows whats up. Mandatory or export won't work
 	lvldir = Path(sys.path[0]) / 'levels'
 	#So you don't have truant level folders from a previous export
