@@ -540,7 +540,7 @@ def LoadUnspecifiedModels(s,file,level):
 				else:
 					lab= lab[1]
 			#actor groups, unlikely to exist outside existing group loads
-			if Seg==0xD or Seg==0xC:
+			elif Seg==0xD or Seg==0xC:
 				group = ClosestIntinDict(s.banks[Seg][0],Groups)[0][1:]
 				lab = GD.__dict__[group].get((i,'0x'+addr))
 				if not lab:
@@ -554,7 +554,17 @@ def LoadUnspecifiedModels(s,file,level):
 				comment = "// "
 			else:
 				comment = ""
-			if not (any([lab in l for l in Grouplines])):
+			if LevelSpecificModels.get(level) and Seg==0x12:
+				for l in LevelSpecificModels[level].split("\n"):
+					if lab in l:
+						break
+				else:
+					if model[1]=='geo':
+						file.write(comment+"LOAD_MODEL_FROM_GEO(%d,%s),\n"%(i,lab))
+					else:
+						#Its just a guess but I think 4 will lead to the least issues
+						file.write(comment+"LOAD_MODEL_FROM_DL(%d,%s,4),\n"%(i,lab))
+			elif not (any([lab in l for l in Grouplines])):
 				if model[1]=='geo':
 					file.write(comment+"LOAD_MODEL_FROM_GEO(%d,%s),\n"%(i,lab))
 				else:
@@ -565,7 +575,7 @@ def WriteLevelScript(name,Lnum,s,level,Anum,envfx):
 	f = open(name,'w')
 	f.write(scriptHeader)
 	for a in Anum:
-		f.write('#include "areas/%d/custom.model.inc.h"'%a)
+		f.write('#include "areas/%d/custom.model.inc.h"\n'%a)
 	f.write('#include "levels/%s/header.h"\nextern u8 _%s_segment_ESegmentRomStart[]; \nextern u8 _%s_segment_ESegmentRomEnd[];\n'%(Lnum,Lnum,Lnum))
 	#This is the ideal to match hacks, but currently the way the linker is
 	#setup, level object data is in the same bank as level mesh so this cannot be done.
