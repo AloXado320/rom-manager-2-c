@@ -29,7 +29,7 @@ Cmds={
 	15:(lambda x,y:['GEO_CAMERA(%d,%d,%d,%d,%d,%d,%d,%d)'%((B2I(x[2:4])),(B2I(x[4:6])),(B2I(x[6:8])),
 	(B2I(x[8:10])),(B2I(x[10:12])),(B2I(x[12:14])),
 	(B2I(x[14:16])),(B2I(x[16:20]))),20,'CVASM',x[16:20],'ext']),
-	16:(lambda x,y:['GEO_TRANSLATE_ROTATE(%d,%d,%d,%d,%d,%d,%d)'%((B2I(x[2:4])),(B2I(x[4:6])),(B2I(x[6:8])),(B2I(x[8:10])),(B2I(x[10:12])),(B2I(x[12:14])),(B2I(x[14:16]))),16]),
+	16:(lambda x,y:['GEO_TRANSLATE_ROTATE{}({},{},{},{},{},{},{}{}{})'.format("_WITH_DL" if x[1]>>4==8 else "",(B2I(x[2:4])),(B2I(x[4:6])),(B2I(x[6:8])),(B2I(x[8:10])),(B2I(x[10:12])),(B2I(x[12:14])),(B2I(x[14:16])),"," if x[1]>>4==8 else "",'DL_'+y+hex(B2I(x[8:12])) if x[1]>>4==8 else ""),16+min(4,(x[1]>>4==8)*4)]),
 	17:(lambda x,y:['GEO_TRANSLATE_NODE{}({},{},{},{}{}{})'.format("_WITH_DL" if x[1]>>4==8 else "",
 	x[1]&0xF,(B2I(x[2:4])),(B2I(x[4:6])),(B2I(x[6:8])),
 	"," if x[1]>>4==8 else "",'DL_'+y+hex(B2I(x[8:12])) if x[1]>>4==8 else ""),

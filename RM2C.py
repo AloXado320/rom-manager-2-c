@@ -713,7 +713,8 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 		if hasattr(area,'macros'):
 			CheckMacro = (lambda x: 'MACRO_OBJECTS(' in x )
 			asobj = 'static const MacroObject local_macro_objects_%s_%d[]'%(name,a)
-			Slines.insert(x,(asobj+' = {\n'))
+			hd = '#include "level_misc_macros.h"\n#include "macro_preset_names.h"\n'
+			Slines.insert(x,(hd+asobj+' = {\n'))
 			x+=1
 			for m in area.macros:
 				Slines.insert(x,"MACRO_OBJECT_WITH_BEH_PARAM({},{},{},{},{},{}),\n".format(MacroNames[m[1]],m[0],*m[2:]))
@@ -904,10 +905,11 @@ def ProcessModel(rom,editor,s,modelID,model):
 	#Something extra added to existing bank
 	if not label:
 		if model[2]=='geo':
-			label = "custom_geo_{:08x}".format(model[0])
+			label = "unk_geo_{:08x}".format(model[0])
 		else:
-			label = "custom_DL_{:08x}".format(model[0])
-		folder = "custom_{:08x}".format(model[0])
+			label = "unk_DL_{:08x}".format(model[0])
+		folder = "unk_{:08x}".format(model[0])
+		group = 'Level'
 	return (group,Seg,label,folder)
 
 #process all the script class objects from all exported levels to find specific data
@@ -1100,8 +1102,6 @@ class Actor():
 		#key is folder name, values = [seg num,label,type,rom addr, seg addr,ID,script,groupname]
 		for k,val in self.folders.items():
 			fold = self.dir / k
-			if os.path.isdir(fold):
-				shutil.rmtree(fold)
 			fold.mkdir(exist_ok=True)
 			fgeo = fold/'custom.geo.inc.c'
 			fgeo = open(fgeo,'w')
@@ -1170,7 +1170,7 @@ def ExportActors(actors,rom,Models,aDir):
 			if group in levels:
 				pass
 			for m in models:
-				if m[1]:
+				if 'custom' in m[1]:
 					Actors.EvalModel(m,group)
 		return Actors.MakeFolders(rom)
 	#only models with a known modelID geo addr combo
@@ -1179,7 +1179,7 @@ def ExportActors(actors,rom,Models,aDir):
 			if group in levels:
 				pass
 			for m in models:
-				if not m[1]:
+				if 'custom' not in m[1] and 'unk' not in m[1]:
 					Actors.EvalModel(m,group)
 		return Actors.MakeFolders(rom)
 	#if its not one of the above phrases, its the name of a group

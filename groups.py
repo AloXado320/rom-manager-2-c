@@ -162,15 +162,15 @@ castle_grounds = {
 	(56, '0x12000724'):('MODEL_CASTLE_GROUNDS_CANNON_GRILL', 'castle_grounds_geo_000724', 'castle_grounds_geo'),
 }
 castle_inside = {
-	(208,'0x12000f00'):('MODEL_CASTLE_STAR_DOOR_30_STARS','castle_geo_000F00',' '),
-	(209,'0x12000f00'):('MODEL_CASTLE_STAR_DOOR_30_STARS','castle_geo_000F00',' '),
-	(213,'0x12000f00'):('MODEL_CASTLE_STAR_DOOR_30_STARS','castle_geo_000F00',' '),
-	(214,'0x12000f00'):('MODEL_CASTLE_STAR_DOOR_30_STARS','castle_geo_000F00',' '),
-	(53,'0x12000f18'):('MODEL_CASTLE_BOWSER_TRAP','castle_geo_000F18',' '),
-	(55,'0x12001530'):('MODEL_CASTLE_CLOCK_MINUTE_HAND','castle_geo_001530',' '),
-	(56,'0x12001548'):('MODEL_CASTLE_CLOCK_HOUR_HAND','castle_geo_001548',' '),
-	(57,'0x12001518'):('MODEL_CASTLE_CLOCK_PENDULUM','castle_geo_001518',' '),
-	(54,'0x12001940'):('MODEL_CASTLE_WATER_LEVEL_PILLAR','castle_geo_001940',' ')
+	(208,'0x12000f00'):('MODEL_CASTLE_STAR_DOOR_30_STARS','castle_geo_000F00','castle_inside_geo'),
+	(209,'0x12000f00'):('MODEL_CASTLE_STAR_DOOR_30_STARS','castle_geo_000F00','castle_inside_geo'),
+	(213,'0x12000f00'):('MODEL_CASTLE_STAR_DOOR_30_STARS','castle_geo_000F00','castle_inside_geo'),
+	(214,'0x12000f00'):('MODEL_CASTLE_STAR_DOOR_30_STARS','castle_geo_000F00','castle_inside_geo'),
+	(53,'0x12000f18'):('MODEL_CASTLE_BOWSER_TRAP','castle_geo_000F18','castle_inside_geo'),
+	(55,'0x12001530'):('MODEL_CASTLE_CLOCK_MINUTE_HAND','castle_geo_001530','castle_inside_geo'),
+	(56,'0x12001548'):('MODEL_CASTLE_CLOCK_HOUR_HAND','castle_geo_001548','castle_inside_geo'),
+	(57,'0x12001518'):('MODEL_CASTLE_CLOCK_PENDULUM','castle_geo_001518','castle_inside_geo'),
+	(54,'0x12001940'):('MODEL_CASTLE_WATER_LEVEL_PILLAR','castle_geo_001940','castle_inside_geo')
 }
 bitdw = {
 	(3, '0x120003c0'):('MODEL_LEVEL_GEOMETRY_03', 'geo_bitdw_0003C0', 'geo_bitdw'),
