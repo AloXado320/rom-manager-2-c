@@ -211,7 +211,7 @@ def StartArea(rom,cmd,start,script):
 	area=arg[0]+script.Aoffset
 	script.CurrArea=area
 	q=Area()
-	q.geo=TcH(arg[2:6])
+	q.geo=script.B2P(TcH(arg[2:6]))
 	q.objects=[]
 	q.warps=[]
 	q.rom=rom
@@ -496,7 +496,7 @@ def InsertBankLoads(s,f):
 				d=skyboxesRM
 		else:
 			d=Groups
-		if b:
+		if b and b[1]>b[0]:
 			banks[i]=ClosestIntinDict(b[0],d)
 			if not i:
 				#custom skybox
@@ -601,7 +601,7 @@ def WriteLevelScript(name,Lnum,s,level,Anum,envfx):
 	LoadUnspecifiedModels(s,f,LoadLevel)
 	#add in jumps based on banks returned
 	for b in banks:
-		if type(b)==list:
+		if type(b)==list and len(b)>2:
 			f.write("JUMP_LINK("+b[3]+"),\n")
 	#a bearable amount of cringe
 	for a in Anum:
@@ -765,7 +765,7 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 	[script.write(l) for l in Slines]
 	return [AllWaterBoxes,m64s,seqNums]
 
-def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend):
+def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,cskybox):
 	#create level directory
 	WaterOnly = Onlys[0]
 	ObjectOnly = Onlys[1]
@@ -793,7 +793,11 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 		#get real bank 0x0e location
 		s.RME(a,Arom)
 		id = name+"_"+str(a)+"_"
-		(geo,dls,WB,vfx)=GW.GeoParse(Arom,s.B2P(area.geo),s,area.geo,id)
+		if s.banks[10] and s.banks[10][1]>s.banks[10][0] and s.banks[10][0]>0x1220000:
+			CBG=1
+		else:
+			CBG=0
+		(geo,dls,WB,vfx,cskybox)=GW.GeoParse(Arom,area.geo,s,area.geo,id,cskybox,CBG)
 		#deal with some areas having it vs others not
 		if vfx:
 			envfx = 1
@@ -871,7 +875,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 					ld.write(start+Ft)
 		ld.write('#include "levels/%s/textureNew.inc.c"\n'%(name))
 		ld.close
-	return [AllWaterBoxes,m64s,seqNums]
+	return [AllWaterBoxes,m64s,seqNums,cskybox]
 
 #Finds out what model is based on seg addr and loaded banks
 def ProcessModel(rom,editor,s,modelID,model):
@@ -990,6 +994,15 @@ jumps = {
 	0x39:MacroObjects
 }
 
+def RipNonLevelSeq(romname,m64s,seqNums,rootdir,MusicExtend):
+	m64dir = rootdir/'sound'/"sequences"/"us"
+	os.makedirs(m64dir,exist_ok=True)
+	for i in range(1,0x23,1):
+		if i not in seqNums:
+			[m64,seqNum] = RipSequence(rom,i,m64dir,0,0,romname,MusicExtend)
+			m64s.append(m64)
+			seqNums.append(seqNum)
+
 def RipSequence(rom,seqNum,m64Dir,Lnum,Anum,romname,MusicExtend):
 	#audio_dma_copy_immediate loads gSeqFileHeader in audio_init at 0x80319768
 	#the line of asm is at 0xD4768 which sets the arg to this
@@ -1064,7 +1077,7 @@ def AppendAreas(entry,script,Append):
 				break
 	return script
 
-def ExportLevel(rom,level,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs):
+def ExportLevel(rom,level,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs,cskybox):
 	#choose level
 	s = Script(level)
 	s.Seg2(rom)
@@ -1088,12 +1101,12 @@ def ExportLevel(rom,level,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums
 	#so I export only objects for these levels
 	if not s.banks[0x19]:
 		WriteVanillaLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,[Onlys[0],1,Onlys[0]],romname,m64s,seqNums,MusicExtend)
-		return s
+		return s,cskybox
 	LevelName = {**Num2Name}
 	lvldefs.write("DEFINE_LEVEL(%s,%s)\n"%(Num2Name[level],"LEVEL_"+Num2LevelName.get(level,'castle').upper()))
 	#now do level
-	WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend)
-	return s
+	[AllWaterBoxes,m64s,seqNums,cskybox] = WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,cskybox)
+	return s,cskybox
 
 class Actor():
 	def __init__(self,aDir):
@@ -1223,10 +1236,12 @@ def FindCustomSkyboxse(rom,Banks,SB):
 		f.write('   MIO0_SEG({}, 0x0A000000)\n'.format(v[1:]+"_skybox"))
 	return custom
 
-def ExportTextures(rom,editor,rootdir,Banks):
+def ExportTextures(rom,editor,rootdir,Banks,inherit):
 	s=Script(9)
 	s.Seg2(rom)
 	Textures = rootdir/"textures"
+	if os.path.isdir(Textures) and not inherit:
+		shutil.rmtree(Textures)
 	Textures.mkdir(exist_ok=True)
 	#There are several different banks of textures, all are in bank 0xA or 0xB or 0x2
 	#Editor and RM have different bank load locations, this is because editor didn't follow alignment
@@ -1719,6 +1734,7 @@ certain bash errors.
 	Title=0
 	#This is not an arg you should edit really
 	TxtAmount = 170
+	cskybox=0
 	for arg in sys.argv[1:]:
 		args+=arg+" "
 	a = "\\".join(args)
@@ -1784,13 +1800,15 @@ certain bash errors.
 		#export title screen
 		ExportTitleScreen(rom,lvldir)
 		for k in Num2Name.keys():
-			Scripts.append(ExportLevel(rom,k,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs))
+			[s,cskybox] = ExportLevel(rom,k,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs,cskybox)
+			Scripts.append(s)
 			print(Num2Name[k] + ' done')
 	else:
 		for k in levels:
 			if not Num2Name.get(k):
 				continue
-			Scripts.append(ExportLevel(rom,k,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs))
+			[s,cskybox] = ExportLevel(rom,k,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs,cskybox)
+			Scripts.append(s)
 			print(Num2Name[k] + ' done')
 	lvldefs.close()
 	#export title screen via arg
@@ -1802,12 +1820,13 @@ certain bash errors.
 		ExportActors(actors,rom,Models,ass)
 	#export textures
 	if Textures:
-		ExportTextures(rom,editor,Path(sys.path[0]),Banks)
+		ExportTextures(rom,editor,Path(sys.path[0]),Banks,Inherit)
 	#AllWaterBoxes should have refs to all water boxes, using that, I will generate a function
 	#and array of references so it can be hooked into moving_texture.c
 	#example of AllWaterBoxes format [[str,level,area,type]...]
 	if not (MusicOnly or ObjectOnly):
 		ExportWaterBoxes(AllWaterBoxes,Path(sys.path[0]))
 	if not (WaterOnly or ObjectOnly):
+		RipNonLevelSeq(romname,m64s,seqNums,Path(sys.path[0]),MusicExtend)
 		CreateSeqJSON(romname,list(zip(m64s,seqNums)),Path(sys.path[0]),MusicExtend)
 	print('Export Completed')

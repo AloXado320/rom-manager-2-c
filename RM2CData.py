@@ -946,13 +946,16 @@ NOP = (lambda x:(x[0]==0)&1)
 GFXRECTLEFT =  (lambda x:'GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE({})'.format(x[0]))
 GFXRECTRIGHT =  (lambda x:'GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE({})'.format(320-x[0]))
 
-unkDefaults = """#define SHOW_STAR_MILESTONES 0
+unkDefaults = """//The following are not exported from the rom, but are placed here for user convenience
+#define SHOW_STAR_MILESTONES 0
 #define TOAD_STAR_1_DIALOG DIALOG_082
 #define TOAD_STAR_2_DIALOG DIALOG_076
 #define TOAD_STAR_3_DIALOG DIALOG_083
 #define TOAD_STAR_1_DIALOG_AFTER DIALOG_154
 #define TOAD_STAR_2_DIALOG_AFTER DIALOG_155
-#define TOAD_STAR_3_DIALOG_AFTER DIALOG_156"""
+#define TOAD_STAR_3_DIALOG_AFTER DIALOG_156
+//whether coins are 3d or not. Changes bhv scripts and pause menu reds rendering
+#define USE3DCOINS 0"""
 
 #Format is num vals, var name, [type,len,hex locations,func]
 Tweaks = [
@@ -985,18 +988,18 @@ Tweaks = [
 	[1,'VC_TIME',[">H",2,0xABF2,DOUBLE]],
 	[1,'MC_LEVEL_TIME',[">H",2,0x4A5E,DOUBLE]],
 	[1,'WC_LEVEL_TIME',[">H",2,0x4A7A,DOUBLE]],
-	[1,'VC_LEVEL_TIME',[">H",2,0x4A9A,DOUBLE]],
+	[1,'VC_LEVEL_TIME',[">H",2,0x4A96,DOUBLE]],
 	[1,'HUD_LIVES_MARIO_X',[">H",2,0x9E756,GFXRECTLEFT]],
 	[1,'HUD_LIVES_MARIO_Y',[">H",2,0x9E75E,INHERIT]],
 	[1,'HUD_LIVES_CROSS_X',[">H",2,0x9E76A,GFXRECTLEFT]],
 	[1,'HUD_LIVES_CROSS_Y',[">H",2,0x9E772,INHERIT]],
 	[1,'HUD_LIVES_NUM_X',[">H",2,0x9E786,GFXRECTLEFT]],
 	[1,'HUD_LIVES_NUM_Y',[">H",2,0x9E78E,INHERIT]],
-	[1,'HUD_COINS_X',[">H",2,0x9E7BA,INHERIT]],
+	[1,'HUD_COINS_X',[">H",2,0x9E7BA,GFXRECTLEFT]],
 	[1,'HUD_COINS_Y',[">H",2,0x9E7C2,INHERIT]],
-	[1,'HUD_COINS_CROSS_X',[">H",2,0x9E7CE,INHERIT]],
+	[1,'HUD_COINS_CROSS_X',[">H",2,0x9E7CE,GFXRECTLEFT]],
 	[1,'HUD_COINS_CROSS_Y',[">H",2,0x9E7D6,INHERIT]],
-	[1,'HUD_COINS_NUM_X',[">H",2,0x9E7EA,INHERIT]],
+	[1,'HUD_COINS_NUM_X',[">H",2,0x9E7EA,GFXRECTLEFT]],
 	[1,'HUD_COINS_NUM_Y',[">H",2,0x9E7F2,INHERIT]],
 	[1,'HUD_STARS_X',[">H",2,0x9E86E,GFXRECTRIGHT]],
 	[1,'HUD_STARS_Y',[">H",2,0x9E876,INHERIT]],
