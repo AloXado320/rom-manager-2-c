@@ -12,6 +12,7 @@ from RM2CData import *
 import BinPNG
 import groups as GD
 import math
+import disassemble_sound as d_s
 
 class Script():
 	def __init__(self,level):
@@ -994,7 +995,7 @@ jumps = {
 	0x39:MacroObjects
 }
 
-def RipNonLevelSeq(romname,m64s,seqNums,rootdir,MusicExtend):
+def RipNonLevelSeq(rom,m64s,seqNums,rootdir,MusicExtend):
 	m64dir = rootdir/'sound'/"sequences"/"us"
 	os.makedirs(m64dir,exist_ok=True)
 	for i in range(1,0x23,1):
@@ -1022,10 +1023,9 @@ def RipSequence(rom,seqNum,m64Dir,Lnum,Anum,romname,MusicExtend):
 	f.close()
 	return [m64Name,seqNum+MusicExtend]
 
-def CreateSeqJSON(romname,m64s,rootdir,MusicExtend):
-	m64Dir = rootdir/"sound"
-	m64Dir.mkdir(exist_ok=True)
+def CreateSeqJSON(rom,m64s,rootdir,MusicExtend):
 	originals = rootdir/"originals"/"sequences.json"
+	m64Dir = rootdir/'sound'
 	m64s.sort(key=(lambda x: x[1]))
 	origJSON = open(originals,'r')
 	origJSON = origJSON.readlines()
@@ -1059,6 +1059,17 @@ def CreateSeqJSON(romname,m64s,rootdir,MusicExtend):
 			seqJSON.write(og)
 		last = m64[1]+3
 	seqJSON.write("}")
+
+def RipInstBanks(rom,rootdir):
+	sampledir = rootdir/'sound'/'samples'
+	instsdir = rootdir/'sound'/'sound_banks'
+	os.makedirs(sampledir,exist_ok=True)
+	os.makedirs(instsdir,exist_ok=True)
+	#<.z64 rom> <ctl offset> <ctl size> <tbl offset> <tbl size> (<samples outdir> <sound bank outdir> | --only-samples file:index ...)
+	try:
+		d_s.main(rom,0x57B720,97856,0x593560,2216704,sampledir,instsdir)
+	except:
+		print('sound bank exporting went wrong somewhere.')
 
 def AppendAreas(entry,script,Append):
 	for rom,offset,editor in Append:
@@ -1751,6 +1762,7 @@ certain bash errors.
 		print("If you are using terminal try using this\n"+a)
 		raise 'bad arguments'
 	romname = rom.split(".")[0]
+	fullromname=rom
 	rom=open(rom,'rb')
 	rom = rom.read()
 	#Export dialogs and course names
@@ -1827,6 +1839,7 @@ certain bash errors.
 	if not (MusicOnly or ObjectOnly):
 		ExportWaterBoxes(AllWaterBoxes,Path(sys.path[0]))
 	if not (WaterOnly or ObjectOnly):
-		RipNonLevelSeq(romname,m64s,seqNums,Path(sys.path[0]),MusicExtend)
-		CreateSeqJSON(romname,list(zip(m64s,seqNums)),Path(sys.path[0]),MusicExtend)
+		RipNonLevelSeq(rom,m64s,seqNums,Path(sys.path[0]),MusicExtend)
+		CreateSeqJSON(rom,list(zip(m64s,seqNums)),Path(sys.path[0]),MusicExtend)
+		RipInstBanks(fullromname,Path(sys.path[0]))
 	print('Export Completed')
