@@ -13,6 +13,7 @@ import BinPNG
 import groups as GD
 import math
 import disassemble_sound as d_s
+import multiprocessing as mp
 
 class Script():
 	def __init__(self,level):
@@ -1160,6 +1161,7 @@ class Actor():
 			v[5].editor=0
 			self.WriteActorModel(rom,dls,v[5],k+'_model',ids,fold)
 			print('{} exported'.format(k))
+		self.ExportPowerMeter(rom,v[5])
 	def WriteActorModel(self,rom,dlss,s,Hname,ids,dir):
 		x=0
 		ModelData=[]
@@ -1185,6 +1187,25 @@ class Actor():
 		mh.write("#endif")
 		mh.close()
 		return dls
+	#Hardcode power meter export. Only exporting textures
+	def ExportPowerMeter(self,rom,script):
+		dir = self.dir / 'power_meter'
+		dir.mkdir(exist_ok=True)
+		nums = ['full','seven_segments','six_segments','five_segments','four_segments','three_segments','two_segments','one_segment']
+		for i in range(8):
+			base = 'power_meter_%s.rgba16'%(nums[i])
+			png = BinPNG.MakeImage(str(dir/base))
+			loc = script.B2P(0x03000000+0x253E0+i*0x800)
+			bin = rom[loc:loc+0x800]
+			BinPNG.RGBA16(32,32,bin,png)
+		png = BinPNG.MakeImage(str(dir/'power_meter_left_side.rgba16'))
+		loc = script.B2P(0x03000000+0x233E0)
+		bin = rom[loc:loc+0x1000]
+		BinPNG.RGBA16(32,64,bin,png)
+		png = BinPNG.MakeImage(str(dir/'power_meter_right_side.rgba16'))
+		loc = script.B2P(0x03000000+0x243E0)
+		bin = rom[loc:loc+0x1000]
+		BinPNG.RGBA16(32,64,bin,png)
 
 def ExportActors(actors,rom,Models,aDir):
 	#Models is key=group name, values = [seg num,label,type,rom addr, seg addr,ID,folder,script]
@@ -1238,6 +1259,8 @@ def ExportActors(actors,rom,Models,aDir):
 
 def FindCustomSkyboxse(rom,Banks,SB):
 	custom = {}
+	if not Banks:
+		return custom
 	for j,B in enumerate(Banks[0xA]):
 		if B[0]>0x1220000:
 			custom[B[0]] = '_SkyboxCustom%d'%B[0]
@@ -1267,29 +1290,37 @@ def ExportTextures(rom,editor,rootdir,Banks,inherit):
 		skyboxes = skyboxesRM
 	#Check for custom skyboxes using Banks
 	skyboxes = {**FindCustomSkyboxse(rom,Banks,SB),**skyboxes}
+	p = mp.Pool(mp.cpu_count())
 	for k,v in skyboxes.items():
 		imgs = []
 		name = v.split('_')[1]
 		if name=='cloud':
 			name='cloud_floor'
-		for i in range(0x40):
-			namet = v.split('_')[1]+str(i)
-			box = BinPNG.MakeImage(str(SB / namet))
-			bin = rom[k+i*0x800:k+0x800+i*0x800]
-			BinPNG.RGBA16(32,32,bin,box)
-			imgs.append(box)
+		imgs = p.starmap(ExportSkyTiles,[(SB,rom,v,k,i) for i in range(0x40)])
+		# for i in range(0x40):
+			# namet = v.split('_')[1]+str(i)
+			# box = BinPNG.MakeImage(str(SB / namet))
+			# bin = rom[k+i*0x800:k+0x800+i*0x800]
+			# BinPNG.RGBA16(32,32,bin,box)
+			# imgs.append(box)
 		FullBox = BinPNG.InitSkybox(str(SB / name))
 		for j,tile in enumerate(imgs):
 			x=(j*31)%248
 			y=int((j*31)/248)*31
-			tilepath = Path(tile.name)
-			tile.close()
-			BinPNG.TileSkybox(FullBox,x,y,tilepath)
+			BinPNG.TileSkybox(FullBox,x,y,tile)
 		FullBox.save(str(SB / (name+'.png')))
-		[os.remove(Path(img.name)) for img in imgs]
+		[os.remove(Path(img)) for img in imgs]
 		print('skybox %s done'%name)
 	print('skyboxes done')
 	ExportSeg2(rom,Textures,s)
+
+def ExportSkyTiles(SB,rom,v,k,i):
+	namet = v.split('_')[1]+str(i)
+	box = BinPNG.MakeImage(str(SB / namet))
+	bin = rom[k+i*0x800:k+0x800+i*0x800]
+	BinPNG.RGBA16(32,32,bin,box)
+	box.close()
+	return str(SB / (namet+'.png'))
 
 #segment 2
 def ExportSeg2(rom,Textures,s):

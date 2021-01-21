@@ -5,6 +5,7 @@ import time
 import struct
 import BinPNG
 import os
+import multiprocessing as mp
 
 #typedef struct {
 #  unsigned char	col[3];		/* diffuse light value (rgba) */
@@ -143,6 +144,44 @@ def OptimizeModeldata(ModelData):
 		ModelData[k][1] = [OptNewMats]
 	return ModelData
 
+def ExportTexture(rom,GetNID,Eapp,txt,pos,Trackers,refs,tdir,textures,ImgTypes,t,id,k):
+	if t[0]:
+		#textureptrs = raw ptr, bank ptr, length, width, height, imgtype, bitdepth, palette, tile
+		if t in txt:
+			q = txt.index(t)
+			Eapp((id+hex(t[1])),(GetNID(pos,id,q)+hex(txt[q][1])),'texture_%s_custom')
+			return
+		texn = 'const u8 texture_%s_custom[]'%(id+hex(t[1]))
+		txt.append(t)
+		Trackers[pos].append(k)
+		refs.append(texn)
+		inc = tdir.parts[-2]+"/"+tdir.parts[-1]+"/"
+		if t[5]=='CI':
+			texnp = 'const u8 texture_%s_custom_pal[]'%(id+hex(t[1]))
+			#export a include of a png file
+			textures.write('ALIGNED8 '+texn+' = {\n')
+			textures.write('#include "%s.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
+			#The palette
+			textures.write('ALIGNED8 '+texnp+' = {\n')
+			textures.write('#include "%s.pal.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
+			#export a png
+			bin = rom[t[0]:t[0]+t[2]*2+2]
+			pal = [rom[t[7][0]:t[7][0]+(2**t[6])*2],'rgba16'] #A palette is 2^bitdepth of CI * two bytes per pixel
+			png = str(tdir/(id+hex(t[1])+"_custom.%s"%(t[5].lower()+str(t[6]))))
+			return (ImgTypes[t[5]],(t[3],t[4],t[6],pal,bin,png))
+		else:
+			#export a include of a png file
+			textures.write('ALIGNED8 '+texn+' = {\n')
+			textures.write('#include "%s.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
+			#export a png
+			bin = rom[t[0]:t[0]+t[2]*2+2]
+			png = str(tdir/(id+hex(t[1])+"_custom.%s"%(t[5].lower()+str(t[6]))))
+			#I lost the dimensions somehow, so its probably jumping around alot. assume 32x32
+			if t[3]==0 or t[4]==0:
+				t[3]=32
+				t[4]=32
+			return (ImgTypes[t[5]],(t[3],t[4],t[6],bin,png))
+
 def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
 	#ModelData = start,dl,verts,textureptrs, amb/diff lights, ranges, ids
 	#create redundancy trackers for each data type
@@ -159,6 +198,8 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
 	'IA':BinPNG.IA,
 	'I':BinPNG.I
 	}
+	#array of pngs for multiprocessing later. Func,args
+	Pngs = []
 	name = nameG/'custom.model.inc.c'
 	if os.path.isfile(tdir/'textureNew.inc.c'):
 		textures = open(tdir/'textureNew.inc.c','a')
@@ -211,42 +252,9 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
 		#textures
 		pos=3
 		for t in md[pos]:
-			if t[0]:
-				#textureptrs = raw ptr, bank ptr, length, width, height, imgtype, bitdepth, palette, tile
-				if t in txt:
-					q = txt.index(t)
-					Eapp((id+hex(t[1])),(GetNID(pos,id,q)+hex(txt[q][1])),'texture_%s_custom')
-					continue
-				texn = 'const u8 texture_%s_custom[]'%(id+hex(t[1]))
-				txt.append(t)
-				Trackers[pos].append(k)
-				refs.append(texn)
-				inc = tdir.parts[-2]+"/"+tdir.parts[-1]+"/"
-				if t[5]=='CI':
-					texnp = 'const u8 texture_%s_custom_pal[]'%(id+hex(t[1]))
-					#export a include of a png file
-					textures.write('ALIGNED8 '+texn+' = {\n')
-					textures.write('#include "%s.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
-					#The palette
-					textures.write('ALIGNED8 '+texnp+' = {\n')
-					textures.write('#include "%s.pal.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
-					#export a png
-					bin = rom[t[0]:t[0]+t[2]*2+2]
-					pal = [rom[t[7][0]:t[7][0]+(2**t[6])*2],'rgba16'] #A palette is 2^bitdepth of CI * two bytes per pixel
-					png = BinPNG.MakeImage(str(tdir/(id+hex(t[1])+"_custom.%s"%(t[5].lower()+str(t[6])))))
-					png = ImgTypes[t[5]](t[3],t[4],t[6],pal,bin,png)
-				else:
-					#export a include of a png file
-					textures.write('ALIGNED8 '+texn+' = {\n')
-					textures.write('#include "%s.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
-					#export a png
-					bin = rom[t[0]:t[0]+t[2]*2+2]
-					png = BinPNG.MakeImage(str(tdir/(id+hex(t[1])+"_custom.%s"%(t[5].lower()+str(t[6])))))
-					#I lost the dimensions somehow, so its probably jumping around alot. assume 32x32
-					if t[3]==0 or t[4]==0:
-						t[3]=32
-						t[4]=32
-					png = ImgTypes[t[5]](t[3],t[4],t[6],bin,png)
+			img = ExportTexture(rom,GetNID,Eapp,txt,pos,Trackers,refs,tdir,textures,ImgTypes,t,id,k)
+			if img:
+				Pngs.append(img)
 		#lights
 		#redundant symbols in lights in models sometimes
 		#This happens with certain importers or if someone wanted to lazily remove shading
@@ -331,7 +339,16 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
 				f.write(c+',\n')
 			f.write('};\n\n')
 	f.close()
+	p = mp.Pool(mp.cpu_count())
+	p.map(WriteTex,Pngs)
 	return refs
+
+def WriteTex(Pngs):
+	func=Pngs[0]
+	args=Pngs[1]
+	img = BinPNG.MakeImage(args[-1])
+	func(*args[:-1],img)
+	return 0
 
 #f3d binary start
 #takes bin, and returns tuple with C macro

@@ -180,12 +180,14 @@ def GeoActWrite(geo,f):
 	for k,g in enumerate(geo):
 		f.write('const GeoLayout %s[]= {\n'%g[1])
 		for c in g[0]:
-			addr = c.split('_')[-1]
-			if addr in geoSymbs:
-				c = geoRep[geoSymbs.index(addr)]
-			else:
-				geoSymbs.append(addr)
-				geoRep.append(c)
+			addr = c.split('(')[-1].split('_')
+			if len(addr)>1:
+				addr=addr[-1]
+				if addr in geoSymbs:
+					c = geoRep[geoSymbs.index(addr)]
+				else:
+					geoSymbs.append(addr)
+					geoRep.append(c)
 			f.write(c+',\n')
 		f.write('};\n')
 
