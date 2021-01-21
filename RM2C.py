@@ -998,7 +998,7 @@ jumps = {
 def RipNonLevelSeq(rom,m64s,seqNums,rootdir,MusicExtend):
 	m64dir = rootdir/'sound'/"sequences"/"us"
 	os.makedirs(m64dir,exist_ok=True)
-	for i in range(1,0x23,1):
+	for i in range(1,0x22,1):
 		if i not in seqNums:
 			[m64,seqNum] = RipSequence(rom,i,m64dir,0,0,romname,MusicExtend)
 			m64s.append(m64)
@@ -1695,7 +1695,7 @@ if __name__=='__main__':
 ------------------Invalid Input - Error ------------------
 
 Arguments for RM2C are as follows:
-RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0 Inherit=0 Upscale=0 Title=0
+RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0 Inherit=0 Upscale=0 Title=0 Sound=0
 
 Arguments with equals sign are shown in default state, do not put commas between args.
 Levels accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
@@ -1705,6 +1705,7 @@ MusicExtend is for when you want to add in your custom music on top of the origi
 Textures will export the equivalent of the /textures/ folder in decomp.
 Inherit is a file management arg for when dealing with multiple roms. Normal behavior is to clear level folder each time, inherit prevents this.
 Title exports the title screen. This will also be exported if levels='all'
+Sound will export instrument bank and sound sample data.
 Upscale is an option to use ESRGAN ai upscaling to increase texture size. The upscaled textures will generate #ifdefs in each model file for non N64 targeting to compile them instead of the original textures.
 
 
@@ -1743,6 +1744,7 @@ certain bash errors.
 	Inherit=0
 	Upscale=0
 	Title=0
+	Sound=0
 	#This is not an arg you should edit really
 	TxtAmount = 170
 	cskybox=0
@@ -1841,5 +1843,6 @@ certain bash errors.
 	if not (WaterOnly or ObjectOnly):
 		RipNonLevelSeq(rom,m64s,seqNums,Path(sys.path[0]),MusicExtend)
 		CreateSeqJSON(rom,list(zip(m64s,seqNums)),Path(sys.path[0]),MusicExtend)
-		RipInstBanks(fullromname,Path(sys.path[0]))
+		if Sound:
+			RipInstBanks(fullromname,Path(sys.path[0]))
 	print('Export Completed')

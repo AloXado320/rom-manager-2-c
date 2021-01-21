@@ -28,7 +28,7 @@ Currently testing, installation method coming after optimal fork and model are f
 
 place rom in root, run RM2C.py with the following arguments:
 
-RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0 Inherit=0 Upscale=0 Title=0
+RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0 Inherit=0 Upscale=0 Title=0 Sound=0
 
  - Arguments with equals sign are shown in default state, do not put commas between args. All Arguments use python typing, this means you can generate lists or strings using defualt python functions.
  - Levels accept any list argument or only the string 'all'.
@@ -41,6 +41,7 @@ RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaof
  - Textures will export the equivalent of the /textures/ folder in decomp.
  - Inherit is a file management arg for when dealing with multiple roms. Normal behavior is to clear level and actor folder each time, inherit prevents this.
  - Title exports the title screen. This will also be exported if levels='all'
+ - Sound will export sound sample and instrument bank data (default is m64s only)
  - Upscale is an option to use ESRGAN ai upscaling to increase texture size. The upscaled textures will generate #ifdefs in each model file for non N64 targeting to compile them instead of the original textures. This feature is not currently implemented.
 
 ### Example Inputs
