@@ -286,7 +286,11 @@ def ConvertEditorTexScrolls(script,Obj):
 	# I have zero clue if this is true for all editor versions
 	# it likely isn't
 	PosByte = (lambda x: (int(math.log(x,2))+127)&0x1E)
-	Addr=0x0E000000+((PosByte(Obj[1])-2)<<16)+(int(Obj[7],16)>>16) #x
+	if 'editor_Scroll_Texture2' in Obj[-2]:
+		Addr=0x0E000000+((PosByte(Obj[1])-7)<<16)+(int(Obj[7],16)>>16) #x
+		Obj[-2] = 'editor_Scroll_Texture'
+	else:
+		Addr=0x0E000000+((PosByte(Obj[1])-2)<<16)+(int(Obj[7],16)>>16) #x
 	Num=PosByte(Obj[2])*3 #y
 	Speed = 0x1000 // PosByte(Obj[3]) #z
 	dir = Addr&0xF
@@ -309,16 +313,18 @@ def FormatScrollObject(scroll,verts,obj,s):
 	for v in verts:
 		if addr>v[0] and addr>v[0]+v[2]*0x10:
 			continue
-		elif addr>v[0]:
+		if addr>v[0]:
 			closest = v[0]
 			offset = addr-v[0]
-	bparam = '&VB_%s_%d_0x%x + %d'%(Num2Name[s.Currlevel],scroll[1],closest,int(offset/0x10))
+		if v[0]>addr:
+			break
+	bparam = '&VB_%s_%d_0x%x[%d]'%(Num2Name[s.Currlevel],scroll[1],closest,int(offset/0x10))
 	Bhvs = {
 	'x':4,
 	'y':5,
 	'xPos':0,
 	'yPos':1,
-	'zPos':5,
+	'zPos':2,
 	}
 	Types = {
 	'normal':0,
@@ -328,11 +334,11 @@ def FormatScrollObject(scroll,verts,obj,s):
 	#format I will use is bparam=addr,z=vert amount,x=spd,y=bhv,ry=type, rz=cycle
 	# (Obj,script.CurrArea,Addr,Num,Speed,Bhvs[dir&0xF000],Types[dir&0xFFF],cycle)
 	# PO=[id,x,y,z,rx,ry,rz,bparam,bhv,mask]
-	obj[1]=scroll[4]
-	obj[2]=Bhvs[scroll[-3]]
-	obj[3]=scroll[3]
-	obj[5]=Types[scroll[-2]]
-	obj[6]=Types[scroll[-1]]
+	obj[1]=scroll[4] #x
+	obj[2]=Bhvs[scroll[-3]] #y
+	obj[3]=scroll[3] #z
+	obj[5]=Types[scroll[-2]] #ry
+	obj[6]=scroll[-1] #rz
 	obj[-3] = bparam
 	return obj
 
@@ -537,7 +543,7 @@ def LoadUnspecifiedModels(s,file,level):
 			if Seg==0x12:
 				lab = GD.__dict__[level].get((i,'0x'+addr))
 				if not lab:
-					print(addr,level,i)
+					# print(addr,level,i)
 					lab = s.GetLabel(addr)
 				else:
 					lab= lab[1]
@@ -1159,7 +1165,11 @@ class Actor():
 			#turn editor off for script object so optimization
 			#doesn't happen
 			v[5].editor=0
-			self.WriteActorModel(rom,dls,v[5],k+'_model',ids,fold)
+			try:
+				self.WriteActorModel(rom,dls,v[5],k+'_model',ids,fold)
+			except:
+				print("{} had a broken DL and cannot be exported".format(k))
+				continue
 			print('{} exported'.format(k))
 		self.ExportPowerMeter(rom,v[5])
 	def WriteActorModel(self,rom,dlss,s,Hname,ids,dir):
