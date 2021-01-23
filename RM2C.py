@@ -14,6 +14,7 @@ import groups as GD
 import math
 import disassemble_sound as d_s
 import multiprocessing as mp
+import Log
 
 class Script():
 	def __init__(self,level):
@@ -271,9 +272,9 @@ def ConvertRMTexScrolls(script,Obj):
 	0x200:'jumping'
 	}
 	if script.texScrolls:
-		script.texScrolls.append((Obj,script.CurrArea,Addr,Num,Speed,Bhvs[dir&0xF000],Types[dir&0xF00],dir&0xFF))
+		script.texScrolls.append([Obj,script.CurrArea,Addr,Num,Speed,Bhvs[dir&0xF000],Types[dir&0xF00],dir&0xFF])
 	else:
-		script.texScrolls = [(Obj,script.CurrArea,Addr,Num,Speed,Bhvs[dir&0xF000],Types[dir&0xF00],dir&0xFF)]
+		script.texScrolls = [[Obj,script.CurrArea,Addr,Num,Speed,Bhvs[dir&0xF000],Types[dir&0xF00],dir&0xFF]]
 	return Obj
 
 def ConvertEditorTexScrolls(script,Obj):
@@ -286,6 +287,7 @@ def ConvertEditorTexScrolls(script,Obj):
 	# I have zero clue if this is true for all editor versions
 	# it likely isn't
 	PosByte = (lambda x: (int(math.log(x,2))+127)&0x1E)
+	#For some reason some levels have different segE locations, which can basically make this completely not work
 	if 'editor_Scroll_Texture2' in Obj[-2]:
 		Addr=0x0E000000+((PosByte(Obj[1])-7)<<16)+(int(Obj[7],16)>>16) #x
 		Obj[-2] = 'editor_Scroll_Texture'
@@ -299,25 +301,33 @@ def ConvertEditorTexScrolls(script,Obj):
 	else:
 		dir='y'
 	if script.texScrolls:
-		script.texScrolls.append((Obj,script.CurrArea,Addr&0xFFFFFFF0,Num,Speed,dir,'normal',0))
+		script.texScrolls.append([Obj,script.CurrArea,Addr&0xFFFFFFF0,Num,Speed,dir,'normal',0])
 	else:
-		script.texScrolls = [(Obj,script.CurrArea,Addr&0xFFFFFFF0,Num,Speed,dir,'normal',0)]
+		script.texScrolls = [[Obj,script.CurrArea,Addr&0xFFFFFFF0,Num,Speed,dir,'normal',0]]
 	return Obj
 
-def FormatScrollObject(scroll,verts,obj,s):
+def FormatScrollObject(scroll,verts,obj,s,area):
 	#not efficient at all, but number of scrolls is low and I'm lazy
 	#vert = [seg ptr, rom ptr, num verts], sorted by seg ptrs
+	if not verts:
+		return None
 	addr=scroll[2]
 	closest=0
 	offset=0
 	for v in verts:
 		if addr>v[0] and addr>v[0]+v[2]*0x10:
+			closest = v[0]
+			offset = addr-v[0]
 			continue
 		if addr>v[0]:
 			closest = v[0]
 			offset = addr-v[0]
 		if v[0]>addr:
 			break
+	else:
+		Log.InvalidScroll(s.Currlevel,area,scroll)
+		scroll[2] = addr-0x40000
+		return FormatScrollObject(scroll,verts,obj,s,area)
 	bparam = '&VB_%s_%d_0x%x[%d]'%(Num2Name[s.Currlevel],scroll[1],closest,int(offset/0x10))
 	Bhvs = {
 	'x':4,
@@ -361,6 +371,9 @@ def PlaceObject(rom,cmd,start,script):
 	rz=U2S(TcH(arg[12:14]))
 	bparam=hex(TcH(arg[14:18]))
 	bhv=script.GetLabel("{:08x}".format(TcH(arg[18:22])))
+	if bhv in "0x{:08x}".format(TcH(arg[18:22])):
+		bhv = "Bhv_Custom_0x{:08x}".format(TcH(arg[18:22]))
+		Log.UnkObject(script.Currlevel,script.CurrArea,bhv)
 	PO=[id,x,y,z,rx,ry,rz,bparam,bhv,mask]
 	if 'editor_Scroll_Texture' in bhv or 'RM_Scroll_Texture' in bhv:
 		PO = ConvertTexScrolls(script,PO)
@@ -647,9 +660,10 @@ def WriteArea(f,s,area,Anum,id):
 			if 'Scroll_Texture' in o[-2]:
 				for scroll in s.texScrolls:
 					if scroll[0]==o and scroll[1]==Anum:
-						o = FormatScrollObject(scroll,s.verts,o,s)
+						o = FormatScrollObject(scroll,s.verts,o,s,Anum)
 						break
-		f.write("OBJECT_WITH_ACTS({},{},{},{},{},{},{},{},{},{}),\n".format(*o))
+		if o:
+			f.write("OBJECT_WITH_ACTS({},{},{},{},{},{},{},{},{},{}),\n".format(*o))
 	f.write("RETURN()\n};\n")
 	aswarps = 'const LevelScript local_warps_%s[]'%id
 	f.write(aswarps+' = {\n')
@@ -1144,7 +1158,7 @@ class Actor():
 		#key is folder name, values = [seg num,label,type,rom addr, seg addr,ID,script,groupname]
 		for k,val in self.folders.items():
 			fold = self.dir / k
-			fold.mkdir(exist_ok=True)
+			os.makedirs(fold,exist_ok=True)
 			fgeo = fold/'custom.geo.inc.c'
 			fgeo = open(fgeo,'w')
 			geos = []
@@ -1165,14 +1179,10 @@ class Actor():
 			#turn editor off for script object so optimization
 			#doesn't happen
 			v[5].editor=0
-			try:
-				self.WriteActorModel(rom,dls,v[5],k+'_model',ids,fold)
-			except:
-				print("{} had a broken DL and cannot be exported".format(k))
-				continue
+			self.WriteActorModel(rom,dls,v[5],k.split("/")[0]+'_'+k.split("/")[-1]+'_model',ids,fold,v[-1])
 			print('{} exported'.format(k))
 		self.ExportPowerMeter(rom,v[5])
-	def WriteActorModel(self,rom,dlss,s,Hname,ids,dir):
+	def WriteActorModel(self,rom,dlss,s,Hname,ids,dir,groupname):
 		x=0
 		ModelData=[]
 		for dls,id in zip(dlss,ids):
@@ -1184,10 +1194,19 @@ class Actor():
 				c=rom[st]
 				if first==0x01010101 or not F3D.DecodeFmt.get(c):
 					return
-				(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id,0)
-				ModelData.append([starts,dl,verts,textures,amb,diff,ranges,id])
+				try:
+					(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id,0)
+					ModelData.append([starts,dl,verts,textures,amb,diff,ranges,id])
+				except:
+					print("{} had a broken DL and cannot be exported".format(Hname))
 				x+=1
-		refs = F3D.ModelWrite(rom,ModelData,dir,ids[0],dir,s.editor)
+		#change tdir to level dir
+		if groupname in Num2LevelName.values():
+			tdir = Path(sys.path[0])/'levels'/groupname
+			os.makedirs(tdir,exist_ok=True)
+			refs = F3D.ModelWrite(rom,ModelData,dir,ids[0],tdir,s.editor)
+		else:
+			refs = F3D.ModelWrite(rom,ModelData,dir,ids[0],dir,s.editor)
 		modelH = dir/'custom.model.inc.h'
 		mh = open(modelH,'w')
 		headgaurd="%s_HEADER_H"%(Hname)
@@ -1886,4 +1905,5 @@ certain bash errors.
 		CreateSeqJSON(rom,list(zip(m64s,seqNums)),Path(sys.path[0]),MusicExtend)
 		if Sound:
 			RipInstBanks(fullromname,Path(sys.path[0]))
-	print('Export Completed')
+	Log.WriteWarnings()
+	print('Export Completed, see ImportInstructions.py for potential errors when importing to decomp')

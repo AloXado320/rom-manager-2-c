@@ -6,7 +6,7 @@ import struct
 import BinPNG
 import os
 import multiprocessing as mp
-
+import Log
 #typedef struct {
 #  unsigned char	col[3];		/* diffuse light value (rgba) */
 #  char 		pad1;
@@ -144,20 +144,22 @@ def OptimizeModeldata(ModelData):
 		ModelData[k][1] = [OptNewMats]
 	return ModelData
 
-def ExportTexture(rom,GetNID,Eapp,txt,pos,Trackers,refs,tdir,textures,ImgTypes,t,id,k):
+def ExportTexture(rom,GetNID,Excess,txt,pos,Trackers,refs,tdir,textures,ImgTypes,t,id,k):
 	if t[0]:
 		#textureptrs = raw ptr, bank ptr, length, width, height, imgtype, bitdepth, palette, tile
 		if t in txt:
 			q = txt.index(t)
-			Eapp((id+hex(t[1])),(GetNID(pos,id,q)+hex(txt[q][1])),'texture_%s_custom')
+			Excess.append(['{}_texture_{:08X}'.format(id,t[1]),'{}_texture_{:08X}'.format(GetNID(pos,id,q),txt[q][1])])
 			return
-		texn = 'const u8 texture_%s_custom[]'%(id+hex(t[1]))
+		texn = 'const u8 {}_texture_{:08X}[]'.format(id,t[1])
 		txt.append(t)
 		Trackers[pos].append(k)
 		refs.append(texn)
-		inc = tdir.parts[-2]+"/"+tdir.parts[-1]+"/"
+		Findex = (lambda a,b: a.index(b) if b in a else 0)
+		dex = (Findex(tdir.parts,'actors')|Findex(tdir.parts,'levels'))
+		inc = "/".join(tdir.parts[dex:])+"/"
 		if t[5]=='CI':
-			texnp = 'const u8 texture_%s_custom_pal[]'%(id+hex(t[1]))
+			texnp = 'const u8 %s_texture_pal_{:08X}[]'.format(id,t[1])
 			#export a include of a png file
 			textures.write('ALIGNED8 '+texn+' = {\n')
 			textures.write('#include "%s.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
@@ -229,7 +231,7 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
 				continue
 			vbs.append(vb)
 			Trackers[pos].append(k)
-			VBn = 'const Vtx VB_%s[]'%(id+hex(vb[0]))
+			VBn = 'Vtx VB_%s[]'%(id+hex(vb[0]))
 			refs.append(VBn)
 			f.write(VBn+' = {\n')
 			for i in range(vb[2]):
@@ -252,7 +254,7 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
 		#textures
 		pos=3
 		for t in md[pos]:
-			img = ExportTexture(rom,GetNID,Eapp,txt,pos,Trackers,refs,tdir,textures,ImgTypes,t,id,k)
+			img = ExportTexture(rom,GetNID,Excess,txt,pos,Trackers,refs,tdir,textures,ImgTypes,t,id,k)
 			if img:
 				Pngs.append(img)
 		#lights
@@ -439,6 +441,9 @@ def DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,start,LastMat,dl
 		elif (MSB==0xb8):
 			dl[dlStack].append(cmd[0])
 			break
+		#check for fog to print error msg
+		elif (MSB==0xb9) and 'G_RM_FOG_SHADE_A' in cmd[0]:
+			Log.LevelFog(s.Currlevel,'DL_{}{}'.format(id,hex(start[dlStack][1])))
 		else:
 			x+=8
 			#concat 2 tri ones to a tri2
@@ -935,7 +940,7 @@ def G_SETCOMBINE_Decode(bin,id):
 
 def G_SETTIMG_Decode(bin,id):
 	fmt,bit,pad,seg=bin.unpack('uint:3,uint:2,uint:19,uint:32')
-	return (fmt,bit,1,'texture_%s_custom'%(id+hex(seg)))
+	return (fmt,bit,1,'{}_texture_{:08X}'.format(id,seg))
 
 def G_SETZIMG_Decode(bin,id):
 	pad,addr=bin.unpack('int:24,uint:32')
