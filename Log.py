@@ -35,9 +35,9 @@ def InvalidScroll(level,area,scroll):
 		return
 	else:
 		BadScroll.append((level,area,scroll))
-		err = 'Texture Scroll Object in level {} area {} at {} likely has a bad address.\n'.format(Num2Name[level],area,hex(scroll[2]))
+		err = 'Texture Scroll Object in level {} area {} at {} likely has a bad address.'.format(Num2Name[level],area,hex(scroll[2]))
 		print(err)
-		Scrollerrs.append(err)
+		Scrollerrs.append(err+'\n')
 
 LastFog=[]
 Fogerrs=[]
@@ -49,9 +49,9 @@ def LevelFog(level,DL):
 		return
 	else:
 		LastFog.append((level,DL))
-		err = 'Level {} Display List {} has fog, high potential for broken graphics.\n'.format(Num2Name[level],DL)
+		err = 'Level {} Display List {} has fog, for editor, fog DLs are heavily edited, potential for gfx errors.'.format(Num2Name[level],DL)
 		print(err)
-		Fogerrs.append(err)
+		Fogerrs.append(err+'\n')
 
 UnkObjs = []
 Objerrs=[]
@@ -62,9 +62,9 @@ def UnkObject(level,Area,bhv):
 		return
 	else:
 		UnkObjs.append((level,Area,bhv))
-		err = 'Level {} Area {} has object {} with no known label.\n'.format(Num2Name[level],Area,bhv)
+		err = 'Level {} Area {} has object {} with no known label.'.format(Num2Name[level],Area,bhv)
 		print(err)
-		Objerrs.append(err)
+		Objerrs.append(err+'\n')
 
 def WriteWarnings():
 	global Objerrs
@@ -74,7 +74,7 @@ def WriteWarnings():
 		log.write(Spacer+"\n\nObjects without references must have behaviors created for them, be given an existing behavior, or be commented out.\n")
 		[log.write(' {}'.format(s)) for s in Objerrs]
 	if Fogerrs:
-		log.write(Spacer+"\n\nLevels with fog in sm64 editor and likely early versions of Rom Manager are completely broken and destroy the levels graphics and most non opaque objects.\nYou will need to either remove the fog, or manually fix the fog DLs in these levels (Unless you trust the importer).\n\n")
+		log.write(Spacer+"\n\nLevels with fog in sm64 editor and likely early versions of Rom Manager are completely broken and destroy the levels graphics and most non opaque objects.\nI attempt to auto fix these, if there is any issue in these levels check fog first.\n\n")
 		[log.write(' {}'.format(s)) for s in Fogerrs]
 	if Scrollerrs:
 		log.write(Spacer+"\n\nTexture scrolls do not always follow the same format I assume, if this error appears it may have an invalid address which causes a crash.\nRM2C will try to find the correct address after noticing the one it has is wrong, if a crash occurs when entering the level check these objects first\n\n")
@@ -89,10 +89,15 @@ ALL BUILDS
 IF CRASH ON BOOT - CHECK SEQUENCES
 IF TITLE SCREEN LOOP - CHECK START LEVEL IN TWEAKS.INC.C
 IF TEXTURES ARE MESSED UP - ALWAYS CHECK LEVEL FOG FIRST
+IF ONLY ALPHA TEXTURES MESSED UP - MOVE FOG GEO LAYOUT TO LAYER 1/4 FROM 4/6
 IF CRASH UPON ENTERING A LEVEL, CHECK OBJECTS. IF EDITOR, CHECK SCROLLS FIRST. IF NO OBJECTS BAD CHECK SEQUENCES
 *****************************************************************************
 N64 BUILD
 IF SURFACE NODE POOOL OR SURFACE POOL FULL - ADD MORE TRIS TO EXT BOUNDS.H
 IF CRASH ON STAR SELECT - PUSH FORWARD GODDARD SEGMENT IN SEGMENTS.H
 *****************************************************************************
+
+MORE ON AUDIO ERRORS:
+On N64 build, a broken sequence will crash instantly, making it near impossible to know which sequence is broken without guessing and checking, on PC it will load just fine, but crash in the level with the broken sequence.
+The easiest way to find which sequences are broken is to do a playtest on PC and then note which levels crash, replace the sequence in that level and then move on.
 """

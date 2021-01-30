@@ -1101,7 +1101,8 @@ jumps = {
 def RipNonLevelSeq(rom,m64s,seqNums,rootdir,MusicExtend):
 	m64dir = rootdir/'sound'/"sequences"/"us"
 	os.makedirs(m64dir,exist_ok=True)
-	for i in range(1,0x22,1):
+	NonLevels=[1,2,11,13,14,15,16,18,20,21,22,23,27,28,29,30,31,32,33]
+	for i in NonLevels:
 		if i not in seqNums:
 			[m64,seqNum] = RipSequence(rom,i,m64dir,0,0,romname,MusicExtend)
 			m64s.append(m64)

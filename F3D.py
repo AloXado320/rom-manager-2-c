@@ -324,7 +324,11 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt,level):
 			f.write(DLn+' = {')
 			refs.append(DLn)
 			f.write('\n')
-			for c in d:
+			#opaque and tex edge RM fog sets, to make sure they're unset which isn't always done
+			#or its set again to some dumb shit
+			SetFogRMA = 0
+			SetFogRMO = 0
+			for n,c in enumerate(d):
 				if opt:
 					#remove asset loads that are not referenced (e.g. garbage texture loads)
 					#this may cause empty loads, but thats better than not compiling
@@ -341,6 +345,21 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt,level):
 						args = c.split(',')
 						args = [*args[:8],' 0',' 0',' 0',' COMBINED',' 0',' 0',' 0',' COMBINED)']
 						c = ','.join(args)
+					if c.startswith('gsDPSetRenderMode') or n==(len(d)-1):
+						if n==(len(d)-1):
+							line=",\n"+c
+						else:
+							line=""
+						if SetFogRMA:
+							c='gsDPSetRenderMode(G_RM_AA_ZB_TEX_EDGE, G_RM_NOOP2)'+line
+							SetFogRMA=0
+						elif SetFogRMO:
+							c='gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_NOOP2)'+line
+							SetFogRMO=0
+						elif 'G_RM_FOG_SHADE_A, G_RM_AA_ZB_TEX_EDGE2' in c:
+							SetFogRMA=1
+						elif 'G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2' in c:
+							SetFogRMO=1
 				#replace culled data refs with first instance of data
 				for e in Excess:
 					if e[0] in c:
