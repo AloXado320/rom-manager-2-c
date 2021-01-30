@@ -10,3 +10,5 @@ originals/**
 sound/**
 textures/**
 ImportInstructions.py
+data/**
+include/**

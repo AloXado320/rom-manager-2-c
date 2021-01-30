@@ -35,7 +35,7 @@ def InvalidScroll(level,area,scroll):
 		return
 	else:
 		BadScroll.append((level,area,scroll))
-		err = 'Texture Scroll Object in level {} area {} at {} likely has a bad address.\n'.format(Num2LevelName[level],area,hex(scroll[2]))
+		err = 'Texture Scroll Object in level {} area {} at {} likely has a bad address.\n'.format(Num2Name[level],area,hex(scroll[2]))
 		print(err)
 		Scrollerrs.append(err)
 
@@ -44,11 +44,12 @@ Fogerrs=[]
 def LevelFog(level,DL):
 	global LastFog
 	global Fogerrs
+	print(level,DL)
 	if (level,DL) in LastFog:
 		return
 	else:
 		LastFog.append((level,DL))
-		err = 'Level {} Display List {} has fog, high potential for broken graphics.\n'.format(Num2LevelName[level],DL)
+		err = 'Level {} Display List {} has fog, high potential for broken graphics.\n'.format(Num2Name[level],DL)
 		print(err)
 		Fogerrs.append(err)
 
@@ -61,7 +62,7 @@ def UnkObject(level,Area,bhv):
 		return
 	else:
 		UnkObjs.append((level,Area,bhv))
-		err = 'Level {} Area {} has object {} with no known label.\n'.format(Num2LevelName[level],Area,bhv)
+		err = 'Level {} Area {} has object {} with no known label.\n'.format(Num2Name[level],Area,bhv)
 		print(err)
 		Objerrs.append(err)
 
@@ -73,10 +74,10 @@ def WriteWarnings():
 		log.write(Spacer+"\n\nObjects without references must have behaviors created for them, be given an existing behavior, or be commented out.\n")
 		[log.write(' {}'.format(s)) for s in Objerrs]
 	if Fogerrs:
-		log.write(Spacer+"\n\nLevels with fog in sm64 editor and likely early versions of Rom Manager are completely broken and destroy the levels graphics and most non opaque objects.\n You will need to either remove the fog, or manually fix the fog DLs in these levels (Unless you trust the importer).\n")
+		log.write(Spacer+"\n\nLevels with fog in sm64 editor and likely early versions of Rom Manager are completely broken and destroy the levels graphics and most non opaque objects.\nYou will need to either remove the fog, or manually fix the fog DLs in these levels (Unless you trust the importer).\n\n")
 		[log.write(' {}'.format(s)) for s in Fogerrs]
 	if Scrollerrs:
-		log.write(Spacer+"\n\nTexture scrolls do not always follow the same format I assume, if this error appears it may have an invalid address which causes a crash.\n RM2C will try to find the correct address after noticing the one it has is wrong, if a crash occurs when entering the level check these objects first\n")
+		log.write(Spacer+"\n\nTexture scrolls do not always follow the same format I assume, if this error appears it may have an invalid address which causes a crash.\nRM2C will try to find the correct address after noticing the one it has is wrong, if a crash occurs when entering the level check these objects first\n\n")
 		[log.write(' {}'.format(s)) for s in Scrollerrs]
 	log.write(Warnings)
 	log.close()
@@ -86,6 +87,7 @@ Known methods of crashing:
 *****************************************************************************
 ALL BUILDS
 IF CRASH ON BOOT - CHECK SEQUENCES
+IF TITLE SCREEN LOOP - CHECK START LEVEL IN TWEAKS.INC.C
 IF TEXTURES ARE MESSED UP - ALWAYS CHECK LEVEL FOG FIRST
 IF CRASH UPON ENTERING A LEVEL, CHECK OBJECTS. IF EDITOR, CHECK SCROLLS FIRST. IF NO OBJECTS BAD CHECK SEQUENCES
 *****************************************************************************

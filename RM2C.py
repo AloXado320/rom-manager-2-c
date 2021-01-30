@@ -15,6 +15,8 @@ import math
 import disassemble_sound as d_s
 import multiprocessing as mp
 import Log
+import re
+import BhvParse as BP
 
 class Script():
 	def __init__(self,level):
@@ -36,12 +38,22 @@ class Script():
 		self.Top=-1
 		self.CurrArea=None
 		self.header=[]
+		self.objects = []
 	def B2P(self,B):
 		Bank=B>>24
 		offset=B&0xFFFFFF
+		if Bank==0:
+			if offset>0x400000 and offset<0x420000:
+				return 0x1200000+(B&0xFFFFF)
+			else:
+				#check for MOP models
+				if offset>0x5F0000 and offset<0x620000:
+					return offset+0x1E0000
+				#Its some random garbage nice
+				return offset
 		seg = self.banks[Bank]
 		if not seg:
-			# print(hex(B),hex(Bank),self.banks[Bank-2:Bank+3])
+			print(hex(B),hex(Bank),self.banks[Bank-2:Bank+3])
 			raise ''
 		return seg[0]+offset
 	def L4B(self,T):
@@ -288,12 +300,16 @@ def ConvertEditorTexScrolls(script,Obj):
 	# it likely isn't
 	PosByte = (lambda x: (int(math.log(x,2))+127)&0x1E)
 	#For some reason some levels have different segE locations, which can basically make this completely not work
+	# print(Obj)
 	if 'editor_Scroll_Texture2' in Obj[-2]:
 		Addr=0x0E000000+((PosByte(Obj[1])-7)<<16)+(int(Obj[7],16)>>16) #x
 		Obj[-2] = 'editor_Scroll_Texture'
 	else:
 		Addr=0x0E000000+((PosByte(Obj[1])-2)<<16)+(int(Obj[7],16)>>16) #x
-	Num=PosByte(Obj[2])*3 #y
+	if Obj[2]:
+		Num=PosByte(Obj[2])*3 #y
+	else:
+		Num=0 #different scroll type idk theres too many types of scrolls
 	Speed = 0x1000 // PosByte(Obj[3]) #z
 	dir = Addr&0xF
 	if dir==0x8:
@@ -370,14 +386,23 @@ def PlaceObject(rom,cmd,start,script):
 	ry=U2S(TcH(arg[10:12]))
 	rz=U2S(TcH(arg[12:14]))
 	bparam=hex(TcH(arg[14:18]))
-	bhv=script.GetLabel("{:08x}".format(TcH(arg[18:22])))
-	if bhv in "0x{:08x}".format(TcH(arg[18:22])):
-		bhv = "Bhv_Custom_0x{:08x}".format(TcH(arg[18:22]))
-		Log.UnkObject(script.Currlevel,script.CurrArea,bhv)
-	PO=[id,x,y,z,rx,ry,rz,bparam,bhv,mask]
-	if 'editor_Scroll_Texture' in bhv or 'RM_Scroll_Texture' in bhv:
-		PO = ConvertTexScrolls(script,PO)
+	#check for MOP stuff first
+	for a,b in MOPObjAddr.items():
+		if (id,TcH(arg[18:22]))==a:
+			bhv=' bhv'+b[0]
+			PO=[id,x,y,z,rx,ry,rz,bparam,bhv,mask]
+			break
+	else:
+		bhv=script.GetLabel("{:08x}".format(TcH(arg[18:22])))
+		if bhv in "0x{:08x}".format(TcH(arg[18:22])):
+			bhv = " Bhv_Custom_0x{:08x}".format(TcH(arg[18:22]))
+			Log.UnkObject(script.Currlevel,script.CurrArea,bhv)
+		PO=[id,x,y,z,rx,ry,rz,bparam,bhv,mask]
+		if 'editor_Scroll_Texture' in bhv or 'RM_Scroll_Texture' in bhv:
+			PO = ConvertTexScrolls(script,PO)
 	A.objects.append(PO)
+	#for parsing later at the end
+	script.objects.append([*PO,script.CurrArea,TcH(arg[18:22])])
 	return start
 
 def MacroObjects(rom,cmd,start,script):
@@ -487,7 +512,7 @@ def WriteModel(rom,dls,s,name,Hname,id,tdir):
 		x+=1
 		if s.texScrolls:
 			s.verts.extend(verts) #for texture scrolls
-	refs = F3D.ModelWrite(rom,ModelData,name,id,tdir,s.editor)
+	refs = F3D.ModelWrite(rom,ModelData,name,id,tdir,s.editor,s.Currlevel)
 	modelH = name/'custom.model.inc.h'
 	mh = open(modelH,'w')
 	headgaurd="%s_HEADER_H"%(Hname)
@@ -568,9 +593,20 @@ def LoadUnspecifiedModels(s,file,level):
 					lab = s.GetLabel(addr)
 				else:
 					lab= lab[1]
+			#generally MOP
+			elif Seg==0 or Seg==3 or Seg==0xF:
+				for a,b in MOPModels.items():
+					if (i,model[0])==a:
+						#mops are loaded in entry script
+						lab='MOP'
+						break
+				else:
+					lab = s.GetLabel(addr)
 			#group0, common0, common1 banks that have unique geo layouts
 			else:
 				lab = s.GetLabel(addr)
+			if lab=='MOP':
+				continue
 			if '0x' in lab or not lab:
 				comment = "// "
 			else:
@@ -735,12 +771,16 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 	for a in areas:
 		j=0
 		area=s.levels[num][a]
-		#advanced past includes
-		while(True):
-			if '"levels/%s/header.h"'%name in Slines[x]:
+		#advanced past includes for first area
+		if a==1:
+			while(True):
+				if '"levels/%s/header.h"'%name in Slines[x]:
+					x+=1
+					break
+				#scripts always start with some static data
+				if 'static' in Slines[x]:
+					break
 				x+=1
-				break
-			x+=1
 		#write macro objects if they exist
 		if hasattr(area,'macros'):
 			CheckMacro = (lambda x: 'MACRO_OBJECTS(' in x )
@@ -909,43 +949,69 @@ def ProcessModel(rom,editor,s,modelID,model):
 		return [None,None,None,None]
 	#A custom bank will be one that is loaded well after
 	#all other banks are. This is not guaranteed, but nominal bhv
-	if bank[0]>0x1220000:
-		if model[2]=='geo':
-			label = "custom_geo_{:08x}".format(model[0])
+	if Seg!=0:
+		if bank[0]>0x1220000:
+			if model[2]=='geo':
+				label = "custom_geo_{:08x}".format(model[0])
+			else:
+				label = "custom_DL_{:08x}".format(model[0])
+			folder = "custom_{:08x}".format(model[0])
+			return ('custom_%x'%bank[0],Seg,label,folder)
+		#These are in Seg C, D, F, 16, 17
+		if Seg!=7 and Seg!=0x12:
+			#catch group0/common0/1 f3d/geo loads. f3d loads happen most often in these
+			if Seg==8 or Seg==0xF:
+				group='common0'
+			elif Seg==3 or Seg==0x16:
+				group='common1'
+			elif Seg==4 or Seg==0x17:
+				group='group0'
+			else:
+				group = ClosestIntinDict(bank[0],Groups)[0][1:]
+			label = GD.__dict__[group].get((modelID,"0x{:08x}".format(model[0])))
+			if label:
+				folder = label[2]
+				label=label[1]
+		#These are all in bank 7 with geo layouts in bank 12
 		else:
-			label = "custom_DL_{:08x}".format(model[0])
-		folder = "custom_{:08x}".format(model[0])
-		return ('custom_%x'%bank[0],Seg,label,folder)
-	#These are in Seg C, D, F, 16, 17
-	if Seg!=7 and Seg!=0x12:
-		#catch group0/common0/1 f3d/geo loads. f3d loads happen most often in these
-		if Seg==8 or Seg==0xF:
-			group='common0'
-		elif Seg==3 or Seg==0x16:
-			group='common1'
-		elif Seg==4 or Seg==0x17:
-			group='group0'
-		else:
-			group = ClosestIntinDict(bank[0],Groups)[0][1:]
-		label = GD.__dict__[group].get((modelID,"0x{:08x}".format(model[0])))
-		if label:
-			folder = label[2]
-			label=label[1]
-	#These are all in bank 7 with geo layouts in bank 12
+			group = ClosestIntinDict(s.banks[7][0],LevelSpecificBanks)
+			label = GD.__dict__[group].get((modelID,"0x{:08x}".format(model[0])))
+			if label:
+				folder = label[2]
+				label=label[1]
 	else:
-		group = ClosestIntinDict(s.banks[7][0],LevelSpecificBanks)
-		label = GD.__dict__[group].get((modelID,"0x{:08x}".format(model[0])))
-		if label:
-			folder = label[2]
-			label=label[1]
-	#Something extra added to existing bank
-	if not label:
-		if model[2]=='geo':
-			label = "unk_geo_{:08x}".format(model[0])
+		#check for mop first before giving it null status
+		for a,b in MOPModels.items():
+			if (modelID,model[0])==a:
+				label=b
+				group='MOP'
+				folder=b
+				break
 		else:
-			label = "unk_DL_{:08x}".format(model[0])
-		folder = "unk_{:08x}".format(model[0])
-		group = 'Level'
+			if model[2]=='geo':
+				label = "Null_geo_{:08x}".format(model[0])
+			else:
+				label = "Null_DL_{:08x}".format(model[0])
+			group='Null'
+			folder='Null_{:08x}'.format(model[0])
+		#attempt to guess rom address based on generic ram map. Might work for RM, unlikely to for editor
+	#Something extra added to existing bank. Its a good idea to check for MOP here aswell
+	#some part of MOP is inserted into seg3 while others are in 0xF and some just loaded directly to ram
+	#like a caveman would.
+	if not label:
+		for a,b in MOPModels.items():
+			if (modelID,model[0])==a:
+				label=b
+				folder=b
+				group='MOP'
+				break
+		else:
+			if model[2]=='geo':
+				label = "unk_geo_{:08x}".format(model[0])
+			else:
+				label = "unk_DL_{:08x}".format(model[0])
+			folder = "unk_{:08x}".format(model[0])
+			group = 'unk'
 	return (group,Seg,label,folder)
 
 #process all the script class objects from all exported levels to find specific data
@@ -954,6 +1020,8 @@ def ProcessScripts(rom,editor,Scripts):
 	Banks = {}
 	#key=group name, values = [seg num,label,type,rom addr,seg addr,ID,folder,script]
 	Models = {}
+	#key=bhv, values = [ram addr, rom addr, models used with,script]
+	Objects = {}
 	for s in Scripts:
 		#banks
 		for k,B in enumerate(s.banks):
@@ -968,6 +1036,8 @@ def ProcessScripts(rom,editor,Scripts):
 				elif not dupe:
 					Banks[k] = [B]
 		#models
+		#refs of vals to IDs for this script alone so I can view with Objects dict
+		IDs = {0:[None,None,None,None,None,None,None]}
 		for k,M in enumerate(s.models):
 			if M:
 				[group,seg,l,f] = ProcessModel(rom,editor,s,k,M)
@@ -980,7 +1050,19 @@ def ProcessScripts(rom,editor,Scripts):
 					Models[group].append(val)
 				else:
 					Models[group] = [val]
-	return [Banks,Models]
+				IDs[k] = val[:7]
+		for obj in s.objects:
+			#modelid,x,y,z,rx,ry,rz,bparam,bhv label,mask,area,bhv hex
+			if obj[8] in Objects.keys():
+				if IDs.get(obj[0]) and IDs[obj[0]] not in Objects[obj[8]][2] and obj[0]!=0:
+					Objects[obj[8]][2].append(IDs[obj[0]])
+			else:
+				#somehow I can not have the model loaded?? aka garbage level scripts
+				try:
+					Objects[obj[8]] = [obj[-1],s.B2P(obj[-1]),[IDs[obj[0]]],s]
+				except:
+					Objects[obj[8]] = [obj[-1],s.B2P(obj[-1]),[],s]
+	return [Banks,Models,Objects]
 
 #dictionary of actions to take based on script cmds
 jumps = {
@@ -1159,28 +1241,37 @@ class Actor():
 		for k,val in self.folders.items():
 			fold = self.dir / k
 			os.makedirs(fold,exist_ok=True)
-			fgeo = fold/'custom.geo.inc.c'
-			fgeo = open(fgeo,'w')
-			geos = []
-			dls = []
-			ids = []
-			for v in val:
-				if v[2]=='geo':
-					[geo,dl] = GW.GeoActParse(rom,v)
-					geos.extend(geo)
-					dls.append(dl)
-					ids.append(v[1]+'_')
-				#load via f3d
-				else:
-					dls.append([[v[3],v[4]]])
-					ids.append(v[1]+'_')
-			if geos:
-				GW.GeoActWrite(geos,fgeo)
-			#turn editor off for script object so optimization
-			#doesn't happen
-			v[5].editor=0
-			self.WriteActorModel(rom,dls,v[5],k.split("/")[0]+'_'+k.split("/")[-1]+'_model',ids,fold,v[-1])
-			print('{} exported'.format(k))
+			if not (k=='Null' or val[0][6]=='MOP'):
+				self.ParseModels(val,k,rom,fold)
+			else:
+				try:
+					self.ParseModels(val,k,rom,fold)
+				except:
+					print('Model {} was in bank 0 and its rom address could not be detected properly'.format(k))
+	def ParseModels(self,val,k,rom,fold):
+		fgeo = fold/'custom.geo.inc.c'
+		fgeo = open(fgeo,'w')
+		geos = []
+		dls = []
+		ids = []
+		for v in val:
+			#edit model to have ROM address. MOP seg 0 is mapped with 0x5F0000 = 0x7D0000
+			if v[2]=='geo':
+				[geo,dl] = GW.GeoActParse(rom,v)
+				geos.extend(geo)
+				dls.append(dl)
+				ids.append(v[1]+'_')
+			#load via f3d
+			else:
+				dls.append([[v[3],v[4]]])
+				ids.append(v[1]+'_')
+		if geos:
+			GW.GeoActWrite(geos,fgeo)
+		#turn editor off for script object so optimization
+		#doesn't happen
+		v[5].editor=0
+		self.WriteActorModel(rom,dls,v[5],k.split("/")[0]+'_'+k.split("/")[-1]+'_model',ids,fold,v[-1])
+		print('{} exported'.format(k))
 		self.ExportPowerMeter(rom,v[5])
 	def WriteActorModel(self,rom,dlss,s,Hname,ids,dir,groupname):
 		x=0
@@ -1204,9 +1295,9 @@ class Actor():
 		if groupname in Num2LevelName.values():
 			tdir = Path(sys.path[0])/'levels'/groupname
 			os.makedirs(tdir,exist_ok=True)
-			refs = F3D.ModelWrite(rom,ModelData,dir,ids[0],tdir,s.editor)
+			refs = F3D.ModelWrite(rom,ModelData,dir,ids[0],tdir,s.editor,s.Currlevel)
 		else:
-			refs = F3D.ModelWrite(rom,ModelData,dir,ids[0],dir,s.editor)
+			refs = F3D.ModelWrite(rom,ModelData,dir,ids[0],dir,s.editor,s.Currlevel)
 		modelH = dir/'custom.model.inc.h'
 		mh = open(modelH,'w')
 		headgaurd="%s_HEADER_H"%(Hname)
@@ -1255,7 +1346,7 @@ def ExportActors(actors,rom,Models,aDir):
 			if group in levels:
 				pass
 			for m in models:
-				if 'custom' in m[1]:
+				if 'custom' in m[1] or 'unk' in m[1] or 'Null' in m[1]:
 					Actors.EvalModel(m,group)
 		return Actors.MakeFolders(rom)
 	#only models with a known modelID geo addr combo
@@ -1278,13 +1369,72 @@ def ExportActors(actors,rom,Models,aDir):
 		return Actors.MakeFolders(rom)
 	#only option left is a list of groups
 	for a in actors:
-		models = Models[a]
+		try:
+			models = Models[a]
+		except:
+			continue
 		if a in levels:
 			pass
 		for m in models:
 			if m[1]:
 				Actors.EvalModel(m,a)
 	return Actors.MakeFolders(rom)
+
+def ExportObjects(reg,Objects,rom,ass,rootdir):
+	#key=bhv, values = [rom addr, ram addr, models used with,script]
+	bdata = rootdir / 'data' 
+	os.makedirs(bdata,exist_ok=True)
+	bdata = bdata / 'custom.behavior_data.inc.h'
+	bdata = open(bdata,'w')
+	bdata.write(Bdatahead)
+	collisions = []
+	functions = []
+	if type(reg)==list:
+		for bhv,o in Objects.items():
+			r = [re.search(a,bhv) for a in reg]
+			if any(r):
+				[col,funcs] = ExportBhv(o,bdata,bhv)
+				if col:
+					collisions.append([col,o])
+				if funcs:
+					funcions.extend(funcs)
+	else:
+		if reg=='all':
+			pass
+		elif reg=='new':
+			pass
+		else:
+			for bhv,o in Objects.items():
+				r = re.search(reg,bhv)
+				if r:
+					[col,funcs] = ExportBhv(o,bdata,bhv)
+					if col:
+						collisions.append(col)
+					if funcs:
+						funcions.extend(funcs)
+	for col in collisions:
+		#sometimes they have no model
+		if col[1][2]:
+			cname = col[1][2][0][6]
+			cid = col[1][2][0][1]
+			cdir = ass/cname
+		else:
+			cname = 'Unk_Collision_{}'.format(col[0])
+			cid = 'Unk_Collision_{}'.format(col[0])
+			cdir = ass/cname
+		os.makedirs(cdir,exist_ok=True)
+		cdir = cdir / 'custom.collision.inc.c'
+		id = cid+"_"
+		ColParse.ColWriteActor(cdir,col[1][3],rom,col[1][3].B2P(int(col[0])),id)
+		print('{} collision exported'.format(cname))
+
+def ExportBhv(o,bdata,bhv):
+	Bhv = BP.Behavior(o[1],o[-1],bhv)
+	[BhvScript,col,funcs]= Bhv.Parse(rom)
+	bdata.write("const BehaviorScript{}[] = {{\n".format(bhv))
+	[bdata.write(s+',\n') for s in BhvScript]
+	bdata.write('}\n\n')
+	return [col,funcs]
 
 def FindCustomSkyboxse(rom,Banks,SB):
 	custom = {}
@@ -1755,13 +1905,14 @@ if __name__=='__main__':
 ------------------Invalid Input - Error ------------------
 
 Arguments for RM2C are as follows:
-RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0 Inherit=0 Upscale=0 Title=0 Sound=0
+RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0 Inherit=0 Upscale=0 Title=0 Sound=0 Objects=0
 
 Arguments with equals sign are shown in default state, do not put commas between args.
 Levels accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
 Actors will accept either a list of groups, a string for a group (see decomp group folders e.g. common0, group1 etc.) the string 'all' for all models, or the string 'new' for only models without a known label, or 'old' for only known original models.
 The "Only" options are to only export certain things either to deal with specific updates or updates to RM2C itself. Only use one at a time. An only option will not maintain other data. Do not use Append with MusicOnly, it will have no effect.
 MusicExtend is for when you want to add in your custom music on top of the original tracks. Set it to the amount you want to offset your tracks by (0x23 for vanilla).
+Objects will export behaviors and object collision. Possible args are 'all' for all behaviors used, 'new' for ones without a known label, or you can pass a singular or list of regex matches e.g. ['[0-9]','koopa'].
 Textures will export the equivalent of the /textures/ folder in decomp.
 Inherit is a file management arg for when dealing with multiple roms. Normal behavior is to clear level folder each time, inherit prevents this.
 Title exports the title screen. This will also be exported if levels='all'
@@ -1805,6 +1956,7 @@ certain bash errors.
 	Upscale=0
 	Title=0
 	Sound=0
+	Objects=0
 	#This is not an arg you should edit really
 	TxtAmount = 170
 	cskybox=0
@@ -1889,9 +2041,12 @@ certain bash errors.
 	if Title and levels!='all':
 		ExportTitleScreen(rom,lvldir)
 	#Process returned scripts to view certain custom data such as custom banks/actors for actor/texture exporting
-	[Banks,Models] = ProcessScripts(rom,editor,Scripts)
+	[Banks,Models,ObjectD] = ProcessScripts(rom,editor,Scripts)
 	if actors:
 		ExportActors(actors,rom,Models,ass)
+	#Behaviors
+	if Objects:
+		ExportObjects(Objects,ObjectD,rom,ass,Path(sys.path[0]))
 	#export textures
 	if Textures:
 		ExportTextures(rom,editor,Path(sys.path[0]),Banks,Inherit)

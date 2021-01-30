@@ -20,6 +20,14 @@ def Bytes(start,len,rom):
 	return struct.unpack(">%dB"%len,rom[start:start+len])
 
 def ColWrite(name,s,rom,start,id):
+	[b,x,rom,f] = ColWriteGeneric(name,s,rom,start,id)
+	ColWriteLevelSpecial(b,x,rom,f)
+
+def ColWriteActor(name,s,rom,start,id):
+	[b,x,rom,f] = ColWriteGeneric(name,s,rom,start,id)
+	f.write("COL_END(),\n};\n")
+
+def ColWriteGeneric(name,s,rom,start,id):
 	f = open(name,'w')
 	f.write("const Collision col_%s[] = {\nCOL_INIT(),\n"%(id+hex(start)))
 	b=s.B2P(start)
@@ -49,6 +57,9 @@ def ColWrite(name,s,rom,start,id):
 				f.write("COL_TRI( {}, {}, {}),\n".format(*verts))
 			x+=Tritype[1]*6+4
 	f.write("COL_TRI_STOP(),\n")
+	return [b,x,rom,f]
+
+def ColWriteLevelSpecial(b,x,rom,f):
 	b+=x+2
 	while(True):
 		special=Halfs(b,2,rom)

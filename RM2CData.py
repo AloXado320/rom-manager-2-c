@@ -955,7 +955,10 @@ unkDefaults = """//The following are not exported from the rom, but are placed h
 #define TOAD_STAR_2_DIALOG_AFTER DIALOG_155
 #define TOAD_STAR_3_DIALOG_AFTER DIALOG_156
 //whether coins are 3d or not. Changes bhv scripts and pause menu reds rendering
-#define USE3DCOINS 0"""
+#define USE3DCOINS 0
+//must be manually set
+#define INCLUDE_MOP 0
+"""
 
 #Format is num vals, var name, [type,len,hex locations,func]
 Tweaks = [
@@ -1483,3 +1486,60 @@ MacroNames = {
 	395:'macro_empty_364',
 	396:'macro_empty_365'
 }
+
+
+#MOP is the devil and I hate it, but it is common enough to dedicate
+#hardcoded addresses to, well thats the only way to know where it is though
+#key=modelID,bhv value=Name,model RAMaddr
+
+
+MOPObjAddr = {
+(0xF0,0x130050D0):["FlipBlock_MOP",0x0302272C],
+(0x2F,0x13000278):["Flipswap_Platform_MOP",0x005F9AC0],
+(0x2A,0x130005D8):["Flipswitch_Panel_MOP",0x005F9FE0],
+(0x2B,0x13000CFC):["Green_Switchboard_MOP",0x005FD8B0],
+(0x2D,0x13000D24):["Moving_Rotating_Block_MOP",0x00603670],
+(0x2E,0x13000D50):["Checkpoint_Flag_MOP",0x00606660],
+(0,0x13000D50):["Checkpoint_Flag_MOP",0x00606660], #repeated because its an often enough case
+(0x7B,0x13000174):["Noteblock_MOP",0x0301DBF8],
+(0xCF,0x1300512C):["PSwitch_MOP",0x0F0004CC],
+(0x99,0x1300064C):["Sandblock_MOP",0x030225E4],
+(0x9B,0x13004218):["Shell_1_MOP",0x0F000ADC],
+(0x9D,0x13004218):["Shell_2_MOP",0x0F000B08],
+(0x98,0x13000624):["Shrink_Platform_MOP",0x030212F4],
+(0x92,0x130005B4):["Spring_MOP",0x0301FC98],
+(0xF2,0x13003AE0):["Switchblock_Switch_MOP",0x03022708],
+(0xF1,0x13004EA0):["Switchblock_MOP",0x030226D4],
+# (0xB5,0x13001608):["Trampoline_MOP",0x0C000000], //this is included in repo already
+(0x54,0x130023D0):["Beta_Blarrg_MOP",0x0C000224],
+(0,0x130002A0):["Flipswitch_Panel_StarSpawn_MOP",None],
+(0,0x13005104):["Jukebox_MOP",None],
+(0,0x130050B4):["Emitter_MOP",None],
+}
+
+
+#specifically for detecting MOP models, basically links model loads (ID+addr to a label).
+MOPModels={
+(240,50472748):'FlipBlock_MOP',
+(47,6265536):'Flipswap_Platform_MOP',
+(0x30,0x5f8560):'Flipswap_Platform_Border_MOP',
+(42,6266848):'Flipswitch_Panel_MOP',
+(43,6281392):'Green_Switchboard_MOP',
+(0x2C,0x600460):'Green_Switchboard_Gears_MOP',
+(45,6305392):'Moving_Rotating_Block_MOP',
+(46,6317664):'Checkpoint_Flag_MOP',
+(0,6317664):'Checkpoint_Flag_MOP',
+(123,50453496):'Noteblock_MOP',
+(207,251659468):'PSwitch_MOP',
+(153,50472420):'Sandblock_MOP',
+(155,251661020):'Shell_1_MOP',
+(157,251661064):'Shell_2_MOP',
+(152,50467572):'Shrink_Platform_MOP',
+(0x97,0x3020860):'Shrink_Platform_Border_MOP',
+(146,50461848):'Spring_MOP',
+(242,50472712):'Switchblock_Switch_MOP',
+(241,50472660):'Switchblock_MOP',
+(84,201327140):'Beta_Blarrg_MOP'
+}
+
+Bdatahead = """//Include this file at the bottom of behavior_data.c\n"""

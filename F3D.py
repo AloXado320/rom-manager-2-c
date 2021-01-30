@@ -46,6 +46,7 @@ def OptimizeModeldata(ModelData):
 	#ranges is model data 6, dl is model data 1
 	#attempt to optimize texture loads by looking at ranges
 	StartTri = (lambda x: (x.startswith('gsSP1Triangle') or x.startswith('gsSP2Triangles')))
+	#ModelData = start,dl,verts,textureptrs, amb/diff lights, ranges, ids
 	for k,md in enumerate(ModelData):
 		ranges = md[6]
 		dl = md[1][0]
@@ -184,7 +185,7 @@ def ExportTexture(rom,GetNID,Excess,txt,pos,Trackers,refs,tdir,textures,ImgTypes
 				t[4]=32
 			return (ImgTypes[t[5]],(t[3],t[4],t[6],bin,png))
 
-def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
+def ModelWrite(rom,ModelData,nameG,id,tdir,opt,level):
 	#ModelData = start,dl,verts,textureptrs, amb/diff lights, ranges, ids
 	#create redundancy trackers for each data type
 	S,dl,vbs,txt,amb,diffs,refs=[],[],[],[],[],[],[]
@@ -213,6 +214,7 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
 	#depends on all data being in the same display list.
 	if opt:
 		Modeldata = OptimizeModeldata(ModelData)
+	CheckFog = (lambda l,md,id: (l,'DL_{}'.format(id+hex(md[0][0][1]))) in Log.LastFog)
 	#Write vertices first so that they're all in a row in ram so vert scrolls work better
 	for k,md in enumerate(ModelData):
 		if md[-1]:
@@ -334,6 +336,11 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt):
 								break
 						else:
 							continue
+					#fix fog set combines if opt
+					if c.startswith('gsDPSetCombineLERP'):
+						args = c.split(',')
+						args = [*args[:8],' 0',' 0',' 0',' COMBINED',' 0',' 0',' 0',' COMBINED)']
+						c = ','.join(args)
 				#replace culled data refs with first instance of data
 				for e in Excess:
 					if e[0] in c:
@@ -444,6 +451,8 @@ def DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,start,LastMat,dl
 		#check for fog to print error msg
 		elif (MSB==0xb9) and 'G_RM_FOG_SHADE_A' in cmd[0]:
 			Log.LevelFog(s.Currlevel,'DL_{}{}'.format(id,hex(start[dlStack][1])))
+			dl[dlStack].append(cmd[0])
+			x+=8
 		else:
 			x+=8
 			#concat 2 tri ones to a tri2
@@ -662,6 +671,9 @@ def G_SETOTHERMODE_L_Decode(bin,id):
 			if value==0xC8112078:
 				# print(id+" has fog in it. Visit the model.inc.c file and make sure the setcombine is properly set")
 				return (enum,'G_RM_FOG_SHADE_A', 'G_RM_AA_ZB_OPA_SURF2')
+			if value==0xC8113078:
+				# print(id+" has fog in it. Visit the model.inc.c file and make sure the setcombine is properly set")
+				return (enum,'G_RM_FOG_SHADE_A', 'G_RM_AA_ZB_TEX_EDGE2')
 			return (enum,0,value)
 		else:
 			return (enum,value)
