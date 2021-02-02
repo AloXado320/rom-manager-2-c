@@ -98,6 +98,8 @@ IF CRASH ON STAR SELECT - PUSH FORWARD GODDARD SEGMENT IN SEGMENTS.H
 *****************************************************************************
 
 MORE ON AUDIO ERRORS:
-On N64 build, a broken sequence will crash instantly, making it near impossible to know which sequence is broken without guessing and checking, on PC it will load just fine, but crash in the level with the broken sequence.
-The easiest way to find which sequences are broken is to do a playtest on PC and then note which levels crash, replace the sequence in that level and then move on.
+On N64 build, a lack of proper audio memory allocation will instantly crash the game. If this happens, extend gAudioHeap in buffers.c
+If you have issues with certain m64s sounding garbled, extend gAlBankSets in load.c (line 2000 about).
+If sound cuts out at certain points, extend values in gAudioSessionPresets.
+If background music cuts out after cutscenes end stub seq_player_lower_volume and seq_player_unlower_volume in external.c (will remove volume adjustments from the entire game).
 """

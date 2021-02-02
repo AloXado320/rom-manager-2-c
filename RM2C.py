@@ -507,8 +507,11 @@ def WriteModel(rom,dls,s,name,Hname,id,tdir):
 		c=rom[st]
 		if first==0x01010101 or not F3D.DecodeFmt.get(c):
 			return
-		(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id,1)
-		ModelData.append([starts,dl,verts,textures,amb,diff,ranges,0])
+		try:
+			(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id,1)
+			ModelData.append([starts,dl,verts,textures,amb,diff,ranges,0])
+		except:
+			print("{} has a broken level DL and is being skipped".format(Num2LevelName[s.Currlevel]))
 		x+=1
 		if s.texScrolls:
 			s.verts.extend(verts) #for texture scrolls
@@ -869,8 +872,11 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 				s.MakeDec("const GeoLayout Geo_%s[]"%(id+hex(g[1])))
 		if not OnlySkip:
 			dls = WriteModel(Arom,dls,s,adir,"%s_%d"%(name.upper(),a),id,level)
-			for d in dls:
-				s.MakeDec("const Gfx DL_%s[]"%(id+hex(d[1])))
+			if not dls:
+				print("{} has no Display Lists, that is very bad".format(name))
+			else:
+				for d in dls:
+					s.MakeDec("const Gfx DL_%s[]"%(id+hex(d[1])))
 		#write collision file
 		if not OnlySkip:
 			ColParse.ColWrite(adir/"custom.collision.inc.c",s,Arom,area.col,id)
