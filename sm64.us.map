@@ -1,8 +1,8 @@
                 0x0000000000400000                RM_Scroll_Texture
                 0x0000000000401700                RM_Scroll_Texture
-				//newest editor ver??
+				//old editor ver
                 0x0000000013003420                editor_Scroll_Texture2
-				//some versions of editor
+				//can have two different funcs with overlapped addr. Bhv is completely different for them.
                 0x0000000000402300                editor_Scroll_Texture
                 0x0000000080402300                editor_Scroll_Texture
                 0x0000000080400000                RM_Scroll_Texture

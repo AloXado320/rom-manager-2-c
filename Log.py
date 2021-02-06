@@ -35,7 +35,7 @@ def InvalidScroll(level,area,scroll):
 		return
 	else:
 		BadScroll.append((level,area,scroll))
-		err = 'Texture Scroll Object in level {} area {} at {} likely has a bad address.'.format(Num2Name[level],area,hex(scroll[2]))
+		err = 'Texture Scroll Object in level {} area {} at {} has unrecognized address. Object Has been commented out.'.format(Num2Name[level],area,hex(scroll[2]))
 		print(err)
 		Scrollerrs.append(err+'\n')
 

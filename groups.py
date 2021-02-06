@@ -150,10 +150,10 @@ rr = {
 	(63, '0x12000920'):('MODEL_RR_DONUT_PLATFORM', 'rr_geo_000920', 'rr/donut_block'),
 	(64, '0x120008f0'):('MODEL_RR_ELEVATOR_PLATFORM', 'rr_geo_0008F0', 'rr/elevator_platform'),
 	(65, '0x12000958'):('MODEL_RR_TRICKY_TRIANGLES', 'rr_geo_000958', 'rr/tricky_triangles1'),
-	(66, '0x12000970'):('MODEL_RR_TRICKY_TRIANGLES_FRAME1', 'rr_geo_000970', 'rr/tricky_triangles2'),
-	(67, '0x12000988'):('MODEL_RR_TRICKY_TRIANGLES_FRAME2', 'rr_geo_000988', 'rr/tricky_triangles3'),
-	(68, '0x120009a0'):('MODEL_RR_TRICKY_TRIANGLES_FRAME3', 'rr_geo_0009A0', 'rr/tricky_triangles4'),
-	(69, '0x120009b8'):('MODEL_RR_TRICKY_TRIANGLES_FRAME4', 'rr_geo_0009B8', 'rr/tricky_triangles5'),
+	(66, '0x12000970'):('MODEL_RR_TRICKY_TRIANGLES_FRAME1', 'rr_geo_000970', 'rr/tricky_triangles_2'),
+	(67, '0x12000988'):('MODEL_RR_TRICKY_TRIANGLES_FRAME2', 'rr_geo_000988', 'rr/tricky_triangles_3'),
+	(68, '0x120009a0'):('MODEL_RR_TRICKY_TRIANGLES_FRAME3', 'rr_geo_0009A0', 'rr/tricky_triangles_4'),
+	(69, '0x120009b8'):('MODEL_RR_TRICKY_TRIANGLES_FRAME4', 'rr_geo_0009B8', 'rr/tricky_triangles_5'),
 }
 castle_grounds = {
 	(3, '0x120006f4'):('MODEL_LEVEL_GEOMETRY_03', 'castle_grounds_geo_0006F4', 'castle_grounds/areas/1/3'),

@@ -253,13 +253,13 @@ def LoadPolyGeo(rom,cmd,start,script):
 	return start
 
 #yep
-def ConvertTexScrolls(script,Obj):
+def ConvertTexScrolls(script,Obj,rom):
 	if script.editor:
-		return ConvertEditorTexScrolls(script,Obj)
+		return ConvertEditorTexScrolls(script,Obj,rom)
 	else:
-		return ConvertRMTexScrolls(script,Obj)
+		return ConvertRMTexScrolls(script,Obj,rom)
 
-def ConvertRMTexScrolls(script,Obj):
+def ConvertRMTexScrolls(script,Obj,rom):
 	# RM rules
 	# Verts addr = bparam
 	# Verts axis = Y&0xF000 (0x8000 - Y, 0xA000 - X, 0x4000 - Z, 0x2000 - Y, 0x0000 - X)
@@ -289,28 +289,56 @@ def ConvertRMTexScrolls(script,Obj):
 		script.texScrolls = [[Obj,script.CurrArea,Addr,Num,Speed,Bhvs[dir&0xF000],Types[dir&0xF00],dir&0xFF]]
 	return Obj
 
-def ConvertEditorTexScrolls(script,Obj):
+def DetScrollType(rom):
+	a=struct.unpack(">L",rom[0x1202400:0x1202404])[0]
+	#false means the old, aka original version
+	if a==0x27bdffe8:
+		return False
+	else:
+		return True
+
+def ConvertEditorTexScrolls(script,Obj,rom):
 	# Editor rules
-	# Verts scrolled = 0x0E000000+(((log2(Xpos)+127)&0x1E)-2)<<16+(bparam>>16)
+	# Verts scrolled = 0x0E000000+(Byte2(Zpos)-2)<<16+(bparam>>16)
 	# Verts addr = Verts scrolled&0xFFFFFFF0
 	# Verts axis = Verts scrolled&0xF (0x8 = x, 0xA = y)
-	# Num verts scrolled = (((log2(Ypos)+127)&0x1E)*3)
-	# Speed=0x1000 // (((log2(Zpos)+127)&0x1E)
+	# Num verts scrolled = Byte2(Zpos)*3
+	# Speed=Byte2(Zpos)
 	# I have zero clue if this is true for all editor versions
 	# it likely isn't
-	PosByte = (lambda x: (int(math.log(x,2))+127)&0x1E)
-	#For some reason some levels have different segE locations, which can basically make this completely not work
-	# print(Obj)
+	PosByte = (lambda x: struct.pack('>f',x)[1])
+	#Addr = 0x8040+PosByte+Bparam1+2. Seg E starts at 0x8045 always??
 	if 'editor_Scroll_Texture2' in Obj[-2]:
-		Addr=0x0E000000+((PosByte(Obj[1])-7)<<16)+(int(Obj[7],16)>>16) #x
 		Obj[-2] = 'editor_Scroll_Texture'
+	#check for other behavior type
 	else:
-		Addr=0x0E000000+((PosByte(Obj[1])-2)<<16)+(int(Obj[7],16)>>16) #x
+		if DetScrollType(rom):
+			return ConvertEditorTexScrollsAlt(script,Obj,PosByte)
+	Addr=0x0E000000+((PosByte(Obj[1])-2)<<16)+(int(Obj[7],16)>>16) #x
 	if Obj[2]:
 		Num=PosByte(Obj[2])*3 #y
 	else:
 		Num=0 #different scroll type idk theres too many types of scrolls
-	Speed = 0x1000 // PosByte(Obj[3]) #z
+	Speed = PosByte(Obj[3]) #z
+	dir = Addr&0xF
+	if dir==0x8:
+		dir='x'
+	else:
+		dir='y'
+	if script.texScrolls:
+		script.texScrolls.append([Obj,script.CurrArea,Addr&0xFFFFFFF0,Num,Speed,dir,'normal',0])
+	else:
+		script.texScrolls = [[Obj,script.CurrArea,Addr&0xFFFFFFF0,Num,Speed,dir,'normal',0]]
+	return Obj
+
+def ConvertEditorTexScrollsAlt(script,Obj,PB):
+	#Different format used in later versions of editor
+	#Addr=0x8040+Byte2(X)<<16+Bparam1+2
+	#Num=Bparam34
+	#Speed=Byte2(Z)
+	Addr=0x0E000000+((PB(Obj[1])-2)<<16)+(int(Obj[7],16)>>16) #x
+	Num=int(Obj[7],16)&0xFFFF
+	Speed=PB(Obj[3])
 	dir = Addr&0xF
 	if dir==0x8:
 		dir='x'
@@ -331,19 +359,18 @@ def FormatScrollObject(scroll,verts,obj,s,area):
 	closest=0
 	offset=0
 	for v in verts:
-		if addr>v[0] and addr>v[0]+v[2]*0x10:
-			closest = v[0]
-			offset = addr-v[0]
-			continue
-		if addr>v[0]:
+		if addr>=v[0]:
 			closest = v[0]
 			offset = addr-v[0]
 		if v[0]>addr:
+			if offset>0xf0:
+				offset=0xFF0
+				Log.InvalidScroll(s.Currlevel,area,scroll)
 			break
 	else:
 		Log.InvalidScroll(s.Currlevel,area,scroll)
-		scroll[2] = addr-0x40000
-		return FormatScrollObject(scroll,verts,obj,s,area)
+		closest=addr
+		offset=0xFF0
 	bparam = '&VB_%s_%d_0x%x[%d]'%(Num2Name[s.Currlevel],scroll[1],closest,int(offset/0x10))
 	Bhvs = {
 	'x':4,
@@ -399,7 +426,7 @@ def PlaceObject(rom,cmd,start,script):
 			Log.UnkObject(script.Currlevel,script.CurrArea,bhv)
 		PO=[id,x,y,z,rx,ry,rz,bparam,bhv,mask]
 		if 'editor_Scroll_Texture' in bhv or 'RM_Scroll_Texture' in bhv:
-			PO = ConvertTexScrolls(script,PO)
+			PO = ConvertTexScrolls(script,PO,rom)
 	A.objects.append(PO)
 	#for parsing later at the end
 	script.objects.append([*PO,script.CurrArea,TcH(arg[18:22])])
@@ -702,7 +729,11 @@ def WriteArea(f,s,area,Anum,id):
 						o = FormatScrollObject(scroll,s.verts,o,s,Anum)
 						break
 		if o:
-			f.write("OBJECT_WITH_ACTS({},{},{},{},{},{},{},{},{},{}),\n".format(*o))
+			if '[255]' in o[-3]:
+				comment='// '
+			else:
+				comment=''
+			f.write(comment+"OBJECT_WITH_ACTS({},{},{},{},{},{},{},{},{},{}),\n".format(*o))
 	f.write("RETURN()\n};\n")
 	aswarps = 'const LevelScript local_warps_%s[]'%id
 	f.write(aswarps+' = {\n')
