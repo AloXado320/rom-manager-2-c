@@ -24,7 +24,7 @@ Num2LevelName = {
     22:'lll',
     23:'ddd',
     24:'wf',
-    # 25:'ending',
+    25:'ending',
     26:'castle_courtyard',
     27:'pss',
     28:'cotmc',
@@ -1543,3 +1543,13 @@ MOPModels={
 }
 
 Bdatahead = """//Include this file at the bottom of behavior_data.c\n"""
+
+
+ScrollTargetHead="""#include <PR/ultratypes.h>
+#include "sm64.h"
+#include "types.h"
+
+//Q. Why does this exist instead of just directly referencing VBs?
+//A. Because gcc is dumb and will seg fault if you reference a VB by abstracting it through a bparam
+//instead of directly refencing it, causing this horrible shit.
+"""

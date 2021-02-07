@@ -44,7 +44,6 @@ Fogerrs=[]
 def LevelFog(level,DL):
 	global LastFog
 	global Fogerrs
-	print(level,DL)
 	if (level,DL) in LastFog:
 		return
 	else:

@@ -118,7 +118,7 @@ ttc = {
 	(68, '0x120003a0'):('MODEL_TTC_LARGE_GEAR', 'ttc_geo_0003A0', 'ttc/large_gear'),
 }
 rr = {
-	(3, '0x12000660'):('MODEL_LEVEL_GEOMETRY_03', 'rr_geo_000660', 'rr/areas/1/8'),
+	(3, '0x12000660'):('MODEL_LEVEL_GEOMETRY_03', 'rr_geo_000660', 'rr/areas/1/2'),
 	(4, '0x12000678'):('MODEL_LEVEL_GEOMETRY_04', 'rr_geo_000678', 'rr/areas/1/3'),
 	(5, '0x12000690'):('MODEL_LEVEL_GEOMETRY_05', 'rr_geo_000690', 'rr/areas/1/4'),
 	(6, '0x120006a8'):('MODEL_LEVEL_GEOMETRY_06', 'rr_geo_0006A8', 'rr/areas/1/5'),

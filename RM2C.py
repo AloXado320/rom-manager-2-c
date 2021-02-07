@@ -39,6 +39,7 @@ class Script():
 		self.CurrArea=None
 		self.header=[]
 		self.objects = []
+		self.ScrollArray=[]
 	def B2P(self,B):
 		Bank=B>>24
 		offset=B&0xFFFFFF
@@ -252,7 +253,8 @@ def LoadPolyGeo(rom,cmd,start,script):
 	script.models[TcH(id)]=(geo,'geo',None,script.B2P(geo),script)
 	return start
 
-#yep
+#yep, this is what rock bottom coding looks like
+ScrollCount=0
 def ConvertTexScrolls(script,Obj,rom):
 	if script.editor:
 		return ConvertEditorTexScrolls(script,Obj,rom)
@@ -371,7 +373,9 @@ def FormatScrollObject(scroll,verts,obj,s,area):
 		Log.InvalidScroll(s.Currlevel,area,scroll)
 		closest=addr
 		offset=0xFF0
-	bparam = '&VB_%s_%d_0x%x[%d]'%(Num2Name[s.Currlevel],scroll[1],closest,int(offset/0x10))
+	global ScrollCount
+	bparam = '%d'%ScrollCount
+	ScrollCount+=1
 	Bhvs = {
 	'x':4,
 	'y':5,
@@ -393,6 +397,7 @@ def FormatScrollObject(scroll,verts,obj,s,area):
 	obj[5]=Types[scroll[-2]] #ry
 	obj[6]=scroll[-1] #rz
 	obj[-3] = bparam
+	s.ScrollArray.append(['VB_%s_%d_0x%x'%(Num2Name[s.Currlevel],scroll[1],closest),int(offset/0x10)])
 	return obj
 
 def PlaceObject(rom,cmd,start,script):
@@ -1241,14 +1246,19 @@ def ExportLevel(rom,level,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums
 	m64dir = rootdir/'sound'/"sequences"/"us"
 	os.makedirs(m64dir,exist_ok=True)
 	#get all level data from script
+	x=0
 	while(True):
 		#parse script until reaching special
 		q=PLC(rom,entry)
 		#execute special cmd
 		entry = jumps[q[0]](rom,q,q[3],s)
+		x+=1
 		#check for end, then loop
 		if not entry:
 			break
+		#you've hit a inf loop, usually in end screens with no level
+		if x>10000:
+			return s,cskybox
 	#this tool isn't for exporting vanilla levels
 	#so I export only objects for these levels
 	if not s.banks[0x19]:
@@ -1621,6 +1631,23 @@ def ExportInternalName(rom,src):
 	for i in range(20):
 		comma = ','*(i!=19)
 		IntNameS.write("0x{:x}{}".format(struct.unpack(">B",rom[0x20+i:0x21+i])[0],comma))
+
+def ExportTextureScrolls(Scripts,rootdir):
+	game = rootdir/'src'/'game'
+	os.makedirs(game,exist_ok=True)
+	ST = game/'ScrollTargets.inc.c'
+	ST = open(ST,'w')
+	ST.write(ScrollTargetHead)
+	x=0
+	arr = []
+	for s in Scripts:
+		for scroll in s.ScrollArray:
+			ST.write('extern Vtx {}[];\n'.format(scroll[0]))
+			arr.append(' &{}[{}],\n'.format(scroll[0],scroll[1]))
+	ST.write('Vtx *ScrollTargets[]={\n')
+	[ST.write(a) for a in arr]
+	ST.write('};')
+	ST.close()
 
 #Rip misc data that may or may not need to be ported. This currently is trajectories and star positions.
 #Do this if misc or 'all' is called on a rom.
@@ -2075,6 +2102,8 @@ certain bash errors.
 			Scripts.append(s)
 			print(Num2Name[k] + ' done')
 	lvldefs.close()
+	#Export texture scrolls
+	ExportTextureScrolls(Scripts,Path(sys.path[0]))
 	#export title screen via arg
 	if Title and levels!='all':
 		ExportTitleScreen(rom,lvldir)

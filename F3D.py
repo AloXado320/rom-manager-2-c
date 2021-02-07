@@ -557,11 +557,16 @@ def EvalMaterial(MSB,ranges,cmd,textureptrs,diffuse,amb,verts,s,dl):
 		ptr=cmd[1][32:64]
 		type=cmd[1][8:11].uint
 		bpp=4*2**(cmd[1][11:13].uint)
-		textureptrs[-1][0]=s.B2P(ptr.uint)
-		textureptrs[-1][1]=ptr.uint
-		textureptrs[-1][2]=bpp
-		textureptrs[-1][5]=types[type]
-		textureptrs[-1][6]=bpp
+		try:
+			textureptrs[-1][0]=s.B2P(ptr.uint)
+			textureptrs[-1][1]=ptr.uint
+			textureptrs[-1][2]=bpp
+			textureptrs[-1][5]=types[type]
+			textureptrs[-1][6]=bpp
+		except:
+			#garbage texture load so just reset textureptrs
+			if len(textureptrs)>1:
+				textureptrs[-1]=textureptrs[-2].copy()
 	#load block
 	elif (MSB==0xf3):
 		if textureptrs:
