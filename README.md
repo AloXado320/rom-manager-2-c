@@ -8,7 +8,7 @@ Convert sm64 levels made with rom manager or SM64 Editor (not guaranteed to work
 
 ## Dependencies
 
-bistring, capstone, pypng, PIL, ESRGAN (only for ai upscaling for PC port *Currently Testing*)
+bistring, capstone, pypng, PIL, pyhull, ESRGAN (only for ai upscaling for PC port *Currently Testing*)
 
 ### Installation
 
@@ -16,6 +16,7 @@ bistring, capstone, pypng, PIL, ESRGAN (only for ai upscaling for PC port *Curre
 * pip install capstone
 * pip install pypng
 * pip install pillow
+* pip install pyhull (may require microsoft visual studio C++ build tools alongside it)
 
 <b> You must use <a href="https://github.com/jesusyoshi54/sm64ex-alo">this (SM64ex-alo)</a> repository for RM2C and set RM2C in the makefile to 1</b>
 
