@@ -1,6 +1,6 @@
 import struct
 from bitstring import *
-from numpy import cross
+from numpy import cross, linalg
 from pyhull.delaunay import DelaunayTri
 
 def TcH(bytes):
@@ -78,6 +78,11 @@ class ColDat():
 			#This is inefficient
 			NewV=[]
 			verts = [self.verts[t] for t in tri]
+			area=self.TriArea(verts)
+			#there are some hackers who have reasonably sized tris
+			#don't split them up. This value is half the area of a death plane tri.
+			if area<268419072:
+				continue
 			Edges = [[verts[0],verts[1]],[verts[1],verts[2]],[verts[2],verts[0]]] #yee
 			CQ = (lambda e,d: max([a[d] for a in e])>0 and min([a[d] for a in e])<0)
 			CondApp = (lambda arr,x: arr.append(x) if x not in arr else 0)
@@ -100,7 +105,7 @@ class ColDat():
 							CondApp(NewV,(0,v[1],Lerp))
 				#Split Z edge
 				if CQ(e,2):
-					for v in e:
+					for i,v in enumerate(e):
 						one=e[(i+1)%2]
 						if ((one[2]-v[2]))!=0:
 							Lerp=int((v[0]*(one[2]-0)+one[0]*(0-v[2]))/((one[2]-v[2])))
@@ -114,10 +119,14 @@ class ColDat():
 							CondApp(NewV,v)
 						else:
 							CondApp(NewV,(Lerp,v[1],0))
-			self.DPV.extend(NewV)
-			NewTri.extend(self.MakeNewTris(NewV,offset))
-			offset+=len(NewV)
-		self.Tris[10] = NewTri
+			if NewV:
+				self.DPV.extend(NewV)
+				NewTri.extend(self.MakeNewTris(NewV,offset))
+				offset+=len(NewV)
+			else:
+				NewTri.append(tri)
+		if NewTri:
+			self.Tris[10] = NewTri
 	#Checks to see if any point is inside the tri
 	def TriInterior(self,verts,tri):
 		dot = (lambda x,y: sum([a+b for a,b in zip(x,y)]))

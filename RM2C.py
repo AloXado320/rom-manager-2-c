@@ -360,6 +360,9 @@ def FormatScrollObject(scroll,verts,obj,s,area):
 	addr=scroll[2]
 	closest=0
 	offset=0
+	#if verts are not in order, I can falsely assume the vert does not exist
+	#becuase I see a gap and mistake it for the end of an area or something.
+	verts.sort(key=lambda x: x[0]) 
 	for v in verts:
 		if addr>=v[0]:
 			closest = v[0]
@@ -396,6 +399,7 @@ def FormatScrollObject(scroll,verts,obj,s,area):
 	obj[3]=scroll[3] #z
 	obj[5]=Types[scroll[-2]] #ry
 	obj[6]=scroll[-1] #rz
+	obj[4]=int(offset/0x10) #rx
 	obj[-3] = bparam
 	s.ScrollArray.append(['VB_%s_%d_0x%x'%(Num2Name[s.Currlevel],scroll[1],closest),int(offset/0x10)])
 	return obj
@@ -545,8 +549,7 @@ def WriteModel(rom,dls,s,name,Hname,id,tdir):
 		except:
 			print("{} has a broken level DL and is being skipped".format(Num2LevelName[s.Currlevel]))
 		x+=1
-		if s.texScrolls:
-			s.verts.extend(verts) #for texture scrolls
+		s.verts.extend(verts) #for texture scrolls
 	refs = F3D.ModelWrite(rom,ModelData,name,id,tdir,s.editor,s.Currlevel)
 	modelH = name/'custom.model.inc.h'
 	mh = open(modelH,'w')
