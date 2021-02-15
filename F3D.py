@@ -367,8 +367,9 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt,level):
 				f.write(c+',\n')
 			f.write('};\n\n')
 	f.close()
-	p = mp.Pool(mp.cpu_count())
+	p = mp.Pool(mp.cpu_count()-1)
 	p.map(WriteTex,Pngs)
+	p.close()
 	return refs
 
 def WriteTex(Pngs):
@@ -376,7 +377,8 @@ def WriteTex(Pngs):
 	args=Pngs[1]
 	img = BinPNG.MakeImage(args[-1])
 	func(*args[:-1],img)
-	return 0
+	img.close()
+	del img
 
 #f3d binary start
 #takes bin, and returns tuple with C macro

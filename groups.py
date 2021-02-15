@@ -24,15 +24,15 @@ def MD(group,s,name):
 #These are a mess as romhacks do all sorts of dumb shit.
 #I force modelID and geo addr to be together because a abnormal modelID is most likely custom content
 bbh = {
-	(53, '0x120005b0'):('MODEL_BBH_STAIRCASE_STEP', 'geo_bbh_0005B0', 'geo/staircase_step'),
-	(54, '0x120005c8'):('MODEL_BBH_TILTING_FLOOR_PLATFORM', 'geo_bbh_0005C8', 'geo/tilting_trap_platform'),
-	(55, '0x120005e0'):('MODEL_BBH_TUMBLING_PLATFORM', 'geo_bbh_0005E0', 'geo/tumbling_platform_far'),
-	(56, '0x120005f8'):('MODEL_BBH_TUMBLING_PLATFORM_PART', 'geo_bbh_0005F8', 'geo/tumbling_platform_near'),
-	(57, '0x12000610'):('MODEL_BBH_MOVING_BOOKSHELF', 'geo_bbh_000610', 'geo/moving_bookshelf'),
-	(58, '0x12000628'):('MODEL_BBH_MESH_ELEVATOR', 'geo_bbh_000628', 'geo/mesh_elevator'),
-	(59, '0x12000640'):('MODEL_BBH_MERRY_GO_ROUND', 'geo_bbh_000640', 'geo/merry_go_round'),
-	(60, '0x12000640'):('MODEL_BBH_MERRY_GO_ROUND', 'geo_bbh_000640', 'geo/merry_go_round'),
-	(60, '0x12000658'):('MODEL_BBH_WOODEN_TOMB', 'geo_bbh_000658', 'geo/coffin'),
+	(53, '0x120005b0'):('MODEL_BBH_STAIRCASE_STEP', 'geo_bbh_0005B0', 'bbh/staircase_step'),
+	(54, '0x120005c8'):('MODEL_BBH_TILTING_FLOOR_PLATFORM', 'geo_bbh_0005C8', 'bbh/tilting_trap_platform'),
+	(55, '0x120005e0'):('MODEL_BBH_TUMBLING_PLATFORM', 'geo_bbh_0005E0', 'bbh/tumbling_platform_far'),
+	(56, '0x120005f8'):('MODEL_BBH_TUMBLING_PLATFORM_PART', 'geo_bbh_0005F8', 'bbh/tumbling_platform_near'),
+	(57, '0x12000610'):('MODEL_BBH_MOVING_BOOKSHELF', 'geo_bbh_000610', 'bbh/moving_bookshelf'),
+	(58, '0x12000628'):('MODEL_BBH_MESH_ELEVATOR', 'geo_bbh_000628', 'bbh/mesh_elevator'),
+	(59, '0x12000640'):('MODEL_BBH_MERRY_GO_ROUND', 'geo_bbh_000640', 'bbh/merry_go_round'),
+	(60, '0x12000640'):('MODEL_BBH_MERRY_GO_ROUND', 'geo_bbh_000640', 'bbh/merry_go_round'),
+	(60, '0x12000658'):('MODEL_BBH_WOODEN_TOMB', 'geo_bbh_000658', 'bbh/coffin'),
 }
 ccm = {
 	(3, '0x1200043c'):('MODEL_LEVEL_GEOMETRY_03', 'ccm_geo_00042C', 'ccm/areas/1/6'),

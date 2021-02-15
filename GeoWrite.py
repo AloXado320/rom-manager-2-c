@@ -71,7 +71,7 @@ def TcH(bytes):
 	if len(bytes)==1:
 		return struct.unpack(">B",a)[0]
 
-def GetWaterData(rom,script,arg):
+def GetWaterData(rom,script,arg,area):
 	#for editor water tables are at 0x19001800, but that might not be gauranteed
 	type = arg&0xFF #0 for water, 1 for toxic mist, 2 for mist, all start with 0x50 for msb
 	if script.editor:
@@ -82,7 +82,7 @@ def GetWaterData(rom,script,arg):
 	else:
 	#for RM they are at 0x19006000
 		try:
-			WT = script.B2P(0x19006000+0x280*type)
+			WT = script.B2P(0x19006000+0x280*type+0x50*area)
 		except:
 			return
 	UPW = (lambda x,y: struct.unpack(">L",x[y:y+4])[0])
@@ -110,7 +110,7 @@ def GetWaterData(rom,script,arg):
 		WB.append(wb)
 	return WB
 
-def GeoParse(rom,start,script,segstart,id,cskybox,CBG):
+def GeoParse(rom,start,script,segstart,id,cskybox,CBG,area):
 	x=0
 	g=[ [ [],start] ]
 	start=[start]
@@ -132,7 +132,7 @@ def GeoParse(rom,start,script,segstart,id,cskybox,CBG):
 				if r!=0:
 					label=script.GetLabel(f)
 					if 'geo_movtex_draw_water_regions' in label:
-						WaterBoxes.append(GetWaterData(rom,script,B2I(q[2:4])))
+						WaterBoxes.append(GetWaterData(rom,script,B2I(q[2:4]),area))
 					if 'geo_envfx_main' in label and B2I(q[2:4])>0:
 						envfx = 1
 					F[0]=F[0].replace(str(r),label)

@@ -17,11 +17,16 @@ import multiprocessing as mp
 import Log
 import re
 import BhvParse as BP
+import gc
+
+#So that each Script class doesn't open up a half MB file.
+mapF = open('sm64.us.map','r')
+map = mapF.readlines()
 
 class Script():
 	def __init__(self,level):
-		self.mapF = open('sm64.us.map','r')
-		self.map=self.mapF.readlines()
+		global map
+		self.map=map
 		self.banks=[None for a in range(32)]
 		self.asm=[[0x80400000,0x1200000,0x1220000]]
 		self.models=[None for a in range(256)]
@@ -559,6 +564,7 @@ def WriteModel(rom,dls,s,name,Hname,id,tdir):
 		mh.write('extern '+r+';\n')
 	mh.write("#endif")
 	mh.close()
+	del ModelData
 	return dls
 
 def ClosestIntinDict(num,dict):
@@ -901,7 +907,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 			CBG=1
 		else:
 			CBG=0
-		(geo,dls,WB,vfx,cskybox)=GW.GeoParse(Arom,area.geo,s,area.geo,id,cskybox,CBG)
+		(geo,dls,WB,vfx,cskybox)=GW.GeoParse(Arom,area.geo,s,area.geo,id,cskybox,CBG,a)
 		#deal with some areas having it vs others not
 		if vfx:
 			envfx = 1
@@ -941,7 +947,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 				MovTex.write("const struct MovtexQuadCollection %sMovtex_%d[] = {\n"%(id,j))
 				for k,ref in enumerate(Type):
 					MovTex.write("{%d,%s},\n"%(k,ref))
-				MovTex.write("{-1, NULL},\n};")
+				MovTex.write("{-1, NULL},\n};\n")
 				s.MakeDec("struct MovtexQuadCollection %sMovtex_%d[]"%(id,j))
 				AllWaterBoxes.append(["%sMovtex_%d"%(id,j),num,a,j])
 		print('finished area '+str(a)+ ' in level '+name)
@@ -1299,6 +1305,7 @@ class Actor():
 					self.ParseModels(val,k,rom,fold)
 				except:
 					print('Model {} was in bank 0 and its rom address could not be detected properly'.format(k))
+		self.ExportPowerMeter(rom,val[0][5])
 	def ParseModels(self,val,k,rom,fold):
 		fgeo = fold/'custom.geo.inc.c'
 		fgeo = open(fgeo,'w')
@@ -1318,12 +1325,13 @@ class Actor():
 				ids.append(v[1]+'_')
 		if geos:
 			GW.GeoActWrite(geos,fgeo)
+			del geos
+			del fgeo
 		#turn editor off for script object so optimization
 		#doesn't happen
 		v[5].editor=0
 		self.WriteActorModel(rom,dls,v[5],k.split("/")[0]+'_'+k.split("/")[-1]+'_model',ids,fold,v[-1])
 		print('{} exported'.format(k))
-		self.ExportPowerMeter(rom,v[5])
 	def WriteActorModel(self,rom,dlss,s,Hname,ids,dir,groupname):
 		x=0
 		ModelData=[]
@@ -1357,7 +1365,9 @@ class Actor():
 			mh.write('extern '+r+';\n')
 		mh.write("#endif")
 		mh.close()
-		return dls
+		#free memory because actors take a lot
+		del ModelData,refs,mh
+		gc.collect()
 	#Hardcode power meter export. Only exporting textures
 	def ExportPowerMeter(self,rom,script):
 		dir = self.dir / 'power_meter'
@@ -2105,6 +2115,7 @@ certain bash errors.
 			Scripts.append(s)
 			print(Num2Name[k] + ' done')
 	lvldefs.close()
+	gc.collect() #gaurantee some mem is freed up.
 	#Export texture scrolls
 	ExportTextureScrolls(Scripts,Path(sys.path[0]))
 	#export title screen via arg
