@@ -152,7 +152,7 @@ def ExportTexture(rom,GetNID,Excess,txt,pos,Trackers,refs,tdir,textures,ImgTypes
 			q = txt.index(t)
 			Excess.append(['{}_texture_{:08X}'.format(id,t[1]),'{}_texture_{:08X}'.format(GetNID(pos,id,q),txt[q][1])])
 			return
-		texn = 'const u8 {}_texture_{:08X}[]'.format(id,t[1])
+		texn = 'u8 {}_texture_{:08X}[]'.format(id,t[1])
 		txt.append(t)
 		Trackers[pos].append(k)
 		refs.append(texn)
@@ -160,7 +160,7 @@ def ExportTexture(rom,GetNID,Excess,txt,pos,Trackers,refs,tdir,textures,ImgTypes
 		dex = (Findex(tdir.parts,'actors')|Findex(tdir.parts,'levels'))
 		inc = "/".join(tdir.parts[dex:])+"/"
 		if t[5]=='CI':
-			texnp = 'const u8 %s_texture_pal_{:08X}[]'.format(id,t[1])
+			texnp = 'u8 %s_texture_pal_{:08X}[]'.format(id,t[1])
 			#export a include of a png file
 			textures.write('ALIGNED8 '+texn+' = {\n')
 			textures.write('#include "%s.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
@@ -274,7 +274,7 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt,level):
 				continue
 			amb.append(a)
 			Trackers[pos].append(k)
-			lig = 'const Light_t Light_%s'%(id+hex(a[1]))
+			lig = 'Light_t Light_%s'%(id+hex(a[1]))
 			refs.append(lig)
 			f.write(lig+' = {\n')
 			Amb=rom[a[0]:a[0]+16]
@@ -294,7 +294,7 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt,level):
 				continue
 			diffs.append(a)
 			Trackers[pos].append(k)
-			lig = 'const Ambient_t Light_%s'%(id+hex(a[1]))
+			lig = 'Ambient_t Light_%s'%(id+hex(a[1]))
 			refs.append(lig)
 			f.write(lig+' = {\n')
 			Amb=rom[a[0]:a[0]+8]
@@ -320,7 +320,7 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt,level):
 		for s,d in zip(md[pos],md[1]):
 			if s in twice:
 				continue
-			DLn = 'const Gfx DL_'+id+hex(s[1])+'[]'
+			DLn = 'Gfx DL_'+id+hex(s[1])+'[]'
 			f.write(DLn+' = {')
 			refs.append(DLn)
 			f.write('\n')

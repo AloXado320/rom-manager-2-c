@@ -1871,6 +1871,7 @@ This is an include meant to help with the addition of moving textures for water 
 To use this, simply place this file inside your source directory after exporting.
 */
 """
+	AllWaterBoxes.sort(key=(lambda x: [x[1],x[2],x[3]])) #level,area,type
 	if not AllWaterBoxes:
 		print("no water boxes")
 		return
@@ -1882,7 +1883,7 @@ To use this, simply place this file inside your source directory after exporting
 	AreaNull = "{"+"NULL,"*3+"},"
 	LevelNull = "{ "+AreaNull*8+" },\n"
 	LastL = 3
-	LastA = 0
+	LastA = -1
 	LastType=0
 	first = 0
 	for wb in AllWaterBoxes:
@@ -1897,15 +1898,15 @@ To use this, simply place this file inside your source directory after exporting
 			LastType = 0
 			for i in range(7-LastA):
 				MTinc.write(AreaNull)
-			LastA = 0
+			LastA = -1
 			MTinc.write(" },\n")
 		for i in range(L-LastL-1):
 			MTinc.write(LevelNull)
 		if first==0 or L!=LastL:
 			MTinc.write("{ ")
-		for i in range(A-LastA):
+		for i in range(A-LastA-1):
 			MTinc.write(AreaNull)
-		for i in range(T-LastType):
+		for i in range(T-LastType-1):
 			MTinc.write("NULL,")
 		if T==0:
 			MTinc.write("{")
