@@ -160,7 +160,7 @@ def ExportTexture(rom,GetNID,Excess,txt,pos,Trackers,refs,tdir,textures,ImgTypes
 		dex = (Findex(tdir.parts,'actors')|Findex(tdir.parts,'levels'))
 		inc = "/".join(tdir.parts[dex:])+"/"
 		if t[5]=='CI':
-			texnp = 'u8 %s_texture_pal_{:08X}[]'.format(id,t[1])
+			texnp = 'u8 {}_texture_{:08X}[]'.format(id,t[7][1])
 			#export a include of a png file
 			textures.write('ALIGNED8 '+texn+' = {\n')
 			textures.write('#include "%s.inc.c"\n};\n'%(str(inc+(id+hex(t[1])+"_custom.%s%d"%(t[5].lower(),t[6])))))
@@ -518,6 +518,9 @@ def EvalMaterial(MSB,ranges,cmd,textureptrs,diffuse,amb,verts,s,dl):
 				textureptrs[-1][3] = 1
 			if textureptrs[-1][4] == 0:
 				textureptrs[-1][4] = 1
+			#clear palette for rgba textures
+			if textureptrs[-1][5]!='CI':
+				textureptrs[-1][7]=0
 			textureptrs.append(textureptrs[-1].copy())
 			textureptrs[-1][0] = 0
 	#check for an RDP cmd or geo mode or texture enable/disable

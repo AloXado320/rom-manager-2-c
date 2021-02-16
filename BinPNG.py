@@ -16,9 +16,10 @@ def MakeImage(name):
 	return open(name+'.png','wb')
 
 #file is bin, image is png
+#Alpha changed to true because N64 graphics does not like PNGS with no alpha YES!!!
 def I(width,height,depth,file,image):
-	w = png.Writer(width,height,greyscale=True,bitdepth=depth,alpha=False)
-	rows = CreateRows(width,height,depth,1,file)
+	w = png.Writer(width,height,greyscale=True,bitdepth=depth,alpha=True)
+	rows = CreateIRows(width,height,depth,1,file)
 	w.write(image,rows)
 
 def IA(width,height,depth,file,image):
@@ -51,6 +52,18 @@ def CI(width,height,depth,p,file,image):
 	w = png.Writer(width,height,palette=p,bitdepth=depth)
 	rows = CreateRows(width,height,depth,1,file)
 	w.write(image,rows)
+
+def CreateIRows(width,height,depth,Channels,file):
+	rows=[]
+	for r in range(height):
+		L=int((depth/8)*Channels*width)#bytes per row
+		bin = BitArray(file[L*r:L*r+L])
+		a=bin.unpack('%d*uint:%d'%(width*Channels,depth))
+		a = [b&0xFF for b in a]
+		AlphaAdd = [0xFF]*(len(a)*2)
+		AlphaAdd[0::2] = a
+		rows.append(AlphaAdd)
+	return rows
 
 def CreateRows(width,height,depth,Channels,file):
 	rows=[]

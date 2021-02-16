@@ -273,7 +273,7 @@ def ConvertRMTexScrolls(script,Obj,rom):
 	# Scroll Type = Y&0F00 (0x000 - normal, 0x0100 - sine, 0x0200 - jumping)
 	# Speed= Z pos
 	# NumVerts = X
-	Addr=Obj[7]
+	Addr=int(Obj[7],16)
 	Num=Obj[1]
 	Speed = Obj[3]
 	dir = Obj[2]
@@ -921,7 +921,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 				print("{} has no Display Lists, that is very bad".format(name))
 			else:
 				for d in dls:
-					s.MakeDec("const Gfx DL_%s[]"%(id+hex(d[1])))
+					s.MakeDec("Gfx DL_%s[]"%(id+hex(d[1])))
 		#write collision file
 		if not OnlySkip:
 			ColParse.ColWrite(adir/"custom.collision.inc.c",s,Arom,area.col,id)
@@ -981,12 +981,12 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 		ld = open(LD,'w')
 		ld.write(ldHeader)
 		Ftypes = ['custom.model.inc.c"\n','custom.collision.inc.c"\n']
+		ld.write('#include "levels/%s/textureNew.inc.c"\n'%(name))
 		for i,a in enumerate(areas):
 			ld.write('#include "levels/%s/areas/%d/movtextNew.inc.c"\n'%(name,(i+1)))
 			start = '#include "levels/%s/areas/%d/'%(name,(i+1))
 			for Ft in Ftypes:
 					ld.write(start+Ft)
-		ld.write('#include "levels/%s/textureNew.inc.c"\n'%(name))
 		ld.close
 	return [AllWaterBoxes,m64s,seqNums,cskybox]
 
@@ -1949,7 +1949,11 @@ def ExportTitleScreen(rom,level):
 		#early because the title screen is overwritten quickly
 		if entry>=2531020:
 			break
-	Rtitleptr = s.B2P(titleptr)
+	#somehow title screens have issues
+	try:
+		Rtitleptr = s.B2P(titleptr)
+	except:
+		return
 	intro = level/'intro'
 	intro.mkdir(exist_ok=True)
 	WriteModel(rom,[[Rtitleptr,titleptr]],s,intro,'TITLESCREEN','intro_seg7_',intro)
