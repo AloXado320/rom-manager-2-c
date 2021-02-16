@@ -1379,7 +1379,7 @@ class Actor():
 		gc.collect()
 	def CompareChecksums(self,crcs,id,fold):
 		if id not in ActorCHKSM.__dict__.keys():
-			Log.UnkModel(id)
+			Log.UnkModel(id,fold)
 		else:
 			cksm = ActorCHKSM.__dict__.get(id)
 			for c in crcs:
