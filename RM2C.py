@@ -816,6 +816,7 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 	x=0 #line pos
 	restrict = ['OBJECT','WARP_NODE','JUMP_LINK']
 	CheckRestrict = (lambda x: any([r in x for r in restrict]))
+	macro=0
 	for a in areas:
 		j=0
 		area=s.levels[num][a]
@@ -830,20 +831,25 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 					break
 				x+=1
 		#write macro objects if they exist
+		CheckMacro = (lambda x: 0)
 		if hasattr(area,'macros'):
 			CheckMacro = (lambda x: 'MACRO_OBJECTS(' in x )
+			if not macro:
+				hd = '#include "level_misc_macros.h"\n#include "macro_preset_names.h"\n'
+				Slines.insert(x,(hd))
+				x+=1
+				macro=1
 			asobj = 'static const MacroObject local_macro_objects_%s_%d[]'%(name,a)
-			hd = '#include "level_misc_macros.h"\n#include "macro_preset_names.h"\n'
-			Slines.insert(x,(hd+asobj+' = {\n'))
+			Slines.insert(x,(asobj+' = {\n'))
 			x+=1
 			for m in area.macros:
 				Slines.insert(x,"MACRO_OBJECT_WITH_BEH_PARAM({},{},{},{},{},{}),\n".format(MacroNames[m[1]],m[0],*m[2:]))
 				x+=1
-			Slines.insert(x,"MACRO_OBJECT_END(),\n};")
-		else:
-			CheckMacro = (lambda x: 0)
+			Slines.insert(x,"MACRO_OBJECT_END(),\n};\n")
+			x+=1
+	for a in areas:
 		while(True):
-			if 'AREA(' in Slines[x]:
+			if ' AREA(' in Slines[x]:
 				x+=1
 				break
 			x+=1
@@ -857,6 +863,7 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 				break
 			else:
 				j+=1
+		
 		for o in area.objects:
 			Slines.insert(x,"OBJECT_WITH_ACTS({},{},{},{},{},{},{},{},{},{}),\n".format(*o))
 		for w in area.warps:
