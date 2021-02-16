@@ -18,7 +18,7 @@ import Log
 import re
 import BhvParse as BP
 import gc
-
+import ActorCHKSM
 #So that each Script class doesn't open up a half MB file.
 mapF = open('sm64.us.map','r')
 map = mapF.readlines()
@@ -552,10 +552,10 @@ def WriteModel(rom,dls,s,name,Hname,id,tdir):
 			(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id,1)
 			ModelData.append([starts,dl,verts,textures,amb,diff,ranges,0])
 		except:
-			print("{} has a broken level DL and is being skipped".format(Num2LevelName[s.Currlevel]))
+			print("{} has a broken level DL and is being skipped".format(Num2LevelName.get(s.Currlevel)))
 		x+=1
 		s.verts.extend(verts) #for texture scrolls
-	refs = F3D.ModelWrite(rom,ModelData,name,id,tdir,s.editor,s.Currlevel)
+	[refs,crcs] = F3D.ModelWrite(rom,ModelData,name,id,tdir,s.editor,s.Currlevel)
 	modelH = name/'custom.model.inc.h'
 	mh = open(modelH,'w')
 	headgaurd="%s_HEADER_H"%(Hname)
@@ -743,7 +743,7 @@ def WriteArea(f,s,area,Anum,id):
 						o = FormatScrollObject(scroll,s.verts,o,s,Anum)
 						break
 		if o:
-			if '[255]' in o[-3]:
+			if o[4]==255 and 'Scroll_Texture' in o[-2]:
 				comment='// '
 			else:
 				comment=''
@@ -1009,7 +1009,7 @@ def ProcessModel(rom,editor,s,modelID,model):
 			folder = "custom_{:08x}".format(model[0])
 			return ('custom_%x'%bank[0],Seg,label,folder)
 		#These are in Seg C, D, F, 16, 17
-		if Seg!=7 and Seg!=0x12:
+		if Seg!=7 and Seg!=0x12 and Seg!=0xE:
 			#catch group0/common0/1 f3d/geo loads. f3d loads happen most often in these
 			if Seg==8 or Seg==0xF:
 				group='common0'
@@ -1023,10 +1023,15 @@ def ProcessModel(rom,editor,s,modelID,model):
 			if label:
 				folder = label[2]
 				label=label[1]
-		#These are all in bank 7 with geo layouts in bank 12
+		#These are all in bank 7 with geo layouts in bank 12. Bank 0xE is used for vanilla levels
 		else:
+			#if bank 19 doesn't exist, its a vanilla level and segE
+			if not s.banks[0x19]:
+				md=model[0]+0x04000000
+			else:
+				md=model[0]
 			group = ClosestIntinDict(s.banks[7][0],LevelSpecificBanks)
-			label = GD.__dict__[group].get((modelID,"0x{:08x}".format(model[0])))
+			label = GD.__dict__[group].get((modelID,"0x{:08x}".format(md)))
 			if label:
 				folder = label[2]
 				label=label[1]
@@ -1061,7 +1066,7 @@ def ProcessModel(rom,editor,s,modelID,model):
 				label = "unk_geo_{:08x}".format(model[0])
 			else:
 				label = "unk_DL_{:08x}".format(model[0])
-			folder = "unk_{:08x}".format(model[0])
+			folder = "unk_{}_{:08x}".format(Num2LevelName.get(s.Currlevel),model[0])
 			group = 'unk'
 	return (group,Seg,label,folder)
 
@@ -1283,6 +1288,8 @@ class Actor():
 	def __init__(self,aDir):
 		self.folders ={}
 		self.dir = aDir
+		rdir = Path(sys.path[0])
+		# self.CHKSM = open(rdir/'ActorCHKSM.py','w') This was written for checksum collection purposes
 	def EvalModel(self,model,group):
 		folder = self.folders.get(model[6])
 		if folder:
@@ -1330,9 +1337,9 @@ class Actor():
 		#turn editor off for script object so optimization
 		#doesn't happen
 		v[5].editor=0
-		self.WriteActorModel(rom,dls,v[5],k.split("/")[0]+'_'+k.split("/")[-1]+'_model',ids,fold,v[-1])
+		self.WriteActorModel(rom,dls,v[5],k.split("/")[0]+'_'+k.split("/")[-1]+'_model',ids,fold,v[-1],k)
 		print('{} exported'.format(k))
-	def WriteActorModel(self,rom,dlss,s,Hname,ids,dir,groupname):
+	def WriteActorModel(self,rom,dlss,s,Hname,ids,dir,groupname,foldname):
 		x=0
 		ModelData=[]
 		for dls,id in zip(dlss,ids):
@@ -1354,9 +1361,11 @@ class Actor():
 		if groupname in Num2LevelName.values():
 			tdir = Path(sys.path[0])/'levels'/groupname
 			os.makedirs(tdir,exist_ok=True)
-			refs = F3D.ModelWrite(rom,ModelData,dir,ids[0],tdir,s.editor,s.Currlevel)
+			[refs,crcs] = F3D.ModelWrite(rom,ModelData,dir,ids[0],tdir,s.editor,s.Currlevel)
 		else:
-			refs = F3D.ModelWrite(rom,ModelData,dir,ids[0],dir,s.editor,s.Currlevel)
+			[refs,crcs] = F3D.ModelWrite(rom,ModelData,dir,ids[0],dir,s.editor,s.Currlevel)
+		# self.CHKSM.write("{} = {}\n".format(ids[0],crcs)) This was written for checksum collection purposes
+		self.CompareChecksums(crcs,ids[0],foldname)
 		modelH = dir/'custom.model.inc.h'
 		mh = open(modelH,'w')
 		headgaurd="%s_HEADER_H"%(Hname)
@@ -1368,6 +1377,15 @@ class Actor():
 		#free memory because actors take a lot
 		del ModelData,refs,mh
 		gc.collect()
+	def CompareChecksums(self,crcs,id,fold):
+		if id not in ActorCHKSM.__dict__.keys():
+			Log.UnkModel(id)
+		else:
+			cksm = ActorCHKSM.__dict__.get(id)
+			for c in crcs:
+				if c not in cksm:
+					Log.UnkModel(id,fold)
+					break
 	#Hardcode power meter export. Only exporting textures
 	def ExportPowerMeter(self,rom,script):
 		dir = self.dir / 'power_meter'
@@ -1421,7 +1439,11 @@ def ExportActors(actors,rom,Models,aDir):
 		return Actors.MakeFolders(rom)
 	#if its not one of the above phrases, its the name of a group
 	elif type(actors)==str:
-		models = Models[actors]
+		try:
+			models = Models[actors]
+		except:
+			print("group {} doesn't exist.\nHere are the avaiable groups\n{}".format(actors,list(Models.keys())))
+			return
 		if actors in levels:
 			pass
 		for m in models:

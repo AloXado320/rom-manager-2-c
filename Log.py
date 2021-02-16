@@ -65,10 +65,16 @@ def UnkObject(level,Area,bhv):
 		print(err)
 		Objerrs.append(err+'\n')
 
+UnkModels=[]
+def UnkModel(id,fold):
+	global UnkModels
+	UnkModels.append("model {} in folder {} has a new model or new textures.\n".format(id,fold))
+
 def WriteWarnings():
 	global Objerrs
 	global Fogerrs
 	global Scrollerrs
+	global UnkModels
 	if Objerrs:
 		log.write(Spacer+"\n\nObjects without references must have behaviors created for them, be given an existing behavior, or be commented out.\n")
 		[log.write(' {}'.format(s)) for s in Objerrs]
@@ -78,6 +84,9 @@ def WriteWarnings():
 	if Scrollerrs:
 		log.write(Spacer+"\n\nTexture scrolls do not always follow the same format I assume, if this error appears it may have an invalid address which causes a crash.\nRM2C will try to find the correct address after noticing the one it has is wrong, if a crash occurs when entering the level check these objects first\n\n")
 		[log.write(' {}'.format(s)) for s in Scrollerrs]
+	if UnkModels:
+		log.write(Spacer+"\n\nNew models are detected by comparing the checksums of textures from the specific model.\nThe comparison models come from an unedited vanilla rom loaded into Rom Manager.\nIf a model is in this list, it has either an unrecognized ID or a new texture.\nIf a model is not in this list, it does not guarantee that it is unedited.\n\n")
+		[log.write(' {}'.format(m)) for m in UnkModels]
 	log.write(Warnings)
 	log.close()
 
@@ -100,5 +109,5 @@ MORE ON AUDIO ERRORS:
 On N64 build, a lack of proper audio memory allocation will instantly crash the game. If this happens, extend gAudioHeap in buffers.c
 If you have issues with certain m64s sounding garbled, extend gAlBankSets in load.c (line 2000 about).
 If sound cuts out at certain points, extend values in gAudioSessionPresets.
-If background music cuts out after cutscenes end stub seq_player_lower_volume and seq_player_unlower_volume in external.c (will remove volume adjustments from the entire game).
+On all builds, if an out of bounds array access happens (often with high sequence numbers) the game will crash or have audio issues.
 """

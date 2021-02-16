@@ -3,6 +3,7 @@ import png
 import math
 from bitstring import *
 from PIL import Image #for skyboxes
+import zlib
 #convert bin to png
 
 def InitSkybox(name):
@@ -14,6 +15,12 @@ def TileSkybox(FullBox,x,y,tilepath):
 
 def MakeImage(name):
 	return open(name+'.png','wb')
+
+def GetCHKSM(filename):
+	f = open(filename,'rb')
+	c = zlib.crc32(f.read())
+	f.close()
+	return c
 
 #file is bin, image is png
 #Alpha changed to true because N64 graphics does not like PNGS with no alpha YES!!!
