@@ -579,8 +579,8 @@ group4 = {
 	(88, '0x0c000000'):('MODEL_CLAM_SHELL', 'clam_shell_geo', 'clam_shell'),
 }
 group5 = {
-	(84, '0x0c000610'):('MODEL_POKEY_HEAD', 'pokey_head_geo', 'pokey_head'),
-	(85, '0x0c000644'):('MODEL_POKEY_BODY_PART', 'pokey_body_part_geo', 'pokey_body_part'),
+	(84, '0x0c000610'):('MODEL_POKEY_HEAD', 'pokey_head_geo', 'pokey'),
+	(85, '0x0c000644'):('MODEL_POKEY_BODY_PART', 'pokey_body_part_geo', 'pokey'),
 	(86, '0x05014630'):('MODEL_TWEESTER', 'tweester_geo', 'tornado'),
 	(87, '0x0c000000'):('MODEL_KLEPTO', 'klepto_geo', 'klepto'),
 	(88, '0x0c0005a8'):('MODEL_EYEROK_LEFT_HAND', 'eyerok_left_hand_geo', 'eyerok'),

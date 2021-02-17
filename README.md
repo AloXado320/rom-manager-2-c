@@ -29,7 +29,7 @@ Currently testing, installation method coming after optimal fork and model are f
 
 place rom in root, run RM2C.py with the following arguments:
 
-RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0 Inherit=0 Upscale=0 Title=0 Sound=0
+RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0 Inherit=0 Upscale=0 Title=0 Sound=0 Objects=0
 
  - Arguments with equals sign are shown in default state, do not put commas between args. All Arguments use python typing, this means you can generate lists or strings using defualt python functions.
  - Levels accept any list argument or only the string 'all'.
@@ -39,10 +39,11 @@ RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaof
  - The "Only" options are to only export certain things either to deal with specific updates or updates to RM2C itself. Only use one at a time. An only option will not maintain other data. Do not use Append with MusicOnly, it will have no effect.
  - Use ObjectOnly to export object hacks. If you are using a ToadsTool hack, set Misc=0 or it will hang.
  - MusicExtend is for when you want to add in your custom music on top of the original tracks. Set it to the amount you want to offset your tracks by (0x23 for vanilla). This is only useful when combined with append so the tracks don't overwrite each other.
+ - Objects will export behaviors and object collision. Possible args are 'all' for all behaviors used, 'new' for ones without a known label, or you can pass a singular or list of regex matches e.g. ['[0-9]','koopa'].
  - Textures will export the equivalent of the /textures/ folder in decomp.
  - Inherit is a file management arg for when dealing with multiple roms. Normal behavior is to clear level and actor folder each time, inherit prevents this.
  - Title exports the title screen. This will also be exported if levels='all'
- - Sound will export sound sample and instrument bank data (default is m64s only)
+ - Sound will export instrument bank and sound sample data. It does not seem to work with custom samples well. (default is m64s only)
  - Upscale is an option to use ESRGAN ai upscaling to increase texture size. The upscaled textures will generate #ifdefs in each model file for non N64 targeting to compile them instead of the original textures. This feature is not currently implemented.
 
 ### Example Inputs

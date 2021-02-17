@@ -1472,9 +1472,9 @@ def ExportActors(actors,rom,Models,aDir):
 
 def ExportObjects(reg,Objects,rom,ass,rootdir):
 	#key=bhv, values = [rom addr, ram addr, models used with,script]
-	bdata = rootdir / 'data' 
-	os.makedirs(bdata,exist_ok=True)
-	bdata = bdata / 'custom.behavior_data.inc.h'
+	bdir = rootdir / 'data' 
+	os.makedirs(bdir,exist_ok=True)
+	bdata = bdir / 'custom.behavior_data.inc.h'
 	bdata = open(bdata,'w')
 	bdata.write(Bdatahead)
 	collisions = []
@@ -1485,9 +1485,9 @@ def ExportObjects(reg,Objects,rom,ass,rootdir):
 			if any(r):
 				[col,funcs] = ExportBhv(o,bdata,bhv)
 				if col:
-					collisions.append([col,o])
+					collisions.append([col,o,bhv])
 				if funcs:
-					funcions.extend(funcs)
+					functions.extend(funcs)
 	else:
 		if reg=='all':
 			pass
@@ -1499,9 +1499,9 @@ def ExportObjects(reg,Objects,rom,ass,rootdir):
 				if r:
 					[col,funcs] = ExportBhv(o,bdata,bhv)
 					if col:
-						collisions.append(col)
+						collisions.append([col,o,bhv])
 					if funcs:
-						funcions.extend(funcs)
+						functions.extend(funcs)
 	for col in collisions:
 		#sometimes they have no model
 		if col[1][2]:
@@ -1513,17 +1513,70 @@ def ExportObjects(reg,Objects,rom,ass,rootdir):
 			cid = 'Unk_Collision_{}'.format(col[0])
 			cdir = ass/cname
 		os.makedirs(cdir,exist_ok=True)
+		if 'custom' or 'Unk' in cid:
+			Log.UnkCollision(cid,cname,col[2])
 		cdir = cdir / 'custom.collision.inc.c'
 		id = cid+"_"
 		ColParse.ColWriteActor(cdir,col[1][3],rom,col[1][3].B2P(int(col[0])),id)
 		print('{} collision exported'.format(cname))
+	if functions:
+		ExportFunctions(functions,rom,bdir)
+
+def ExportFunctions(functions,rom,Bdir):
+	md=Cs(CS_ARCH_MIPS,CS_MODE_MIPS64+CS_MODE_BIG_ENDIAN)
+	# md.detail = True
+	jumps=['jr','j']
+	stop=0x1000
+	FuncFile = Bdir/'Custom_Asm.s'
+	FuncFile = open(FuncFile,'w')
+	FuncFile.write("#This file is provided only as a reference for manually recoding functions.\n")
+	#[addr (str),Bhv name,Function name,script]
+	for f in functions:
+		script=f[3]
+		start=script.B2P(int(f[0])&0X7FFFFFFF)
+		code=rom[start:start+0x1000]
+		FuncFile.write("#This function is called from Behavior {}\n{}:\n".format(f[1],f[2]))
+		for k,i in enumerate(md.disasm(code,0)):
+			#attempt to get label
+			if i.mnemonic=='jal':
+				addr = "{:08x}".format(int(i.op_str,16)+0x80000000)
+				op = script.GetLabel(addr)
+			else:
+				op=i.op_str
+			FuncFile.write("\t%s\t%s\n" %(i.mnemonic, op))
+			if any([j == i.mnemonic for j in jumps]):
+				stop=k
+				AddFunction(functions,script,i.op_str,f)
+			if k>stop:
+				break
+
+def AddFunction(functions,script,op,f):
+	if '0x' not in op:
+		return functions
+	opR=int(op,16)
+	region=[0,0,0]
+	for asm in script.asm:
+		start=asm[0]&0x7FFFFF
+		if opR>start and start>region[0]:
+			region=asm
+	start=opR+0x80000000
+	Fname = 'Func_Custom_{}'.format(hex(start))
+	functions.append([str(start),f[1],Fname,script])
+	return functions
 
 def ExportBhv(o,bdata,bhv):
-	Bhv = BP.Behavior(o[1],o[-1],bhv)
-	[BhvScript,col,funcs]= Bhv.Parse(rom)
-	bdata.write("const BehaviorScript{}[] = {{\n".format(bhv))
-	[bdata.write(s+',\n') for s in BhvScript]
-	bdata.write('}\n\n')
+	Bhvs=[[o[1],o[-1],bhv]]
+	#Behaviors are scripts and can jump around. This keeps track of all jumps and gotos
+	funcs=[]
+	while(Bhvs):
+		bhv=Bhvs[0][2]
+		Bhv = BP.Behavior(*Bhvs[0],o[2])
+		Bhvs.pop(0)
+		[BhvScript,col,func,Bhvs]= Bhv.Parse(rom,Bhvs)
+		funcs.extend(func)
+		bdata.write("const BehaviorScript{}[] = {{\n".format(bhv))
+		[bdata.write(s+',\n') for s in BhvScript]
+		bdata.write('}\n\n')
 	return [col,funcs]
 
 def FindCustomSkyboxse(rom,Banks,SB):
@@ -1708,7 +1761,7 @@ def ExportMisc(rom,rootdir,editor):
 	Trj.write("""#include <PR/ultratypes.h>
 #include "level_misc_macros.h"
 #include "macros.h"
-#include "types.h""
+#include "types.h"
 """)
 	for k,v in Trajectories.items():
 		Dat = UPA(rom,v,'>L',4)[0]
@@ -2028,7 +2081,7 @@ Objects will export behaviors and object collision. Possible args are 'all' for 
 Textures will export the equivalent of the /textures/ folder in decomp.
 Inherit is a file management arg for when dealing with multiple roms. Normal behavior is to clear level folder each time, inherit prevents this.
 Title exports the title screen. This will also be exported if levels='all'
-Sound will export instrument bank and sound sample data.
+Sound will export instrument bank and sound sample data. It does not seem to work with custom samples well.
 Upscale is an option to use ESRGAN ai upscaling to increase texture size. The upscaled textures will generate #ifdefs in each model file for non N64 targeting to compile them instead of the original textures.
 
 
