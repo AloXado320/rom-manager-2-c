@@ -4,6 +4,11 @@
 
 Convert sm64 levels made with rom manager or SM64 Editor (not guaranteed to work with all versions) to sm64 decomp compliant C files.
 
+### Model Importer
+
+I have included a C to fast64 model importer with this repo. The file is called Import_Level.py. To use, open the scripting tab in blender, and link the file Import_Level.py and hit run. To import a level from RM2C, change the prefix to "custom." and the entry to "level_{}_custom_entry".
+This importer currently only works with levels and does not perfectly match source content.
+
 ------------------------------------------------------------------
 
 ## Dependencies
@@ -78,9 +83,6 @@ Drag and drop all exported folders into the root of your decomp repository.
 You must manage scripts of individual levels so that custom objects/unknown objects
 are properly commented or included in the repo. 
 
- * For music, delete the original sequences and drop in the extracted ones. Then merge (manually at this moment) the sequences.json with the original sequences.json. For convenience when working with multiple hacks, filenames include the romname, this should not cause any conflicts.
- 
-
 **NOTE** sequence numbers must be in numerical order.
 
 ***NOT GUARANTEED TO COMPILE DIRECTLY AFTER EXTRACTION***
@@ -89,9 +91,11 @@ are properly commented or included in the repo.
 
 1. Levels with fog made in editor need their setcombines changed.
 	* Change the 2nd cycle value to "0, 0, 0, COMBINED, 0, 0, 0, COMBINED"
-	* The cmd prompt will print out warnings whenever fog is encountered. Use that to look at the levels with fog.
+	* Import instructions will notify you of levels that have fog.
 
 2. Appended roms may use different object banks which must be manually handled to prevent crashes.
+
+3. Actors will need to be manually included to group files.
 
 
 ## Successful results
@@ -105,22 +109,11 @@ Speed Star Adventure Course 1 ported from Rom Manager to SM64 decomp:
 
 ## Planned Future Features
 
-* MOP detection/exporting (need to add MOP to base repo)
-
-* Behavior Script Extraction
-
-* Code disassembly and attempted auto decompiling (Far off future)
-
+* AI upscaling
 
 ## Curret issues
 
 * Memory bloat because original data is still included
-
-* End cake picture does export
-
-* Editor Display Lists not auto fixed for fog
-
-* custom objects do not export with labels (plan to have custom map support)
 
 ## Image Upscaling
 
