@@ -28,7 +28,7 @@ class Script():
 		global map
 		self.map=map
 		self.banks=[None for a in range(32)]
-		self.asm=[[0x80400000,0x1200000,0x1220000]]
+		self.asm=[[0x80400000,0x1200000,0x1220000],[0x80246000,0x1000,0x21f4c0]]
 		self.models=[None for a in range(256)]
 		self.Currlevel=level
 		self.levels={}
@@ -1517,8 +1517,11 @@ def ExportObjects(reg,Objects,rom,ass,rootdir):
 			Log.UnkCollision(cid,cname,col[2])
 		cdir = cdir / 'custom.collision.inc.c'
 		id = cid+"_"
-		ColParse.ColWriteActor(cdir,col[1][3],rom,col[1][3].B2P(int(col[0])),id)
-		print('{} collision exported'.format(cname))
+		try:
+			ColParse.ColWriteActor(cdir,col[1][3],rom,col[1][3].B2P(int(col[0])),id)
+			print('{} collision exported'.format(cname))
+		except:
+			print('{} collision could not be exported. Invalid address'.format(cname))
 	if functions:
 		ExportFunctions(functions,rom,bdir)
 
@@ -1529,13 +1532,18 @@ def ExportFunctions(functions,rom,Bdir):
 	stop=0x1000
 	FuncFile = Bdir/'Custom_Asm.s'
 	FuncFile = open(FuncFile,'w')
-	FuncFile.write("#This file is provided only as a reference for manually recoding functions.\n")
+	FuncFile.write("#This file is provided only as a reference for manually recoding functions.\n\n")
+	starts=[]
 	#[addr (str),Bhv name,Function name,script]
 	for f in functions:
 		script=f[3]
-		start=script.B2P(int(f[0])&0X7FFFFFFF)
+		start=V2P(script,int(f[0])&0X7FFFFFFF)
+		if start in starts:
+			continue
+		else:
+			starts.append(start)
 		code=rom[start:start+0x1000]
-		FuncFile.write("#This function is called from Behavior {}\n{}:\n".format(f[1],f[2]))
+		FuncFile.write("#This function is called from Behavior {}\n#It has virtual address 0x{:X} and rom address 0x{:X}\n{}:\n".format(f[1],int(f[0]),start,f[2]))
 		for k,i in enumerate(md.disasm(code,0)):
 			#attempt to get label
 			if i.mnemonic=='jal':
@@ -1550,15 +1558,20 @@ def ExportFunctions(functions,rom,Bdir):
 			if k>stop:
 				break
 
+#op is a number, but its read physically, so it drops the MSB
+def V2P(script,opR):
+	region=[0,0,0]
+	for asm in script.asm:
+		start=asm[0]&0x7FFFFFFF
+		if opR>start and start>(region[0]&0x7FFFFFFF):
+			region=asm
+	return opR-(region[0]&0x7FFFFFFF)+region[1]
+
 def AddFunction(functions,script,op,f):
 	if '0x' not in op:
 		return functions
 	opR=int(op,16)
-	region=[0,0,0]
-	for asm in script.asm:
-		start=asm[0]&0x7FFFFF
-		if opR>start and start>region[0]:
-			region=asm
+	opR=V2P(script,opR)
 	start=opR+0x80000000
 	Fname = 'Func_Custom_{}'.format(hex(start))
 	functions.append([str(start),f[1],Fname,script])
