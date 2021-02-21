@@ -282,18 +282,19 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt,level):
 			col2=Amb[4:7]
 			dir1=Amb[8:11]
 			f.write("{ %d, %d, %d}, 0, { %d, %d, %d}, 0, { %d, %d, %d}, 0\n};\n\n"%(*col1,*col2,*dir1))
+		#Since both lights overlap excess detection, both will use pos=5
 		pos=4
 		for a in md[pos]:
 			if a in diffs:
 				q = diffs.index(a)
-				Eapp((id+hex(a[1])),(GetNID(pos,id,q)+hex(diffs[q][1])),'Light_%s')
+				Eapp((id+hex(a[1])),(GetNID(5,id,q)+hex(diffs[q][1])),'Light_%s')
 				continue
 			if a in amb:
 				q = amb.index(a)
-				Eapp((id+hex(a[1])),(GetNID(pos,id,q)+hex(amb[q][1])),'Light_%s')
+				Eapp((id+hex(a[1])),(GetNID(5,id,q)+hex(amb[q][1])),'Light_%s')
 				continue
 			diffs.append(a)
-			Trackers[pos].append(k)
+			Trackers[5].append(k)
 			lig = 'Ambient_t Light_%s'%(id+hex(a[1]))
 			refs.append(lig)
 			f.write(lig+' = {\n')
