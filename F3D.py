@@ -216,6 +216,8 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt,level):
 		Modeldata = OptimizeModeldata(ModelData)
 	CheckFog = (lambda l,md,id: (l,'DL_{}'.format(id+hex(md[0][0][1]))) in Log.LastFog)
 	#Write vertices first so that they're all in a row in ram so vert scrolls work better
+	#Have to put all verts in same array, as individual display lists aren't in order
+	Verts=[]
 	for k,md in enumerate(ModelData):
 		if md[-1]:
 			id = md[-1]
@@ -224,29 +226,30 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt,level):
 			GetNID = (lambda pos,id,q: id)
 		#verts
 		pos=2
-		Verts = md[pos]
-		Verts.sort(key=(lambda x: x[0]))
-		for vb in Verts:
-			if vb in vbs:
-				q = vbs.index(vb)
-				Eapp((id+hex(vb[0])),(GetNID(pos,id,q)+hex(vbs[q][0])),'VB_%s')
-				continue
-			vbs.append(vb)
-			Trackers[pos].append(k)
-			VBn = 'Vtx VB_%s[]'%(id+hex(vb[0]))
-			refs.append(VBn)
-			f.write(VBn+' = {\n')
-			for i in range(vb[2]):
-				V=rom[vb[1]+i*16:vb[1]+i*16+16]
-				V=BitArray(V)
-				q=V.unpack('3*int:16,uint:16,2*int:16,4*uint:8')
-				#feel there should be a better way to do this
-				Vpos=q[0:3]
-				UV=q[4:6]
-				rgba=q[6:10]
-				V="{{{ %d, %d, %d }, 0, { %d, %d }, { %d, %d, %d, %d}}},"%(*Vpos,*UV,*rgba)
-				f.write(V+'\n')
-			f.write('};\n\n')
+		verts = md[pos]
+		Verts.extend(verts)
+	Verts.sort(key=(lambda x: x[0]))
+	for vb in Verts:
+		if vb in vbs:
+			q = vbs.index(vb)
+			Eapp((id+hex(vb[0])),(GetNID(pos,id,q)+hex(vbs[q][0])),'VB_%s')
+			continue
+		vbs.append(vb)
+		Trackers[pos].append(k)
+		VBn = 'Vtx VB_%s[]'%(id+hex(vb[0]))
+		refs.append(VBn)
+		f.write(VBn+' = {\n')
+		for i in range(vb[2]):
+			V=rom[vb[1]+i*16:vb[1]+i*16+16]
+			V=BitArray(V)
+			q=V.unpack('3*int:16,uint:16,2*int:16,4*uint:8')
+			#feel there should be a better way to do this
+			Vpos=q[0:3]
+			UV=q[4:6]
+			rgba=q[6:10]
+			V="{{{ %d, %d, %d }, 0, { %d, %d }, { %d, %d, %d, %d}}},"%(*Vpos,*UV,*rgba)
+			f.write(V+'\n')
+		f.write('};\n\n')
 	for k,md in enumerate(ModelData):
 		if md[-1]:
 			id = md[-1]

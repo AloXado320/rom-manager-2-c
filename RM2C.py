@@ -822,7 +822,7 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 		area=s.levels[num][a]
 		#advanced past includes for first area
 		if a==1:
-			while(True):
+			while(x<len(Slines)):
 				if '"levels/%s/header.h"'%name in Slines[x]:
 					x+=1
 					break
@@ -848,13 +848,13 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 			Slines.insert(x,"MACRO_OBJECT_END(),\n};\n")
 			x+=1
 	for a in areas:
-		while(True):
+		while(x<len(Slines)):
 			if ' AREA(' in Slines[x]:
 				x+=1
 				break
 			x+=1
 		#remove other objects/warps
-		while(True):
+		while(j+x<len(Slines)):
 			if CheckRestrict(Slines[j+x]) or CheckMacro(Slines[j+x]):
 				Slines.pop(j+x)
 				continue
