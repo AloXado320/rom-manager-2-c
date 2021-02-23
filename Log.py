@@ -68,6 +68,13 @@ def UnkObject(level,Area,bhv):
 		print(err)
 		Objerrs.append(err+'\n')
 
+NewObjs = []
+def NewObject(bhv):
+	global NewObjs
+	err = 'Behavior {} has custom values or new values inside of it.'.format(bhv)
+	print(err)
+	NewObjs.append(err+'\n')
+
 UnkModels=[]
 def UnkModel(id,fold):
 	global UnkModels
@@ -76,10 +83,11 @@ def UnkModel(id,fold):
 UnkCol=[]
 def UnkCollision(id,fold,Bhv):
 	global UnkCol
-	UnkCol.append("Collision {} in folder {} is unkown. Used with Behavior{}.\n".format(id,fold,Bhv))
+	UnkCol.append("Collision {} in folder {} is unkown or found to be new. Used with Behavior{}.\n".format(id,fold,Bhv))
 
 def WriteWarnings():
 	global Objerrs
+	global NewObjs
 	global Fogerrs
 	global Scrollerrs
 	global UnkModels
@@ -87,6 +95,9 @@ def WriteWarnings():
 	if Objerrs:
 		log.write(Spacer+"\n\nObjects without references must have behaviors created for them, be given an existing behavior, or be commented out.\n\n")
 		[log.write(' {}'.format(s)) for s in Objerrs]
+	if NewObjs:
+		log.write(Spacer+"\n\nUnlike above, these are behaviors that have been edited. These are not commented out because I cannot detect if they are custom until after writing the script.\nYou must add the following edited behaviors and collision from custom.behavior_data.inc.h to behavior_data.c for these to work properly.\nAssociated collision will be logged in a different section.\n\n")
+		[log.write(' {}'.format(s)) for s in NewObjs]
 	if Fogerrs:
 		log.write(Spacer+"\n\nLevels with fog in sm64 editor and likely early versions of Rom Manager are completely broken and destroy the levels graphics and most non opaque objects.\nI attempt to auto fix these, if there is any issue in these levels check fog first.\n\n")
 		[log.write(' {}'.format(s)) for s in Fogerrs]

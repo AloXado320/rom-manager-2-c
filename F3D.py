@@ -344,11 +344,12 @@ def ModelWrite(rom,ModelData,nameG,id,tdir,opt,level):
 								break
 						else:
 							continue
-					#fix fog set combines if opt
+					#Just always have combiners repeat first cycle
 					if c.startswith('gsDPSetCombineLERP'):
-						args = c.split(',')
-						args = [*args[:8],' 0',' 0',' 0',' COMBINED',' 0',' 0',' 0',' COMBINED)']
-						c = ','.join(args)
+						args = c.replace('gsDPSetCombineLERP(','').split(',')
+						args = [*args[:8],*args[:8]]
+						# args = [*args[:8],' 0',' 0',' 0',' COMBINED',' 0',' 0',' 0',' COMBINED)']
+						c = 'gsDPSetCombineLERP('+','.join(args)[:]+")"
 					if c.startswith('gsDPSetRenderMode') or n==(len(d)-1):
 						if n==(len(d)-1):
 							line=",\n"+c

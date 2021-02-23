@@ -18,7 +18,10 @@ import Log
 import re
 import BhvParse as BP
 import gc
+#these all exist as data modules for comparisons to see if content is new or not
 import ActorCHKSM
+import BehComp
+import ColComp
 #So that each Script class doesn't open up a half MB file.
 mapF = open('sm64.us.map','r')
 map = mapF.readlines()
@@ -1292,10 +1295,11 @@ def ExportLevel(rom,level,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums
 	return s,cskybox
 
 class Actor():
-	def __init__(self,aDir):
+	def __init__(self,aDir,actors):
 		self.folders ={}
 		self.dir = aDir
 		rdir = Path(sys.path[0])
+		self.ExpType=actors
 		# self.CHKSM = open(rdir/'ActorCHKSM.py','w') This was written for checksum collection purposes
 	def EvalModel(self,model,group):
 		folder = self.folders.get(model[6])
@@ -1372,7 +1376,14 @@ class Actor():
 		else:
 			[refs,crcs] = F3D.ModelWrite(rom,ModelData,dir,ids[0],dir,s.editor,s.Currlevel)
 		# self.CHKSM.write("{} = {}\n".format(ids[0],crcs)) This was written for checksum collection purposes
-		self.CompareChecksums(crcs,ids[0],foldname)
+		New=self.CompareChecksums(crcs,ids[0],foldname)
+		if new and self.ExpType=='new':
+			#delete entire directory
+			shutil.rmtree(dir)
+			#free memory because actors take a lot
+			del ModelData,refs,mh
+			gc.collect()
+			return
 		modelH = dir/'custom.model.inc.h'
 		mh = open(modelH,'w')
 		headgaurd="%s_HEADER_H"%(Hname)
@@ -1415,7 +1426,7 @@ class Actor():
 
 def ExportActors(actors,rom,Models,aDir):
 	#Models is key=group name, values = [seg num,label,type,rom addr, seg addr,ID,folder,script]
-	Actors = Actor(aDir)
+	Actors = Actor(aDir,actors)
 	levels = list(Num2Name.values())
 	#every model seen
 	if actors=='all':
@@ -1425,15 +1436,13 @@ def ExportActors(actors,rom,Models,aDir):
 			for m in models:
 				Actors.EvalModel(m,group)
 		return Actors.MakeFolders(rom)
-	#only models with a new geo address/unk geo addr model ID combo
+	#export every model, but upon checksum comparison don't write unless its new
 	elif actors=='new':
-		print('new models are experimental currently')
 		for group,models in Models.items():
 			if group in levels:
 				pass
 			for m in models:
-				if 'custom' in m[1] or 'unk' in m[1] or 'Null' in m[1]:
-					Actors.EvalModel(m,group)
+				Actors.EvalModel(m,group)
 		return Actors.MakeFolders(rom)
 	#only models with a known modelID geo addr combo
 	elif actors=='old':
@@ -1479,51 +1488,84 @@ def ExportObjects(reg,Objects,rom,ass,rootdir):
 	bdata.write(Bdatahead)
 	collisions = []
 	functions = []
+	f=0 #stubbed
 	if type(reg)==list:
 		for bhv,o in Objects.items():
 			r = [re.search(a,bhv) for a in reg]
 			if any(r):
-				[col,funcs] = ExportBhv(o,bdata,bhv)
+				[col,funcs] = ExportBhv(o,bdata,bhv,0,f)
 				if col:
-					collisions.append([col,o,bhv])
+					collisions.append([col,o,bhv,new])
 				if funcs:
 					functions.extend(funcs)
 	else:
 		if reg=='all':
-			pass
+			# f = open('BehComp.py','w') #used to generate data for BehComp
+			for bhv,o in Objects.items():
+				[col,funcs,new] = ExportBhv(o,bdata,bhv,0,f)
+				if col:
+					collisions.append([col,o,bhv,new])
+				if funcs:
+					functions.extend(funcs)
 		elif reg=='new':
-			pass
+			#Export all, but then do a comparison on whether or not to write
+			for bhv,o in Objects.items():
+				[col,funcs,new] = ExportBhv(o,bdata,bhv,1,f)
+				if col:
+					collisions.append([col,o,bhv,new])
+				if funcs:
+					functions.extend(funcs)
 		else:
 			for bhv,o in Objects.items():
 				r = re.search(reg,bhv)
 				if r:
-					[col,funcs] = ExportBhv(o,bdata,bhv)
+					[col,funcs,new] = ExportBhv(o,bdata,bhv,0,f)
 					if col:
-						collisions.append([col,o,bhv])
+						collisions.append([col,o,bhv,new])
 					if funcs:
 						functions.extend(funcs)
+	# C = open('ColComp.py','w') #used to generate data for checkCol
 	for col in collisions:
 		#sometimes they have no model
 		if col[1][2]:
 			cname = col[1][2][0][6]
 			cid = col[1][2][0][1]
+			if not cname or not cid:
+				cname = 'Unk_Collision_{}'.format(col[0])
+				cid = 'Unk_Collision_{}'.format(col[0])
 			cdir = ass/cname
 		else:
 			cname = 'Unk_Collision_{}'.format(col[0])
 			cid = 'Unk_Collision_{}'.format(col[0])
 			cdir = ass/cname
 		os.makedirs(cdir,exist_ok=True)
-		if 'custom' or 'Unk' in cid:
+		if 'custom' in cid or 'Unk' in cid:
 			Log.UnkCollision(cid,cname,col[2])
 		cdir = cdir / 'custom.collision.inc.c'
 		id = cid+"_"
 		try:
-			ColParse.ColWriteActor(cdir,col[1][3],rom,col[1][3].B2P(int(col[0])),id)
+			ColD = ColParse.ColWriteActor(cdir,col[1][3],rom,col[1][3].B2P(int(col[0])),id)
+			checkCol(ColD,id,cdir,col[2],reg,cname)
+			# C.write("{} = {}\n".format(id,ColD)) #used to generate data for checkCol
 			print('{} collision exported'.format(cname))
 		except:
 			print('{} collision could not be exported. Invalid address'.format(cname))
 	if functions:
 		ExportFunctions(functions,rom,bdir)
+
+def checkCol(ColD,id,cdir,Bhv,reg,cname):
+	if id not in ColComp.__dict__.keys():
+		return 1
+	else:
+		DictDat = ColComp.__dict__.get(id)
+		if not DictDat == ColD:
+			Log.UnkCollision(id,cname,Bhv)
+			return 1
+		else:
+			c = cdir/'custom.collision.inc.c'
+			if os.path.exists(c) and reg=='new':
+			  os.remove(c)
+			return 0
 
 def ExportFunctions(functions,rom,Bdir):
 	md=Cs(CS_ARCH_MIPS,CS_MODE_MIPS64+CS_MODE_BIG_ENDIAN)
@@ -1577,7 +1619,8 @@ def AddFunction(functions,script,op,f):
 	functions.append([str(start),f[1],Fname,script])
 	return functions
 
-def ExportBhv(o,bdata,bhv):
+#f exists if I need to recreate a new comparison file of behaviors
+def ExportBhv(o,bdata,bhv,check,f):
 	Bhvs=[[o[1],o[-1],bhv]]
 	#Behaviors are scripts and can jump around. This keeps track of all jumps and gotos
 	funcs=[]
@@ -1587,10 +1630,24 @@ def ExportBhv(o,bdata,bhv):
 		Bhvs.pop(0)
 		[BhvScript,col,func,Bhvs]= Bhv.Parse(rom,Bhvs)
 		funcs.extend(func)
+		#Compare the output behavior here, and write it to the log
+		new = CompareBeh(BhvScript,bhv)
+		# f.write("{} = {}\n".format(bhv,BhvScript)) #used to generate data for CompareBeh
 		bdata.write("const BehaviorScript{}[] = {{\n".format(bhv))
 		[bdata.write(s+',\n') for s in BhvScript]
 		bdata.write('}\n\n')
-	return [col,funcs]
+	return [col,funcs,new]
+
+def CompareBeh(BhvScript,bhv):
+	if bhv not in BehComp.__dict__.keys():
+		return 1
+	else:
+		BhvScr = ActorCHKSM.__dict__.get(bhv)
+		if not BhvScr == BhvScript:
+			Log.NewObject(bhv)
+			return 1
+		else:
+			return 0
 
 def FindCustomSkyboxse(rom,Banks,SB):
 	custom = {}

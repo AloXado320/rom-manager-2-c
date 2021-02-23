@@ -22,12 +22,16 @@ def Bytes(start,len,rom):
 	return struct.unpack(">%dB"%len,rom[start:start+len])
 
 def ColWrite(name,s,rom,start,id):
-	[b,x,rom,f] = ColWriteGeneric(name,s,rom,start,id)
+	[b,x,rom,f,CD] = ColWriteGeneric(name,s,rom,start,id)
 	ColWriteLevelSpecial(b,x,rom,f)
 
 def ColWriteActor(name,s,rom,start,id):
-	[b,x,rom,f] = ColWriteGeneric(name,s,rom,start,id)
+	[b,x,rom,f,CD] = ColWriteGeneric(name,s,rom,start,id)
 	f.write("COL_END(),\n};\n")
+	L = f.tell()
+	f.close()
+	L2 = len(CD.verts)+len(CD.DPV)
+	return [start,L,L2]
 
 diff = (lambda x,y: [a-b for a,b in zip(x,y)])
 
@@ -214,7 +218,7 @@ def ColWriteGeneric(name,s,rom,start,id):
 				CD.Tris[Tritype[0]].append(verts)
 			x+=Tritype[1]*6+4
 	CD.writeCol()
-	return [b,x,rom,f]
+	return [b,x,rom,f,CD]
 
 def ColWriteLevelSpecial(b,x,rom,f):
 	b+=x+2
