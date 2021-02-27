@@ -885,7 +885,7 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 	[script.write(l) for l in Slines]
 	return [AllWaterBoxes,m64s,seqNums]
 
-def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,cskybox):
+def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend):
 	#create level directory
 	WaterOnly = Onlys[0]
 	ObjectOnly = Onlys[1]
@@ -915,9 +915,11 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 		id = name+"_"+str(a)+"_"
 		if s.banks[10] and s.banks[10][1]>s.banks[10][0] and s.banks[10][0]>0x1220000:
 			CBG=1
+			cskybox='%s_skybox_Index'%('SkyboxCustom%d'%(s.banks[10][0]))
 		else:
 			CBG=0
-		(geo,dls,WB,vfx,cskybox)=GW.GeoParse(Arom,area.geo,s,area.geo,id,cskybox,CBG,a)
+			cskybox=''
+		(geo,dls,WB,vfx)=GW.GeoParse(Arom,area.geo,s,area.geo,id,cskybox,CBG,a)
 		#deal with some areas having it vs others not
 		if vfx:
 			envfx = 1
@@ -998,7 +1000,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 			for Ft in Ftypes:
 					ld.write(start+Ft)
 		ld.close
-	return [AllWaterBoxes,m64s,seqNums,cskybox]
+	return [AllWaterBoxes,m64s,seqNums]
 
 #Finds out what model is based on seg addr and loaded banks
 def ProcessModel(rom,editor,s,modelID,model):
@@ -1258,7 +1260,7 @@ def AppendAreas(entry,script,Append):
 				break
 	return script
 
-def ExportLevel(rom,level,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs,cskybox):
+def ExportLevel(rom,level,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs):
 	#choose level
 	s = Script(level)
 	s.Seg2(rom)
@@ -1282,17 +1284,17 @@ def ExportLevel(rom,level,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums
 			break
 		#you've hit a inf loop, usually in end screens with no level
 		if x>10000:
-			return s,cskybox
+			return s
 	#this tool isn't for exporting vanilla levels
 	#so I export only objects for these levels
 	if not s.banks[0x19]:
 		WriteVanillaLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,[Onlys[0],1,Onlys[0]],romname,m64s,seqNums,MusicExtend)
-		return s,cskybox
+		return s
 	LevelName = {**Num2Name}
 	lvldefs.write("DEFINE_LEVEL(%s,%s)\n"%(Num2Name[level],"LEVEL_"+Num2LevelName.get(level,'castle').upper()))
 	#now do level
-	[AllWaterBoxes,m64s,seqNums,cskybox] = WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,cskybox)
-	return s,cskybox
+	[AllWaterBoxes,m64s,seqNums] = WriteLevel(rom,s,level,s.GetNumAreas(level),rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend)
+	return s
 
 class Actor():
 	def __init__(self,aDir,actors):
@@ -1376,13 +1378,14 @@ class Actor():
 		else:
 			[refs,crcs] = F3D.ModelWrite(rom,ModelData,dir,ids[0],dir,s.editor,s.Currlevel)
 		# self.CHKSM.write("{} = {}\n".format(ids[0],crcs)) This was written for checksum collection purposes
-		New=self.CompareChecksums(crcs,ids[0],foldname)
+		new=self.CompareChecksums(crcs,ids[0],foldname)
 		if new and self.ExpType=='new':
-			#delete entire directory
-			shutil.rmtree(dir)
-			#free memory because actors take a lot
-			del ModelData,refs,mh
-			gc.collect()
+			#delete entire directory. A try here is real bad code but for
+			#some reason it keeps failing on just one model and idk why
+			try:
+				shutil.rmtree(dir)
+			except:
+				pass
 			return
 		modelH = dir/'custom.model.inc.h'
 		mh = open(modelH,'w')
@@ -1398,12 +1401,14 @@ class Actor():
 	def CompareChecksums(self,crcs,id,fold):
 		if id not in ActorCHKSM.__dict__.keys():
 			Log.UnkModel(id,fold)
+			return 1
 		else:
 			cksm = ActorCHKSM.__dict__.get(id)
 			for c in crcs:
 				if c not in cksm:
 					Log.UnkModel(id,fold)
-					break
+					return 1
+		return 0
 	#Hardcode power meter export. Only exporting textures
 	def ExportPowerMeter(self,rom,script):
 		dir = self.dir / 'power_meter'
@@ -1479,7 +1484,7 @@ def ExportActors(actors,rom,Models,aDir):
 				Actors.EvalModel(m,a)
 	return Actors.MakeFolders(rom)
 
-def ExportObjects(reg,Objects,rom,ass,rootdir):
+def ExportObjects(reg,Objects,rom,ass,rootdir,editor):
 	#key=bhv, values = [rom addr, ram addr, models used with,script]
 	bdir = rootdir / 'data' 
 	os.makedirs(bdir,exist_ok=True)
@@ -1493,7 +1498,7 @@ def ExportObjects(reg,Objects,rom,ass,rootdir):
 		for bhv,o in Objects.items():
 			r = [re.search(a,bhv) for a in reg]
 			if any(r):
-				[col,funcs] = ExportBhv(o,bdata,bhv,0,f)
+				[col,funcs] = ExportBhv(o,bdata,bhv,0,f,editor)
 				if col:
 					collisions.append([col,o,bhv,new])
 				if funcs:
@@ -1502,7 +1507,7 @@ def ExportObjects(reg,Objects,rom,ass,rootdir):
 		if reg=='all':
 			# f = open('BehComp.py','w') #used to generate data for BehComp
 			for bhv,o in Objects.items():
-				[col,funcs,new] = ExportBhv(o,bdata,bhv,0,f)
+				[col,funcs,new] = ExportBhv(o,bdata,bhv,0,f,editor)
 				if col:
 					collisions.append([col,o,bhv,new])
 				if funcs:
@@ -1510,7 +1515,7 @@ def ExportObjects(reg,Objects,rom,ass,rootdir):
 		elif reg=='new':
 			#Export all, but then do a comparison on whether or not to write
 			for bhv,o in Objects.items():
-				[col,funcs,new] = ExportBhv(o,bdata,bhv,1,f)
+				[col,funcs,new] = ExportBhv(o,bdata,bhv,1,f,editor)
 				if col:
 					collisions.append([col,o,bhv,new])
 				if funcs:
@@ -1519,39 +1524,49 @@ def ExportObjects(reg,Objects,rom,ass,rootdir):
 			for bhv,o in Objects.items():
 				r = re.search(reg,bhv)
 				if r:
-					[col,funcs,new] = ExportBhv(o,bdata,bhv,0,f)
+					[col,funcs,new] = ExportBhv(o,bdata,bhv,0,f,editor)
 					if col:
 						collisions.append([col,o,bhv,new])
 					if funcs:
 						functions.extend(funcs)
 	# C = open('ColComp.py','w') #used to generate data for checkCol
 	for col in collisions:
-		#sometimes they have no model
-		if col[1][2]:
-			cname = col[1][2][0][6]
-			cid = col[1][2][0][1]
-			if not cname or not cid:
-				cname = 'Unk_Collision_{}'.format(col[0])
-				cid = 'Unk_Collision_{}'.format(col[0])
-			cdir = ass/cname
+		#Check for collision with multiple entries
+		if type(col[0])==list:
+			for c in col[0]:
+				c=[c,col[1],col[2],0]
+				print(c)
+				ExportActorCol(c,reg,rom)
 		else:
-			cname = 'Unk_Collision_{}'.format(col[0])
-			cid = 'Unk_Collision_{}'.format(col[0])
-			cdir = ass/cname
-		os.makedirs(cdir,exist_ok=True)
-		if 'custom' in cid or 'Unk' in cid:
-			Log.UnkCollision(cid,cname,col[2])
-		cdir = cdir / 'custom.collision.inc.c'
-		id = cid+"_"
-		try:
-			ColD = ColParse.ColWriteActor(cdir,col[1][3],rom,col[1][3].B2P(int(col[0])),id)
-			checkCol(ColD,id,cdir,col[2],reg,cname)
-			# C.write("{} = {}\n".format(id,ColD)) #used to generate data for checkCol
-			print('{} collision exported'.format(cname))
-		except:
-			print('{} collision could not be exported. Invalid address'.format(cname))
+			ExportActorCol(col,reg,rom)
 	if functions:
 		ExportFunctions(functions,rom,bdir)
+
+def ExportActorCol(col,reg,rom):
+	#sometimes they have no model
+	if col[1][2]:
+		cname = col[1][2][0][6]
+		cid = col[1][2][0][1]
+		if not cname or not cid:
+			cname = 'Unk_Collision_{}'.format(col[0])
+			cid = 'Unk_Collision_{}'.format(col[0])
+		cdir = ass/cname
+	else:
+		cname = 'Unk_Collision_{}'.format(col[0])
+		cid = 'Unk_Collision_{}'.format(col[0])
+		cdir = ass/cname
+	os.makedirs(cdir,exist_ok=True)
+	if 'custom' in cid or 'Unk' in cid:
+		Log.UnkCollision(cid,cname,col[2])
+	cdir = cdir / 'custom.collision.inc.c'
+	id = cid+"_"
+	try:
+		ColD = ColParse.ColWriteActor(cdir,col[1][3],rom,col[1][3].B2P(int(col[0])),id)
+		checkCol(ColD,id,cdir,col[2],reg,cname)
+		# C.write("{} = {}\n".format(id,ColD)) #used to generate data for checkCol
+		print('{} collision exported'.format(cname))
+	except:
+		print('{} collision could not be exported. Invalid address'.format(cname))
 
 def checkCol(ColD,id,cdir,Bhv,reg,cname):
 	if id not in ColComp.__dict__.keys():
@@ -1620,7 +1635,7 @@ def AddFunction(functions,script,op,f):
 	return functions
 
 #f exists if I need to recreate a new comparison file of behaviors
-def ExportBhv(o,bdata,bhv,check,f):
+def ExportBhv(o,bdata,bhv,check,f,editor):
 	Bhvs=[[o[1],o[-1],bhv]]
 	#Behaviors are scripts and can jump around. This keeps track of all jumps and gotos
 	funcs=[]
@@ -1628,14 +1643,24 @@ def ExportBhv(o,bdata,bhv,check,f):
 		bhv=Bhvs[0][2]
 		Bhv = BP.Behavior(*Bhvs[0],o[2])
 		Bhvs.pop(0)
-		[BhvScript,col,func,Bhvs]= Bhv.Parse(rom,Bhvs)
-		funcs.extend(func)
-		#Compare the output behavior here, and write it to the log
-		new = CompareBeh(BhvScript,bhv)
-		# f.write("{} = {}\n".format(bhv,BhvScript)) #used to generate data for CompareBeh
-		bdata.write("const BehaviorScript{}[] = {{\n".format(bhv))
-		[bdata.write(s+',\n') for s in BhvScript]
-		bdata.write('}\n\n')
+		#there is absolutely no reason to believe bhvs cannot be stubbed or just destroyed by random data
+		#in a romhack and then never touched.
+		try:
+			[BhvScript,col,func,Bhvs]= Bhv.Parse(rom,Bhvs)
+			#Do some hardcoded col pointers for things that are abstracted
+			#Such as platforms on tracks
+			col=FindHardcodedCols(rom,col,bhv,editor)
+			funcs.extend(func)
+			#Compare the output behavior here, and write it to the log
+			new = CompareBeh(BhvScript,bhv)
+			# f.write("{} = {}\n".format(bhv,BhvScript)) #used to generate data for CompareBeh
+			bdata.write("const BehaviorScript{}[] = {{\n".format(bhv))
+			[bdata.write(s+',\n') for s in BhvScript]
+			bdata.write('}\n\n')
+		except:
+			print("Behavior {} failed to export".format(bhv))
+			col=[]
+			new=0
 	return [col,funcs,new]
 
 def CompareBeh(BhvScript,bhv):
@@ -1648,6 +1673,17 @@ def CompareBeh(BhvScript,bhv):
 			return 1
 		else:
 			return 0
+
+def FindHardcodedCols(rom,col,bhv,editor):
+	if bhv==' bhvPlatformOnTrack' and not col:
+		#I despise romhacks
+		if editor:
+			return 0x07003780
+		col=[]
+		for k,v in TrackHardCodedCols.items():
+			Dat = UPA(rom,v,'>L',4)[0]
+			col.append(Dat)
+	return col
 
 def FindCustomSkyboxse(rom,Banks,SB):
 	custom = {}
@@ -1835,6 +1871,16 @@ def ExportMisc(rom,rootdir,editor):
 """)
 	for k,v in Trajectories.items():
 		Dat = UPA(rom,v,'>L',4)[0]
+		#loaded via asm, gonna use cringe for now. RM load isn't consistant since RM has been poopy on penguins
+		if k=='ccm_seg7_trajectory_penguin_race_RM2C':
+			#defualt value
+			if Dat==1006896898:
+				pass
+			else:
+				if editor:
+					Dat=0x80405A00
+				else:
+					Dat=0x80405A00
 		#Check if Dat is in a segment or not
 		if Dat>>24!=0x80:
 			Trj.write('//%s Has the default vanilla value or an unrecognizable pointer\n\n'%k)
@@ -1869,12 +1915,9 @@ def ExportMisc(rom,rootdir,editor):
 				SP.write(DefaultPos[k])
 			else:
 				SP.write("#define {}StarPos {}f, {}f, {}f\n".format(k,*pos))
-	#item box. In editor its at 0xEBA0 same as vanilla, RM is at 0x1204000
+	#item box. In vanilla its at 0xEBBA0, RM is at 0x1204000 or sm64 tweaker
 	#the struct is 4*u8 (id, bparam1, bparam2, model ID), bhvAddr u32
-	if editor:
-		ItemBox = 0xEBBA0
-	else:
-		ItemBox = 0x1204000
+	ItemBox = 0x1204000
 	#some hacks move this so I want to put a stop in just in case
 	stop=ItemBox+0x800
 	IBox = misc/('Item_Box.inc.c')
@@ -1886,8 +1929,15 @@ def ExportMisc(rom,rootdir,editor):
 #include "behavior_data.h"
 """)
 	IBox.write('struct Struct802C0DF0 sExclamationBoxContents[] = { ')
+	f=0
 	while(True):
 		B = UPA(rom,ItemBox,">4B",4)
+		#The location has not been changed.
+		if f==0 and B[0]==1:
+			ItemBox=0xEBBA0
+			f=1
+			continue
+		f=1
 		if B[0]==99:
 			break
 		Bhv = s.GetLabel("{:08x}".format(UPA(rom,ItemBox+4,">L",4)[0]))
@@ -2194,7 +2244,6 @@ certain bash errors.
 	Objects=0
 	#This is not an arg you should edit really
 	TxtAmount = 170
-	cskybox=0
 	for arg in sys.argv[1:]:
 		args+=arg+" "
 	a = "\\".join(args)
@@ -2261,14 +2310,14 @@ certain bash errors.
 		#export title screen
 		ExportTitleScreen(rom,lvldir)
 		for k in Num2Name.keys():
-			[s,cskybox] = ExportLevel(rom,k,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs,cskybox)
+			s = ExportLevel(rom,k,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs)
 			Scripts.append(s)
 			print(Num2Name[k] + ' done')
 	else:
 		for k in levels:
 			if not Num2Name.get(k):
 				continue
-			[s,cskybox] = ExportLevel(rom,k,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs,cskybox)
+			s = ExportLevel(rom,k,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs)
 			Scripts.append(s)
 			print(Num2Name[k] + ' done')
 	lvldefs.close()
@@ -2284,7 +2333,7 @@ certain bash errors.
 		ExportActors(actors,rom,Models,ass)
 	#Behaviors
 	if Objects:
-		ExportObjects(Objects,ObjectD,rom,ass,Path(sys.path[0]))
+		ExportObjects(Objects,ObjectD,rom,ass,Path(sys.path[0]),editor)
 	#export textures
 	if Textures:
 		ExportTextures(rom,editor,Path(sys.path[0]),Banks,Inherit)

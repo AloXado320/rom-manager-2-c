@@ -2,6 +2,7 @@ import struct
 from bitstring import *
 from numpy import cross, linalg
 from pyhull.delaunay import DelaunayTri
+import os
 
 def TcH(bytes):
 	a = struct.pack(">%dB"%len(bytes),*bytes)
@@ -185,7 +186,10 @@ class ColDat():
 
 
 def ColWriteGeneric(name,s,rom,start,id):
-	f = open(name,'w')
+	if os.path.exists(name):
+		f = open(name,'a')
+	else:
+		f = open(name,'w')
 	f.write("const Collision col_%s[] = {\nCOL_INIT(),\n"%(id+hex(start)))
 	b=s.B2P(start)
 	vnum=HalfsU(b+2,1,rom)[0]

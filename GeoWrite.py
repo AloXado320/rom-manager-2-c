@@ -123,8 +123,7 @@ def GeoParse(rom,start,script,segstart,id,cskybox,CBG,area):
 		C=Cmds[q[0]]
 		F=C(q,id,script)
 		if 'GEO_BACKGROUND' in F[0] and CBG:
-			F[0] = 'GEO_BACKGROUND(%d, geo_skybox_main)'%(10+cskybox)
-			cskybox+=1
+			F[0] = 'GEO_BACKGROUND(%s, geo_skybox_main)'%(cskybox)
 		if F[-1]=="ext":
 			if F[2]=='CVASM':
 				f=F[3].hex()
@@ -162,7 +161,7 @@ def GeoParse(rom,start,script,segstart,id,cskybox,CBG,area):
 		g[t][0].append(F[0])
 		if F[0]=="GEO_END()":
 			break
-	return (g,DLs,WaterBoxes,envfx,cskybox)
+	return (g,DLs,WaterBoxes,envfx)
 
 def GeoWrite(geo,name,id):
 	f=open(name,'w')
@@ -190,6 +189,7 @@ def GeoActWrite(geo,f):
 					geoRep.append(c)
 			f.write(c+',\n')
 		f.write('};\n')
+	f.close()
 
 def GeoActParse(rom,model):
 	x=0
