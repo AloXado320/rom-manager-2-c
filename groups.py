@@ -61,7 +61,7 @@ ssl = {
 	(55, '0x12000764'):('MODEL_SSL_SPINDEL', 'ssl_geo_000764', 'ssl/spindel'),
 	(56, '0x12000794'):('MODEL_SSL_MOVING_PYRAMID_WALL', 'ssl_geo_000794', 'ssl/moving_pyramid_wall'),
 	(57, '0x120007ac'):('MODEL_SSL_PYRAMID_ELEVATOR', 'ssl_geo_0007AC', 'ssl/pyramid_elevator'),
-	(199, '0x12000630'):('MODEL_SSL_TOX_BOX', 'ssl_geo_000630', 'ssl_tox_box'),
+	(199, '0x12000630'):('MODEL_SSL_TOX_BOX', 'ssl_geo_000630', 'ssl/tox_box'),
 }
 bob = {
 	(54, '0x12000440'):('MODEL_BOB_CHAIN_CHOMP_GATE', 'bob_geo_000440', 'bob/chain_chomp_gate'),

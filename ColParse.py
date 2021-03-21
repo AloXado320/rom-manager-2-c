@@ -54,6 +54,7 @@ class ColDat():
 		self.Tris={} #key is type, value is list of tris
 		self.file=file
 		self.specials = [0xe,0x24,0x25,0x27,0x2c,0x2D]
+		self.DPV = []
 	def initType(self,type):
 		if self.Tris.get(type):
 			return
@@ -73,7 +74,6 @@ class ColDat():
 				[f.write("COL_TRI( {}, {}, {}),\n".format(*t)) for t in v]
 		f.write("COL_TRI_STOP(),\n")
 	def SplitCrossQuadrant(self):
-		self.DPV = []
 		if not self.Tris.get(10):
 			return
 		NewTri=[]

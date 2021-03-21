@@ -1379,7 +1379,7 @@ class Actor():
 			[refs,crcs] = F3D.ModelWrite(rom,ModelData,dir,ids[0],dir,s.editor,s.Currlevel)
 		# self.CHKSM.write("{} = {}\n".format(ids[0],crcs)) This was written for checksum collection purposes
 		new=self.CompareChecksums(crcs,ids[0],foldname)
-		if new and self.ExpType=='new':
+		if not new and self.ExpType=='new':
 			#delete entire directory. A try here is real bad code but for
 			#some reason it keeps failing on just one model and idk why
 			try:
@@ -1530,19 +1530,19 @@ def ExportObjects(reg,Objects,rom,ass,rootdir,editor):
 					if funcs:
 						functions.extend(funcs)
 	# C = open('ColComp.py','w') #used to generate data for checkCol
+	C = 0
 	for col in collisions:
 		#Check for collision with multiple entries
 		if type(col[0])==list:
 			for c in col[0]:
 				c=[c,col[1],col[2],0]
-				print(c)
-				ExportActorCol(c,reg,rom)
+				ExportActorCol(c,reg,rom,C)
 		else:
-			ExportActorCol(col,reg,rom)
+			ExportActorCol(col,reg,rom,C)
 	if functions:
 		ExportFunctions(functions,rom,bdir)
 
-def ExportActorCol(col,reg,rom):
+def ExportActorCol(col,reg,rom,C):
 	#sometimes they have no model
 	if col[1][2]:
 		cname = col[1][2][0][6]
@@ -1561,7 +1561,7 @@ def ExportActorCol(col,reg,rom):
 	cdir = cdir / 'custom.collision.inc.c'
 	id = cid+"_"
 	try:
-		ColD = ColParse.ColWriteActor(cdir,col[1][3],rom,col[1][3].B2P(int(col[0])),id)
+		ColD = ColParse.ColWriteActor(cdir,col[1][3],rom,int(col[0]),id)
 		checkCol(ColD,id,cdir,col[2],reg,cname)
 		# C.write("{} = {}\n".format(id,ColD)) #used to generate data for checkCol
 		print('{} collision exported'.format(cname))
@@ -1639,6 +1639,7 @@ def ExportBhv(o,bdata,bhv,check,f,editor):
 	Bhvs=[[o[1],o[-1],bhv]]
 	#Behaviors are scripts and can jump around. This keeps track of all jumps and gotos
 	funcs=[]
+	cols=[]
 	while(Bhvs):
 		bhv=Bhvs[0][2]
 		Bhv = BP.Behavior(*Bhvs[0],o[2])
@@ -1650,18 +1651,20 @@ def ExportBhv(o,bdata,bhv,check,f,editor):
 			#Do some hardcoded col pointers for things that are abstracted
 			#Such as platforms on tracks
 			col=FindHardcodedCols(rom,col,bhv,editor)
+			if col:
+				cols.append(col)
 			funcs.extend(func)
 			#Compare the output behavior here, and write it to the log
 			new = CompareBeh(BhvScript,bhv)
 			# f.write("{} = {}\n".format(bhv,BhvScript)) #used to generate data for CompareBeh
 			bdata.write("const BehaviorScript{}[] = {{\n".format(bhv))
 			[bdata.write(s+',\n') for s in BhvScript]
-			bdata.write('}\n\n')
+			bdata.write('};\n\n')
 		except:
 			print("Behavior {} failed to export".format(bhv))
 			col=[]
 			new=0
-	return [col,funcs,new]
+	return [cols,funcs,new]
 
 def CompareBeh(BhvScript,bhv):
 	if bhv not in BehComp.__dict__.keys():
@@ -2300,7 +2303,7 @@ certain bash errors.
 	lvldefs = open(lvldefs,'w')
 	ass=Path("actors")
 	ass=Path(sys.path[0])/ass
-	if not Inherit and actors:
+	if not Inherit and (actors or Objects):
 		if os.path.isdir(ass):
 			shutil.rmtree(ass)
 	ass.mkdir(exist_ok=True)

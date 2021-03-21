@@ -1892,7 +1892,7 @@ MOPObjAddr = {
 (0,0x13000D50):["Checkpoint_Flag_MOP",0x00606660], #repeated because its an often enough case
 (0x7B,0x13000174):["Noteblock_MOP",0x0301DBF8],
 (0xCF,0x1300512C):["PSwitch_MOP",0x0F0004CC],
-(0x99,0x1300064C):["Sandblock_MOP",0x030225E4],
+(0x99,0x1300064C):["SandBlock_MOP",0x030225E4],
 (0x9B,0x13004218):["Shell_1_MOP",0x0F000ADC],
 (0x9D,0x13004218):["Shell_2_MOP",0x0F000B08],
 (0x98,0x13000624):["Shrink_Platform_MOP",0x030212F4],
@@ -1920,7 +1920,7 @@ MOPModels={
 (0,6317664):'Checkpoint_Flag_MOP',
 (123,50453496):'Noteblock_MOP',
 (207,251659468):'PSwitch_MOP',
-(153,50472420):'Sandblock_MOP',
+(153,50472420):'SandBlock_MOP',
 (155,251661020):'Shell_1_MOP',
 (157,251661064):'Shell_2_MOP',
 (152,50467572):'Shrink_Platform_MOP',
