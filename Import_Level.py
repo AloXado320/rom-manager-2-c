@@ -119,6 +119,7 @@ class Area():
         #set default vars
         root.sm64_obj_type = 'Area Root'
         root.areaIndex=num
+        #self.OjbColl = bpy.data.collections.new("%s Area %d Objects"%(scene.LevelImp.Level,num))
     def AddWarp(self,args):
         #set context to the root
         bpy.context.view_layer.objects.active = self.root
@@ -332,6 +333,7 @@ class Level():
         return
 
 def ParseAggregat(dat,str,path):
+    dat.seek(0) #so it may be read multiple times
     ldat = dat.readlines()
     cols=[]
     #assume this follows naming convention
@@ -346,8 +348,14 @@ def ParseAggregat(dat,str,path):
     cols = [c.replace("#include ",'').replace('"','').replace("'",'') for c in cols]
     return [path/c for c in cols]
 
-def FindCollisions(leveldat,lvl,scene,path):
+def FindCollisions(model,lvl,scene,path):
+    leveldat = open(model,'r')
     cols=ParseAggregat(leveldat,'collision.inc.c',path)
+    #catch fast64 includes
+    fast64=ParseAggregat(leveldat,'leveldata.inc.c',path)
+    if fast64:
+        f64dat = open(fast64[0],'r')
+        cols+=ParseAggregat(f64dat,'collision.inc.c',path)
     leveldat.close()
     #search for the area terrain in each file
     for k,v in lvl.Areas.items():
@@ -642,11 +650,17 @@ class F3d():
                 continue
             #Vertices
             if LsW('gsSPVertex'):
-                VB=self.VB.get(args[0].strip())
+                #vertex references commonly use pointer arithmatic. I will deal with that case here, but not for other things unless it somehow becomes a problem later
+                if '+' in args[0]:
+                    ref,add=args[0].split('+')
+                else:
+                    ref=args[0]
+                    add='0'
+                VB=self.VB.get(ref.strip())
                 if not VB:
-                    print(self.VB)
-                    raise Exception("Could not find VB {} in levels/{}/{}leveldata.inc.c".format(args[0],self.scene.LevelImp.Level,self.scene.LevelImp.Prefix))
-                Verts=VB[:eval(args[1])] #If you use array indexing here then you deserve to have this not work
+                    #print(self.VB.keys())
+                    raise Exception("Could not find VB {} in levels/{}/{}leveldata.inc.c".format(ref,self.scene.LevelImp.Level,self.scene.LevelImp.Prefix))
+                Verts=VB[int(add.strip()):int(add.strip())+eval(args[1])] #If you use array indexing here then you deserve to have this not work
                 Verts=[self.ParseVert(v) for v in Verts]
                 for k,i in enumerate(range(eval(args[2]),eval(args[1]),1)):
                     self.VertBuff[i]=[Verts[k],eval(args[2])]
@@ -715,20 +729,22 @@ class F3d():
                 mat=mesh.materials[ind]
                 mat.name = "SM64 {} F3D Mat {}".format(self.StartName,ind)
                 self.Mats[ind][1].ApplyMatSettings(mat,self.Textures,path,layer)
-            t.material_index=ind
-            #Get texture size or assume 32, 32 otherwise
-            i=mesh.materials[ind].f3d_mat.tex0.tex
-            if not i:
-                WH=(32,32)
-            else:
-                WH=i.size
-            #Set UV data and Vertex Color Data
-            for v,l in zip(t.vertices,t.loop_indices):
-                uv=self.UVs[v]
-                vcol=self.VCs[v]
-                #scale verts. I just copy/pasted this from kirby tbh Idk
-                UVmap.data[l].uv = [a*.001*(32/b) if b>0 else a*.001*32 for a,b in zip(uv,WH)]
-                Vcol.data[l].color = [a/255 for a in vcol]
+            #if somehow ther is no material assigned to the triangle or something is lost
+            if ind!=-1:
+                t.material_index=ind
+                #Get texture size or assume 32, 32 otherwise
+                i=mesh.materials[ind].f3d_mat.tex0.tex
+                if not i:
+                    WH=(32,32)
+                else:
+                    WH=i.size
+                #Set UV data and Vertex Color Data
+                for v,l in zip(t.vertices,t.loop_indices):
+                    uv=self.UVs[v]
+                    vcol=self.VCs[v]
+                    #scale verts. I just copy/pasted this from kirby tbh Idk
+                    UVmap.data[l].uv = [a*.001*(32/b) if b>0 else a*.001*32 for a,b in zip(uv,WH)]
+                    Vcol.data[l].color = [a/255 for a in vcol]
         
     
     
@@ -766,8 +782,10 @@ def FormatDat(model,Type,Chars):
         if '#else' in l:
             skip=0
         #Now Check for level script starts
-        if Type in l and '[]' in l and not skip:
-            b=l.rfind('[]')
+        regX='\[[0-9a-fx]*\]'
+        match = re.search(regX,l,flags=re.IGNORECASE)
+        if Type in l and re.search(regX,l) and not skip:
+            b=match.span()[0]
             a=l.find(Type)
             var=l[a+len(Type):b].strip()
             Models[var] = ""
@@ -890,7 +908,10 @@ def CleanGeo(Geo):
 
 def FindModels(geo,lvl,scene,path):
     layouts=ParseAggregat(geo,'geo.inc.c',path)
-    #Format all geos in geo.c, because geo layouts can branch and reference each other
+    #because of fast64, these can be recursively defined (though I expect only a depth of one)
+    for l in layouts:
+        geoR = open(l,'r')
+        layouts+=ParseAggregat(geoR,'geo.inc.c',path)
     GeoLayouts={}
     for l in layouts:
         l=open(l,'r')
@@ -900,7 +921,7 @@ def FindModels(geo,lvl,scene,path):
         GL=v.geo
         rt = v.root
         Geo=GeoLayout(GeoLayouts,rt,scene,"GeoRoot {} {}".format(scene.LevelImp.Level,k),rt)
-        Geo.ParseLevelGeosStart(GL)
+        Geo.ParseLevelGeosStart(GL,v.geo,scene)
         v.geo=Geo
         #So the key now is to just have pointers to all the models inside the geo layout class
     return lvl
@@ -909,6 +930,12 @@ def FindModels(geo,lvl,scene,path):
 def FindModelDat(model,scene,path):
     leveldat = open(model,'r')
     models=ParseAggregat(leveldat,'model.inc.c',path)
+    #fast64 makes a leveldata.inc.c file and puts custom content there, I want to catch that as well
+    #this isn't the best way to do this, but I will be lazy here
+    fast64=ParseAggregat(leveldat,'leveldata.inc.c',path)
+    if fast64:
+        f64dat = open(fast64[0],'r')
+        models+=ParseAggregat(f64dat,'model.inc.c',path)
     leveldat.close()
     leveldat = open(model,'r') #some fuckery where reading lines causes it to have issues
     textures=ParseAggregat(leveldat,'texture.inc.c',path) #Only deal with textures that are actual .pngs
@@ -947,10 +974,12 @@ class GeoLayout():
         self.root=E
         scene.collection.objects.link(E)
         Parent(root,E)
-    def ParseLevelGeosStart(self,start):
+        self.ParentTransform=[[0,0,0],[0,0,0]]
+        self.LastTransform=[[0,0,0],[0,0,0]]
+    def ParseLevelGeosStart(self,start,intGeo,scene):
         GL=self.GL.get(start)
         if not GL:
-            raise Exception("Could not find geo layout {} from levels/{}/{}geo.c".format(v.geo,scene.LevelImp.Level,scene.LevelImp.Prefix))
+            raise Exception("Could not find geo layout {} from levels/{}/{}geo.c".format(intGeo,scene.LevelImp.Level,scene.LevelImp.Prefix))
         self.ParseLevelGeos(GL,0)
     #So I can start where ever for child nodes
     def ParseLevelGeos(self,GL,depth):
@@ -988,6 +1017,7 @@ class GeoLayout():
                     return
             elif LsW("GEO_OPEN_NODE"):
                 GeoChild=GeoLayout(self.GL,self.root,self.scene,l,self.Aroot)
+                GeoChild.ParentTransform=self.LastTransform
                 GeoChild.ParseLevelGeos(GL[x+1:],depth+1)
                 x=self.SkipChildren(GL,x)
                 self.Children.append(GeoChild)
@@ -995,8 +1025,19 @@ class GeoLayout():
             #Append to models array. Only check this one for now
             elif LsW("GEO_DISPLAY_LIST"):
                 #translation, rotation, layer, model
-                self.models.append([(0,0,0),(0,0,0),*args])
+                print(self.ParentTransform,'Parent')
+                self.models.append([*self.ParentTransform,*args])
                 continue
+            elif LsW("GEO_TRANSLATE_NODE_WITH_DL"):
+                    #translation, rotation, layer, model
+                    layer=args[0]
+                    Tlate=[float(a)/bpy.context.scene.blenderToSM64Scale for a in args[1:4]]
+                    Tlate = [Tlate[0],-Tlate[2],Tlate[1]]
+                    model=args[-1]
+                    print(self.LastTransform)
+                    self.LastTransform=[Tlate,self.LastTransform[1]]
+                    self.models.append([Tlate,(0,0,0),layer,model])
+                    continue
             elif LsW("GEO_SWITCH_CASE"):
                 Switch = self.root
                 Switch.sm64_obj_type = 'Switch'
@@ -1057,6 +1098,7 @@ def ReadGeoLayout(geo,scene,models,path):
         rt=geo.root
         #create a mesh for each one
         for m in geo.models:
+            print(m)
             mesh = bpy.data.meshes.new(m[3]+' Data')
             [verts,tris] = models.GetDataFromModel(m[3].strip())
             mesh.from_pydata(verts,[],tris)
@@ -1074,6 +1116,7 @@ def ReadGeoLayout(geo,scene,models,path):
             RotateObj(-90,obj)
             scale=1/scene.blenderToSM64Scale
             obj.scale=[scale,scale,scale]
+            obj.location=m[0]
             models.ApplyDat(obj,mesh,layer,path)
     if not geo.Children:
         return
@@ -1124,10 +1167,9 @@ class SM64_OT_Import(Operator):
         script= level/(prefix+'script.c')
         geo = level/(prefix+'geo.c')
         model = level/(prefix+'leveldata.c')
-        ColD = open(model,'r')
         geo=open(geo,'r')
         lvl=ParseScript(script,scene) #returns level class
-        lvl=FindCollisions(ColD,lvl,scene,path) #Now Each area has its collision file nicely formatted
+        lvl=FindCollisions(model,lvl,scene,path) #Now Each area has its collision file nicely formatted
         WriteLevelCollision(lvl,scene)
         lvl=FindModels(geo,lvl,scene,path)
         models=FindModelDat(model,scene,path)
