@@ -119,7 +119,7 @@ Seg2WarpTransDat=[
 #the last member is the global scripts to include after loading
 #the bank
 Groups = {
-	0x1279B0:['_group0', 5, 12,'script_func_global_2'], #Mario Bank 4/17 which is always loaded
+	0x1279B0:['_group0', 4, 17,'script_func_global_2'], #Mario Bank 4/17 which is always loaded
 	0x132850:['_group1', 5, 12,'script_func_global_2'],
 	0x134a70:['_group2', 5, 12,'script_func_global_3'],
 	0x13B5D0:['_group3', 5, 12,'script_func_global_4'],
@@ -138,7 +138,7 @@ Groups = {
 	0x1E7D90:['_group16', 6, 13,'script_func_global_17'],
 	0x1F1B30:['_group17', 6, 13,'script_func_global_18'],
 	0x2008D0:['_common0', 8, 15,'script_func_global_1'],
-	0x218DA0:['_common1', 8, 15,'script_func_global_1']#Bank 3/16, which is always loaded, so the extra stuff is pointless.
+	0x218DA0:['_common1', 3, 16,'script_func_global_1']#Bank 3/16, which is always loaded, so the extra stuff is pointless.
 }
 
 

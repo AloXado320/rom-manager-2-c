@@ -1,9 +1,9 @@
+import sys
+import os
 import struct
 import GeoWrite as GW
 import F3D
 import ColParse
-import sys
-import os
 from pathlib import Path
 from capstone import *
 import shutil
@@ -22,6 +22,7 @@ import gc
 import ActorCHKSM
 import BehComp
 import ColComp
+import time
 #So that each Script class doesn't open up a half MB file.
 mapF = open('sm64.us.map','r')
 map = mapF.readlines()
@@ -2310,8 +2311,6 @@ certain bash errors.
 	#Array of all scripts from each level
 	Scripts = []
 	if levels=='all':
-		#export title screen
-		ExportTitleScreen(rom,lvldir)
 		for k in Num2Name.keys():
 			s = ExportLevel(rom,k,editor,Append,AllWaterBoxes,Onlys,romname,m64s,seqNums,MusicExtend,lvldefs)
 			Scripts.append(s)
@@ -2328,7 +2327,7 @@ certain bash errors.
 	#Export texture scrolls
 	ExportTextureScrolls(Scripts,Path(sys.path[0]))
 	#export title screen via arg
-	if Title and levels!='all':
+	if Title:
 		ExportTitleScreen(rom,lvldir)
 	#Process returned scripts to view certain custom data such as custom banks/actors for actor/texture exporting
 	[Banks,Models,ObjectD] = ProcessScripts(rom,editor,Scripts)
