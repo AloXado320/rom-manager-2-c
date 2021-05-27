@@ -208,11 +208,15 @@ class Level():
                 if self.Scripts.get(args[0]):
                     self.ParseScript(args[0])
                 continue
-            #ends script
+            #ends script, I get arg -1 because sm74 has a different jump cmd
             elif LsW("JUMP"):
-                if self.Scripts.get(args[0]):
-                    self.ParseScript(entry)
-                break
+                Nentry = self.Scripts.get(args[-1])
+                print(Nentry,args[-1])
+                if Nentry:
+                    self.ParseScript(args[-1])
+                #for the sm74 port
+                if len(args)!=2:
+                    break
             #final exit of recursion
             elif LsW("EXIT") or l.startswith("RETURN"):
                 return
@@ -262,7 +266,8 @@ class Level():
         return self.Areas
     def StripArgs(self,cmd):
         a=cmd.find("(")
-        return cmd[a+1:-2].split(',')
+        end=cmd.find(")")-len(cmd)
+        return cmd[a+1:end].split(',')
     def GetScripts(self):
         #Get a dictionary made up with keys=level script names
         #and values as an array of all the cmds inside.
