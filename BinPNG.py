@@ -25,8 +25,12 @@ def GetCHKSM(filename):
 #file is bin, image is png
 #Alpha changed to true because N64 graphics does not like PNGS with no alpha YES!!!
 def I(width,height,depth,file,image):
-	w = png.Writer(width,height,greyscale=True,bitdepth=depth,alpha=True)
-	rows = CreateIRows(width,height,depth,1,file)
+	if depth>4:
+		w = png.Writer(width,height,greyscale=True,bitdepth=depth,alpha=True)
+		rows = CreateIRows(width,height,depth//2,2,file)
+	else:
+		w = png.Writer(width,height,greyscale=True,bitdepth=8,alpha=True)
+		rows = EditIFile(file,width,height,[4,4],2,1)
 	w.write(image,rows)
 
 def IA(width,height,depth,file,image):
@@ -81,7 +85,26 @@ def CreateRows(width,height,depth,Channels,file):
 		a = [b&0xFF for b in a]
 		rows.append(a)
 	return rows
-
+	
+#change I4 to IA88
+def EditIFile(file,width,height,shifts,PpB,b):
+	newfile=[]
+	for x in range(height):
+		row=[]
+		for pixel in range(0,width//PpB):
+			pixel=pixel+x*width//PpB
+			bin=file[b*pixel:b*pixel+b]
+			bin=pack('>%dB'%b,*bin)
+			upack = ['uint:%d'%(8-a) if a!=8 else 'uint:1' for a in shifts]
+			channels=bin.unpack(','.join(upack))
+			channels=[CB(c,8-s) if s<8 else OBA(c) for c,s in zip(channels,shifts)]
+			AlphaAdd = [0xFF]*(len(channels)*2)
+			AlphaAdd[0::2] = channels
+			p = struct.pack('>%dB'%len(AlphaAdd),*AlphaAdd)
+			row.extend(p)
+		newfile.append(row)
+	return newfile
+	
 #change IA31 to IA88 or rgba5551 to rgba8888
 def EditFile(file,width,height,shifts,PpB,b):
 	newfile=[]

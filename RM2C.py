@@ -459,7 +459,7 @@ def MacroObjects(rom,cmd,start,script):
 	while(True):
 		m = BitArray(rom[macros+x:macros+x+10])
 		[yRot,Preset,X,Y,Z,Bp] = m.unpack("uint:7,uint:9,4*uint:16")
-		if Preset==0 or Preset==0x1E:
+		if Preset<0x1F:
 			break
 		else:
 			A.macros.append([yRot,Preset,X,Y,Z,Bp])

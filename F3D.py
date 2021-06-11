@@ -435,10 +435,13 @@ def DecodeVDL(rom,start,s,id,opt):
 	LastMat = Mat(Persist)
 	global gCycle
 	gCycle = 1
+	global gFog
+	gFog = 0
 	return DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,[start],LastMat,0,opt)
 
 #recursively get DLs
 def DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,start,LastMat,dlStack,opt):
+	global gFog
 	while(True):
 		cmd=rom[start[dlStack][0]+x:start[dlStack][0]+x+8]
 		cmd=Bin2C(cmd,id)
@@ -476,9 +479,11 @@ def DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,start,LastMat,dl
 		elif (MSB==0xb8):
 			dl[dlStack].append(cmd[0])
 			break
-		#check for fog to print error msg
+		#check for fog to print error msg.
 		elif (MSB==0xb9) and 'G_RM_FOG_SHADE_A' in cmd[0]:
-			Log.LevelFog(s.Currlevel,'DL_{}{}'.format(id,hex(start[dlStack][1])))
+			if not gFog:
+				Log.LevelFog(s.Currlevel,'DL_{}{}'.format(id,hex(start[dlStack][1])))
+				gFog = 1
 			dl[dlStack].append(cmd[0])
 			x+=8
 		else:
@@ -786,6 +791,7 @@ def G_SETOTHERMODE_H_Decode(bin,id):
 		0:'G_TT_NONE',
 		32768:'G_TT_RGBA16'
 	}
+	global gCycle
 	try:
 		#2 cycle
 		if shift==20 and value==1048576:
@@ -957,6 +963,7 @@ def G_SETCOMBINE_Decode(bin,id):
 	[l,o] = [BAmode.get(color,0) for color in Balpha]
 	[d,j] = [CAmode.get(color,0) for color in Calpha]
 	[m,p] = [DAmode.get(color,0) for color in Dalpha]
+	global gCycle
 	if gCycle == 1:
 		#get rid of combined by making assumptions about common combine types
 		if a=='COMBINED':
