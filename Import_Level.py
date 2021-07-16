@@ -459,6 +459,7 @@ class Collision():
         self.type=None
         self.SpecialObjs=[]
         self.Types=[]
+        self.WaterBox=[]
     def GetCollision(self):
         for l in self.col:
             args=self.StripArgs(l)
@@ -475,6 +476,11 @@ class Collision():
                 a=[eval(a) for a in args]
                 self.tris[self.type].append(a)
                 continue
+            if l.startswith('COL_WATER_BOX_INIT'):
+                continue
+            if l.startswith('COL_WATER_BOX'):
+                #id, x1, z1, x2, z2, y
+                self.WaterBox.append(args)
             if l.startswith('SPECIAL_OBJECT'):
                 self.SpecialObjs.append(args)
         #This will keep track of how to assign mats
@@ -486,7 +492,26 @@ class Collision():
     def StripArgs(self,cmd):
         a=cmd.find("(")
         return cmd[a+1:-2].split(',')
+    def WriteWaterBoxes(self,scene,parent,name):
+        for i,w in enumerate(self.WaterBox):
+            Obj = bpy.data.objects.new('Empty',None)
+            scene.collection.objects.link(Obj)
+            Parent(parent,Obj)
+            Obj.name = "WaterBox_{}_{}".format(name,i)
+            Obj.sm64_obj_type= 'Water Box'
+            x1 = eval(w[1])/(self.scale)
+            x2 = eval(w[3])/(self.scale)
+            z1 = eval(w[2])/(self.scale)
+            z2 = eval(w[4])/(self.scale)
+            y = eval(w[5])/(self.scale)
+            Xwidth = abs(x2-x1)/(2)
+            Zwidth = abs(z2-z1)/(2)
+            loc=[x2-Xwidth,-(z2-Zwidth),y-1]
+            Obj.location=loc
+            scale = [Xwidth,Zwidth,1]
+            Obj.scale = scale
     def WriteCollision(self,scene,name,parent):
+        self.WriteWaterBoxes(scene,parent,name)
         mesh = bpy.data.meshes.new(name+' data')
         tris=[]
         for t in self.tris.values():
@@ -533,13 +558,22 @@ def WriteLevelCollision(lvl,scene):
 #This is simply a data storage class
 class Mat():
     def __init__(self):
-        pass
+        self.TwoCycle=False
+        self.GeoSet=[]
+        self.GeoClear=[]
     def ApplyMatSettings(self,mat,textures,path,layer):
         #make combiner custom
         f3d=mat.f3d_mat #This is kure's custom property class for materials
         f3d.presetName="Custom"
         self.SetCombiner(f3d,layer)
         f3d.draw_layer.sm64 = layer
+        #I set these but they aren't properly stored because they're reset by fast64 or something
+        #its better to have defaults than random 2 cycles
+#        self.SetGeoMode(f3d.rdp_settings,mat)
+#        if self.TwoCycle:
+#            f3d.rdp_settings.gdsft_cycletype = 'G_CYC_2CYCLE'
+#        else:
+#            f3d.rdp_settings.gdsft_cycletype = 'G_CYC_1CYCLE'
         #Try to set an imagea
         try:
             i = bpy.data.images.get(self.Timg)
@@ -553,12 +587,26 @@ class Mat():
                 tex0=f3d.tex0
                 tex0.tex_set=True
                 tex0.tex=i
+                tex0.tex_format = self.EvalFmt()
         except:
             print("Could not find {}".format(self.Timg))
         #Update node values
         override = bpy.context.copy()
         override["material"] = mat
         bpy.ops.material.update_f3d_nodes(override)
+    def SetGeoMode(self,rdp,mat):
+        print(self.GeoSet,self.GeoClear,'geo')
+        for a in self.GeoSet:
+            try:
+                setattr(self,a.lower(),True)
+                print(getattr(self,a.lower()),a.lower(),mat.name)
+            except:
+                print(a.lower(),'set')
+        for a in self.GeoClear:
+            try:
+                setattr(self,a.lower(),False)
+            except:
+                print(a.lower(),'clear')
     #Very lazy for now
     def SetCombiner(self,f3d,layer):
         if not hasattr(self,'Combiner'):
@@ -592,6 +640,45 @@ class Mat():
                 f3d.combiner1.C_alpha = '0'
                 f3d.combiner1.D = 'SHADE'
                 f3d.combiner1.D_alpha = 'ENVIRONMENT'
+        else:
+            f3d.combiner1.A = self.Combiner[0]
+            f3d.combiner1.B = self.Combiner[1]
+            f3d.combiner1.C = self.Combiner[2]
+            f3d.combiner1.D = self.Combiner[3]
+            f3d.combiner1.A_alpha = self.Combiner[4]
+            f3d.combiner1.B_alpha = self.Combiner[5]
+            f3d.combiner1.C_alpha = self.Combiner[6]
+            f3d.combiner1.D_alpha = self.Combiner[7]
+            f3d.combiner2.A = self.Combiner[8]
+            f3d.combiner2.B = self.Combiner[9]
+            f3d.combiner2.C = self.Combiner[10]
+            f3d.combiner2.D = self.Combiner[11]
+            f3d.combiner2.A_alpha = self.Combiner[12]
+            f3d.combiner2.B_alpha = self.Combiner[13]
+            f3d.combiner2.C_alpha = self.Combiner[14]
+            f3d.combiner2.D_alpha = self.Combiner[15]
+    def EvalFmt(self):
+        GBIfmts = {
+        "G_IM_FMT_RGBA":"RGBA",
+        "G_IM_FMT_CI":"CI",
+        "G_IM_FMT_IA":"IA",
+        "G_IM_FMT_I":"I",
+        "0":"RGBA",
+        "2":"CI",
+        "3":"IA",
+        "4":"I"
+        }
+        GBIsiz = {
+        "G_IM_SIZ_4b":"4",
+        "G_IM_SIZ_8b":"8",
+        "G_IM_SIZ_16b":"16",
+        "G_IM_SIZ_32b":"32",
+        "0":"4",
+        "1":"8",
+        "2":"16",
+        "3":"32"
+        }
+        return GBIfmts.get(self.Fmt,"RGBA")+GBIsiz.get(self.Siz,"16")
 
 class F3d():
     def __init__(self,scene):
@@ -691,20 +778,34 @@ class F3d():
             #materials
             #Mats will be placed sequentially. The first item of the list is the triangle number
             #The second is the material class
+            if LsW('gsSPClearGeometryMode'):
+                self.LastMat.GeoClear.append(args[0].strip())
+            if LsW('gsSPSetGeometryMode'):
+                self.LastMat.GeoSet.append(args[0].strip())
+            if LsW('gsSPGeometryMode'):
+                self.LastMat.GeoClear.append(args[0].strip())
+                self.LastMat.GeoSet.append(args[1].strip())
+            if LsW('gsDPSetCycleType'):
+                self.LastMat.TwoCycle=True
+            if LsW('gsDPSetCombineLERP'):
+                self.LastMat.Combiner = [a.strip() for a in args]
             if LsW('gsDPSetTextureImage'):
                 self.NewMat=1
                 self.LastMat.Timg = args[3].strip()
                 self.LastMat.Fmt = args[0].strip()
                 self.LastMat.Siz = args[1].strip()
                 continue
+            #catch tile size
+            if LsW('gsDPSetTileSize'):
+                continue
             if LsW('gsDPSetTile'):
                 self.NewMat=1
                 self.LastMat.Fmt=args[0].strip()
-                self.LastMat.Siz=args[1].strip()
+                self.LastMat.Siz=args[1].strip()    
     def MakeNewMat(self):
         if self.NewMat:
             self.NewMat=0
-            self.Mats.append([len(self.Tris),self.LastMat])
+            self.Mats.append([len(self.Tris)-1,self.LastMat])
             self.LastMat=deepcopy(self.LastMat) #for safety
     def ParseVert(self,Vert):
         v=Vert.replace('{','').replace('}','').split(',')
@@ -726,9 +827,9 @@ class F3d():
         UVmap = obj.data.uv_layers.new(name='UVMap')
         Vcol = obj.data.vertex_colors.new(name='Col')
         Valph = obj.data.vertex_colors.new(name='Alpha')
-        self.Mats.append([len(tris)+1,0])
+        self.Mats.append([len(tris),0])
         for i,t in enumerate(tris):
-            if i>=self.Mats[ind+1][0]:
+            if i>self.Mats[ind+1][0]:
                 bpy.ops.object.create_f3d_mat() #the newest mat should be in slot[-1]
                 ind+=1
                 mat=mesh.materials[ind]
@@ -748,7 +849,9 @@ class F3d():
                     uv=self.UVs[v]
                     vcol=self.VCs[v]
                     #scale verts. I just copy/pasted this from kirby tbh Idk
-                    UVmap.data[l].uv = [a*.001*(32/b) if b>0 else a*.001*32 for a,b in zip(uv,WH)]
+                    UVmap.data[l].uv = [a*(1/(32*b)) if b>0 else a*.001*32 for a,b in zip(uv,WH)]
+                    #idk why this is necessary. N64 thing or something?
+                    UVmap.data[l].uv[1] = UVmap.data[l].uv[1]*-1
                     Vcol.data[l].color = [a/255 for a in vcol]
         
     
@@ -1030,7 +1133,7 @@ class GeoLayout():
             #Append to models array. Only check this one for now
             elif LsW("GEO_DISPLAY_LIST"):
                 #translation, rotation, layer, model
-                print(self.ParentTransform,'Parent')
+#                print(self.ParentTransform,'Parent')
                 self.models.append([*self.ParentTransform,*args])
                 continue
             elif LsW("GEO_TRANSLATE_NODE_WITH_DL"):
@@ -1103,7 +1206,7 @@ def ReadGeoLayout(geo,scene,models,path):
         rt=geo.root
         #create a mesh for each one
         for m in geo.models:
-            print(m)
+#            print(m)
             mesh = bpy.data.meshes.new(m[3]+' Data')
             [verts,tris] = models.GetDataFromModel(m[3].strip())
             mesh.from_pydata(verts,[],tris)

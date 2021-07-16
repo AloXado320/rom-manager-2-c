@@ -1130,7 +1130,7 @@ def ProcessScripts(rom,editor,Scripts):
 				try:
 					Objects[obj[8]] = [obj[-1],s.B2P(obj[-1]),[IDs[obj[0]]],s]
 				except:
-					Objects[obj[8]] = [obj[-1],s.B2P(obj[-1]),[],s]
+					pass
 	return [Banks,Models,Objects]
 
 #dictionary of actions to take based on script cmds
