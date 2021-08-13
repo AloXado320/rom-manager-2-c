@@ -119,6 +119,7 @@ class Area():
         #set default vars
         root.sm64_obj_type = 'Area Root'
         root.areaIndex=num
+        self.objects = []
         #self.OjbColl = bpy.data.collections.new("%s Area %d Objects"%(scene.LevelImp.Level,num))
     def AddWarp(self,args):
         #set context to the root
@@ -144,6 +145,11 @@ class Area():
         else:
             warp.warpFlagEnum='WARP_CHECKPOINT'
     def AddObject(self,args):
+        self.objects.append(args)
+    def PlaceObjects(self):
+        for a in self.objects:
+            self.PlaceObject(a)
+    def PlaceObject(self,args):
         Obj = bpy.data.objects.new('Empty',None)
         self.scene.collection.objects.link(Obj)
         Parent(self.root,Obj)
@@ -561,12 +567,34 @@ class Mat():
         self.TwoCycle=False
         self.GeoSet=[]
         self.GeoClear=[]
+    #calc the hash for an f3d mat and see if its equal to this mats hash
+    def MatHash(self,f3d,textures):
+        #texture,1 cycle combiner, geo modes (once I implement them)
+        rdp = f3d.rdp_settings
+        if f3d.tex0.tex_set:
+            T = f3d.tex0.tex.name
+        else:
+            T = ''
+        F3Dprops = (T,f3d.combiner1.A,f3d.combiner1.B,f3d.combiner1.C,f3d.combiner1.D,
+        f3d.combiner1.A_alpha,f3d.combiner1.B_alpha,f3d.combiner1.C_alpha,f3d.combiner1.D_alpha)
+        if hasattr(self,'Combiner'):
+            MyT = ''
+            if hasattr(self,'Timg'):
+                MyT = textures.get(self.Timg)[0].split('/')[-1]
+                MyT=MyT.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
+            else:
+                pass
+            MyProps = (MyT,*self.Combiner[0:8])
+            dupe = hash(MyProps) == hash(F3Dprops)
+            return dupe
+        return False
     def ApplyMatSettings(self,mat,textures,path,layer):
         #make combiner custom
         f3d=mat.f3d_mat #This is kure's custom property class for materials
         f3d.presetName="Custom"
         self.SetCombiner(f3d,layer)
         f3d.draw_layer.sm64 = layer
+        ForceNewTex = bpy.context.scene.LevelImp.ForceNewTex
         #I set these but they aren't properly stored because they're reset by fast64 or something
         #its better to have defaults than random 2 cycles
 #        self.SetGeoMode(f3d.rdp_settings,mat)
@@ -576,14 +604,20 @@ class Mat():
 #            f3d.rdp_settings.gdsft_cycletype = 'G_CYC_1CYCLE'
         #Try to set an imagea
         try:
-            i = bpy.data.images.get(self.Timg)
-            if not i:
-                tex=textures.get(self.Timg)
-                if not tex[0].isdigit():
-                    tex=tex[0].replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
+            tex = textures.get(self.Timg)[0].split('/')[-1]
+            tex=tex.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
+            i = bpy.data.images.get(tex)
+            if not i or ForceNewTex:
+                tex=textures.get(self.Timg)[0]
+                tex=tex.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
                 fp = path/tex
                 i=bpy.data.images.load(filepath=str(fp))
                 #Set the image user
+                tex0=f3d.tex0
+                tex0.tex_set=True
+                tex0.tex=i
+                tex0.tex_format = self.EvalFmt()
+            else:
                 tex0=f3d.tex0
                 tex0.tex_set=True
                 tex0.tex=i
@@ -830,7 +864,7 @@ class F3d():
         self.Mats.append([len(tris),0])
         for i,t in enumerate(tris):
             if i>self.Mats[ind+1][0]:
-                bpy.ops.object.create_f3d_mat() #the newest mat should be in slot[-1]
+                self.Create_new_f3d_mat(self.Mats[ind+1][1],self.Textures,mesh)
                 ind+=1
                 mat=mesh.materials[ind]
                 mat.name = "SM64 {} F3D Mat {}".format(self.StartName,ind)
@@ -853,6 +887,19 @@ class F3d():
                     #idk why this is necessary. N64 thing or something?
                     UVmap.data[l].uv[1] = UVmap.data[l].uv[1]*-1
                     Vcol.data[l].color = [a/255 for a in vcol]
+    def Create_new_f3d_mat(self,mat,textures,mesh):
+        #check if this mat was used already in another mesh (or this mat if DL is garbage or something)
+        #even looping n^2 is probably faster than duping 3 mats with blender speed
+        if not bpy.context.scene.LevelImp.ForceNewTex:
+            for F3Dmat in bpy.data.materials:
+                if F3Dmat.is_f3d:
+                    dupe = mat.MatHash(F3Dmat.f3d_mat,textures)
+                    if dupe:
+                        mesh.materials.append(F3Dmat)
+                        return F3Dmat
+        bpy.ops.object.create_f3d_mat() #the newest mat should be in slot[-1] for the mesh materials
+        return None
+        
         
     
     
@@ -1262,7 +1309,24 @@ def ParseScript(script,scene):
     lvl.ParseScript(entry)
     return lvl
 
-class SM64_OT_Import(Operator):
+def WriteObjects(lvl):
+    for area in lvl.Areas.values():
+        area.PlaceObjects()
+
+def ImportLvlVisual(geo,lvl,scene,path,model):
+    lvl=FindModels(geo,lvl,scene,path)
+    models=FindModelDat(model,scene,path)
+    models.GetGenericTextures(path)
+    lvl=WriteLevelModel(lvl,scene,path,models)
+    return lvl
+
+def ImportLvlCollision(model,lvl,scene,path):
+    lvl=FindCollisions(model,lvl,scene,path) #Now Each area has its collision file nicely formatted
+    WriteLevelCollision(lvl,scene)
+    return lvl
+
+
+class SM64_OT_Lvl_Import(Operator):
     bl_label = "Import Level"
     bl_idname = "wm.sm64_import_level"
 
@@ -1276,13 +1340,61 @@ class SM64_OT_Import(Operator):
         geo = level/(prefix+'geo.c')
         model = level/(prefix+'leveldata.c')
         geo=open(geo,'r')
+        lvl = ParseScript(script,scene) #returns level class
+        WriteObjects(lvl)
+        lvl = ImportLvlCollision(model,lvl,scene,path)
+        lvl = ImportLvlVisual(geo,lvl,scene,path,model)
+        return {'FINISHED'}
+
+class SM64_OT_Lvl_Gfx_Import(Operator):
+    bl_label = "Import Gfx"
+    bl_idname = "wm.sm64_import_level_gfx"
+
+    def execute(self, context):
+        scene = context.scene
+        scene.gameEditorMode = 'SM64'
+        prefix=scene.LevelImp.Prefix
+        path = Path(scene.decompPath)
+        level = path/'levels'/scene.LevelImp.Level
+        script= level/(prefix+'script.c')
+        geo = level/(prefix+'geo.c')
+        model = level/(prefix+'leveldata.c')
+        geo=open(geo,'r')
+        lvl = ParseScript(script,scene) #returns level class
+        lvl = ImportLvlVisual(geo,lvl,scene,path,model)
+        return {'FINISHED'}
+
+class SM64_OT_Lvl_Col_Import(Operator):
+    bl_label = "Import Collision"
+    bl_idname = "wm.sm64_import_level_col"
+
+    def execute(self, context):
+        scene = context.scene
+        scene.gameEditorMode = 'SM64'
+        prefix=scene.LevelImp.Prefix
+        path = Path(scene.decompPath)
+        level = path/'levels'/scene.LevelImp.Level
+        script= level/(prefix+'script.c')
+        geo = level/(prefix+'geo.c')
+        model = level/(prefix+'leveldata.c')
+        geo=open(geo,'r')
+        lvl = ParseScript(script,scene) #returns level class
+        lvl = ImportLvlCollision(model,lvl,scene,path)
+        return {'FINISHED'}
+
+class SM64_OT_Obj_Import(Operator):
+    bl_label = "Import Objects"
+    bl_idname = "wm.sm64_import_object"
+
+    def execute(self, context):
+        scene = context.scene
+        scene.gameEditorMode = 'SM64'
+        prefix=scene.LevelImp.Prefix
+        path = Path(scene.decompPath)
+        level = path/'levels'/scene.LevelImp.Level
+        script= level/(prefix+'script.c')
         lvl=ParseScript(script,scene) #returns level class
-        lvl=FindCollisions(model,lvl,scene,path) #Now Each area has its collision file nicely formatted
-        WriteLevelCollision(lvl,scene)
-        lvl=FindModels(geo,lvl,scene,path)
-        models=FindModelDat(model,scene,path)
-        models.GetGenericTextures(path)
-        lvl=WriteLevelModel(lvl,scene,path,models)
+        WriteObjects(lvl)
         return {'FINISHED'}
 
 class LevelImport(PropertyGroup):
@@ -1348,13 +1460,18 @@ class LevelImport(PropertyGroup):
         description="The platform target for any #ifdefs in code",
         default="TARGET_N64"
     )
+    ForceNewTex: BoolProperty(
+        name = "ForceNewTex",
+        description="Forcefully load new textures even if duplicate path/name is detected",
+        default=False
+    )
 
-class ImportPanel(Panel):
+class Level_PT_Panel(Panel):
     bl_label = "SM64 Level Importer"
     bl_idname = "sm64_level_importer"
     bl_space_type = "VIEW_3D"   
     bl_region_type = "UI"
-    bl_category = "SM64 Level Import"
+    bl_category = "SM64 C Importer"
     bl_context = "objectmode"   
 
     @classmethod
@@ -1370,12 +1487,37 @@ class ImportPanel(Panel):
         layout.prop(LevelImp,"Prefix")
         layout.prop(LevelImp,"Version")
         layout.prop(LevelImp,"Target")
+        layout.prop(LevelImp,"ForceNewTex")
         layout.operator("wm.sm64_import_level")
+        layout.operator("wm.sm64_import_level_gfx")
+        layout.operator("wm.sm64_import_level_col")
+        layout.operator("wm.sm64_import_object")
+
+class Actor_PT_Panel(Panel):
+    bl_label = "SM64 Actor Importer"
+    bl_idname = "sm64_actor_importer"
+    bl_space_type = "VIEW_3D"   
+    bl_region_type = "UI"
+    bl_category = "SM64 C Importer"
+    bl_context = "objectmode"   
+
+    @classmethod
+    def poll(self,context):
+        return context.scene is not None
+
+    def draw(self, context):
+        layout = self.layout
+        scene = context.scene
+        
 
 classes = (
     LevelImport,
-    SM64_OT_Import,
-    ImportPanel
+    SM64_OT_Lvl_Import,
+    SM64_OT_Lvl_Gfx_Import,
+    SM64_OT_Lvl_Col_Import,
+    SM64_OT_Obj_Import,
+    Level_PT_Panel,
+    Actor_PT_Panel
 )
 
 
