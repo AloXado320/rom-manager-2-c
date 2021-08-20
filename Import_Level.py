@@ -27,7 +27,7 @@ from mathutils import Vector
 from mathutils import Euler
 import re
 from copy import deepcopy
-
+#from SM64classes import *
 
 bl_info = {
     "name": "SM64 Decomp C Level Importer",
@@ -41,37 +41,6 @@ bl_info = {
     "tracker_url": "",
     "category": "Import-Export"
 }
-
-
-def RotateObj(deg,obj):
-    angle = obj.matrix_world.copy()
-    angle.identity()
-    angle = angle.to_euler()
-    angle[0] = math.radians(-deg)
-    r = obj.matrix_world.to_3x3()
-    r.rotate(angle)
-    t = obj.matrix_world.to_translation()
-    r = r.to_4x4()
-    I = r.copy()
-    I.identity()
-    #translation function removes other transformations
-    obj.matrix_world = r+r.Translation(t)-I
-
-def Parent(parent,child):
-    parent.select_set(True)
-    child.select_set(True)
-    bpy.context.view_layer.objects.active = parent
-    bpy.ops.object.parent_set()
-    parent.select_set(False)
-    child.select_set(False)
-
-def EvalMacro(line):
-    scene=bpy.context.scene
-    if scene.LevelImp.Version in line:
-        return False
-    if scene.LevelImp.Target in line:
-        return False
-    return True
 
 Num2LevelName = {
     4:'bbh',
@@ -342,119 +311,7 @@ class Level():
                 x+=1
             self.Scripts[k]=arr
         return
-
-def ParseAggregat(dat,str,path):
-    dat.seek(0) #so it may be read multiple times
-    ldat = dat.readlines()
-    cols=[]
-    #assume this follows naming convention
-    for l in ldat:
-        if str in l:
-            comment=l.rfind("//")
-            #double slash terminates line basically
-            if comment:
-                l=l[:comment]
-            cols.append(l.strip())
-    #remove include and quotes inefficiently. Now cols is a list of relative paths
-    cols = [c.replace("#include ",'').replace('"','').replace("'",'') for c in cols]
-    return [path/c for c in cols]
-
-def FindCollisions(model,lvl,scene,path):
-    leveldat = open(model,'r')
-    cols=ParseAggregat(leveldat,'collision.inc.c',path)
-    #catch fast64 includes
-    fast64=ParseAggregat(leveldat,'leveldata.inc.c',path)
-    if fast64:
-        f64dat = open(fast64[0],'r')
-        cols+=ParseAggregat(f64dat,'collision.inc.c',path)
-    leveldat.close()
-    #search for the area terrain in each file
-    for k,v in lvl.Areas.items():
-        terrain = v.terrain
-        found=0
-        for c in cols:
-            if os.path.isfile(c):
-                c=open(c,'r')
-                c=c.readlines()
-                for i,l in enumerate(c):
-                    if terrain in l:
-                        #Trim Collision to be just the lines that have the file
-                        v.ColFile=c[i:]
-                        break
-                else:
-                    c=None    
-                    continue
-                break
-            else:
-                c=None
-        if not c:
-            raise Exception('Collision {} not found in levels/{}/{}leveldata.c'.format(terrain,scene.LevelImp.Level,scene.LevelImp.Prefix))
-        v.ColFile=CleanCollision(v.ColFile)
-    return lvl
-
-def CleanCollision(ColFile):
-    #Now do the same post processing to macros for potential fuckery that I did to scripts.
-    #This means removing comments, dealing with potential multi line macros and making sure each line is one macro
-    InlineReg="/\*((?!\*/).)*\*/"
-    started=0
-    skip=0
-    col=''
-    for l in ColFile:
-        #remove line comment
-        comment=l.rfind("//")
-        if comment:
-            l=l[:comment]
-        #check for macro
-        if '#ifdef' in l:
-            skip=EvalMacro(l)
-        if '#elif' in l:
-            skip=EvalMacro(l)
-        if '#else' in l:
-            skip=0
-        #Now Check for col start
-        if "Collision" in l and not skip:
-            started=1
-            continue
-        if started and not skip:
-            #remove inline comments from line
-            while(True):
-                m=re.search(InlineReg,l)
-                if not m:
-                    break
-                m=m.span()
-                l=l[:m[0]]+l[m[1]:]
-            #Check for end of Level Script array
-            if "};" in l:
-                started=0
-            #Add line to dict
-            else:
-                col+=l
-    #Now remove newlines from each script, and then split macro ends
-    #This makes each member of the array a single macro
-    col=col.replace("\n",'')
-    arr=[]
-    x=0
-    stack=0
-    buf=""
-    app=0
-    while(x<len(col)):
-        char=col[x]
-        if char=="(":
-            stack+=1
-            app=1
-        if char==")":
-            stack-=1
-        if app==1 and stack==0:
-            app=0
-            buf+=col[x:x+2] #get the last parenthesis and comma
-            arr.append(buf.strip())
-            x+=2
-            buf=''
-            continue
-        buf+=char
-        x+=1
-    return arr
-
+        
 class Collision():
     def __init__(self,col,scale):
         self.col=col
@@ -552,15 +409,6 @@ class Collision():
                 x+=1
             p.material_index=x-1
 
-
-def WriteLevelCollision(lvl,scene):
-    for k,v in lvl.Areas.items():
-        #dat is a class that holds all the collision files data
-        dat=Collision(v.ColFile,scene.blenderToSM64Scale)
-        dat.GetCollision()
-        name="SM64 {} Area {} Col".format(scene.LevelImp.Level,k)
-        dat.WriteCollision(scene,name,v.root)
-
 #This is simply a data storage class
 class Mat():
     def __init__(self):
@@ -571,7 +419,7 @@ class Mat():
     def MatHash(self,f3d,textures):
         #texture,1 cycle combiner, geo modes (once I implement them)
         rdp = f3d.rdp_settings
-        if f3d.tex0.tex_set:
+        if f3d.tex0.tex:
             T = f3d.tex0.tex.name
         else:
             T = ''
@@ -606,11 +454,21 @@ class Mat():
         try:
             tex = textures.get(self.Timg)[0].split('/')[-1]
             tex=tex.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
+            print(tex,'tex')
             i = bpy.data.images.get(tex)
             if not i or ForceNewTex:
                 tex=textures.get(self.Timg)[0]
                 tex=tex.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
-                fp = path/tex
+                #deal with duplicate pathing (such as /actors/actors etc.)
+                Extra = path.relative_to(Path(bpy.context.scene.decompPath))
+                for e in Extra.parts:
+                    tex = tex.replace(e+'/','')
+                #deal with actor import path not working for shared textures
+                if 'textures' in tex:
+                    fp = Path(bpy.context.scene.decompPath) / tex
+                else:
+                    fp = path/tex
+                print(fp,'img filepath')
                 i=bpy.data.images.load(filepath=str(fp))
                 #Set the image user
                 tex0=f3d.tex0
@@ -739,7 +597,7 @@ class F3d():
         DL=self.Gfx.get(start)
         self.VertBuff=[0]*32 #If you're doing some fucky shit with a larger vert buffer it sucks to suck I guess
         if not DL:
-            raise Exception("Could not find DL {} in levels/{}/{}leveldata.inc.c".format(start,self.scene.LevelImp.Level,self.scene.LevelImp.Prefix))
+            raise Exception("Could not find DL {}".format(start))
         self.Verts=[]
         self.Tris=[]
         self.UVs=[]
@@ -899,10 +757,164 @@ class F3d():
                         return F3Dmat
         bpy.ops.object.create_f3d_mat() #the newest mat should be in slot[-1] for the mesh materials
         return None
-        
-        
-    
-    
+
+def RotateObj(deg,obj):
+    angle = obj.matrix_world.copy()
+    angle.identity()
+    angle = angle.to_euler()
+    angle[0] = math.radians(-deg)
+    r = obj.matrix_world.to_3x3()
+    r.rotate(angle)
+    t = obj.matrix_world.to_translation()
+    r = r.to_4x4()
+    I = r.copy()
+    I.identity()
+    #translation function removes other transformations
+    obj.matrix_world = r+r.Translation(t)-I
+
+def Parent(parent,child):
+    parent.select_set(True)
+    child.select_set(True)
+    bpy.context.view_layer.objects.active = parent
+    bpy.ops.object.parent_set()
+    parent.select_set(False)
+    child.select_set(False)
+
+def EvalMacro(line):
+    scene=bpy.context.scene
+    if scene.LevelImp.Version in line:
+        return False
+    if scene.LevelImp.Target in line:
+        return False
+    return True
+
+def ParseAggregat(dat,str,path):
+    dat.seek(0) #so it may be read multiple times
+    ldat = dat.readlines()
+    cols=[]
+    #assume this follows naming convention
+    for l in ldat:
+        if str in l:
+            comment=l.rfind("//")
+            #double slash terminates line basically
+            if comment:
+                l=l[:comment]
+            cols.append(l.strip())
+    #remove include and quotes inefficiently. Now cols is a list of relative paths
+    cols = [c.replace("#include ",'').replace('"','').replace("'",'') for c in cols]
+    #deal with duplicate pathing (such as /actors/actors etc.)
+    Extra = path.relative_to(Path(bpy.context.scene.decompPath))
+    for e in Extra.parts:
+        cols = [c.replace(e+'/','') for c in cols]
+    if cols:
+        return [path/c for c in cols]
+    else:
+        return []
+
+def FindCollisions(model,lvl,scene,path):
+    leveldat = open(model,'r')
+    cols=ParseAggregat(leveldat,'collision.inc.c',path)
+    #catch fast64 includes
+    fast64=ParseAggregat(leveldat,'leveldata.inc.c',path)
+    if fast64:
+        f64dat = open(fast64[0],'r')
+        cols+=ParseAggregat(f64dat,'collision.inc.c',path)
+    leveldat.close()
+    #search for the area terrain in each file
+    for k,v in lvl.Areas.items():
+        terrain = v.terrain
+        found=0
+        for c in cols:
+            if os.path.isfile(c):
+                c=open(c,'r')
+                c=c.readlines()
+                for i,l in enumerate(c):
+                    if terrain in l:
+                        #Trim Collision to be just the lines that have the file
+                        v.ColFile=c[i:]
+                        break
+                else:
+                    c=None    
+                    continue
+                break
+            else:
+                c=None
+        if not c:
+            raise Exception('Collision {} not found in levels/{}/{}leveldata.c'.format(terrain,scene.LevelImp.Level,scene.LevelImp.Prefix))
+        v.ColFile=CleanCollision(v.ColFile)
+    return lvl
+
+def CleanCollision(ColFile):
+    #Now do the same post processing to macros for potential fuckery that I did to scripts.
+    #This means removing comments, dealing with potential multi line macros and making sure each line is one macro
+    InlineReg="/\*((?!\*/).)*\*/"
+    started=0
+    skip=0
+    col=''
+    for l in ColFile:
+        #remove line comment
+        comment=l.rfind("//")
+        if comment:
+            l=l[:comment]
+        #check for macro
+        if '#ifdef' in l:
+            skip=EvalMacro(l)
+        if '#elif' in l:
+            skip=EvalMacro(l)
+        if '#else' in l:
+            skip=0
+        #Now Check for col start
+        if "Collision" in l and not skip:
+            started=1
+            continue
+        if started and not skip:
+            #remove inline comments from line
+            while(True):
+                m=re.search(InlineReg,l)
+                if not m:
+                    break
+                m=m.span()
+                l=l[:m[0]]+l[m[1]:]
+            #Check for end of Level Script array
+            if "};" in l:
+                started=0
+            #Add line to dict
+            else:
+                col+=l
+    #Now remove newlines from each script, and then split macro ends
+    #This makes each member of the array a single macro
+    col=col.replace("\n",'')
+    arr=[]
+    x=0
+    stack=0
+    buf=""
+    app=0
+    while(x<len(col)):
+        char=col[x]
+        if char=="(":
+            stack+=1
+            app=1
+        if char==")":
+            stack-=1
+        if app==1 and stack==0:
+            app=0
+            buf+=col[x:x+2] #get the last parenthesis and comma
+            arr.append(buf.strip())
+            x+=2
+            buf=''
+            continue
+        buf+=char
+        x+=1
+    return arr
+
+def WriteLevelCollision(lvl,scene):
+    for k,v in lvl.Areas.items():
+        #dat is a class that holds all the collision files data
+        dat=Collision(v.ColFile,scene.blenderToSM64Scale)
+        dat.GetCollision()
+        name="SM64 {} Area {} Col".format(scene.LevelImp.Level,k)
+        dat.WriteCollision(scene,name,v.root)
+
 def FormatModel(gfx,model,path):
     #For each data type, make an attribute where it cleans the input of the model files
     gfx.VB.update(FormatDat(model,'Vtx',["{","}"]))
@@ -991,97 +1003,42 @@ def FormatDat(model,Type,Chars):
         Models[k]=arr
     return Models
 
-#I will make these arbitrary later but for now its copy/paste bad code
-def CleanGeo(Geo):
-    #Get a dictionary made up with keys=level script names
-    #and values as an array of all the cmds inside.
-    GeoLayouts={}
-    InlineReg="/\*((?!\*/).)*\*/"
-    currScr=0
-    skip=0
-    for l in Geo:
-        comment=l.rfind("//")
-        #double slash terminates line basically
-        if comment:
-            l=l[:comment]
-        #check for macro
-        if '#ifdef' in l:
-            skip=EvalMacro(l)
-        if '#elif' in l:
-            skip=EvalMacro(l)
-        if '#else' in l:
-            skip=0
-        #Now Check for level script starts
-        if "GeoLayout" in l and not skip:
-            b=l.rfind('[]')
-            a=l.find('GeoLayout')
-            var=l[a+9:b].strip()
-            GeoLayouts[var] = ""
-            currScr=var
-            continue
-        if currScr and not skip:
-            #remove inline comments from line
-            while(True):
-                m=re.search(InlineReg,l)
-                if not m:
-                    break
-                m=m.span()
-                l=l[:m[0]]+l[m[1]:]
-            #Check for end of Level Script array
-            if "};" in l:
-                currScr=0
-            #Add line to dict
-            else:
-                GeoLayouts[currScr]+=l
-    #Now remove newlines from each script, and then split macro ends
-    #This makes each member of the array a single macro
-    for k,v in GeoLayouts.items():
-        v=v.replace("\n",'')
-        arr=[]
-        x=0
-        stack=0
-        buf=""
-        app=0
-        while(x<len(v)):
-            char=v[x]
-            if char=="(":
-                stack+=1
-                app=1
-            if char==")":
-                stack-=1
-            if app==1 and stack==0:
-                app=0
-                buf+=v[x:x+2] #get the last parenthesis and comma
-                arr.append(buf.strip())
-                x+=2
-                buf=''
-                continue
-            buf+=char
-            x+=1
-        GeoLayouts[k]=arr
-    return GeoLayouts
-
-def FindModels(geo,lvl,scene,path):
+#given a geo.c file and a path, return cleaned up geo layouts in a dict
+def GetGeoLayouts(geo,path):
     layouts=ParseAggregat(geo,'geo.inc.c',path)
+    if not layouts:
+        return
+    print(layouts)
     #because of fast64, these can be recursively defined (though I expect only a depth of one)
     for l in layouts:
         geoR = open(l,'r')
         layouts+=ParseAggregat(geoR,'geo.inc.c',path)
-    GeoLayouts={}
+    GeoLayouts={} #stores cleaned up geo layout lines
     for l in layouts:
         l=open(l,'r')
         lines=l.readlines()
-        GeoLayouts.update(CleanGeo(lines))
+        GeoLayouts.update(FormatDat(lines,'GeoLayout',["(",")"]))
+    return GeoLayouts
+
+#Find DL references given a level geo file and a path to a level folder
+def FindLvlModels(geo,lvl,scene,path):
+    GeoLayouts = GetGeoLayouts(geo,path)
     for k,v in lvl.Areas.items():
         GL=v.geo
         rt = v.root
         Geo=GeoLayout(GeoLayouts,rt,scene,"GeoRoot {} {}".format(scene.LevelImp.Level,k),rt)
-        Geo.ParseLevelGeosStart(GL,v.geo,scene)
+        Geo.ParseLevelGeosStart(GL,scene)
         v.geo=Geo
-        #So the key now is to just have pointers to all the models inside the geo layout class
     return lvl
 
+#Parse an aggregate group file or level data file for geo layouts
+def FindActModels(geo,Layout,scene,rt,path):
+    GeoLayouts = GetGeoLayouts(geo,path)
+    Geo=GeoLayout(GeoLayouts,rt,scene,"GeoRoot {}".format(Layout),rt)
+    Geo.ParseLevelGeosStart(Layout,scene)
+    return Geo
 
+#Parse an aggregate group file or level data file for f3d data
 def FindModelDat(model,scene,path):
     leveldat = open(model,'r')
     models=ParseAggregat(leveldat,'model.inc.c',path)
@@ -1103,8 +1060,8 @@ def FindModelDat(model,scene,path):
         md=open(m,'r')
         lines=md.readlines()
         Models=FormatModel(Models,lines,path)
-    #Update file to have texture.inc.c textures
-    for t in textures:
+    #Update file to have texture.inc.c textures, deal with included textures in the model.inc.c files aswell
+    for t in [*textures,*models]:
         t=open(t,'r')
         tex=t.readlines()
         #For textures, try u8, and s16 aswell
@@ -1113,7 +1070,6 @@ def FindModelDat(model,scene,path):
         Models.Textures.update(FormatDat(tex,'s16',[None,None]))
         t.close()
     return Models
-
 
 class GeoLayout():
     def __init__(self,GeoLayouts,root,scene,name,Aroot):
@@ -1131,10 +1087,10 @@ class GeoLayout():
         Parent(root,E)
         self.ParentTransform=[[0,0,0],[0,0,0]]
         self.LastTransform=[[0,0,0],[0,0,0]]
-    def ParseLevelGeosStart(self,start,intGeo,scene):
+    def ParseLevelGeosStart(self,start,scene):
         GL=self.GL.get(start)
         if not GL:
-            raise Exception("Could not find geo layout {} from levels/{}/{}geo.c".format(intGeo,scene.LevelImp.Level,scene.LevelImp.Prefix))
+            raise Exception("Could not find geo layout {} from levels/{}/{}geo.c".format(start,scene.LevelImp.Level,scene.LevelImp.Prefix))
         self.ParseLevelGeos(GL,0)
     #So I can start where ever for child nodes
     def ParseLevelGeos(self,GL,depth):
@@ -1238,14 +1194,14 @@ class GeoLayout():
 
 #Dict converting
 Layers={
-'LAYER_FORCE':'0',
-'LAYER_OPAQUE':'1',
-'LAYER_OPAQUE_DECAL':'2',
-'LAYER_OPAQUE_INTER':'3',
-'LAYER_ALPHA':'4',
-'LAYER_TRANSPARENT':'5',
-'LAYER_TRANSPARENT_DECAL':'6',
-'LAYER_TRANSPARENT_INTER':'7',
+    'LAYER_FORCE':'0',
+    'LAYER_OPAQUE':'1',
+    'LAYER_OPAQUE_DECAL':'2',
+    'LAYER_OPAQUE_INTER':'3',
+    'LAYER_ALPHA':'4',
+    'LAYER_TRANSPARENT':'5',
+    'LAYER_TRANSPARENT_DECAL':'6',
+    'LAYER_TRANSPARENT_INTER':'7',
 }
 
 def ReadGeoLayout(geo,scene,models,path):
@@ -1253,7 +1209,6 @@ def ReadGeoLayout(geo,scene,models,path):
         rt=geo.root
         #create a mesh for each one
         for m in geo.models:
-#            print(m)
             mesh = bpy.data.meshes.new(m[3]+' Data')
             [verts,tris] = models.GetDataFromModel(m[3].strip())
             mesh.from_pydata(verts,[],tris)
@@ -1278,22 +1233,11 @@ def ReadGeoLayout(geo,scene,models,path):
     for g in geo.Children:
         ReadGeoLayout(g,scene,models,path)
 
-
 def WriteLevelModel(lvl,scene,path,modelDat):
     for k,v in lvl.Areas.items():
         #Parse the geolayout class I created earlier to look for models
         ReadGeoLayout(v.geo,scene,modelDat,path)
-
-        #Gonna not use armatures
-        
-#        Arm=bpy.data.armatures.new("SM64 {} {} Geo".format(scene.LevelImp.Level,k)) #This is the armature data
-#        ArmObj=bpy.data.objects.new("Armature",Arm) #This is the armature object
-#        scene.collection.objects.link(ArmObj)
-        #Now we begin the fuckening
-        
     return lvl
-
-
 
 def ParseScript(script,scene):
     scr = open(script,'r')
@@ -1314,7 +1258,7 @@ def WriteObjects(lvl):
         area.PlaceObjects()
 
 def ImportLvlVisual(geo,lvl,scene,path,model):
-    lvl=FindModels(geo,lvl,scene,path)
+    lvl=FindLvlModels(geo,lvl,scene,path)
     models=FindModelDat(model,scene,path)
     models.GetGenericTextures(path)
     lvl=WriteLevelModel(lvl,scene,path,models)
@@ -1325,6 +1269,34 @@ def ImportLvlCollision(model,lvl,scene,path):
     WriteLevelCollision(lvl,scene)
     return lvl
 
+class SM64_OT_Act_Import(Operator):
+    bl_label = "Import Actor"
+    bl_idname = "wm.sm64_import_actor"
+
+    def execute(self, context):
+        scene = context.scene
+        scene.gameEditorMode = 'SM64'
+        path = Path(scene.decompPath)
+        folder = path / scene.ActImp.FolderType
+        Layout = scene.ActImp.GeoLayout
+        prefix = scene.ActImp.Prefix
+        #different name schemes and I have no clean way to deal with it
+        if 'actor' in scene.ActImp.FolderType:
+            geo = folder/(prefix+'_geo.c')
+            leveldat = folder/(prefix+'.c')
+        else:
+            geo = folder/(prefix+'geo.c')
+            leveldat = folder/(prefix+'leveldata.c')
+        geo=open(geo,'r')
+        Root = bpy.data.objects.new('Empty',None)
+        Root.name = 'Actor %s'%scene.ActImp.GeoLayout
+        scene.collection.objects.link(Root)
+        
+        Geo = FindActModels(geo,Layout,scene,Root,folder) #return geo layout class and write the geo layout
+        models=FindModelDat(leveldat,scene,folder)
+        models.GetGenericTextures(path)
+        ReadGeoLayout(Geo,scene,models,folder)
+        return {'FINISHED'}
 
 class SM64_OT_Lvl_Import(Operator):
     bl_label = "Import Level"
@@ -1338,12 +1310,12 @@ class SM64_OT_Lvl_Import(Operator):
         level = path/'levels'/scene.LevelImp.Level
         script= level/(prefix+'script.c')
         geo = level/(prefix+'geo.c')
-        model = level/(prefix+'leveldata.c')
+        leveldat = level/(prefix+'leveldata.c')
         geo=open(geo,'r')
         lvl = ParseScript(script,scene) #returns level class
         WriteObjects(lvl)
-        lvl = ImportLvlCollision(model,lvl,scene,path)
-        lvl = ImportLvlVisual(geo,lvl,scene,path,model)
+        lvl = ImportLvlCollision(leveldat,lvl,scene,path)
+        lvl = ImportLvlVisual(geo,lvl,scene,path,leveldat)
         return {'FINISHED'}
 
 class SM64_OT_Lvl_Gfx_Import(Operator):
@@ -1396,6 +1368,45 @@ class SM64_OT_Obj_Import(Operator):
         lvl=ParseScript(script,scene) #returns level class
         WriteObjects(lvl)
         return {'FINISHED'}
+
+class ActorImport(PropertyGroup):
+    GeoLayout: StringProperty(
+        name = "GeoLayout",
+        description="Name of GeoLayout"
+        )
+    FolderType: EnumProperty(
+        name = "Source",
+        description="Whether the actor is from a level or from a group",
+        items=[
+        ('actors','actors',''),
+        ('levels','levels',''),
+        ]
+    )
+    Prefix: StringProperty(
+        name = "Prefix",
+        description="Prefix before expected aggregator files like script.c, leveldata.c and geo.c",
+        default=""
+    )
+    Version: EnumProperty(
+        name='Version',
+        description="Version of the game for any ifdef macros",
+        items=[
+        ('VERSION_US','VERSION_US',''),
+        ('VERSION_JP','VERSION_JP',''),
+        ('VERSION_EU','VERSION_EU',''),
+        ('VERSION_SH','VERSION_SH',''),
+        ]
+    )
+    Target: StringProperty(
+        name = "Target",
+        description="The platform target for any #ifdefs in code",
+        default="TARGET_N64"
+    )
+    ForceNewTex: BoolProperty(
+        name = "ForceNewTex",
+        description="Forcefully load new textures even if duplicate path/name is detected",
+        default=False
+    )
 
 class LevelImport(PropertyGroup):
     Level: EnumProperty(
@@ -1508,14 +1519,24 @@ class Actor_PT_Panel(Panel):
     def draw(self, context):
         layout = self.layout
         scene = context.scene
-        
+        ActImp = scene.ActImp
+        layout.prop(ActImp,"FolderType")
+        layout.prop(ActImp, "GeoLayout")
+        layout.prop(ActImp, "Prefix")
+        layout.prop(ActImp,"Version")
+        layout.prop(ActImp,"Target")
+        layout.prop(ActImp,"ForceNewTex")
+        layout.operator("wm.sm64_import_actor")
+
 
 classes = (
     LevelImport,
+    ActorImport,
     SM64_OT_Lvl_Import,
     SM64_OT_Lvl_Gfx_Import,
     SM64_OT_Lvl_Col_Import,
     SM64_OT_Obj_Import,
+    SM64_OT_Act_Import,
     Level_PT_Panel,
     Actor_PT_Panel
 )
@@ -1527,6 +1548,7 @@ def register():
         register_class(cls)
 
     bpy.types.Scene.LevelImp = PointerProperty(type=LevelImport)
+    bpy.types.Scene.ActImp = PointerProperty(type=ActorImport)
 
 def unregister():
     from bpy.utils import unregister_class
