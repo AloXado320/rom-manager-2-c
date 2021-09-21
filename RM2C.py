@@ -23,6 +23,8 @@ import ActorCHKSM
 import BehComp
 import ColComp
 import time
+import cProfile
+import pstats
 #So that each Script class doesn't open up a half MB file.
 mapF = open('sm64.us.map','r')
 map = mapF.readlines()
@@ -553,7 +555,10 @@ def WriteModel(rom,dls,s,name,Hname,id,tdir):
 		if first==0x01010101 or not F3D.DecodeFmt.get(c):
 			return
 		try:
-			(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id,1)
+			(dl,verts,textures,amb,diff,ranges,starts,fog)=F3D.DecodeVDL(rom,dls[x],s,id,1)
+			if fog:
+				f = name.relative_to(Path(sys.path[0])) / 'custom.model.inc.c'
+				Log.LevelFog(str(f))
 			ModelData.append([starts,dl,verts,textures,amb,diff,ranges,0])
 		except:
 			print("{} has a broken level DL and is being skipped".format(Num2LevelName.get(s.Currlevel)))
@@ -807,7 +812,7 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 	MusicOnly = Onlys[2]
 	OnlySkip = any(Onlys)
 	name=Num2Name[num]
-	level=Path(sys.path[0])/'levels'/("%s"%name)
+	level=Path(rootdir)/'levels'/("%s"%name)
 	original = rootdir/'originals'/("%s"%name)
 	shutil.copytree(original,level)
 	#open original script
@@ -893,7 +898,7 @@ def WriteLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname,m64s,s
 	MusicOnly = Onlys[2]
 	OnlySkip = any(Onlys)
 	name=Num2Name[num]
-	level=Path(sys.path[0])/'levels'/("%s"%name)
+	level=Path(rootdir)/'levels'/("%s"%name)
 	original = rootdir/'originals'/("%s"%name)
 	shutil.copytree(original,level)
 	Areasdir = level/"areas"
@@ -1167,7 +1172,7 @@ jumps = {
 	0x39:MacroObjects
 }
 
-def RipNonLevelSeq(rom,m64s,seqNums,rootdir,MusicExtend):
+def RipNonLevelSeq(rom,m64s,seqNums,rootdir,MusicExtend,romname):
 	m64dir = rootdir/'sound'/"sequences"/"us"
 	os.makedirs(m64dir,exist_ok=True)
 	NonLevels=[1,2,11,13,14,15,16,18,20,21,22,23,27,28,29,30,31,32,33]
@@ -1213,6 +1218,9 @@ def CreateSeqJSON(rom,m64s,rootdir,MusicExtend):
 	for j,m64 in enumerate(m64s):
 		bank = UPH(rom,seqMagic+(m64[1]-MusicExtend)*2)
 		bank = UPB(rom,seqMagic+bank+1)
+		if bank>37:
+			print("sound bank error, try exporting with different rom type (e.g. editor=0)\nseq json may not work properly")
+			break
 		if MusicExtend:
 			seqJSON.write("\t\"{}\": [\"{}\"],\n".format(m64[0],SoundBanks[bank]))
 			continue
@@ -2068,15 +2076,6 @@ def ExportWaterBoxes(AllWaterBoxes,rootdir):
 	misc = rootdir/'src'/'game'
 	os.makedirs(misc,exist_ok=True)
 	MovtexEdit = misc/"moving_texture.inc.c"
-	infoMsg = """#include <ultra64.h>
-#include "sm64.h"
-#include "moving_texture.h"
-#include "area.h"
-/*
-This is an include meant to help with the addition of moving textures for water boxes. Moving textures are hardcoded in vanilla, but in hacks they're procedural. Every hack uses 0x5000 +Type (0 for water, 1 for toxic mist, 2 for mist) to locate the tables for their water boxes. I will replicate this by using a 3 dimensional array of pointers. This wastes a little bit of memory but is way easier to manage.
-To use this, simply place this file inside your source directory after exporting.
-*/
-"""
 	AllWaterBoxes.sort(key=(lambda x: [x[1],x[2],x[3]])) #level,area,type
 	if not AllWaterBoxes:
 		print("no water boxes")
@@ -2189,99 +2188,32 @@ def ExportTitleScreen(rom,level):
 		bin = rom[loc:loc+tex[3]]
 		BinPNG.RGBA16(*tex[2],bin,img)
 
-if __name__=='__main__':
-	HelpMsg="""
-------------------Invalid Input - Error ------------------
 
-Arguments for RM2C are as follows:
-RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0 Inherit=0 Upscale=0 Title=0 Sound=0 Objects=0
-
-Arguments with equals sign are shown in default state, do not put commas between args.
-Levels accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
-Actors will accept either a list of groups, a string for a group (see decomp group folders e.g. common0, group1 etc.) the string 'all' for all models, or the string 'new' for only models without a known label, or 'old' for only known original models.
-The "Only" options are to only export certain things either to deal with specific updates or updates to RM2C itself. Only use one at a time. An only option will not maintain other data. Do not use Append with MusicOnly, it will have no effect.
-MusicExtend is for when you want to add in your custom music on top of the original tracks. Set it to the amount you want to offset your tracks by (0x23 for vanilla).
-Objects will export behaviors and object collision. Possible args are 'all' for all behaviors used, 'new' for ones without a known label, or you can pass a singular or list of regex matches e.g. ['[0-9]','koopa'].
-Textures will export the equivalent of the /textures/ folder in decomp.
-Inherit is a file management arg for when dealing with multiple roms. Normal behavior is to clear level folder each time, inherit prevents this.
-Title exports the title screen. This will also be exported if levels='all'
-Sound will export instrument bank and sound sample data. It does not seem to work with custom samples well.
-Upscale is an option to use ESRGAN ai upscaling to increase texture size. The upscaled textures will generate #ifdefs in each model file for non N64 targeting to compile them instead of the original textures.
-
-
-Example input1 (all actor models in BoB):
-python RM2C.py rom="ASA.z64" editor=True levels=[9] actors='all' ObjectOnly=1
-
-Example input2 (Export all Levels in a RM rom):
-python RM2C.py rom="baserom.z64" levels='all'
-
-Example input3 (Export all BoB in a RM rom with a second area from another rom):
-python RM2C.py rom="baserom.z64" levels='all' Append=[('rom2.z64',1,True)]
-
-NOTE! if you are on unix bash requires you to escape certain characters. For this module, these
-are quotes and paranthesis. Add in a escape before each.
-
-example: python3 RM2C.py rom=\'sm74.z64\' levels=[9] Append=[\(\'sm74EE.z64\',1,1\)] editor=1
-
-A bad input will automatically generate an escaped version of your args, but it cannot do so before
-certain bash errors.
-------------------Invalid Input - Error ------------------
-"""
-	#set default arguments
-	levels=[]
-	actors=[]
-	editor=False
-	rom=''
-	Append=[]
-	args = ""
-	WaterOnly = 0
-	ObjectOnly = 0
-	MusicOnly = 0
-	MusicExtend = 0
-	Text = None
-	Misc=None
-	Textures=0
-	Inherit=0
-	Upscale=0
-	Title=0
-	Sound=0
-	Objects=0
+def main(levels = [], actors = [], editor = False, rom = '', Append = [], WaterOnly = 0, ObjectOnly = 0,
+MusicOnly = 0, MusicExtend = 0, Text = None, Misc = None, Textures = 0, Inherit = 0, Upscale = 0,
+Title = 0, Sound = 0, Objects = 0):
 	#This is not an arg you should edit really
 	TxtAmount = 170
-	for arg in sys.argv[1:]:
-		args+=arg+" "
-	a = "\\".join(args)
-	a = "python3 RM2C.py "+a
-	try:
-		#the utmosts of cringes
-		for arg in sys.argv:
-			if arg=='RM2C.py':
-				continue
-			arg=arg.split('=')
-			locals()[arg[0]]=eval(arg[1])
-	except:
-		print(HelpMsg)
-		print("If you are using terminal try using this\n"+a)
-		raise 'bad arguments'
 	romname = rom.split(".")[0]
-	fullromname=rom
-	rom=open(rom,'rb')
+	fullromname = rom
+	rom = open(rom,'rb')
 	rom = rom.read()
+	root = sys.path[0]
 	#Export dialogs and course names
 	if (Text or levels=='all') and Text!=0:
 		for A in Append:
 			Arom = open(A[0],'rb')
 			Arom = Arom.read()
-			ExportText(Arom,Path(sys.path[0]),TxtAmount)
-		ExportText(rom,Path(sys.path[0]),TxtAmount)
+			ExportText(Arom,Path(root),TxtAmount)
+		ExportText(rom,Path(root),TxtAmount)
 		print('Text Finished')
 	#Export misc data like trajectories or star positions.
 	if (Misc or levels=='all') and Misc!=0:
 		for A in Append:
 			Arom = open(A[0],'rb')
 			Arom = Arom.read()
-			ExportMisc(Arom,Path(sys.path[0]),A[2])
-		ExportMisc(rom,Path(sys.path[0]),editor)
+			ExportMisc(Arom,Path(root),A[2])
+		ExportMisc(rom,Path(root),editor)
 		print('Misc Finished')
 	print('Starting Export')
 	AllWaterBoxes = []
@@ -2289,12 +2221,12 @@ certain bash errors.
 	seqNums = []
 	Onlys = [WaterOnly,ObjectOnly,MusicOnly]
 	#clean sound dir
-	sound = Path(sys.path[0]) / 'sound'
+	sound = Path(root) / 'sound'
 	if not Inherit:
 		if os.path.isdir(sound):
 			shutil.rmtree(sound)
 	#custom level defines file so the linker knows whats up. Mandatory or export won't work
-	lvldir = Path(sys.path[0]) / 'levels'
+	lvldir = Path(root) / 'levels'
 	#So you don't have truant level folders from a previous export
 	if not Inherit:
 		if os.path.isdir(lvldir):
@@ -2303,7 +2235,7 @@ certain bash errors.
 	lvldefs = lvldir/"custom_level_defines.h"
 	lvldefs = open(lvldefs,'w')
 	ass=Path("actors")
-	ass=Path(sys.path[0])/ass
+	ass=Path(root)/ass
 	if not Inherit and (actors or Objects):
 		if os.path.isdir(ass):
 			shutil.rmtree(ass)
@@ -2325,7 +2257,7 @@ certain bash errors.
 	lvldefs.close()
 	gc.collect() #gaurantee some mem is freed up.
 	#Export texture scrolls
-	ExportTextureScrolls(Scripts,Path(sys.path[0]))
+	ExportTextureScrolls(Scripts,Path(root))
 	#export title screen via arg
 	if Title:
 		ExportTitleScreen(rom,lvldir)
@@ -2335,19 +2267,45 @@ certain bash errors.
 		ExportActors(actors,rom,Models,ass)
 	#Behaviors
 	if Objects:
-		ExportObjects(Objects,ObjectD,rom,ass,Path(sys.path[0]),editor)
+		ExportObjects(Objects,ObjectD,rom,ass,Path(root),editor)
 	#export textures
 	if Textures:
-		ExportTextures(rom,editor,Path(sys.path[0]),Banks,Inherit)
+		ExportTextures(rom,editor,Path(root),Banks,Inherit)
 	#AllWaterBoxes should have refs to all water boxes, using that, I will generate a function
 	#and array of references so it can be hooked into moving_texture.c
 	#example of AllWaterBoxes format [[str,level,area,type]...]
 	if not (MusicOnly or ObjectOnly):
-		ExportWaterBoxes(AllWaterBoxes,Path(sys.path[0]))
+		ExportWaterBoxes(AllWaterBoxes,Path(root))
 	if not (WaterOnly or ObjectOnly):
-		RipNonLevelSeq(rom,m64s,seqNums,Path(sys.path[0]),MusicExtend)
-		CreateSeqJSON(rom,list(zip(m64s,seqNums)),Path(sys.path[0]),MusicExtend)
+		RipNonLevelSeq(rom,m64s,seqNums,Path(root),MusicExtend,romname)
+		CreateSeqJSON(rom,list(zip(m64s,seqNums)),Path(root),MusicExtend)
 		if Sound:
-			RipInstBanks(fullromname,Path(sys.path[0]))
+			RipInstBanks(fullromname,Path(root))
 	Log.WriteWarnings()
 	print('Export Completed, see ImportInstructions.py for potential errors when importing to decomp')
+
+if __name__=='__main__':
+	argD = {}
+	args = ''
+	for arg in sys.argv[1:]:
+		args+=arg+" "
+	try:
+		#the utmosts of cringes
+		for arg in sys.argv:
+			if arg=='RM2C.py':
+				continue
+			arg = arg.split('=')
+			argD[arg[0]]=eval(arg[1])
+	except:
+		print(HelpMsg)
+		a = "\\".join(args)
+		a = "python3 RM2C.py "+a
+		print("If you are using terminal try using this\n"+a)
+		raise 'bad arguments'
+	main(**argD)
+	# with cProfile.Profile() as pr:
+		# main(**argD)
+	# stats = pstats.Stats(pr)
+	# stats.sort_stats(pstats.SortKey.CUMULATIVE)
+	# stats.print_stats()
+	# stats.dump_stats(filename='profile.prof')

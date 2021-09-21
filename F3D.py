@@ -7,6 +7,7 @@ import BinPNG
 import os
 import multiprocessing as mp
 import Log
+from functools import lru_cache
 #typedef struct {
 #  unsigned char	col[3];		/* diffuse light value (rgba) */
 #  char 		pad1;
@@ -399,6 +400,7 @@ class F3D_decode():
 
 #give cmd as binary.
 #should return cmd as string, and args as tuple
+@lru_cache(maxsize=32) #will save lots of time with repeats of tri calls
 def Bin2C(cmd,id):
 	cmd = BitArray(cmd)
 	c = F3D_decode(cmd[0:8].uint)
@@ -482,7 +484,6 @@ def DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,start,LastMat,dl
 		#check for fog to print error msg.
 		elif (MSB==0xb9) and 'G_RM_FOG_SHADE_A' in cmd[0]:
 			if not gFog:
-				Log.LevelFog(s.Currlevel,'DL_{}{}'.format(id,hex(start[dlStack][1])))
 				gFog = 1
 			dl[dlStack].append(cmd[0])
 			x+=8
@@ -503,7 +504,7 @@ def DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,start,LastMat,dl
 	ranges[-1][4] = len(dl[dlStack])-1
 	ranges[-1][1] = textureptrs[-1].copy()
 	ranges[-1][3] = 1
-	return (dl,verts,textureptrs,amb,diffuse,ranges,start)
+	return (dl,verts,textureptrs,amb,diffuse,ranges,start,gFog)
 
 #based on the f3d cmd, add things to data objects
 def EvalMaterial(MSB,ranges,cmd,textureptrs,diffuse,amb,verts,s,dl):

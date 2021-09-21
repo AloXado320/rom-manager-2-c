@@ -4,6 +4,7 @@ import math
 from bitstring import *
 from PIL import Image #for skyboxes
 import zlib
+from functools import lru_cache
 #convert bin to png
 
 def InitSkybox(name):
@@ -123,6 +124,7 @@ def EditFile(file,width,height,shifts,PpB,b):
 	return newfile
 
 #convert bits
+@lru_cache(maxsize=255)
 def CB(val,bits):
 	return int(((val*255)+(2**(bits-1))-1)/(2**(bits)-1))
 
@@ -141,8 +143,8 @@ def GetPalette(palette,depth,bpp):
 	for p in range(2**depth):
 		b = BitArray(bin[p*2:p*2+2])
 		a=b.unpack('3*uint:5,uint:1')
-		a = [CB(c,8-s) if s<8 else OBA(c) for c,s in zip(a,shifts)]
-		o.append(tuple(a))
+		a = *(CB(c,8-s) if s<8 else OBA(c) for c,s in zip(a,shifts)),
+		o.append(a)
 	return o
 
 def MakeRGBA(file,Bpp,Alpha):

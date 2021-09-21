@@ -44,14 +44,14 @@ def InvalidScroll(level,area,scroll):
 
 LastFog=[]
 Fogerrs=[]
-def LevelFog(level,DL):
+def LevelFog(file):
 	global LastFog
 	global Fogerrs
-	if (level,DL) in LastFog:
+	if file in LastFog:
 		return
 	else:
-		LastFog.append((level,DL))
-		err = 'Level {} Display List {} has fog, for editor, fog DLs are heavily edited, potential for gfx errors.'.format(Num2Name[level],DL)
+		LastFog.append(file)
+		err = 'Model file {} has fog, for editor, fog DLs are heavily edited, potential for gfx errors.'.format(file)
 		print(err)
 		Fogerrs.append(err+'\n')
 
