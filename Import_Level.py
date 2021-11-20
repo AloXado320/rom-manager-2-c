@@ -416,7 +416,7 @@ class Mat():
         self.GeoSet=[]
         self.GeoClear=[]
     #calc the hash for an f3d mat and see if its equal to this mats hash
-    def MatHash(self,f3d,textures):
+    def MatHashF3d(self,f3d,textures):
         #texture,1 cycle combiner, geo modes (once I implement them)
         rdp = f3d.rdp_settings
         if f3d.tex0.tex:
@@ -436,13 +436,53 @@ class Mat():
             dupe = hash(MyProps) == hash(F3Dprops)
             return dupe
         return False
+    def MatHash(self,mat,textures):
+        return False
+    def LoadTexture(self,ForceNewTex,textures,path):
+        tex = textures.get(self.Timg)[0].split('/')[-1]
+        tex=tex.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
+        print(tex,'tex',bpy.data.images.get(tex))
+        i = bpy.data.images.get(tex)
+        if not i or ForceNewTex:
+            tex=textures.get(self.Timg)[0]
+            tex=tex.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
+            #deal with duplicate pathing (such as /actors/actors etc.)
+            Extra = path.relative_to(Path(bpy.context.scene.decompPath))
+            for e in Extra.parts:
+                tex = tex.replace(e+'/','')
+            #deal with actor import path not working for shared textures
+            if 'textures' in tex:
+                fp = Path(bpy.context.scene.decompPath) / tex
+            else:
+                fp = path/tex
+            print(fp,'img filepath')
+            return bpy.data.images.load(filepath=str(fp))
+        else:
+            return i
+    def ApplyPBSDFMat(self,mat,textures,path,layer):
+        nt = mat.node_tree
+        nodes = nt.nodes
+        links = nt.links
+        pbsdf = nodes.get('Principled BSDF')
+        tex = nodes.new("ShaderNodeTexImage")
+        links.new(pbsdf.inputs[0],tex.outputs[0])
+        links.new(pbsdf.inputs[19],tex.outputs[1])
+        i = self.LoadTexture(bpy.context.scene.LevelImp.ForceNewTex,textures,path)
+        print(i,'image')
+        if i:
+            tex.image = i
+        if layer>4:
+            mat.blend_method == 'BLEND'
     def ApplyMatSettings(self,mat,textures,path,layer):
+        if bpy.context.scene.LevelImp.AsObj:
+            return self.ApplyPBSDFMat(mat,textures,path,layer)
         #make combiner custom
         f3d=mat.f3d_mat #This is kure's custom property class for materials
         f3d.presetName="Custom"
         self.SetCombiner(f3d,layer)
         f3d.draw_layer.sm64 = layer
-        ForceNewTex = bpy.context.scene.LevelImp.ForceNewTex
+        if layer>4:
+            mat.blend_method == 'BLEND'
         #I set these but they aren't properly stored because they're reset by fast64 or something
         #its better to have defaults than random 2 cycles
 #        self.SetGeoMode(f3d.rdp_settings,mat)
@@ -450,36 +490,13 @@ class Mat():
 #            f3d.rdp_settings.gdsft_cycletype = 'G_CYC_2CYCLE'
 #        else:
 #            f3d.rdp_settings.gdsft_cycletype = 'G_CYC_1CYCLE'
-        #Try to set an imagea
+        #Try to set an image
         try:
-            tex = textures.get(self.Timg)[0].split('/')[-1]
-            tex=tex.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
-            print(tex,'tex')
-            i = bpy.data.images.get(tex)
-            if not i or ForceNewTex:
-                tex=textures.get(self.Timg)[0]
-                tex=tex.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
-                #deal with duplicate pathing (such as /actors/actors etc.)
-                Extra = path.relative_to(Path(bpy.context.scene.decompPath))
-                for e in Extra.parts:
-                    tex = tex.replace(e+'/','')
-                #deal with actor import path not working for shared textures
-                if 'textures' in tex:
-                    fp = Path(bpy.context.scene.decompPath) / tex
-                else:
-                    fp = path/tex
-                print(fp,'img filepath')
-                i=bpy.data.images.load(filepath=str(fp))
-                #Set the image user
-                tex0=f3d.tex0
-                tex0.tex_set=True
-                tex0.tex=i
-                tex0.tex_format = self.EvalFmt()
-            else:
-                tex0=f3d.tex0
-                tex0.tex_set=True
-                tex0.tex=i
-                tex0.tex_format = self.EvalFmt()
+            i = self.LoadTexture(bpy.context.scene.LevelImp.ForceNewTex,textures,path)
+            tex0=f3d.tex0
+            tex0.tex_set=True
+            tex0.tex=i
+            tex0.tex_format = self.EvalFmt()
         except:
             print("Could not find {}".format(self.Timg))
         #Update node values
@@ -748,14 +765,27 @@ class F3d():
     def Create_new_f3d_mat(self,mat,textures,mesh):
         #check if this mat was used already in another mesh (or this mat if DL is garbage or something)
         #even looping n^2 is probably faster than duping 3 mats with blender speed
-        if not bpy.context.scene.LevelImp.ForceNewTex:
-            for F3Dmat in bpy.data.materials:
-                if F3Dmat.is_f3d:
-                    dupe = mat.MatHash(F3Dmat.f3d_mat,textures)
-                    if dupe:
-                        mesh.materials.append(F3Dmat)
-                        return F3Dmat
-        bpy.ops.object.create_f3d_mat() #the newest mat should be in slot[-1] for the mesh materials
+        if not bpy.context.scene.LevelImp.AsObj:
+            if not bpy.context.scene.LevelImp.ForceNewTex:
+                for F3Dmat in bpy.data.materials:
+                    if F3Dmat.is_f3d:
+                        dupe = mat.MatHashF3d(F3Dmat.f3d_mat,textures)
+                        if dupe:
+                            mesh.materials.append(F3Dmat)
+                            return F3Dmat
+            bpy.ops.object.create_f3d_mat() #the newest mat should be in slot[-1] for the mesh materials
+            return None
+        else:
+            if not bpy.context.scene.LevelImp.ForceNewTex:
+                for mat in bpy.data.materials:
+                    if 0:
+                        dupe = mat.MatHash(mat,textures)
+                        if dupe:
+                            mesh.materials.append(mat)
+                            return mat
+            NewMat = bpy.data.materials.new("material")
+            mesh.materials.append(NewMat) #the newest mat should be in slot[-1] for the mesh materials
+            NewMat.use_nodes = True
         return None
 
 def RotateObj(deg,obj):
@@ -1402,11 +1432,6 @@ class ActorImport(PropertyGroup):
         description="The platform target for any #ifdefs in code",
         default="TARGET_N64"
     )
-    ForceNewTex: BoolProperty(
-        name = "ForceNewTex",
-        description="Forcefully load new textures even if duplicate path/name is detected",
-        default=False
-    )
 
 class LevelImport(PropertyGroup):
     Level: EnumProperty(
@@ -1476,6 +1501,11 @@ class LevelImport(PropertyGroup):
         description="Forcefully load new textures even if duplicate path/name is detected",
         default=False
     )
+    AsObj: BoolProperty(
+        name = "As OBJ",
+        description="Make new materials as PBSDF so they export to obj format",
+        default=False
+    )
 
 class Level_PT_Panel(Panel):
     bl_label = "SM64 Level Importer"
@@ -1498,7 +1528,9 @@ class Level_PT_Panel(Panel):
         layout.prop(LevelImp,"Prefix")
         layout.prop(LevelImp,"Version")
         layout.prop(LevelImp,"Target")
-        layout.prop(LevelImp,"ForceNewTex")
+        row = layout.row()
+        row.prop(LevelImp,"ForceNewTex")
+        row.prop(LevelImp,"AsObj")
         layout.operator("wm.sm64_import_level")
         layout.operator("wm.sm64_import_level_gfx")
         layout.operator("wm.sm64_import_level_col")
@@ -1525,7 +1557,6 @@ class Actor_PT_Panel(Panel):
         layout.prop(ActImp, "Prefix")
         layout.prop(ActImp,"Version")
         layout.prop(ActImp,"Target")
-        layout.prop(ActImp,"ForceNewTex")
         layout.operator("wm.sm64_import_actor")
 
 
