@@ -126,7 +126,11 @@ class Area():
         Obj.sm64_obj_type= 'Object'
         Obj.sm64_behaviour_enum= 'Custom'
         Obj.sm64_obj_behaviour=args[8].strip()
-        Obj.sm64_obj_bparam=args[7]
+        #bparam was changed in newer version of fast64
+        if hasattr(Obj,"sm64_obj_bparam"):
+            Obj.sm64_obj_bparam=args[7]
+        else:
+            Obj.fast64.sm64.game_object.bparams = args[7]
         Obj.sm64_obj_model=args[0]
         loc=[eval(a.strip())/self.scene.blenderToSM64Scale for a in args[1:4]]
         #rotate to fit sm64s axis
@@ -186,7 +190,6 @@ class Level():
             #ends script, I get arg -1 because sm74 has a different jump cmd
             elif LsW("JUMP"):
                 Nentry = self.Scripts.get(args[-1])
-                print(Nentry,args[-1])
                 if Nentry:
                     self.ParseScript(args[-1])
                 #for the sm74 port
@@ -441,7 +444,6 @@ class Mat():
     def LoadTexture(self,ForceNewTex,textures,path):
         tex = textures.get(self.Timg)[0].split('/')[-1]
         tex=tex.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
-        print(tex,'tex',bpy.data.images.get(tex))
         i = bpy.data.images.get(tex)
         if not i or ForceNewTex:
             tex=textures.get(self.Timg)[0]
@@ -455,7 +457,6 @@ class Mat():
                 fp = Path(bpy.context.scene.decompPath) / tex
             else:
                 fp = path/tex
-            print(fp,'img filepath')
             return bpy.data.images.load(filepath=str(fp))
         else:
             return i
@@ -468,7 +469,6 @@ class Mat():
         links.new(pbsdf.inputs[0],tex.outputs[0])
         links.new(pbsdf.inputs[19],tex.outputs[1])
         i = self.LoadTexture(bpy.context.scene.LevelImp.ForceNewTex,textures,path)
-        print(i,'image')
         if i:
             tex.image = i
         if layer>4:
@@ -481,7 +481,7 @@ class Mat():
         f3d.presetName="Custom"
         self.SetCombiner(f3d,layer)
         f3d.draw_layer.sm64 = layer
-        if layer>4:
+        if int(layer)>4:
             mat.blend_method == 'BLEND'
         #I set these but they aren't properly stored because they're reset by fast64 or something
         #its better to have defaults than random 2 cycles
@@ -504,11 +504,9 @@ class Mat():
         override["material"] = mat
         bpy.ops.material.update_f3d_nodes(override)
     def SetGeoMode(self,rdp,mat):
-        print(self.GeoSet,self.GeoClear,'geo')
         for a in self.GeoSet:
             try:
                 setattr(self,a.lower(),True)
-                print(getattr(self,a.lower()),a.lower(),mat.name)
             except:
                 print(a.lower(),'set')
         for a in self.GeoClear:
@@ -659,7 +657,6 @@ class F3d():
                     add='0'
                 VB=self.VB.get(ref.strip())
                 if not VB:
-                    #print(self.VB.keys())
                     raise Exception("Could not find VB {} in levels/{}/{}leveldata.inc.c".format(ref,self.scene.LevelImp.Level,self.scene.LevelImp.Prefix))
                 Verts=VB[int(add.strip()):int(add.strip())+eval(args[1])] #If you use array indexing here then you deserve to have this not work
                 Verts=[self.ParseVert(v) for v in Verts]
@@ -1038,7 +1035,6 @@ def GetGeoLayouts(geo,path):
     layouts=ParseAggregat(geo,'geo.inc.c',path)
     if not layouts:
         return
-    print(layouts)
     #because of fast64, these can be recursively defined (though I expect only a depth of one)
     for l in layouts:
         geoR = open(l,'r')
@@ -1166,7 +1162,6 @@ class GeoLayout():
             #Append to models array. Only check this one for now
             elif LsW("GEO_DISPLAY_LIST"):
                 #translation, rotation, layer, model
-#                print(self.ParentTransform,'Parent')
                 self.models.append([*self.ParentTransform,*args])
                 continue
             elif LsW("GEO_TRANSLATE_NODE_WITH_DL"):
@@ -1175,7 +1170,6 @@ class GeoLayout():
                     Tlate=[float(a)/bpy.context.scene.blenderToSM64Scale for a in args[1:4]]
                     Tlate = [Tlate[0],-Tlate[2],Tlate[1]]
                     model=args[-1]
-                    print(self.LastTransform)
                     self.LastTransform=[Tlate,self.LastTransform[1]]
                     self.models.append([Tlate,(0,0,0),layer,model])
                     continue
@@ -1234,16 +1228,24 @@ Layers={
     'LAYER_TRANSPARENT_INTER':'7',
 }
 
-def ReadGeoLayout(geo,scene,models,path):
+#from a geo layout, create all the mesh's
+def ReadGeoLayout(geo,scene,models,path,meshes):
     if geo.models:
         rt=geo.root
-        #create a mesh for each one
+        #create a mesh for each one.
         for m in geo.models:
-            mesh = bpy.data.meshes.new(m[3]+' Data')
-            [verts,tris] = models.GetDataFromModel(m[3].strip())
-            mesh.from_pydata(verts,[],tris)
-            mesh.validate()
-            mesh.update(calc_edges=True)
+            name = m[3]+' Data'
+            if name in meshes.keys():
+                mesh = meshes[name]
+                name = 0
+            else:
+                print(meshes)
+                mesh = bpy.data.meshes.new(name)
+                meshes[name] = mesh
+                [verts,tris] = models.GetDataFromModel(m[3].strip())
+                mesh.from_pydata(verts,[],tris)
+                mesh.validate()
+                mesh.update(calc_edges=True)
             obj = bpy.data.objects.new(m[3]+' Obj',mesh)
             layer=m[2]
             if not layer.isdigit():
@@ -1257,16 +1259,18 @@ def ReadGeoLayout(geo,scene,models,path):
             scale=1/scene.blenderToSM64Scale
             obj.scale=[scale,scale,scale]
             obj.location=m[0]
-            models.ApplyDat(obj,mesh,layer,path)
+            if name:
+                models.ApplyDat(obj,mesh,layer,path)
     if not geo.Children:
         return
     for g in geo.Children:
-        ReadGeoLayout(g,scene,models,path)
+        ReadGeoLayout(g,scene,models,path,meshes)
 
 def WriteLevelModel(lvl,scene,path,modelDat):
     for k,v in lvl.Areas.items():
         #Parse the geolayout class I created earlier to look for models
-        ReadGeoLayout(v.geo,scene,modelDat,path)
+        meshes = {} #re use mesh data when the same DL is referenced (bbh is good example)
+        ReadGeoLayout(v.geo,scene,modelDat,path,meshes)
     return lvl
 
 def ParseScript(script,scene):
@@ -1325,7 +1329,8 @@ class SM64_OT_Act_Import(Operator):
         Geo = FindActModels(geo,Layout,scene,Root,folder) #return geo layout class and write the geo layout
         models=FindModelDat(leveldat,scene,folder)
         models.GetGenericTextures(path)
-        ReadGeoLayout(Geo,scene,models,folder)
+        meshes = {} #re use mesh data when the same DL is referenced (bbh is good example)
+        ReadGeoLayout(Geo,scene,models,folder,meshes)
         return {'FINISHED'}
 
 class SM64_OT_Lvl_Import(Operator):
