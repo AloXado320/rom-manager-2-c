@@ -235,7 +235,7 @@ class Level():
                 rt.startDialog=args[1].strip()
                 continue
             if LsW("TERRAIN"):
-                self.Areas[self.CurrArea].terrain = args[0]
+                self.Areas[self.CurrArea].terrain = args[0].strip()
                 continue
             if LsW("SET_BACKGROUND_MUSIC") or LsW("SET_MENU_MUSIC"):
                 rt=self.Areas[self.CurrArea].root
@@ -329,6 +329,7 @@ class Collision():
     def GetCollision(self):
         for l in self.col:
             args=self.StripArgs(l)
+#            print(args,l)
             #to avoid catching COL_VERTEX_INIT
             if l.startswith('COL_VERTEX') and len(args)==3:
                 self.vertices.append([eval(v)/self.scale for v in args])
@@ -352,7 +353,7 @@ class Collision():
         #This will keep track of how to assign mats
         a=0
         for k,v in self.tris.items():
-            self.Types.append([a,k])
+            self.Types.append([a,k,v[0]])
             a+=len(v)
         self.Types.append([a,0])
     def StripArgs(self,cmd):
@@ -409,6 +410,11 @@ class Collision():
                 color=((max-a)/(max),(max+a)/(2*max-a),a/max,1) #Just to give some variety
                 mat.f3d_mat.default_light_color = color
                 mat.node_tree.nodes["Shade Color"].inputs[2].default_value=color #required because no callback can be applied for script set prop
+                #check for param
+                if len(self.Types[x][2])>3:
+                    print(self.Types[x][2])
+                    mat.use_collision_param = True
+                    mat.collision_param = str(self.Types[x][2][3])
                 x+=1
             p.material_index=x-1
 
@@ -868,7 +874,8 @@ def FindCollisions(model,lvl,scene,path):
                 c=None
         if not c:
             raise Exception('Collision {} not found in levels/{}/{}leveldata.c'.format(terrain,scene.LevelImp.Level,scene.LevelImp.Prefix))
-        v.ColFile=CleanCollision(v.ColFile)
+        Collisions = FormatDat(v.ColFile,'Collision',['(',')'])
+        v.ColFile = Collisions[terrain]
     return lvl
 
 def CleanCollision(ColFile):
@@ -890,6 +897,7 @@ def CleanCollision(ColFile):
             skip=EvalMacro(l)
         if '#else' in l:
             skip=0
+            continue
         #Now Check for col start
         if "Collision" in l and not skip:
             started=1
@@ -975,6 +983,7 @@ def FormatDat(model,Type,Chars):
             skip=EvalMacro(l)
         if '#else' in l:
             skip=0
+            continue
         #Now Check for level script starts
         regX='\[[0-9a-fx]*\]'
         match = re.search(regX,l,flags=re.IGNORECASE)
@@ -1068,6 +1077,7 @@ def FindActModels(geo,Layout,scene,rt,path):
 def FindModelDat(model,scene,path):
     leveldat = open(model,'r')
     models=ParseAggregat(leveldat,'model.inc.c',path)
+    models+=ParseAggregat(leveldat,'painting.inc.c',path)
     #fast64 makes a leveldata.inc.c file and puts custom content there, I want to catch that as well
     #this isn't the best way to do this, but I will be lazy here
     fast64=ParseAggregat(leveldat,'leveldata.inc.c',path)
@@ -1239,7 +1249,6 @@ def ReadGeoLayout(geo,scene,models,path,meshes):
                 mesh = meshes[name]
                 name = 0
             else:
-                print(meshes)
                 mesh = bpy.data.meshes.new(name)
                 meshes[name] = mesh
                 [verts,tris] = models.GetDataFromModel(m[3].strip())
