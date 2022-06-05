@@ -1839,14 +1839,14 @@ def ExportSeg2(rom,Textures,s):
 			BinPNG.RGBA16(32,32,bin,glyph)
 
 def ExportInternalName(rom,src):
-	IntNameS = open(src/'internal_name.s','w')
+	IntNameS = open(src/extras/rm2c/'internal_name.s','w')
 	IntNameS.write(".byte ")
 	for i in range(20):
 		comma = ','*(i!=19)
 		IntNameS.write("0x{:x}{}".format(struct.unpack(">B",rom[0x20+i:0x21+i])[0],comma))
 
 def ExportTextureScrolls(Scripts,rootdir):
-	game = rootdir/'src'/'game'
+	game = rootdir/'src'/'extras'/'rm2c'
 	os.makedirs(game,exist_ok=True)
 	ST = game/'ScrollTargets.inc.c'
 	ST = open(ST,'w')
@@ -1868,7 +1868,7 @@ def ExportMisc(rom,rootdir,editor):
 	#export internal name
 	src = rootdir/'src'
 	s = Script(9)
-	misc = rootdir/'src'/'game'
+	misc = rootdir/'src'/'extras'/'rm2c'
 	os.makedirs(misc,exist_ok=True)
 	ExportInternalName(rom,src)
 	StarPos = misc/('Star_Pos.inc.c')
@@ -1962,7 +1962,7 @@ def ExportMisc(rom,rootdir,editor):
 
 #This gets exported with misc, but is a separate function
 def ExportTweaks(rom,rootdir):
-	misc = rootdir/'src'/'game'
+	misc = rootdir/'src'/'extras'/'rm2c'
 	os.makedirs(misc,exist_ok=True)
 	twk = open(misc/'tweaks.inc.c','w')
 	twk.write("""//This is a series of defines to edit commonly changed parameters in romhacks
@@ -2073,7 +2073,7 @@ def ExportText(rom,rootdir,TxtAmt):
 	courses.close()
 
 def ExportWaterBoxes(AllWaterBoxes,rootdir):
-	misc = rootdir/'src'/'game'
+	misc = rootdir/'src'/'extras'/'rm2c'
 	os.makedirs(misc,exist_ok=True)
 	MovtexEdit = misc/"moving_texture.inc.c"
 	AllWaterBoxes.sort(key=(lambda x: [x[1],x[2],x[3]])) #level,area,type

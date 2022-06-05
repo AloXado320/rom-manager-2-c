@@ -1317,8 +1317,6 @@ DefaultTraj = {
 #Some tweaks are logical ops, others just are literals, this is for Ls
 INHERIT = (lambda x:x[0])
 
-#repo doesn't time properly
-DOUBLE = (lambda x:int(1.5*x[0]))
 #a nop'd JAL
 NOP = (lambda x:(x[0]==0)&1)
 #macros for when you widescreen
@@ -1375,12 +1373,12 @@ Tweaks = [
 	# [1,'TOAD_STAR_2_DIALOG_AFTER',[]],
 	# [1,'TOAD_STAR_3_DIALOG_AFTER',[]],
 	[1,'SLIDE_TIME',[">H",2,0xB7A6,INHERIT]],
-	[1,'MC_TIME',[">H",2,0xAC0A,DOUBLE]],
-	[1,'WC_TIME',[">H",2,0xAC22,DOUBLE]],
-	[1,'VC_TIME',[">H",2,0xABF2,DOUBLE]],
-	[1,'MC_LEVEL_TIME',[">H",2,0x4A5E,DOUBLE]],
-	[1,'WC_LEVEL_TIME',[">H",2,0x4A7A,DOUBLE]],
-	[1,'VC_LEVEL_TIME',[">H",2,0x4A96,DOUBLE]],
+	[1,'MC_TIME',[">H",2,0xAC0A,INHERIT]],
+	[1,'WC_TIME',[">H",2,0xAC22,INHERIT]],
+	[1,'VC_TIME',[">H",2,0xABF2,INHERIT]],
+	[1,'MC_LEVEL_TIME',[">H",2,0x4A5E,INHERIT]],
+	[1,'WC_LEVEL_TIME',[">H",2,0x4A7A,INHERIT]],
+	[1,'VC_LEVEL_TIME',[">H",2,0x4A96,INHERIT]],
 	[1,'HUD_LIVES_MARIO_X',[">H",2,0x9E756,GFXRECTLEFT]],
 	[1,'HUD_LIVES_MARIO_Y',[">H",2,0x9E75E,INHERIT]],
 	[1,'HUD_LIVES_CROSS_X',[">H",2,0x9E76A,GFXRECTLEFT]],

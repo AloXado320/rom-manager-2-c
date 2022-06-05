@@ -1,8 +1,8 @@
-# Rom Manger 2 C
+# Rom Manager 2 C
 
 ## Intro
 
-Convert sm64 levels made with rom manager or SM64 Editor (not guaranteed to work with all versions) to sm64 decomp compliant C files.
+Convert sm64 levels made with SM64 ROM Manager or SM64 Editor (not guaranteed to work with all versions) to sm64 decomp compliant C files.
 
 ### Model Importer
 
@@ -11,28 +11,29 @@ This importer currently only works with levels and does not perfectly match sour
 
 ------------------------------------------------------------------
 
-## Dependencies
+## Installation
 
-bistring, capstone, pypng, PIL, pyhull, ESRGAN (only for ai upscaling for PC port *Currently Testing*)
+### Repository
 
-### Installation
+You must use my <a href="https://github.com/jesusyoshi54/sm64ex-alo">sm64ex-alo</a> repository for RM2C and set RM2C in the makefile to 1</b>
 
-* pip install bitstring
-* pip install capstone
-* pip install pypng
-* pip install pillow
-* pip install pyhull (may require microsoft visual studio C++ build tools alongside it)
+### Dependencies
 
-<b> You must use <a href="https://github.com/jesusyoshi54/sm64ex-alo">this (SM64ex-alo)</a> repository for RM2C and set RM2C in the makefile to 1</b>
+Install the following python3 dependencies using pip.
 
-#### ESRGAN
-Currently testing, installation method coming after optimal fork and model are found.
+`pip install bitstring capstone pypng pillow pyhull`
+
+### Originals folder
+
+Create a new folder called `originals` in root.
+
+Then on the `sm64ex-alo` repo, copy all the folders inside the `levels` folder and `sequences.json` inside `sound` over to the `originals` folder.
 
 ------------------------------------------------------------------
 
 ## Usage
 
-place rom in root, run RM2C.py with the following arguments:
+Place ROM in root , run RM2C.py with the following arguments:
 
 RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0 Inherit=0 Upscale=0 Title=0 Sound=0 Objects=0
 
@@ -78,6 +79,10 @@ For this module, these are quotes and paranthesis. Add in a escape before each.
 ### Expected results
 Should extract all levels, scripts, and assets from the levels specified by arguments.
 
+## Cleanup
+
+After usage, folders that are generated can be deleted using `cleanup.bat` on Windows or `cleanup.sh` on Unix bash.
+
 ## Usage in Decomp
 Drag and drop all exported folders into the root of your decomp repository.
 You must manage scripts of individual levels so that custom objects/unknown objects
@@ -97,26 +102,10 @@ are properly commented or included in the repo.
 
 3. Actors will need to be manually included to group files.
 
-
-## Successful results
-Ultra Mario Course 1 ported from sm64 editor to SM64EX pc port:
-
-<img src="Extra Resources/UltraMarioPC.png">
-
-Speed Star Adventure Course 1 ported from Rom Manager to SM64 decomp:
-
-<img src="Extra Resources/SSAEmu.png">
-
 ## Planned Future Features
 
 * AI upscaling
 
-## Curret issues
+## Current issues
 
-* Memory bloat because original data is still included
-
-## Image Upscaling
-
-With porting to PC automatically a possiblity, so is the addition of auto upscaling textures for higher quality gameplay. Using ESRGAN and various models I have tested what the best models are for AI upscaling.
-
-<img src="Extra Resources/ESRGAN Comparison.png">
+* Memory bloat because original data is still included.
