@@ -2,7 +2,7 @@
 
 ## Intro
 
-Convert sm64 levels made with SM64 ROM Manager or SM64 Editor (not guaranteed to work with all versions) to sm64 decomp compliant C files.
+Convert SM64 levels made with SM64 ROM Manager or SM64 Editor (not guaranteed to work with all versions) to SM64 decomp compliant C files.
 
 ### Model Importer
 
@@ -15,7 +15,7 @@ This importer currently only works with levels and does not perfectly match sour
 
 ### Repository
 
-You must use my <a href="https://github.com/jesusyoshi54/sm64ex-alo">sm64ex-alo</a> repository for RM2C and set RM2C in the makefile to 1</b>
+You must use my <a href="https://github.com/AloXado320/sm64ex-alo">sm64ex-alo</a> repository for RM2C and set RM2C in the makefile to 1</b>
 
 ### Dependencies
 
@@ -71,8 +71,8 @@ RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaof
 	*python RM2C.py rom='SR1.z64' Title=1 Inerit=1
 
 
-### NOTE! if you are on unix bash requires you to escape certain characters.
-For this module, these are quotes and paranthesis. Add in a escape before each.
+**NOTE: If you are on unix bash requires you to escape certain characters.
+For this module, these are quotes and paranthesis. Add in a escape before each.**
 
 * python3 RM2C.py rom=\'sm74.z64\' levels=[9] Append=[\(\'sm74EE.z64\',1,1\)] editor=1
 
@@ -88,7 +88,7 @@ Drag and drop all exported folders into the root of your decomp repository.
 You must manage scripts of individual levels so that custom objects/unknown objects
 are properly commented or included in the repo. 
 
-**NOTE** sequence numbers must be in numerical order.
+**NOTE:** Sequence numbers must be in numerical order.
 
 ***NOT GUARANTEED TO COMPILE DIRECTLY AFTER EXTRACTION***
 
@@ -101,10 +101,6 @@ are properly commented or included in the repo.
 2. Appended roms may use different object banks which must be manually handled to prevent crashes.
 
 3. Actors will need to be manually included to group files.
-
-## Planned Future Features
-
-* AI upscaling
 
 ## Current issues
 
