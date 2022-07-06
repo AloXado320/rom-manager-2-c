@@ -23,10 +23,10 @@ import math
 from shutil import copy
 from pathlib import Path
 from types import ModuleType
-from mathutils import Vector
-from mathutils import Euler
+from mathutils import Vector, Euler, Matrix
 import re
 from copy import deepcopy
+from dataclasses import dataclass
 #from SM64classes import *
 
 bl_info = {
@@ -409,7 +409,6 @@ class Collision():
                 mat.name="Sm64_Col_Mat_{}".format(self.Types[x][1])
                 color=((max-a)/(max),(max+a)/(2*max-a),a/max,1) #Just to give some variety
                 mat.f3d_mat.default_light_color = color
-                mat.node_tree.nodes["Shade Color"].inputs[2].default_value=color #required because no callback can be applied for script set prop
                 #check for param
                 if len(self.Types[x][2])>3:
                     print(self.Types[x][2])
@@ -418,12 +417,24 @@ class Collision():
                 x+=1
             p.material_index=x-1
 
+#this will hold tile properties
+class Tile():
+    pass
+
+#this will hold texture properties
+class Texture():
+    def __init__(self):
+        self.tile = -1
+
 #This is simply a data storage class
 class Mat():
     def __init__(self):
-        self.TwoCycle=False
-        self.GeoSet=[]
-        self.GeoClear=[]
+        self.TwoCycle = False
+        self.GeoSet = []
+        self.GeoClear = []
+        self.tiles = [Tile() for a in range(8)]
+        self.tex0 = None
+        self.tex1 = None
     #calc the hash for an f3d mat and see if its equal to this mats hash
     def MatHashF3d(self,f3d,textures):
         #texture,1 cycle combiner, geo modes (once I implement them)
@@ -447,22 +458,22 @@ class Mat():
         return False
     def MatHash(self,mat,textures):
         return False
-    def LoadTexture(self,ForceNewTex,textures,path):
-        tex = textures.get(self.Timg)[0].split('/')[-1]
-        tex=tex.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
-        i = bpy.data.images.get(tex)
+    def LoadTexture(self, ForceNewTex, textures, path, tex):
+        Timg = textures.get(tex.Timg)[0].split('/')[-1]
+        Timg = Timg.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
+        i = bpy.data.images.get(Timg)
         if not i or ForceNewTex:
-            tex=textures.get(self.Timg)[0]
-            tex=tex.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
+            Timg = textures.get(tex.Timg)[0]
+            Timg = Timg.replace("#include ",'').replace('"','').replace("'",'').replace("inc.c","png")
             #deal with duplicate pathing (such as /actors/actors etc.)
             Extra = path.relative_to(Path(bpy.context.scene.decompPath))
             for e in Extra.parts:
-                tex = tex.replace(e+'/','')
+                Timg = Timg.replace(e+'/','')
             #deal with actor import path not working for shared textures
-            if 'textures' in tex:
-                fp = Path(bpy.context.scene.decompPath) / tex
+            if 'textures' in Timg:
+                fp = Path(bpy.context.scene.decompPath) / Timg
             else:
-                fp = path/tex
+                fp = path / Timg
             return bpy.data.images.load(filepath=str(fp))
         else:
             return i
@@ -491,24 +502,74 @@ class Mat():
             mat.blend_method == 'BLEND'
         #I set these but they aren't properly stored because they're reset by fast64 or something
         #its better to have defaults than random 2 cycles
-#        self.SetGeoMode(f3d.rdp_settings,mat)
-#        if self.TwoCycle:
-#            f3d.rdp_settings.gdsft_cycletype = 'G_CYC_2CYCLE'
-#        else:
-#            f3d.rdp_settings.gdsft_cycletype = 'G_CYC_1CYCLE'
+        self.SetGeoMode(f3d.rdp_settings,mat)
+        if self.TwoCycle:
+            f3d.rdp_settings.gdsft_cycletype = 'G_CYC_2CYCLE'
+        else:
+            f3d.rdp_settings.gdsft_cycletype = 'G_CYC_1CYCLE'
         #Try to set an image
-        try:
-            i = self.LoadTexture(bpy.context.scene.LevelImp.ForceNewTex,textures,path)
-            tex0=f3d.tex0
-            tex0.tex_set=True
-            tex0.tex=i
-            tex0.tex_format = self.EvalFmt()
-        except:
-            print("Could not find {}".format(self.Timg))
+        #texture 0 then texture 1
+        if self.tex0:
+            i = self.LoadTexture(bpy.context.scene.LevelImp.ForceNewTex,textures,path, self.tex0)
+            tex0 = f3d.tex0
+            tex0.tex_set = True
+            tex0.tex = i
+            tex0.tex_format = self.EvalFmt(self.tiles[0])
+            tex0.autoprop = False
+            Sflags = self.EvalFlags(self.tiles[0].Sflags)
+            for f in Sflags:
+                setattr(tex0.S,f,True)
+            Tflags = self.EvalFlags(self.tiles[0].Tflags)
+            for f in Sflags:
+                setattr(tex0.T,f,True)
+            tex0.S.low = self.tiles[0].Slow
+            tex0.T.low = self.tiles[0].Tlow
+            tex0.S.high = self.tiles[0].Shigh
+            tex0.T.high = self.tiles[0].Thigh
+            
+            tex0.S.mask = eval(self.tiles[0].SMask)
+            tex0.T.mask = eval(self.tiles[0].TMask)
+        if self.tex1:
+            i = self.LoadTexture(bpy.context.scene.LevelImp.ForceNewTex,textures,path, self.tex1)
+            tex1 = f3d.tex1
+            tex1.tex_set = True
+            tex1.tex = i
+            tex1.tex_format = self.EvalFmt(self.tiles[1])
+            Sflags = self.EvalFlags(self.tiles[1].Sflags)
+            for f in Sflags:
+                setattr(tex1.S,f,True)
+            Tflags = self.EvalFlags(self.tiles[1].Tflags)
+            for f in Sflags:
+                setattr(tex1.T,f,True)
+            tex1.S.low = self.tiles[1].Slow
+            tex1.T.low = self.tiles[1].Tlow
+            tex1.S.high = self.tiles[1].Shigh
+            tex1.T.high = self.tiles[1].Thigh
+            
+            tex1.S.mask = eval(self.tiles[0].SMask)
+            tex1.T.mask = eval(self.tiles[0].TMask)
         #Update node values
         override = bpy.context.copy()
         override["material"] = mat
         bpy.ops.material.update_f3d_nodes(override)
+    def EvalFlags(self, flags):
+        GBIflags = {
+        "G_TX_NOMIRROR": None,
+        "G_TX_WRAP": None,
+        "G_TX_MIRROR": ("mirror"),
+        "G_TX_CLAMP": ("clamp"),
+        "0": None,
+        "1": ("mirror"),
+        "2": ("clamp"),
+        "3": ("clamp","mirror")
+        }
+        x = []
+        fsplit = flags.split("|")
+        for f in fsplit:
+            z = GBIflags.get(f.strip(),0)
+            if z:
+                x.append(z)
+        return x
     def SetGeoMode(self,rdp,mat):
         for a in self.GeoSet:
             try:
@@ -570,7 +631,7 @@ class Mat():
             f3d.combiner2.B_alpha = self.Combiner[13]
             f3d.combiner2.C_alpha = self.Combiner[14]
             f3d.combiner2.D_alpha = self.Combiner[15]
-    def EvalFmt(self):
+    def EvalFmt(self, tex):
         GBIfmts = {
         "G_IM_FMT_RGBA":"RGBA",
         "G_IM_FMT_CI":"CI",
@@ -591,7 +652,7 @@ class Mat():
         "2":"16",
         "3":"32"
         }
-        return GBIfmts.get(self.Fmt,"RGBA")+GBIsiz.get(self.Siz,"16")
+        return GBIfmts.get(tex.Fmt,"RGBA")+GBIsiz.get(tex.Siz,"16")
 
 class F3d():
     def __init__(self,scene):
@@ -615,18 +676,18 @@ class F3d():
             t.close()
     #recursively parse the display list in order to return a bunch of model data
     def GetDataFromModel(self,start):
-        DL=self.Gfx.get(start)
-        self.VertBuff=[0]*32 #If you're doing some fucky shit with a larger vert buffer it sucks to suck I guess
+        DL = self.Gfx.get(start)
+        self.VertBuff = [0]*32 #If you're doing some fucky shit with a larger vert buffer it sucks to suck I guess
         if not DL:
             raise Exception("Could not find DL {}".format(start))
-        self.Verts=[]
-        self.Tris=[]
-        self.UVs=[]
-        self.VCs=[]
-        self.Mats=[]
-        self.LastMat=Mat()
+        self.Verts = []
+        self.Tris = []
+        self.UVs = []
+        self.VCs = []
+        self.Mats = []
+        self.LastMat = Mat()
         self.ParseDL(DL)
-        self.NewMat=0
+        self.NewMat = 0
         self.StartName=start
         return [self.Verts,self.Tris]
     def ParseDL(self,DL):
@@ -657,68 +718,198 @@ class F3d():
             if LsW('gsSPVertex'):
                 #vertex references commonly use pointer arithmatic. I will deal with that case here, but not for other things unless it somehow becomes a problem later
                 if '+' in args[0]:
-                    ref,add=args[0].split('+')
+                    ref, add = args[0].split('+')
                 else:
-                    ref=args[0]
-                    add='0'
-                VB=self.VB.get(ref.strip())
+                    ref = args[0]
+                    add = '0'
+                VB = self.VB.get(ref.strip())
                 if not VB:
                     raise Exception("Could not find VB {} in levels/{}/{}leveldata.inc.c".format(ref,self.scene.LevelImp.Level,self.scene.LevelImp.Prefix))
-                Verts=VB[int(add.strip()):int(add.strip())+eval(args[1])] #If you use array indexing here then you deserve to have this not work
-                Verts=[self.ParseVert(v) for v in Verts]
+                Verts = VB[int(add.strip()):int(add.strip())+eval(args[1])] #If you use array indexing here then you deserve to have this not work
+                Verts = [self.ParseVert(v) for v in Verts]
                 for k,i in enumerate(range(eval(args[2]),eval(args[1]),1)):
                     self.VertBuff[i]=[Verts[k],eval(args[2])]
                 #These are all independent data blocks in blender
                 self.Verts.extend([v[0] for v in Verts])
                 self.UVs.extend([v[1] for v in Verts])
                 self.VCs.extend([v[2] for v in Verts])
-                self.LastLoad=eval(args[1])
+                self.LastLoad = eval(args[1])
                 continue
             #Triangles
             if LsW('gsSP2Triangles'):
                 self.MakeNewMat()
-                Tri1=self.ParseTri(args[:3])
-                Tri2=self.ParseTri(args[4:7])
+                Tri1 = self.ParseTri(args[:3])
+                Tri2 = self.ParseTri(args[4:7])
                 self.Tris.append(Tri1)
                 self.Tris.append(Tri2)
                 continue
             if LsW('gsSP1Triangle'):
                 self.MakeNewMat()
-                Tri=self.ParseTri(args[:3])
+                Tri = self.ParseTri(args[:3])
                 self.Tris.append(Tri)
                 continue
             #materials
             #Mats will be placed sequentially. The first item of the list is the triangle number
             #The second is the material class
             if LsW('gsSPClearGeometryMode'):
+                self.NewMat = 1
                 self.LastMat.GeoClear.append(args[0].strip())
+                continue
             if LsW('gsSPSetGeometryMode'):
+                self.NewMat = 1
                 self.LastMat.GeoSet.append(args[0].strip())
+                continue
             if LsW('gsSPGeometryMode'):
+                self.NewMat = 1
                 self.LastMat.GeoClear.append(args[0].strip())
                 self.LastMat.GeoSet.append(args[1].strip())
+                continue
             if LsW('gsDPSetCycleType'):
                 self.LastMat.TwoCycle=True
+                continue
+            if LsW('gsDPSetCombineMode'):
+                self.NewMat = 1
+                self.LastMat.Combiner = self.EvalCombiner(args)
+                continue
             if LsW('gsDPSetCombineLERP'):
+                self.NewMat = 1
                 self.LastMat.Combiner = [a.strip() for a in args]
+                continue
+            #tells us what tile the last loaded mat goes into
+            if LsW('gsDPLoadBlock'):
+                tex = self.LastMat.loadtex
+                tile = self.EvalTile(args[0].strip())
+                tex.tile = tile
+                if tile == 7:
+                    self.LastMat.tex0 = tex
+                elif tile == 6:
+                    self.LastMat.tex1 = tex
+                #if loaded in block 5, it is a palette
+                #there shouldn't be a reason to not use these tiles
+                #other than something that probably won't work
+                #here anyway
+                continue
             if LsW('gsDPSetTextureImage'):
-                self.NewMat=1
-                self.LastMat.Timg = args[3].strip()
-                self.LastMat.Fmt = args[0].strip()
-                self.LastMat.Siz = args[1].strip()
+                self.NewMat = 1
+                
+                loadtex = Texture()
+                loadtex.Timg = args[3].strip()
+                loadtex.Fmt = args[0].strip()
+                loadtex.Siz = args[1].strip()
+                self.LastMat.loadtex = loadtex
                 continue
             #catch tile size
             if LsW('gsDPSetTileSize'):
+                tile = self.LastMat.tiles[self.EvalTile(args[0].strip())]
+                tile.Slow = self.EvalImFrac(args[1].strip()) / 4
+                tile.Tlow = self.EvalImFrac(args[2].strip()) / 4
+                tile.Shigh = self.EvalImFrac(args[3].strip()) / 4
+                tile.Thigh = self.EvalImFrac(args[4].strip()) / 4
                 continue
             if LsW('gsDPSetTile'):
-                self.NewMat=1
-                self.LastMat.Fmt=args[0].strip()
-                self.LastMat.Siz=args[1].strip()    
+                self.NewMat = 1
+                tile = self.LastMat.tiles[self.EvalTile(args[4].strip())]
+                tile.Fmt = args[0].strip()
+                tile.Siz = args[1].strip()
+                tile.Tflags = args[6].strip()
+                tile.TMask = args[7].strip()
+                tile.TShif = args[8].strip()
+                tile.Sflags = args[9].strip()
+                tile.SMask = args[10].strip()
+                tile.SShift = args[11].strip()
+    def EvalCombiner(self,arg):
+        #two args
+        GBI_CC_Macros = {
+            'G_CC_PRIMITIVE': ['0', '0', '0', 'PRIMITIVE', '0', '0', '0', 'PRIMITIVE'],
+            'G_CC_SHADE': ['0', '0', '0', 'SHADE', '0', '0', '0', 'SHADE'],
+            'G_CC_MODULATEI': ['TEXEL0', '0', 'SHADE', '0', '0', '0', '0', 'SHADE'],
+            'G_CC_MODULATEIDECALA': ['TEXEL0', '0', 'SHADE', '0', '0', '0', '0', 'TEXEL0'],
+            'G_CC_MODULATEIFADE': ['TEXEL0', '0', 'SHADE', '0', '0', '0', '0', 'ENVIRONMENT'],
+            'G_CC_MODULATERGB': ['TEXEL0', '0', 'SHADE', '0', '0', '0', '0', 'SHADE'],
+            'G_CC_MODULATERGBDECALA': ['TEXEL0', '0', 'SHADE', '0', '0', '0', '0', 'TEXEL0'],
+            'G_CC_MODULATERGBFADE': ['TEXEL0', '0', 'SHADE', '0', '0', '0', '0', 'ENVIRONMENT'],
+            'G_CC_MODULATEIA': ['TEXEL0', '0', 'SHADE', '0', 'TEXEL0', '0', 'SHADE', '0'],
+            'G_CC_MODULATEIFADEA': ['TEXEL0', '0', 'SHADE', '0', 'TEXEL0', '0', 'ENVIRONMENT', '0'],
+            'G_CC_MODULATEFADE': ['TEXEL0', '0', 'SHADE', '0', 'ENVIRONMENT', '0', 'TEXEL0', '0'],
+            'G_CC_MODULATERGBA': ['TEXEL0', '0', 'SHADE', '0', 'TEXEL0', '0', 'SHADE', '0'],
+            'G_CC_MODULATERGBFADEA': ['TEXEL0', '0', 'SHADE', '0', 'ENVIRONMENT', '0', 'TEXEL0', '0'],
+            'G_CC_MODULATEI_PRIM': ['TEXEL0', '0', 'PRIMITIVE', '0', '0', '0', '0', 'PRIMITIVE'],
+            'G_CC_MODULATEIA_PRIM': ['TEXEL0', '0', 'PRIMITIVE', '0', 'TEXEL0', '0', 'PRIMITIVE', '0'],
+            'G_CC_MODULATEIDECALA_PRIM': ['TEXEL0', '0', 'PRIMITIVE', '0', '0', '0', '0', 'TEXEL0'],
+            'G_CC_MODULATERGB_PRIM': ['TEXEL0', '0', 'PRIMITIVE', '0', 'TEXEL0', '0', 'PRIMITIVE', '0'],
+            'G_CC_MODULATERGBA_PRIM': ['TEXEL0', '0', 'PRIMITIVE', '0', 'TEXEL0', '0', 'PRIMITIVE', '0'],
+            'G_CC_MODULATERGBDECALA_PRIM': ['TEXEL0', '0', 'PRIMITIVE', '0', '0', '0', '0', 'TEXEL0'],
+            'G_CC_FADE': ['SHADE', '0', 'ENVIRONMENT', '0', 'SHADE', '0', 'ENVIRONMENT', '0'],
+            'G_CC_FADEA': ['TEXEL0', '0', 'ENVIRONMENT', '0', 'TEXEL0', '0', 'ENVIRONMENT', '0'],
+            'G_CC_DECALRGB': ['0', '0', '0', 'TEXEL0', '0', '0', '0', 'SHADE'],
+            'G_CC_DECALRGBA': ['0', '0', '0', 'TEXEL0', '0', '0', '0', 'TEXEL0'],
+            'G_CC_DECALFADE': ['0', '0', '0', 'TEXEL0', '0', '0', '0', 'ENVIRONMENT'],
+            'G_CC_DECALFADEA': ['0', '0', '0', 'TEXEL0', 'TEXEL0', '0', 'ENVIRONMENT', '0'],
+            'G_CC_BLENDI': ['ENVIRONMENT', 'SHADE', 'TEXEL0', 'SHADE', '0', '0', '0', 'SHADE'],
+            'G_CC_BLENDIA': ['ENVIRONMENT', 'SHADE', 'TEXEL0', 'SHADE', 'TEXEL0', '0', 'SHADE', '0'],
+            'G_CC_BLENDIDECALA': ['ENVIRONMENT', 'SHADE', 'TEXEL0', 'SHADE', '0', '0', '0', 'TEXEL0'],
+            'G_CC_BLENDRGBA': ['TEXEL0', 'SHADE', 'TEXEL0_ALPHA', 'SHADE', '0', '0', '0', 'SHADE'],
+            'G_CC_BLENDRGBDECALA': ['TEXEL0', 'SHADE', 'TEXEL0_ALPHA', 'SHADE', '0', '0', '0', 'TEXEL0'],
+            'G_CC_BLENDRGBFADEA': ['TEXEL0', 'SHADE', 'TEXEL0_ALPHA', 'SHADE', '0', '0', '0', 'ENVIRONMENT'],
+            'G_CC_ADDRGB': ['TEXEL0', '0', 'TEXEL0', 'SHADE', '0', '0', '0', 'SHADE'],
+            'G_CC_ADDRGBDECALA': ['TEXEL0', '0', 'TEXEL0', 'SHADE', '0', '0', '0', 'TEXEL0'],
+            'G_CC_ADDRGBFADE': ['TEXEL0', '0', 'TEXEL0', 'SHADE', '0', '0', '0', 'ENVIRONMENT'],
+            'G_CC_REFLECTRGB': ['ENVIRONMENT', '0', 'TEXEL0', 'SHADE', '0', '0', '0', 'SHADE'],
+            'G_CC_REFLECTRGBDECALA': ['ENVIRONMENT', '0', 'TEXEL0', 'SHADE', '0', '0', '0', 'TEXEL0'],
+            'G_CC_HILITERGB': ['PRIMITIVE', 'SHADE', 'TEXEL0', 'SHADE', '0', '0', '0', 'SHADE'],
+            'G_CC_HILITERGBA': ['PRIMITIVE', 'SHADE', 'TEXEL0', 'SHADE', 'PRIMITIVE', 'SHADE', 'TEXEL0', 'SHADE'],
+            'G_CC_HILITERGBDECALA': ['PRIMITIVE', 'SHADE', 'TEXEL0', 'SHADE', '0', '0', '0', 'TEXEL0'],
+            'G_CC_SHADEDECALA': ['0', '0', '0', 'SHADE', '0', '0', '0', 'TEXEL0'],
+            'G_CC_SHADEFADEA': ['0', '0', '0', 'SHADE', '0', '0', '0', 'ENVIRONMENT'],
+            'G_CC_BLENDPE': ['PRIMITIVE', 'ENVIRONMENT', 'TEXEL0', 'ENVIRONMENT', 'TEXEL0', '0', 'SHADE', '0'],
+            'G_CC_BLENDPEDECALA': ['PRIMITIVE', 'ENVIRONMENT', 'TEXEL0', 'ENVIRONMENT', '0', '0', '0', 'TEXEL0'],
+            '_G_CC_BLENDPE': ['ENVIRONMENT', 'PRIMITIVE', 'TEXEL0', 'PRIMITIVE', 'TEXEL0', '0', 'SHADE', '0'],
+            '_G_CC_BLENDPEDECALA': ['ENVIRONMENT', 'PRIMITIVE', 'TEXEL0', 'PRIMITIVE', '0', '0', '0', 'TEXEL0'],
+            '_G_CC_TWOCOLORTEX': ['PRIMITIVE', 'SHADE', 'TEXEL0', 'SHADE', '0', '0', '0', 'SHADE'],
+            '_G_CC_SPARSEST': ['PRIMITIVE', 'TEXEL0', 'LOD_FRACTION', 'TEXEL0', 'PRIMITIVE', 'TEXEL0', 'LOD_FRACTION', 'TEXEL0'],
+            'G_CC_TEMPLERP': ['TEXEL1', 'TEXEL0', 'PRIM_LOD_FRAC', 'TEXEL0', 'TEXEL1', 'TEXEL0', 'PRIM_LOD_FRAC', 'TEXEL0'],
+            'G_CC_TRILERP': ['TEXEL1', 'TEXEL0', 'LOD_FRACTION', 'TEXEL0', 'TEXEL1', 'TEXEL0', 'LOD_FRACTION', 'TEXEL0'],
+            'G_CC_INTERFERENCE': ['TEXEL0', '0', 'TEXEL1', '0', 'TEXEL0', '0', 'TEXEL1', '0'],
+            'G_CC_1CYUV2RGB': ['TEXEL0', 'K4', 'K5', 'TEXEL0', '0', '0', '0', 'SHADE'],
+            'G_CC_YUV2RGB': ['TEXEL1', 'K4', 'K5', 'TEXEL1', '0', '0', '0', '0'],
+            'G_CC_PASS2': ['0', '0', '0', 'COMBINED', '0', '0', '0', 'COMBINED'],
+            'G_CC_MODULATEI2': ['COMBINED', '0', 'SHADE', '0', '0', '0', '0', 'SHADE'],
+            'G_CC_MODULATEIA2': ['COMBINED', '0', 'SHADE', '0', 'COMBINED', '0', 'SHADE', '0'],
+            'G_CC_MODULATERGB2': ['COMBINED', '0', 'SHADE', '0', '0', '0', '0', 'SHADE'],
+            'G_CC_MODULATERGBA2': ['COMBINED', '0', 'SHADE', '0', 'COMBINED', '0', 'SHADE', '0'],
+            'G_CC_MODULATEI_PRIM2': ['COMBINED', '0', 'PRIMITIVE', '0', '0', '0', '0', 'PRIMITIVE'],
+            'G_CC_MODULATEIA_PRIM2': ['COMBINED', '0', 'PRIMITIVE', '0', 'COMBINED', '0', 'PRIMITIVE', '0'],
+            'G_CC_MODULATERGB_PRIM2': ['COMBINED', '0', 'PRIMITIVE', '0', '0', '0', '0', 'PRIMITIVE'],
+            'G_CC_MODULATERGBA_PRIM2': ['COMBINED', '0', 'PRIMITIVE', '0', 'COMBINED', '0', 'PRIMITIVE', '0'],
+            'G_CC_DECALRGB2': ['0', '0', '0', 'COMBINED', '0', '0', '0', 'SHADE'],
+            'G_CC_BLENDI2': ['ENVIRONMENT', 'SHADE', 'COMBINED', 'SHADE', '0', '0', '0', 'SHADE'],
+            'G_CC_BLENDIA2': ['ENVIRONMENT', 'SHADE', 'COMBINED', 'SHADE', 'COMBINED', '0', 'SHADE', '0'],
+            'G_CC_CHROMA_KEY2': ['TEXEL0', 'CENTER', 'SCALE', '0', '0', '0', '0', '0'],
+            'G_CC_HILITERGB2': ['ENVIRONMENT', 'COMBINED', 'TEXEL0', 'COMBINED', '0', '0', '0', 'SHADE'],
+            'G_CC_HILITERGBA2': ['ENVIRONMENT', 'COMBINED', 'TEXEL0', 'COMBINED', 'ENVIRONMENT', 'COMBINED', 'TEXEL0', 'COMBINED'],
+            'G_CC_HILITERGBDECALA2': ['ENVIRONMENT', 'COMBINED', 'TEXEL0', 'COMBINED', '0', '0', '0', 'TEXEL0'],
+            'G_CC_HILITERGBPASSA2': ['ENVIRONMENT', 'COMBINED', 'TEXEL0', 'COMBINED', '0', '0', '0', 'COMBINED'],
+        }
+        return GBI_CC_Macros.get(arg[0].strip(), ['TEXEL0', '0', 'SHADE', '0', 'TEXEL0', '0', 'SHADE', '0']) + \
+            GBI_CC_Macros.get(arg[1].strip(), ['TEXEL0', '0', 'SHADE', '0', 'TEXEL0', '0', 'SHADE', '0'])
+    def EvalImFrac(self, arg):
+        arg2 = arg.replace("G_TEXTURE_IMAGE_FRAC", "2")
+        return eval(arg2)
+    def EvalTile(self, arg):
+        #are ther more enums??
+        Tiles = {
+            "G_TX_LOADTILE": 7,
+            "G_TX_RENDERTILE": 0,
+        }
+        t = Tiles.get(arg)
+        if t == None:
+            t = int(arg)
+        return t
     def MakeNewMat(self):
         if self.NewMat:
-            self.NewMat=0
+            self.NewMat = 0
             self.Mats.append([len(self.Tris)-1,self.LastMat])
-            self.LastMat=deepcopy(self.LastMat) #for safety
+            self.LastMat = deepcopy(self.LastMat) #for safety
     def ParseVert(self,Vert):
         v=Vert.replace('{','').replace('}','').split(',')
         num=(lambda x: [eval(a) for a in x])
@@ -737,8 +928,14 @@ class F3d():
         bpy.context.view_layer.objects.active = obj
         ind=-1
         UVmap = obj.data.uv_layers.new(name='UVMap')
-        Vcol = obj.data.vertex_colors.new(name='Col')
-        Valph = obj.data.vertex_colors.new(name='Alpha')
+        #try to make color attribute first, then do vertex color if it fails
+        try:
+            Vcol = obj.data.color_attributes.new(name='Col', type="FLOAT_COLOR", domain="CORNER")
+            Valph = obj.data.vertex_colors.new(name='Alpha', type="FLOAT_COLOR", domain="CORNER")
+            print(Vcol,Valph)
+        except:
+            Vcol = obj.data.vertex_colors.new(name='Col')
+            Valph = obj.data.vertex_colors.new(name='Alpha')
         self.Mats.append([len(tris),0])
         for i,t in enumerate(tris):
             if i>self.Mats[ind+1][0]:
@@ -753,15 +950,17 @@ class F3d():
                 #Get texture size or assume 32, 32 otherwise
                 i=mesh.materials[ind].f3d_mat.tex0.tex
                 if not i:
-                    WH=(32,32)
+                    WH = (32, 32)
                 else:
-                    WH=i.size
+                    WH = i.size
                 #Set UV data and Vertex Color Data
                 for v,l in zip(t.vertices,t.loop_indices):
                     uv=self.UVs[v]
                     vcol=self.VCs[v]
                     #scale verts. I just copy/pasted this from kirby tbh Idk
-                    UVmap.data[l].uv = [a*(1/(32*b)) if b>0 else a*.001*32 for a,b in zip(uv,WH)]
+                    UVmap.data[l].uv = [a*(1/(32*b)) if b > 0 else a*.001*32 for a, b in zip(uv,WH)]
+                    #increase vert UV pos by 1
+                    UVmap.data[l].uv[1] -= 1
                     #idk why this is necessary. N64 thing or something?
                     UVmap.data[l].uv[1] = UVmap.data[l].uv[1]*-1
                     Vcol.data[l].color = [a/255 for a in vcol]
@@ -791,27 +990,31 @@ class F3d():
             NewMat.use_nodes = True
         return None
 
-def RotateObj(deg,obj):
-    angle = obj.matrix_world.copy()
-    angle.identity()
-    angle = angle.to_euler()
-    angle[0] = math.radians(-deg)
-    r = obj.matrix_world.to_3x3()
-    r.rotate(angle)
-    t = obj.matrix_world.to_translation()
-    r = r.to_4x4()
-    I = r.copy()
-    I.identity()
-    #translation function removes other transformations
-    obj.matrix_world = r+r.Translation(t)-I
+def RotateObj(deg, obj):
+    deg = Euler((math.radians(-deg), 0, 0))
+    deg = deg.to_quaternion().to_matrix().to_4x4()
+    obj.matrix_basis = obj.matrix_basis @ deg
 
-def Parent(parent,child):
-    parent.select_set(True)
-    child.select_set(True)
-    bpy.context.view_layer.objects.active = parent
-    bpy.ops.object.parent_set()
-    parent.select_set(False)
-    child.select_set(False)
+#reverse of what fast64 uses
+transform_mtx_blender_to_n64 = lambda: Matrix(((1, 0, 0, 0), (0, 0, 1, 0), (0, -1, 0, 0), (0, 0, 0, 1)))
+
+def Rot2Blend(rotation):
+    new_rot = transform_mtx_blender_to_n64().inverted() @ rotation.to_matrix().to_4x4() @ transform_mtx_blender_to_n64()
+    new_rot = new_rot.to_quaternion().to_euler('XYZ')
+    return new_rot
+
+#if keep, then it doesn't inherit parent trasnform
+def Parent(parent, child, keep = 0):
+    if not keep:
+        child.parent = parent
+        child.matrix_local = child.matrix_parent_inverse
+    else:
+        parent.select_set(True)
+        child.select_set(True)
+        bpy.context.view_layer.objects.active = parent
+        bpy.ops.object.parent_set()
+        parent.select_set(False)
+        child.select_set(False)
 
 def EvalMacro(line):
     scene=bpy.context.scene
@@ -1069,7 +1272,7 @@ def FindLvlModels(geo,lvl,scene,path):
 #Parse an aggregate group file or level data file for geo layouts
 def FindActModels(geo,Layout,scene,rt,path):
     GeoLayouts = GetGeoLayouts(geo,path)
-    Geo=GeoLayout(GeoLayouts,rt,scene,"GeoRoot {}".format(Layout),rt)
+    Geo = GeoLayout(GeoLayouts, rt, scene, "{}".format(Layout), rt)
     Geo.ParseLevelGeosStart(Layout,scene)
     return Geo
 
@@ -1107,29 +1310,44 @@ def FindModelDat(model,scene,path):
         t.close()
     return Models
 
+#holds model found by geo
+@dataclass
+class ModelDat():
+    translate: tuple
+    rotate: tuple
+    layer: int
+    model: str
+    scale: float = 1.0
+
 class GeoLayout():
-    def __init__(self,GeoLayouts,root,scene,name,Aroot):
-        self.GL=GeoLayouts
-        self.parent=root
-        self.models=[]
-        self.Children=[]
-        self.scene=scene
-        self.RenderRange=None
-        self.Aroot=Aroot #for properties that can only be written to area
+    def __init__(self, GeoLayouts, root, scene, name, Aroot):
+        self.GL = GeoLayouts
+        self.parent = root
+        self.models = []
+        self.Children = []
+        self.scene = scene
+        self.RenderRange = None
+        self.Aroot = Aroot #for properties that can only be written to area
+        self.root = root
+        self.ParentTransform = [[0,0,0], [0,0,0]]
+        self.LastTransform = [[0,0,0], [0,0,0]]
+        self.name = name
+        self.obj = None #last object on this layer of the tree, will become parent of next child
+    def MakeRt(self, name, root):
         #make an empty node to act as the root of this geo layout
-        E = bpy.data.objects.new(name,None)
-        self.root=E
-        scene.collection.objects.link(E)
-        Parent(root,E)
-        self.ParentTransform=[[0,0,0],[0,0,0]]
-        self.LastTransform=[[0,0,0],[0,0,0]]
+        #use this to hold a transform, or an actual cmd, otherwise rt is passed
+        E = bpy.data.objects.new(name, None)
+        self.obj = E
+        self.scene.collection.objects.link(E)
+        Parent(root, E)
+        return E
     def ParseLevelGeosStart(self,start,scene):
         GL=self.GL.get(start)
         if not GL:
             raise Exception("Could not find geo layout {} from levels/{}/{}geo.c".format(start,scene.LevelImp.Level,scene.LevelImp.Prefix))
         self.ParseLevelGeos(GL,0)
     #So I can start where ever for child nodes
-    def ParseLevelGeos(self,GL,depth):
+    def ParseLevelGeos(self, GL, depth):
         #I won't parse the geo layout perfectly. For now I'll just get models. This is mostly because fast64
         #isn't a bijection to geo layouts, the props are sort of handled all over the place
         x=-1
@@ -1160,38 +1378,151 @@ class GeoLayout():
                 return
             #on an open node, make a child
             elif LsW("GEO_CLOSE_NODE"):
+                #if there is no more open nodes, then parent this to last node
                 if depth:
                     return
             elif LsW("GEO_OPEN_NODE"):
-                GeoChild=GeoLayout(self.GL,self.root,self.scene,l,self.Aroot)
-                GeoChild.ParentTransform=self.LastTransform
-                GeoChild.ParseLevelGeos(GL[x+1:],depth+1)
-                x=self.SkipChildren(GL,x)
+                if self.obj:
+                    GeoChild = GeoLayout(self.GL, self.obj, self.scene, self.name, self.Aroot)
+                else:
+                    GeoChild = GeoLayout(self.GL, self.root, self.scene, self.name, self.Aroot)
+                GeoChild.ParentTransform = self.LastTransform
+                GeoChild.ParseLevelGeos(GL[x+1:], depth+1)
+                x = self.SkipChildren(GL, x)
                 self.Children.append(GeoChild)
                 continue
             #Append to models array. Only check this one for now
             elif LsW("GEO_DISPLAY_LIST"):
                 #translation, rotation, layer, model
-                self.models.append([*self.ParentTransform,*args])
+                self.models.append( ModelDat(*self.ParentTransform,*args) )
                 continue
-            elif LsW("GEO_TRANSLATE_NODE_WITH_DL"):
-                    #translation, rotation, layer, model
-                    layer=args[0]
-                    Tlate=[float(a)/bpy.context.scene.blenderToSM64Scale for a in args[1:4]]
-                    Tlate = [Tlate[0],-Tlate[2],Tlate[1]]
-                    model=args[-1]
-                    self.LastTransform=[Tlate,self.LastTransform[1]]
-                    self.models.append([Tlate,(0,0,0),layer,model])
+            #bones aren't supported with this class
+            elif LsW("GEO_ANIMATED_PART"):
+                #layer, translation, DL
+                layer = args[0]
+                Tlate=[float(a)/bpy.context.scene.blenderToSM64Scale for a in args[1:4]]
+                Tlate = [Tlate[0],-Tlate[2],Tlate[1]]
+                model = args[-1]
+                self.LastTransform=[Tlate,self.LastTransform[1]]
+                if model.strip() != "NULL":
+                    self.models.append( ModelDat(Tlate, (0,0,0), layer, model) )
+                else:
+                    obj = self.MakeRt(self.name + "animated empty", self.root)
+                    obj.location = Tlate
+                continue
+            elif LsW("GEO_ROTATE") or LsW("GEO_ROTATION_NODE"):
+                layer = args[0]
+                Rotate = [math.radians(float(a)) for a in [args[1], args[2], args[3]]]
+                Rotate = Rot2Blend(Euler(Rotate,'ZXY').to_quaternion())
+                self.LastTransform = [[0,0,0], Rotate]
+                self.LastTransform=[[0,0,0], self.LastTransform[1]]
+                obj = self.MakeRt(self.name + "rotate", self.root)
+                obj.rotation_euler = Rotate
+                if LsW("GEO_ROTATE"):
+                    obj.sm64_obj_type = 'Geo Translate/Rotate'
+                else:
+                    obj.sm64_obj_type = 'Geo Rotation Node'
+            elif LsW("GEO_ROTATE_WITH_DL") or LsW("GEO_ROTATION_NODE_WITH_DL"):
+                layer = args[0]
+                Rotate = [math.radians(float(a)) for a in [args[1], args[2], args[3]]]
+                Rotate = Rot2Blend(Euler(Rotate,'ZXY').to_quaternion())
+                self.LastTransform = [[0,0,0], Rotate]
+                model = args[-1]
+                self.LastTransform=[[0,0,0], self.LastTransform[1]]
+                if model.strip() != "NULL":
+                    self.models.append( ModelDat([0,0,0], Rotate, layer, model) )
+                else:
+                    obj = self.MakeRt(self.name + "rotate", self.root)
+                    obj.rotation_euler = Rotate
+                    if LsW("GEO_ROTATE_WITH_DL"):
+                        obj.sm64_obj_type = 'Geo Translate/Rotate'
+                    else:
+                        obj.sm64_obj_type = 'Geo Rotation Node'
+            elif LsW("GEO_TRANSLATE_ROTATE_WITH_DL"):
+                layer = args[0]
+                Tlate = [float(a)/bpy.context.scene.blenderToSM64Scale for a in args[1:4]]
+                Tlate = [Tlate[0], -Tlate[2], Tlate[1]]
+                Rotate = [math.radians(float(a)) for a in [args[4], args[5], args[6]]]
+                Rotate = Rot2Blend(Euler(Rotate,'ZXY').to_quaternion())
+                self.LastTransform = [Tlate, Rotate]
+                model = args[-1]
+                self.LastTransform=[Tlate, self.LastTransform[1]]
+                if model.strip() != "NULL":
+                    self.models.append( ModelDat(Tlate, Rotate, layer, model) )
+                else:
+                    obj = self.MakeRt(self.name + "translate rotate", self.root)
+                    obj.location = Tlate
+                    obj.rotation_euler = Rotate
+                    obj.sm64_obj_type = 'Geo Translate/Rotate'
+            elif LsW("GEO_TRANSLATE_ROTATE"):
+                Tlate = [float(a)/bpy.context.scene.blenderToSM64Scale for a in args[1:4]]
+                Tlate = [Tlate[0], -Tlate[2], Tlate[1]]
+                Rotate = [math.radians(float(a)) for a in [args[4], args[5], args[6]]]
+                Rotate = Rot2Blend(Euler(Rotate,'ZXY').to_quaternion())
+                self.LastTransform = [Tlate, Rotate]
+                obj = self.MakeRt(self.name + "translate", self.root)
+                obj.location = Tlate
+                obj.rotation_euler = Rotate
+                obj.sm64_obj_type = 'Geo Translate/Rotate'
+                continue
+            elif LsW("GEO_TRANSLATE_NODE_WITH_DL") or LsW("GEO_TRANSLATE_WITH_DL"):
+                #translation, layer, model
+                layer = args[0]
+                Tlate = [float(a)/bpy.context.scene.blenderToSM64Scale for a in args[1:4]]
+                Tlate = [Tlate[0], -Tlate[2], Tlate[1]]
+                model = args[-1]
+                self.LastTransform = [Tlate, (0, 0, 0)]
+                if model.strip() != "NULL":
+                    self.models.append( ModelDat(Tlate, (0, 0, 0), layer, model) )
+                else:
+                    obj = self.MakeRt(self.name + "translate", self.root)
+                    obj.location = Tlate
+                    obj.rotation_euler = Rotate
+                    if LsW("GEO_TRANSLATE_WITH_DL"):
+                        obj.sm64_obj_type = 'Geo Translate/Rotate'
+                    else:
+                        obj.sm64_obj_type = 'Geo Translate Node'
                     continue
+            elif LsW("GEO_TRANSLATE_NODE") or LsW("GEO_TRANSLATE"):
+                Tlate = [float(a)/bpy.context.scene.blenderToSM64Scale for a in args[1:4]]
+                Tlate = [Tlate[0], -Tlate[2], Tlate[1]]
+                self.LastTransform = [Tlate, self.LastTransform[1]]
+                obj = self.MakeRt(self.name + "translate", self.root)
+                obj.location = Tlate
+                if LsW("GEO_TRANSLATE"):
+                    obj.sm64_obj_type = 'Geo Translate/Rotate'
+                else:
+                    obj.sm64_obj_type = 'Geo Translate Node'
+                continue                
+            elif LsW("GEO_SCALE_WITH_DL"):
+                scale = eval(args[1].strip()) / 0x10000
+                model = args[-1]
+                self.LastTransform = [(0,0,0), self.LastTransform[1]]
+                self.models.append( ModelDat((0,0,0), (0,0,0), layer, model, scale = scale) )
+                continue
+            elif LsW("GEO_SCALE"):
+                obj = self.MakeRt(self.name + "scale", self.root)
+                scale = eval(args[1].strip()) / 0x10000
+                obj.scale = (scale, scale, scale)
+                obj.sm64_obj_type = 'Geo Scale'
+                continue
+            elif LsW("GEO_ASM"):
+                obj = self.MakeRt(self.name + "asm", self.root)
+                asm = self.obj.fast64.sm64.geo_asm
+                self.obj.sm64_obj_type = 'Geo ASM'
+                asm.param = args[0].strip()
+                asm.func = args[1].strip()
+                continue
             elif LsW("GEO_SWITCH_CASE"):
-                Switch = self.root
+                obj = self.MakeRt(self.name + "switch", self.root)
+                Switch = self.obj
                 Switch.sm64_obj_type = 'Switch'
-                Switch.switchParam=eval(args[0])
-                Switch.switchFunc=args[1]
+                Switch.switchParam = eval(args[0])
+                Switch.switchFunc = args[1].strip()
                 continue
             #This has to be applied to meshes
             elif LsW("GEO_RENDER_RANGE"):
-                self.RenderRange=args
+                self.RenderRange = args
                 continue
             #can only apply type to area root
             elif LsW("GEO_CAMERA"):
@@ -1201,13 +1532,13 @@ class GeoLayout():
             #Geo backgrounds is pointless because the only background possible is the one
             #loaded in the level script. This is the only override
             elif LsW("GEO_BACKGROUND_COLOR"):
-                self.Aroot.areaOverrideBG=True
-                color=eval(args[0])
-                A=color&1
-                B=(color&0x3E)>1
-                G=(color&(0x3E<<5))>>6
-                R=(color&(0x3E<<10))>>11
-                self.Aroot.areaBGColor=(R/0x1F,G/0x1F,B/0x1F,A)
+                self.Aroot.areaOverrideBG = True
+                color = eval(args[0])
+                A = color&1
+                B = (color&0x3E)>1
+                G = (color&(0x3E<<5))>>6
+                R = (color&(0x3E<<10))>>11
+                self.Aroot.areaBGColor = (R/0x1F,G/0x1F,B/0x1F,A)
     def SkipChildren(self,GL,x):
         open=0
         opened=0
@@ -1239,47 +1570,58 @@ Layers={
 }
 
 #from a geo layout, create all the mesh's
-def ReadGeoLayout(geo,scene,models,path,meshes):
+def ReadGeoLayout(geo, scene, models, path, meshes):
+    print(geo.name)
     if geo.models:
-        rt=geo.root
+        rt = geo.root
         #create a mesh for each one.
         for m in geo.models:
-            name = m[3]+' Data'
+            print(repr(m))
+            name = m.model +' Data'
             if name in meshes.keys():
                 mesh = meshes[name]
                 name = 0
             else:
                 mesh = bpy.data.meshes.new(name)
                 meshes[name] = mesh
-                [verts,tris] = models.GetDataFromModel(m[3].strip())
+                [verts,tris] = models.GetDataFromModel(m.model.strip())
                 mesh.from_pydata(verts,[],tris)
                 mesh.validate()
                 mesh.update(calc_edges=True)
-            obj = bpy.data.objects.new(m[3]+' Obj',mesh)
-            layer=m[2]
+            obj = bpy.data.objects.new(m.model+' Obj',mesh)
+            layer = m.layer
             if not layer.isdigit():
-                layer=Layers.get(layer)
+                layer = Layers.get(layer)
                 if not layer:
-                    layer=1
-            obj.draw_layer_static=layer
+                    layer = 1
+            obj.draw_layer_static = layer
             scene.collection.objects.link(obj)
-            Parent(rt,obj)
-            RotateObj(-90,obj)
-            scale=1/scene.blenderToSM64Scale
-            obj.scale=[scale,scale,scale]
-            obj.location=m[0]
+            Parent(rt, obj)
+            RotateObj(-90, obj)
+            scale = m.scale/scene.blenderToSM64Scale
+            obj.scale = [scale,scale,scale]
+            obj.location = m.translate
             if name:
-                models.ApplyDat(obj,mesh,layer,path)
+                models.ApplyDat(obj, mesh, layer, path)
+            #final operators to clean stuff up
+            #shade smooth
+            obj.select_set(True)
+            bpy.context.view_layer.objects.active = obj
+            bpy.ops.object.shade_smooth()
+            o = bpy.context.copy()
+            bpy.ops.object.mode_set(mode='EDIT')
+            bpy.ops.mesh.remove_doubles()
+            bpy.ops.object.mode_set(mode='OBJECT')
     if not geo.Children:
         return
     for g in geo.Children:
-        ReadGeoLayout(g,scene,models,path,meshes)
+        ReadGeoLayout(g, scene, models, path, meshes)
 
 def WriteLevelModel(lvl,scene,path,modelDat):
     for k,v in lvl.Areas.items():
         #Parse the geolayout class I created earlier to look for models
         meshes = {} #re use mesh data when the same DL is referenced (bbh is good example)
-        ReadGeoLayout(v.geo,scene,modelDat,path,meshes)
+        ReadGeoLayout(v.geo, scene, modelDat, path, meshes)
     return lvl
 
 def ParseScript(script,scene):
