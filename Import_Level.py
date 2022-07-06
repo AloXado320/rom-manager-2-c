@@ -119,6 +119,7 @@ class Area():
         for a in self.objects:
             self.PlaceObject(a)
     def PlaceObject(self,args):
+        print(args)
         Obj = bpy.data.objects.new('Empty',None)
         self.scene.collection.objects.link(Obj)
         Parent(self.root,Obj)
@@ -167,7 +168,7 @@ class Level():
         Start=self.Scripts[entry]
         scale=self.scene.blenderToSM64Scale
         for l in Start:
-            args=self.StripArgs(l)
+            args = self.StripArgs(l)
             LsW=l.startswith
             #Find an area
             if LsW("AREA"):
@@ -243,8 +244,8 @@ class Level():
                 rt.music_seq=args[-1].strip()
         return self.Areas
     def StripArgs(self,cmd):
-        a=cmd.find("(")
-        end=cmd.find(")")-len(cmd)
+        a = cmd.find("(")
+        end = cmd.rfind(")")-len(cmd)
         return cmd[a+1:end].split(',')
     def GetScripts(self):
         #Get a dictionary made up with keys=level script names
@@ -329,7 +330,6 @@ class Collision():
     def GetCollision(self):
         for l in self.col:
             args=self.StripArgs(l)
-#            print(args,l)
             #to avoid catching COL_VERTEX_INIT
             if l.startswith('COL_VERTEX') and len(args)==3:
                 self.vertices.append([eval(v)/self.scale for v in args])
@@ -391,10 +391,10 @@ class Collision():
         mesh.update(calc_edges=True)
         obj = bpy.data.objects.new(name+' Mesh',mesh)
         scene.collection.objects.link(obj)
-        RotateObj(-90,obj)
         obj.ignore_render=True
         if parent:
             Parent(parent,obj)
+        RotateObj(-90, obj, world = 1)
         polys=obj.data.polygons
         x=0
         bpy.context.view_layer.objects.active = obj
@@ -990,10 +990,13 @@ class F3d():
             NewMat.use_nodes = True
         return None
 
-def RotateObj(deg, obj):
+def RotateObj(deg, obj, world = 0):
     deg = Euler((math.radians(-deg), 0, 0))
     deg = deg.to_quaternion().to_matrix().to_4x4()
-    obj.matrix_basis = obj.matrix_basis @ deg
+    if world:
+        obj.matrix_world = obj.matrix_world @ deg
+    else:
+        obj.matrix_basis = obj.matrix_basis @ deg
 
 #reverse of what fast64 uses
 transform_mtx_blender_to_n64 = lambda: Matrix(((1, 0, 0, 0), (0, 0, 1, 0), (0, -1, 0, 0), (0, 0, 0, 1)))
@@ -1632,7 +1635,7 @@ def ParseScript(script,scene):
     Root.sm64_obj_type = 'Level Root'
     #Now parse the script and get data about the level
     #Store data in attribute of a level class then assign later and return class
-    scr=scr.readlines()
+    scr = scr.readlines()
     lvl = Level(scr,scene,Root)
     entry = scene.LevelImp.Entry.format(scene.LevelImp.Level)
     lvl.ParseScript(entry)
