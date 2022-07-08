@@ -1374,7 +1374,7 @@ class Actor():
 				if first==0x01010101 or not F3D.DecodeFmt.get(c):
 					return
 				try:
-					(dl,verts,textures,amb,diff,ranges,starts)=F3D.DecodeVDL(rom,dls[x],s,id,0)
+					(dl,verts,textures,amb,diff,ranges,starts, fog) = F3D.DecodeVDL(rom,dls[x],s,id,0)
 					ModelData.append([starts,dl,verts,textures,amb,diff,ranges,id])
 				except:
 					print("{} had a broken DL and cannot be exported".format(Hname))

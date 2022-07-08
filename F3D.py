@@ -474,7 +474,7 @@ def DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,x,start,LastMat,dl
 			dl[dlStack].append(cmd[0])
 			dl.append([])
 			start.append([s.B2P(ptr),ptr])
-			(dl,verts,textureptrs,amb,diffuse,ranges,start) = DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,0,start,LastMat,len(dl)-1,opt)
+			(dl,verts,textureptrs,amb,diffuse,ranges,start, gFog) = DecodeDL(rom,s,id,dl,verts,textureptrs,amb,diffuse,ranges,0,start,LastMat,len(dl)-1,opt)
 			if cmd[1][8:16].uint==1:
 				break
 		#end dl
