@@ -1676,6 +1676,7 @@ def ReadGeoLayout(geo, scene, models, path, meshes, cleanup = True):
             scale = m.scale / scene.blenderToSM64Scale
             obj.scale = [scale,scale,scale]
             obj.location = m.translate
+            obj.ignore_collision = True
             if name:
                 models.ApplyDat(obj, mesh, layer, path)
                 if cleanup:
