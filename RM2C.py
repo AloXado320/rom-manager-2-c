@@ -1,30 +1,22 @@
-import sys
-import os
-import struct
+import sys, os, struct, shutil, math, re, gc, time, cProfile, pstats
 import GeoWrite as GW
 import F3D
 import ColParse
 from pathlib import Path
 from capstone import *
-import shutil
 from bitstring import *
 from RM2CData import *
 import BinPNG
 import groups as GD
-import math
 import disassemble_sound as d_s
 import multiprocessing as mp
-import Log
-import re
 import BhvParse as BP
-import gc
+import Log
 #these all exist as data modules for comparisons to see if content is new or not
 import ActorCHKSM
 import BehComp
 import ColComp
-import time
-import cProfile
-import pstats
+
 #So that each Script class doesn't open up a half MB file.
 mapF = open('sm64.us.map','r')
 map = mapF.readlines()
