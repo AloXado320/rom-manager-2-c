@@ -191,7 +191,7 @@ Group_Models = """
     LOAD_MODEL_FROM_GEO(MODEL_DIRT_ANIMATION,          dirt_animation_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CARTOON_STAR,            cartoon_star_geo)
     LOAD_MODEL_FROM_GEO(MODEL_BLUE_COIN_SWITCH,        blue_coin_switch_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_AMP,                     amp_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_AMP,                     dAmpGeo),
     LOAD_MODEL_FROM_GEO(MODEL_PURPLE_SWITCH,           purple_switch_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CHECKERBOARD_PLATFORM,   checkerboard_platform_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BREAKABLE_BOX,           breakable_box_geo),
@@ -743,8 +743,8 @@ ldHeader='''#include <ultra64.h>
 #include "surface_terrains.h"
 #include "moving_texture_macros.h"
 #include "level_misc_macros.h"
-#include "macro_preset_names.h"
-#include "special_preset_names.h"
+#include "macro_presets.h"
+#include "special_presets.h"
 #include "textures.h"
 #include "dialog_ids.h"
 
@@ -1316,62 +1316,64 @@ DefaultTraj = {
 
 #Some tweaks are logical ops, others just are literals, this is for Ls
 INHERIT = (lambda x:x[0])
+#Floats
+FLOATUPPER = (lambda x:str(struct.unpack(">f",struct.pack(">L",x[0]<<16))[0])+'f')
 
 #a nop'd JAL
 NOP = (lambda x:(x[0]==0)&1)
 #macros for when you widescreen
-GFXRECTLEFT =  (lambda x:'GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE({})'.format(x[0]))
-GFXRECTRIGHT =  (lambda x:'GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE({})'.format(320-x[0]))
+#GFXRECTLEFT =  (lambda x:'GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE({})'.format(x[0]))
+#GFXRECTRIGHT =  (lambda x:'GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE({})'.format(320-x[0]))
 
-FLOATUPPER = (lambda x:str(struct.unpack(">f",struct.pack(">L",x[0]<<16))[0])+'f')
+#Checks if the value is zero or not
+ZEROCHECK = (lambda x:(x[0]==0)*1)
+ZEROINVCHECK = (lambda x:(x[0]!=0)*1)
 
-unkDefaults = """//The following are not exported from the rom, but are placed here for user convenience
-#define SHOW_STAR_MILESTONES 0
-#define TOAD_STAR_1_DIALOG DIALOG_082
-#define TOAD_STAR_2_DIALOG DIALOG_076
-#define TOAD_STAR_3_DIALOG DIALOG_083
-#define TOAD_STAR_1_DIALOG_AFTER DIALOG_154
-#define TOAD_STAR_2_DIALOG_AFTER DIALOG_155
-#define TOAD_STAR_3_DIALOG_AFTER DIALOG_156
-//whether coins are 3d or not. Changes bhv scripts and pause menu reds rendering
-#define USE3DCOINS 0
-//must be manually set
-#define INCLUDE_MOP 0
-"""
+#Add missing tweaks that could be missing between the quotation marks in the center
+unkDefaults = """"""
 
-#Format is num vals, var name, [type,len,hex locations,func]
+#Format is [num vals, var name, type, length, hex locations, function]
 Tweaks = [
-	[1,'MARIO_START_LIVES',[">B",1,0x1001b,INHERIT]],
-	[1,'INFINITE_LIVES',[">L",4,0x41918,INHERIT]],
-	[1,'START_LEVEL',[">B",1,0x6d6b,INHERIT]],
+# Booleans
+	[1,'DISABLE_LIVES',[">B",1,0x9EDB1,ZEROCHECK]],
+	[1,'FALL_DAMAGE',[">B",1,0x252F5,ZEROINVCHECK]],
+	[1,'SHOW_STAR_MILESTONES',[">B",1,0x123F9,ZEROINVCHECK]],
+    [1,'CAMERA_MOVE_WHEN_PAUSE',[">B",1,0x65A4,ZEROINVCHECK]],
+    [1,'EXIT_COURSE_ANYWHERE',[">B",1,0x97B74,ZEROCHECK]],
+# Misc
+	[1,'MARIO_START_LIVES',[">B",1,0x1001B,INHERIT]],
+	[1,'START_LEVEL',[">B",1,0x6D6B,INHERIT]],
 	[1,'COINS_REQ_COINSTAR',[">H",2,0x8BBE,INHERIT]],
-	[1,'REDS_REQ',[">H",2,0xADDDE,INHERIT]],
+	[1,'REDS_REQ',[">B",1,0xADDDF,INHERIT]],
+    [1,'REDS_BOWSER_REQ',[">B",1,0xADF83,INHERIT]],
+	[1,'WING_CAP_WARP_STAR_REQ',[">B",1,0x1E6D7,INHERIT]],
+    [1,'LOCKED_CANNON_STAR_REQ',[">B",1,0xABA13,INHERIT]],
 	[3,'EXIT_COURSE',[">H",2,0x666A,INHERIT,">H",2,0x666E,INHERIT,">H",2,0x6672,INHERIT]],
-	#can fail if tweak is different than in RM
-	[1,'FALL_DAMAGE',[">B",1,0x252F5,INHERIT]],
 	[6,'STAR_MILESTONES',[">B",1,0xE8B54,INHERIT,">B",1,0xE8B55,INHERIT,">B",1,0xE8B56,INHERIT,">B",1,0xE8B57,INHERIT,">B",1,0xE8B58,INHERIT,">B",1,0xE8B59,INHERIT]],
-
+# King bob-omb
 	[1,'KING_BOMB_FVEL',[">H",2,0x624DA,FLOATUPPER]],
 	[1,'KING_BOMB_YAWVEL',[">H",2,0x624FA,INHERIT]],
 	[1,'KING_BOMB_HEALTH',[">H",2,0x622DA,INHERIT]],
+# King whomp
 	[1,'KING_WHOMP_HEALTH',[">H",2,0x81E32,INHERIT]],
+# Koopa the quick
 	[1,'KOOPA_SPEED_RACE_END',[">H",2,0xB81D6,FLOATUPPER]],
 	[1,'KOOPA_SPEED_THI',[">H",2,0xB8202,FLOATUPPER]],
 	[1,'KOOPA_SPEED_BOB',[">H",2,0xB821A,FLOATUPPER]],
-
+# Mips rabbit
 	[1,'MIPS1_STAR_REQ',[">B",1,0xB34CB,INHERIT]],
 	[1,'MIPS2_STAR_REQ',[">B",1,0xB3523,INHERIT]],
+# Toad
 	[1,'TOAD_STAR_1_REQUIREMENT',[">H",2,0x3199A,INHERIT]],
 	[1,'TOAD_STAR_2_REQUIREMENT',[">H",2,0x319CE,INHERIT]],
 	[1,'TOAD_STAR_3_REQUIREMENT',[">H",2,0x31A02,INHERIT]],
-	# IDK yet. So func will just always return some defualt value
-	# [1,'SHOW_STAR_MILESTONES',[]],
-	# [1,'TOAD_STAR_1_DIALOG',[]],
-	# [1,'TOAD_STAR_2_DIALOG',[]],
-	# [1,'TOAD_STAR_3_DIALOG',[]],
-	# [1,'TOAD_STAR_1_DIALOG_AFTER',[]],
-	# [1,'TOAD_STAR_2_DIALOG_AFTER',[]],
-	# [1,'TOAD_STAR_3_DIALOG_AFTER',[]],
+	[1,'TOAD_STAR_1_DIALOG',[">B",1,0x31977,INHERIT]],
+	[1,'TOAD_STAR_2_DIALOG',[">B",1,0x3196B,INHERIT]],
+	[1,'TOAD_STAR_3_DIALOG',[">B",1,0x31983,INHERIT]],
+	[1,'TOAD_STAR_1_DIALOG_AFTER',[">B",1,0x319BB,INHERIT]],
+	[1,'TOAD_STAR_2_DIALOG_AFTER',[">B",1,0x319EF,INHERIT]],
+	[1,'TOAD_STAR_3_DIALOG_AFTER',[">B",1,0x31A23,INHERIT]],
+# Timers
 	[1,'SLIDE_TIME',[">H",2,0xB7A6,INHERIT]],
 	[1,'MC_TIME',[">H",2,0xAC0A,INHERIT]],
 	[1,'WC_TIME',[">H",2,0xAC22,INHERIT]],
@@ -1379,39 +1381,42 @@ Tweaks = [
 	[1,'MC_LEVEL_TIME',[">H",2,0x4A5E,INHERIT]],
 	[1,'WC_LEVEL_TIME',[">H",2,0x4A7A,INHERIT]],
 	[1,'VC_LEVEL_TIME',[">H",2,0x4A96,INHERIT]],
-	[1,'HUD_LIVES_MARIO_X',[">H",2,0x9E756,GFXRECTLEFT]],
+# Hud booleans
+	[1,'SHOW_STARS',[">B",1,0x9EDE1,ZEROINVCHECK]],
+	[1,'SHOW_COINS',[">B",1,0x9EDC9,ZEROINVCHECK]],
+	[1,'SHOW_LIVES',[">B",1,0x9EDB1,ZEROINVCHECK]],
+	[1,'SHOW_CAM',[">B",1,0x9EE19,ZEROINVCHECK]],
+	[1,'SHOW_TIMER',[">B",1,0x9EE31,ZEROINVCHECK]],
+# Hud positions
+	[1,'HUD_LIVES_MARIO_X',[">H",2,0x9E756,INHERIT]],
 	[1,'HUD_LIVES_MARIO_Y',[">H",2,0x9E75E,INHERIT]],
-	[1,'HUD_LIVES_CROSS_X',[">H",2,0x9E76A,GFXRECTLEFT]],
+	[1,'HUD_LIVES_CROSS_X',[">H",2,0x9E76A,INHERIT]],
 	[1,'HUD_LIVES_CROSS_Y',[">H",2,0x9E772,INHERIT]],
-	[1,'HUD_LIVES_NUM_X',[">H",2,0x9E786,GFXRECTLEFT]],
+	[1,'HUD_LIVES_NUM_X',[">H",2,0x9E786,INHERIT]],
 	[1,'HUD_LIVES_NUM_Y',[">H",2,0x9E78E,INHERIT]],
-	[1,'HUD_COINS_X',[">H",2,0x9E7BA,GFXRECTLEFT]],
+	[1,'HUD_COINS_X',[">H",2,0x9E7BA,INHERIT]],
 	[1,'HUD_COINS_Y',[">H",2,0x9E7C2,INHERIT]],
-	[1,'HUD_COINS_CROSS_X',[">H",2,0x9E7CE,GFXRECTLEFT]],
+	[1,'HUD_COINS_CROSS_X',[">H",2,0x9E7CE,INHERIT]],
 	[1,'HUD_COINS_CROSS_Y',[">H",2,0x9E7D6,INHERIT]],
-	[1,'HUD_COINS_NUM_X',[">H",2,0x9E7EA,GFXRECTLEFT]],
+	[1,'HUD_COINS_NUM_X',[">H",2,0x9E7EA,INHERIT]],
 	[1,'HUD_COINS_NUM_Y',[">H",2,0x9E7F2,INHERIT]],
-	[1,'HUD_STARS_X',[">H",2,0x9E86E,GFXRECTRIGHT]],
+	[1,'HUD_STARS_X',[">H",2,0x9E86E,INHERIT]],
 	[1,'HUD_STARS_Y',[">H",2,0x9E876,INHERIT]],
-	[1,'HUD_STARS_CROSS_X',[">H",2,0x9E892,GFXRECTRIGHT]],
+	[1,'HUD_STARS_CROSS_X',[">H",2,0x9E892,INHERIT]],
 	[1,'HUD_STARS_CROSS_Y',[">H",2,0x9E89A,INHERIT]],
-	[1,'HUD_STARS_NUM_X',[">H",2,0x9E8BA,GFXRECTRIGHT]],
+	[1,'HUD_STARS_NUM_X',[">H",2,0x9E8BA,INHERIT]],
 	[1,'HUD_STARS_NUM_Y',[">H",2,0x9E8CA,INHERIT]],
-	[1,'HUD_TIME_X',[">H",2,0x9EA22,GFXRECTRIGHT]],
+	[1,'HUD_TIME_X',[">H",2,0x9EA22,INHERIT]],
 	[1,'HUD_TIME_Y',[">H",2,0x9EA2A,INHERIT]],
-	[1,'HUD_TIME_MIN_X',[">H",2,0x9EA36,GFXRECTRIGHT]],
-	[1,'HUD_TIME_MIN_A_X',[">H",2,0x9EAAE,GFXRECTRIGHT]],
-	[1,'HUD_TIME_SEC_X',[">H",2,0x9EA4E,GFXRECTRIGHT]],
-	[1,'HUD_TIME_SEC_AA_X',[">H",2,0x9EAC2,GFXRECTRIGHT]],
-	[1,'HUD_TIME_FSEC_X',[">H",2,0x9EA66,GFXRECTRIGHT]],
+	[1,'HUD_TIME_MIN_X',[">H",2,0x9EA36,INHERIT]],
+	[1,'HUD_TIME_MIN_A_X',[">H",2,0x9EAAE,INHERIT]],
+	[1,'HUD_TIME_SEC_X',[">H",2,0x9EA4E,INHERIT]],
+	[1,'HUD_TIME_SEC_AA_X',[">H",2,0x9EAC2,INHERIT]],
+	[1,'HUD_TIME_FSEC_X',[">H",2,0x9EA66,INHERIT]],
 	[1,'HUD_TIME_A_Y',[">H",2,0x9EAB2,INHERIT]],
+# Power meter
 	[1,'POWER_X',[">H",2,0xED5F2,INHERIT]],
 	[1,'POWER_Y',[">H",2,0xED5F4,INHERIT]],
-	[1,'SHOW_STARS',[">B",1,0x9EDE1,INHERIT]],
-	[1,'SHOW_COINS',[">B",1,0x9EDc9,INHERIT]],
-	[1,'SHOW_LIVES',[">B",1,0x9EDB1,INHERIT]],
-	[1,'SHOW_CAM',[">B",1,0x9EE19,INHERIT]],
-	[1,'SHOW_TIME',[">B",1,0x9EE31,INHERIT]],
 ]
 
 SoundBanks = {
@@ -1890,7 +1895,7 @@ MOPObjAddr = {
 (0,0x13000D50):["Checkpoint_Flag_MOP",0x00606660], #repeated because its an often enough case
 (0x7B,0x13000174):["Noteblock_MOP",0x0301DBF8],
 (0xCF,0x1300512C):["PSwitch_MOP",0x0F0004CC],
-(0x99,0x1300064C):["SandBlock_MOP",0x030225E4],
+(0x99,0x1300064C):["Sandblock_MOP",0x030225E4],
 (0x9B,0x13004218):["Shell_1_MOP",0x0F000ADC],
 (0x9D,0x13004218):["Shell_2_MOP",0x0F000B08],
 (0x98,0x13000624):["Shrink_Platform_MOP",0x030212F4],
@@ -1943,8 +1948,6 @@ ScrollTargetHead="""#include <PR/ultratypes.h>
 #for movtexs
 infoMsg = """#include <ultra64.h>
 #include "sm64.h"
-#include "moving_texture.h"
-#include "area.h"
 /*
 This is an include meant to help with the addition of moving textures for water boxes. Moving textures are hardcoded in vanilla, but in hacks they're procedural. Every hack uses 0x5000 +Type (0 for water, 1 for toxic mist, 2 for mist) to locate the tables for their water boxes. I will replicate this by using a 3 dimensional array of pointers. This wastes a little bit of memory but is way easier to manage.
 To use this, simply place this file inside your source directory after exporting.

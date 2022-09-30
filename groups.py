@@ -401,7 +401,7 @@ ttm = {
 #Actor groups. Likely never used by level script to find what model an address is.
 common0 = {
 	(140, '0x0f000000'):('MODEL_BLUE_COIN_SWITCH', 'blue_coin_switch_geo', 'blue_coin_switch'),
-	(194, '0x0f000028'):('MODEL_AMP', 'amp_geo', 'amp'),
+	(194, '0x0f000028'):('MODEL_AMP', 'dAmpGeo', 'dAmp'),
 	(207, '0x0f0004cc'):('MODEL_PURPLE_SWITCH', 'purple_switch_geo', 'purple_switch'),
 	(202, '0x0f0004e4'):('MODEL_CHECKERBOARD_PLATFORM', 'checkerboard_platform_geo', 'checkerboard_platform'),
 	(129, '0x0f0005d0'):('MODEL_BREAKABLE_BOX', 'breakable_box_geo', 'breakable_box'),

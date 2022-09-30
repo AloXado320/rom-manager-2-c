@@ -836,7 +836,7 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 		if hasattr(area,'macros'):
 			CheckMacro = (lambda x: 'MACRO_OBJECTS(' in x )
 			if not macro:
-				hd = '#include "level_misc_macros.h"\n#include "macro_preset_names.h"\n'
+				hd = '#include "level_misc_macros.h"\n#include "macro_presets.h"\n'
 				Slines.insert(x,(hd))
 				x+=1
 				macro=1
@@ -1831,7 +1831,7 @@ def ExportSeg2(rom,Textures,s):
 			BinPNG.RGBA16(32,32,bin,glyph)
 
 def ExportInternalName(rom,src):
-	IntNameS = open(src/extras/rm2c/'internal_name.s','w')
+	IntNameS = open(src/'extras'/'rm2c'/'internal_name.s','w')
 	IntNameS.write(".byte ")
 	for i in range(20):
 		comma = ','*(i!=19)
@@ -1840,7 +1840,7 @@ def ExportInternalName(rom,src):
 def ExportTextureScrolls(Scripts,rootdir):
 	game = rootdir/'src'/'extras'/'rm2c'
 	os.makedirs(game,exist_ok=True)
-	ST = game/'ScrollTargets.inc.c'
+	ST = game/'scroll_texture.inc.c'
 	ST = open(ST,'w')
 	ST.write(ScrollTargetHead)
 	x=0
@@ -1863,8 +1863,8 @@ def ExportMisc(rom,rootdir,editor):
 	misc = rootdir/'src'/'extras'/'rm2c'
 	os.makedirs(misc,exist_ok=True)
 	ExportInternalName(rom,src)
-	StarPos = misc/('Star_Pos.inc.c')
-	Trajectory = misc/('Trajectories.inc.c')
+	StarPos = misc/('star_pos.inc.c')
+	Trajectory = misc/('trajectories.inc.c')
 	#Trajectories are by default in the level bank, but moved to vram for all hacks
 	#If your trajectory does not follow this scheme, then too bad
 	Trj = open(Trajectory,'w')
@@ -1924,15 +1924,11 @@ def ExportMisc(rom,rootdir,editor):
 	ItemBox = 0x1204000
 	#some hacks move this so I want to put a stop in just in case
 	stop=ItemBox+0x800
-	IBox = misc/('Item_Box.inc.c')
+	IBox = misc/('item_box.inc.c')
 	IBox = open(IBox,'w')
-	IBox.write("""#include <PR/ultratypes.h>
-#include "behavior_actions.h"
-#include "macros.h"
-#include "types.h"
-#include "behavior_data.h"
+	IBox.write("""#include "sm64.h"
 """)
-	IBox.write('struct Struct802C0DF0 sExclamationBoxContents[] = { ')
+	IBox.write('struct ExclamationBoxContents sExclamationBoxContents[] = { ')
 	f=0
 	while(True):
 		B = UPA(rom,ItemBox,">4B",4)
@@ -1956,7 +1952,7 @@ def ExportMisc(rom,rootdir,editor):
 def ExportTweaks(rom,rootdir):
 	misc = rootdir/'src'/'extras'/'rm2c'
 	os.makedirs(misc,exist_ok=True)
-	twk = open(misc/'tweaks.inc.c','w')
+	twk = open(misc/'tweaks.h','w')
 	twk.write("""//This is a series of defines to edit commonly changed parameters in romhacks
 //These are commonly referred to as tweaks
 """)
@@ -2067,7 +2063,7 @@ def ExportText(rom,rootdir,TxtAmt):
 def ExportWaterBoxes(AllWaterBoxes,rootdir):
 	misc = rootdir/'src'/'extras'/'rm2c'
 	os.makedirs(misc,exist_ok=True)
-	MovtexEdit = misc/"moving_texture.inc.c"
+	MovtexEdit = misc/"water_box.inc.c"
 	AllWaterBoxes.sort(key=(lambda x: [x[1],x[2],x[3]])) #level,area,type
 	if not AllWaterBoxes:
 		print("no water boxes")
@@ -2275,6 +2271,8 @@ Title = 0, Sound = 0, Objects = 0):
 			RipInstBanks(fullromname,Path(root))
 	Log.WriteWarnings()
 	print('Export Completed, see ImportInstructions.py for potential errors when importing to decomp')
+	print('If the ROM imported uses MOP, make sure to set PORT_MOP_OBJS=1 when compiling')
+	print('If the ROM imported has 3D Coins, follow the extra steps in README.md')
 
 if __name__=='__main__':
 	argD = {}

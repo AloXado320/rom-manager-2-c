@@ -118,19 +118,9 @@ Known methods of crashing:
 *****************************************************************************
 ALL BUILDS
 IF CRASH ON BOOT - CHECK SEQUENCES
-IF TITLE SCREEN LOOP - CHECK START LEVEL IN TWEAKS.INC.C
+IF TITLE SCREEN LOOP - CHECK START LEVEL IN TWEAKS.H
 IF TEXTURES ARE MESSED UP - ALWAYS CHECK LEVEL FOG FIRST
 IF ONLY ALPHA TEXTURES MESSED UP - MOVE FOG GEO LAYOUT TO LAYER 1/4 FROM 4/6
 IF CRASH UPON ENTERING A LEVEL, CHECK OBJECTS. IF EDITOR, CHECK SCROLLS FIRST. IF NO OBJECTS BAD CHECK SKYBOXES, THEN SEQUENCES
 *****************************************************************************
-N64 BUILD
-IF SURFACE NODE POOOL OR SURFACE POOL FULL - ADD MORE TRIS TO EXT BOUNDS.H
-IF CRASH ON STAR SELECT - PUSH FORWARD GODDARD SEGMENT IN SEGMENTS.H
-*****************************************************************************
-
-MORE ON AUDIO ERRORS:
-On N64 build, a lack of proper audio memory allocation will instantly crash the game. If this happens, extend gAudioHeap in buffers.c
-If you have issues with certain m64s sounding garbled, extend gAlBankSets in load.c (line 2000 about).
-If sound cuts out at certain points, extend values in gAudioSessionPresets.
-On all builds, if an out of bounds array access happens (often with high sequence numbers) the game will crash or have audio issues.
 """

@@ -102,6 +102,12 @@ are properly commented or included in the repo.
 
 3. Actors will need to be manually included to group files.
 
+4. 3D Coins and Scrolling Textures need manual fixes.
+
 ## Current issues
 
+* 2D Levels support is somewhat basic.
+* Levels with MOP need PORT_MOP_OBJS=1 enabled on the ex-alo repo.
+* Some invalid commands may appear in custom geo and behavior files, causing a compilation error.
 * Memory bloat because original data is still included.
+
