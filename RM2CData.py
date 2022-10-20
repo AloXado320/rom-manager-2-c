@@ -1954,39 +1954,56 @@ To use this, simply place this file inside your source directory after exporting
 """
 
 HelpMsg="""
-------------------Invalid Input - Error ------------------
-
 Arguments for RM2C are as follows:
-RM2C.py, rom="romname", editor=False, levels=[] , actors=[], Append=[(rom,areaoffset,editor),...] WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0 Text=0 Misc=0 Textures=0 Inherit=0 Upscale=0 Title=0 Sound=0 Objects=0
+rom=romname editor=False levels=[] actors=[]
+Append=[("romname",areaoffset,editor),...]
+WaterOnly=0 ObjectOnly=0 MusicOnly=0 MusicExtend=0
+Text=0 Misc=0 Textures=0 Inherit=0 Upscale=0 Title=0 Sound=0 Objects=0
 
 Arguments with equals sign are shown in default state, do not put commas between args.
-Levels accept any list argument or only the string 'all'. Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
-Actors will accept either a list of groups, a string for a group (see decomp group folders e.g. common0, group1 etc.) the string 'all' for all models, or the string 'new' for only models without a known label, or 'old' for only known original models.
-The "Only" options are to only export certain things either to deal with specific updates or updates to RM2C itself. Only use one at a time. An only option will not maintain other data. Do not use Append with MusicOnly, it will have no effect.
-MusicExtend is for when you want to add in your custom music on top of the original tracks. Set it to the amount you want to offset your tracks by (0x23 for vanilla).
-Objects will export behaviors and object collision. Possible args are 'all' for all behaviors used, 'new' for ones without a known label, or you can pass a singular or list of regex matches e.g. ['[0-9]','koopa'].
-Textures will export the equivalent of the /textures/ folder in decomp.
-Inherit is a file management arg for when dealing with multiple roms. Normal behavior is to clear level folder each time, inherit prevents this.
-Title exports the title screen. This will also be exported if levels='all'
-Sound will export instrument bank and sound sample data. It does not seem to work with custom samples well.
-Upscale is an option to use ESRGAN ai upscaling to increase texture size. The upscaled textures will generate #ifdefs in each model file for non N64 targeting to compile them instead of the original textures.
-
+Levels accept any list argument or only the string 'all'. String args do not require quotes unless it is within the Append argument. When using quotes, or paranthesis, make sure you properly escape the characters with '\' depending on your platform.
 
 Example input1 (all actor models in BoB):
-python RM2C.py rom="ASA.z64" editor=True levels=[9] actors='all' ObjectOnly=1
+python RM2C.py rom=ASA.z64 editor=True levels=[9] actors=all ObjectOnly=1
 
 Example input2 (Export all Levels in a RM rom):
-python RM2C.py rom="baserom.z64" levels='all'
+python RM2C.py rom=baserom.z64 levels=all
 
 Example input3 (Export all BoB in a RM rom with a second area from another rom):
-python RM2C.py rom="baserom.z64" levels='all' Append=[('rom2.z64',1,True)]
+python RM2C.py rom=baserom.z64 levels=all Append=[('rom2.z64',1,True)]
 
 NOTE! if you are on unix bash requires you to escape certain characters. For this module, these
 are quotes and paranthesis. Add in a escape before each.
 
-example: python3 RM2C.py rom=\'sm74.z64\' levels=[9] Append=[\(\'sm74EE.z64\',1,1\)] editor=1
+example: python3 RM2C.py rom=sm74.z64 levels=[9] Append=[\(\'sm74EE.z64\',1,1\)] editor=1
+"""
 
-A bad input will automatically generate an escaped version of your args, but it cannot do so before
-certain bash errors.
+Invalid_Input = """
 ------------------Invalid Input - Error ------------------
+"""
+
+Verbose = """
+Append is for when you want to combine multiple roms. The appended roms will be use the levels of the original rom, but use the areas of the appended rom with an offset. When adding the romname in append, you must use quotes and escape them in terminal
+
+You must have at least one level to export assets because the script needs to read the model load cmds to find pointers to data.
+
+Actors will accept either a list of groups, a string for a group (see decomp group folders e.g. common0, group1 etc.) the string 'all' for all models, or the string 'new' for only models without a known label, or 'old' for only known original models.
+
+The "Only" options are to only export certain things either to deal with specific updates or updates to RM2C itself. Only use one at a time. An only option will not maintain other data. Do not use Append with MusicOnly, it will have no effect.
+
+MusicExtend is for when you want to add in your custom music on top of the original tracks. Set it to the amount you want to offset your tracks by (0x23 for vanilla).
+Objects will export behaviors and object collision. Possible args are 'all' for all behaviors used, 'new' for ones without a known label, or you can pass a singular or list of regex matches e.g. ['[0-9]','koopa']. You will need to escape quotes in terminal
+
+Textures will export the equivalent of the /textures/ folder in decomp.
+
+Inherit is a file management arg for when dealing with multiple roms. Normal behavior is to clear all data folders each time, inherit prevents this. Use this with "Only" type options to combine data exports. For example exporting levels from one rom, and music or text from another.
+
+Title exports the title screen. This will also be exported if levels='all'
+
+Sound will export instrument bank and sound sample data. It does not seem to work with custom samples well.
+
+When exporting with levels=all, you can turn off options by explicitly setting options to 0. These options are Text, and Misc.
+
+Upscale is an option to use ESRGAN ai upscaling to increase texture size. The upscaled textures will generate #ifdefs in each model file for non N64 targeting to compile them instead of the original textures. This is currently not supported.
+
 """

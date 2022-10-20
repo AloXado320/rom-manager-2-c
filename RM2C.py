@@ -159,23 +159,23 @@ def Exit(rom,cmd,start,script):
 	script.Stack.pop()
 	script.Top-=1
 	return start
-	
+
 def JumpRaw(rom,cmd,start,script):
 	arg=cmd[2]
 	return script.B2P(TcH(arg[2:6]))
-	
+
 def JumpPush(rom,cmd,start,script):
 	script.Top+=1
 	script.Stack.append(start)
 	arg=cmd[2]
 	return script.B2P(TcH(arg[2:6]))
-	
+
 def Pop(rom,cmd,start,script):
 	start=script.Stack[script.Top]
 	script.Top-=1
 	script.Stack.pop()
 	return start
-	
+
 def CondPop(rom,cmd,start,script):
 	#this is where the script loops
 	#Ill assume no custom shit is done
@@ -197,7 +197,7 @@ def SetLevel(rom,cmd,start,script):
 	# if not script.levels.get("Currlevel"):
 		# script.levels[script.Currlevel]=[None for a in range(8)]
 	return start
-	
+
 def LoadAsm(rom,cmd,start,script):
 	arg=cmd[2]
 	ram=arg[2:6]
@@ -218,7 +218,7 @@ def LoadData(rom,cmd,start,script):
 
 def LoadMio0(rom,cmd,start,script):
 	pass
-	
+
 def LoadMio0Tex(rom,cmd,start,script):
 	return LoadData(rom,cmd,start,script)
 
@@ -236,11 +236,11 @@ def StartArea(rom,cmd,start,script):
 	q.rom=rom
 	script.levels[script.Currlevel][script.CurrArea]=q
 	return start
-	
+
 def EndArea(rom,cmd,start,script):
 	script.CurrArea=None
 	return start
-	
+
 def LoadPolyF3d(rom,cmd,start,script):
 	arg=cmd[2]
 	id=arg[1:2]
@@ -248,7 +248,7 @@ def LoadPolyF3d(rom,cmd,start,script):
 	f3d=TcH(arg[2:6])
 	script.models[TcH(id)]=(f3d,'f3d',layer,script.B2P(f3d),script)
 	return start
-	
+
 def LoadPolyGeo(rom,cmd,start,script):
 	arg=cmd[2]
 	id=arg[1:2]
@@ -365,7 +365,7 @@ def FormatScrollObject(scroll,verts,obj,s,area):
 	offset=0
 	#if verts are not in order, I can falsely assume the vert does not exist
 	#becuase I see a gap and mistake it for the end of an area or something.
-	verts.sort(key=lambda x: x[0]) 
+	verts.sort(key=lambda x: x[0])
 	for v in verts:
 		if addr>=v[0]:
 			closest = v[0]
@@ -472,18 +472,18 @@ def ConnectWarp(rom,cmd,start,script):
 	W=(arg[0],arg[1],arg[2]+script.Aoffset,arg[3],arg[4])
 	A.warps.append(W)
 	return start
-	
+
 def PaintingWarp(rom,cmd,start,script):
 	return start
-	
+
 def InstantWarp(rom,cmd,start,script):
 	return start
-	
+
 def SetMarioDefault(rom,cmd,start,script):
 	arg=cmd[2]
 	script.mStart = [arg[0],U2S(TcH(arg[2:4])),U2S(TcH(arg[4:6])),U2S(TcH(arg[6:8])),U2S(TcH(arg[8:10]))]
 	return start
-	
+
 def LoadCol(rom,cmd,start,script):
 	arg=cmd[2]
 	col=TcH(arg[2:6])
@@ -492,7 +492,7 @@ def LoadCol(rom,cmd,start,script):
 		return start
 	A.col=col
 	return start
-	
+
 def LoadRoom(rom,cmd,start,script):
 	return start
 
@@ -864,7 +864,7 @@ def WriteVanillaLevel(rom,s,num,areas,rootdir,m64dir,AllWaterBoxes,Onlys,romname
 				break
 			else:
 				j+=1
-		
+
 		for o in area.objects:
 			Slines.insert(x,"OBJECT_WITH_ACTS({},{},{},{},{},{},{},{},{},{}),\n".format(*o))
 		for w in area.warps:
@@ -1487,7 +1487,7 @@ def ExportActors(actors,rom,Models,aDir):
 
 def ExportObjects(reg,Objects,rom,ass,rootdir,editor):
 	#key=bhv, values = [rom addr, ram addr, models used with,script]
-	bdir = rootdir / 'data' 
+	bdir = rootdir / 'data'
 	os.makedirs(bdir,exist_ok=True)
 	bdata = bdir / 'custom.behavior_data.inc.h'
 	bdata = open(bdata,'w')
@@ -2276,9 +2276,36 @@ Title = 0, Sound = 0, Objects = 0):
 	Log.WriteWarnings()
 	print('Export Completed, see ImportInstructions.py for potential errors when importing to decomp')
 
+#evaluate a system argument in a way that is easier to manage and specific to the
+#arguments I intend to take
+def EvalArg(name, arg):
+	if name == 'rom':
+		a = Path(arg)
+		if a.exists() or 1:
+			return arg
+		raise Exception(f"ROM file {arg} is not found in this directory")
+	elif name == 'levels' or name == 'actors':
+		if arg == 'all' or arg == 'new':
+			return arg
+		else:
+			try:
+				return eval(arg)
+			except:
+				raise Exception(f"Argument {name} unable to be evaluated with arg {arg}")
+	else:
+		try:
+			return eval(arg)
+		except:
+			raise Exception(f"Argument {name} unable to be evaluated with arg {arg}")
+
 if __name__=='__main__':
 	argD = {}
 	args = ''
+	if any(h in sys.argv for h in ["-h", "help", "--help"]):
+		print(HelpMsg)
+		if any(h in sys.argv for h in ["-v", "verbose", "--verbose"]):
+			print(Verbose)
+		sys.exit()
 	for arg in sys.argv[1:]:
 		args+=arg+" "
 	try:
@@ -2287,11 +2314,11 @@ if __name__=='__main__':
 			if arg=='RM2C.py':
 				continue
 			arg = arg.split('=')
-			argD[arg[0]]=eval(arg[1])
+			argD[arg[0]]=EvalArg(arg[0], arg[1])
 	except:
-		print(HelpMsg)
-		a = "\\".join(args)
-		a = "python3 RM2C.py "+a
+		print(Invalid_Input,HelpMsg,Invalid_Input)
+		a = '" "'.join(sys.argv[1:])
+		a = f"python3 RM2C.py \"{a}\""
 		print("If you are using terminal try using this\n"+a)
 		raise 'bad arguments'
 	main(**argD)
