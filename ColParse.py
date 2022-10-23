@@ -1,7 +1,6 @@
 import struct
 from bitstring import *
 from numpy import cross, linalg
-from pyhull.delaunay import DelaunayTri
 import os
 
 def TcH(bytes):
@@ -75,6 +74,13 @@ class ColDat():
 		f.write("COL_TRI_STOP(),\n")
 	def SplitCrossQuadrant(self):
 		if not self.Tris.get(10):
+			return
+		try:
+			from pyhull.delaunay import DelaunayTri
+		except:
+			print("pyhull not installed, cannot triangulate potential bad tris\
+			may need to re import collision file via blender importer if missing\
+			triangles detected")
 			return
 		NewTri=[]
 		offset=len(self.verts)
